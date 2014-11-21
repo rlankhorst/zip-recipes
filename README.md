@@ -1,10 +1,10 @@
 === Zip Recipes Plugin ===
 Contributors: hgezim, ZipList Inc., codeswan
 Plugin Name: Zip Recipes Plugin
-Plugin URI: http://www.ziprecipes.com
+Plugin URI: http://www.ziprecipes.net
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 License: GPLv3 or later
-Author URI: http://www.ziprecipes.com
+Author URI: http://www.ziprecipes.net
 Author: Gezim Hoxha
 Tags: recipe, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, google rich snippets, seo, recipe seo
 Requires at least: 3.1
@@ -78,7 +78,7 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 
 = How can I request a feature to be added in future versions of the Zip Recipes Plugin? =
 
-I'm glad you asked! You can email mailto:hello@ziprecipes.net with your requests.
+I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes.net) with your requests.
 
 
 
