@@ -975,7 +975,8 @@ add_filter('the_content', 'z_recipe_convert_to_recipe');
 function z_recipe_select_recipe_db($recipe_id) {
     global $wpdb;
 
-    $recipe = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "amd_zlrecipe_recipes WHERE recipe_id=" . $recipe_id);
+	$selectStatement = sprintf("SELECT * FROM '%s.amd_zlrecipe_recipes' WHERE recipe_id=%d", $wpdb->prefix, $recipe_id);
+    $recipe = $wpdb->get_row($selectStatement);
 
     return $recipe;
 }
