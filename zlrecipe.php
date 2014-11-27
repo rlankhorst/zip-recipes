@@ -32,10 +32,7 @@ This code is derived from the 2.6 version build of ZipList Recipe Plugin release
 */
 
 // Make sure we don't expose any info if called directly
-if ( !function_exists( 'add_action' ) ) {
-	echo "Hey!  This is just a plugin, not much it can do when called directly.";
-	exit;
-}
+defined('ABSPATH') or die("Error! Cannot be called directly.");
 
 if (!defined('Z_RECIPE_VERSION_KEY'))
     define('Z_RECIPE_VERSION_KEY', 'z_recipe_version');
