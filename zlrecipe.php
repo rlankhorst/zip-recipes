@@ -172,7 +172,7 @@ function z_recipe_menu_pages() {
     $capability = 'manage_options';
     $menu_slug = 'z_recipe-settings';
     $function = 'z_recipe_settings';
-    add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function);
+    add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, 'dashicons-carrot');
 
     // Add submenu page with same slug as parent to ensure no duplicates
     $settings_title = 'Settings';
