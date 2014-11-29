@@ -32,7 +32,7 @@
 
 (function() {
 
-	tinymce.create('tinymce.plugins.amdEditZLRecipe', {
+	tinymce.create('tinymce.plugins.zRecipesEditRecipe', {
 		init: function( editor, url ) {
 			var t = this;
 			t.url = url;
@@ -72,16 +72,16 @@
 					o.content = t._convert_imgs_to_codes(o.content);
 			});
 
-			editor.addButton( 'amdzlrecipe', {
-				title: 'ZipList Recipe',
-				image: url + '/zlrecipe.png',
+			editor.addButton( 'zrecipesButtons', {
+				title: 'Zip Recipes',
+				image: url + '/zrecipes-icon.png',
 				onclick: function() {
 					var recipe_id = null;
 					if (recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0]) {
 						editor.selection.select(recipe);
 						recipe_id = /amd-zlrecipe-recipe-([0-9]+)/i.exec(editor.selection.getNode().id);
 					}
-					var iframe_url = baseurl + '/wp-admin/media-upload.php?post_id=' + ((recipe_id) ? '1-' + recipe_id[1] : post_id) + '&type=amd_zlrecipe&tab=amd_zlrecipe&TB_iframe=true&width=640&height=523';
+					var iframe_url = baseurl + '/wp-admin/media-upload.php?post_id=' + ((recipe_id) ? '1-' + recipe_id[1] : post_id) + '&type=z_recipe&tab=amd_zlrecipe&TB_iframe=true&width=640&height=523';
 					editor.windowManager.open( {
 						title: 'Edit Recipe',
 						url: iframe_url,
@@ -111,15 +111,15 @@
 
 		getInfo : function() {
             return {
-                longname : "ZipList Recipe Plugin",
-                author : 'ZipList, Inc.',
-                authorurl : 'http://www.ziplist.com/',
-                infourl : 'http://www.ziplist.com/recipe_plugin',
-                version : "2.6"
+                longname : "Zip Recipes Plugin",
+                author : 'HappyGezim',
+                authorurl : 'http://www.ziprecipes.net/',
+                infourl : 'http://www.ziprecipes.net/',
+                version : "4.0.0.9"
             };
         }
 	});
 
-	tinymce.PluginManager.add('amdzlrecipe', tinymce.plugins.amdEditZLRecipe);
+	tinymce.PluginManager.add('zrecipesplugin', tinymce.plugins.zRecipesEditRecipe);
 
 })();

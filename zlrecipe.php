@@ -185,7 +185,7 @@ function z_recipe_settings() {
         wp_die('You do not have sufficient permissions to access this page.');
     }
 
-    $zlrecipe_icon = Z_RECIPE_PLUGIN_DIRECTORY . "zlrecipe.png";
+    $zlrecipe_icon = Z_RECIPE_PLUGIN_DIRECTORY . "zrecipes-icon.png";
 
     if ($_POST['ingredient-list-type']) {
 		foreach ($_POST as $key=>$val) {
@@ -444,12 +444,12 @@ function z_recipe_settings() {
 }
 
 function z_recipe_tinymce_plugin($plugin_array) {
-	$plugin_array['amdzlrecipe'] = plugins_url( '/zlrecipe_editor_plugin.js?sver=' . Z_RECIPE_VERSION_NUM, __FILE__ );
+	$plugin_array['zrecipesplugin'] = plugins_url( '/zlrecipe_editor_plugin.js?sver=' . Z_RECIPE_VERSION_NUM, __FILE__ );
 	return $plugin_array;
 }
 
 function z_recipe_register_tinymce_button($buttons) {
-   array_push($buttons, "amdzlrecipe");
+   array_push($buttons, "zrecipesButtons");
    return $buttons;
 }
 
