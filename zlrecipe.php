@@ -972,7 +972,7 @@ add_filter('the_content', 'z_recipe_convert_to_recipe');
 function z_recipe_select_recipe_db($recipe_id) {
     global $wpdb;
 
-	$selectStatement = sprintf("SELECT * FROM '%s.amd_zlrecipe_recipes' WHERE recipe_id=%d", $wpdb->prefix, $recipe_id);
+	$selectStatement = sprintf("SELECT * FROM `%samd_zlrecipe_recipes` WHERE recipe_id=%d", $wpdb->prefix, $recipe_id);
     $recipe = $wpdb->get_row($selectStatement);
 
     return $recipe;
@@ -1030,7 +1030,7 @@ function z_recipe_process_head() {
 	// Recipe styling
 	$css = get_option('zlrecipe_stylesheet');
 	if (strcmp($css, '') != 0) {
-		$header_html .= '<link charset="utf-8" href="http://www.zlcdn.com/stylesheets/minibox/' . $css . '.css" rel="stylesheet" type="text/css" />';
+		$header_html .= '<link charset="utf-8" href="' . Z_RECIPE_PLUGIN_DIRECTORY . 'zlrecipe-std.css" rel="stylesheet" type="text/css" />';
 	}
 
     echo $header_html;
@@ -1313,7 +1313,7 @@ function z_recipe_format_recipe($recipe) {
 	}
 
 	$output .= '</div>' .
-			'<img id="zlrecipe-beacon" src="http://3po.ziplist.com/wp?url=' . urlencode($permalink) . '" width="0" height="0">
+			'<img id="zrecipe-beacon" src="http://www.ziprecipes.net/beacon?url=' . urlencode($permalink) . '" width="0" height="0">
 		</div>';
 
     return $output;
