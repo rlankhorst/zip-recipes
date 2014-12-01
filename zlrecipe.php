@@ -905,7 +905,7 @@ function z_recipe_plugin_footer() {
 
             var output = '<img id="amd-zlrecipe-recipe-';
             output += rid;
-						output += '" class="amd-zlrecipe-recipe" src="' + plugindir + '/zlrecipe-placeholder.png" alt="" />';
+						output += '" class="amd-zlrecipe-recipe" src="' + plugindir + '/zrecipe-placeholder.png" alt="" />';
 
         	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() && ed.id=='content') {  //path followed when in Visual editor mode
         		ed.focus();
@@ -948,7 +948,7 @@ function z_recipe_convert_to_recipe($post_text) {
             $recipe_id = str_replace('"', '', $recipe_id);
             $recipe = z_recipe_select_recipe_db($recipe_id);
             $formatted_recipe = z_recipe_format_recipe($recipe);
-						$output = str_replace('<img id="amd-zlrecipe-recipe-' . $recipe_id . '" class="amd-zlrecipe-recipe" src="' . plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/zlrecipe-placeholder.png?ver=1.0" alt="" />', $formatted_recipe, $output);
+						$output = str_replace('<img id="amd-zlrecipe-recipe-' . $recipe_id . '" class="amd-zlrecipe-recipe" src="' . plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/zrecipe-placeholder.png?ver=1.0" alt="" />', $formatted_recipe, $output);
         }
     }
 
