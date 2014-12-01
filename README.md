@@ -20,7 +20,7 @@ Formats recipes so they are SEO-friendly. Now fully supports WordPress 3.9.
 
 Make your recipes SEO-friendly and more likely to appear in [Google's Recipe View](http://googleblog.blogspot.com/2011/02/slice-and-dice-your-recipe-search.html) search. No need to hand-code your recipes into a sophisticated recipe structure when the Zip Recipes Plugin will do all the heavy lifting for you, enhancing the findability of your recipe website.
 
-If you're familiar with ZipList Recipe Plugin, built by ZipList, you'll quickly note that Zip Recipe Plugin is an extension of this plugin and it is 100% compatible with it. The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://marketing.ziplist.com.s3.amazonaws.com/plugin_instructions.pdf). 
+If you're familiar with ZipList Recipe Plugin, built by ZipList, you'll quickly note that Zip Recipe Plugin is an extension of this plugin and it is 100% compatible with it. The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). 
 
 Among the new features added by Zip Recipe Plugin are:
 
@@ -46,7 +46,7 @@ Among the new features added by Zip Recipe Plugin are:
 
 **Multiple Paragraph Support in Summary Section:** Users can now add multiple paragraphs to the Summary field within the plugin.
 
-The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://marketing.ziplist.com.s3.amazonaws.com/plugin_instructions.pdf). If you're having trouble with Zip Recipes Plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:help@ziprecipes.net)! We'd love to hear from you!
+The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes Plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:help@ziprecipes.net)! We'd love to hear from you!
 
 == Installation ==
 
@@ -56,7 +56,7 @@ Activate the Zip Recipes Plugin in the "Plugins" admin panel using the "Activate
 
 To use the plugin, click the little Zip Recipes icon on the "Edit Post" pages, right next to the other editor toolbar buttons at the top of the text editor box. Then enter the details about your recipe into the appropriate boxes, and then click the "Add Recipe" button. This will save your recipe, and insert it into your blog post.
 
-The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://marketing.ziplist.com.s3.amazonaws.com/plugin_instructions.pdf). If you have more questions on how to use the plugin, feel free to reach out to us at [hello@ziprecipes.net](mailto:hello@ziprecipes.net).
+The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you have more questions on how to use the plugin, feel free to reach out to us at [hello@ziprecipes.net](mailto:hello@ziprecipes.net).
 
 == Frequently Asked Questions ==
 
