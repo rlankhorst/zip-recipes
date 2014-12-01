@@ -51,6 +51,8 @@ The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step
 
 == Installation ==
 
+You can get the [detailed installation instructions here](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf).
+
 You can download and install the Zip Recipes Plugin using the built-in WordPress plugin installer. If you download the Zip Recipes Plugin manually, make sure it is uploaded to "/wp-content/plugins/zip-recipes-plugin/".
 
 Activate the Zip Recipes Plugin in the "Plugins" admin panel using the "Activate" link.
@@ -95,14 +97,14 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
-0.9 First iteration, derived from ZipList Recipe Plugin version 2.6 -- thanks for the jump-start ZipList team!  (http://get.ziplist.com/partner-with-ziplist/wordpress-recipe-plugin/)
+4.0.0.9 First iteration, derived from ZipList Recipe Plugin version 2.6 -- thanks for the jump-start ZipList team!  (http://get.ziplist.com/partner-with-ziplist/wordpress-recipe-plugin/)
 
 * To ensure everything runs smoothly when ZipList website and services go down, we've removed all references to ZipList website
 * Removed Save Recipe functionality since ZipList is discontinuing this service (**worry not, we're working on something much cooler! [Shoot us an email](mailto:hello@ziprecipes.net) and we'll tell you all about it!**)
 
 == Upgrade Notice ==
 
-= 0.9 =
+= 4.0.0.9 =
 Upgrade to Zip Recipe Plugin from ZipList Recipe Plugin and lose nothing!
 
 == Features that will be added in upcoming versions of the Zip Recipes Plugin ==
