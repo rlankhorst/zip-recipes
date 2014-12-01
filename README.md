@@ -6,6 +6,7 @@ Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 License: GPLv3 or later
 Author URI: http://www.ziprecipes.net
 Author: Gezim Hoxha
+Donate link: http://ziprecipes.com/donate
 Tags: recipe, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, google rich snippets, seo, recipe seo
 Requires at least: 3.1
 Tested up to: 4.0.1
