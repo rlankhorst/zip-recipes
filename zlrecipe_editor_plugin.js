@@ -32,7 +32,7 @@
 
 (function() {
 
-	tinymce.create('tinymce.plugins.zRecipesEditRecipe', {
+	tinymce.create('tinymce.plugins.zrdnEditRecipe', {
 		init: function( editor, url ) {
 			var t = this;
 			t.url = url;
@@ -72,7 +72,7 @@
 					o.content = t._convert_imgs_to_codes(o.content);
 			});
 
-			editor.addButton( 'zrecipesButtons', {
+			editor.addButton( 'zrdn_buttons', {
 				title: 'Zip Recipes',
 				image: url + '/zrecipes-icon.png',
 				onclick: function() {
@@ -120,6 +120,6 @@
         }
 	});
 
-	tinymce.PluginManager.add('zrecipesplugin', tinymce.plugins.zRecipesEditRecipe);
+	tinymce.PluginManager.add('zrdn_plugin', tinymce.plugins.zrdnEditRecipe);
 
 })();
