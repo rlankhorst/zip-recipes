@@ -1,6 +1,6 @@
-=== Zip Recipes Plugin ===
+=== Zip Recipes ===
 Contributors: hgezim, ZipList Inc., codeswan
-Plugin Name: Zip Recipes Plugin
+Plugin Name: Zip Recipes
 Plugin URI: http://www.ziprecipes.net
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 License: GPLv3 or later
@@ -19,11 +19,11 @@ Formats recipes so they are SEO-friendly. Now fully supports WordPress 3.9.
 
 **This plugin continues the work of *ZipList Recipe Plugin* and is 100% compatible with it.**
 
-Make your recipes SEO-friendly and more likely to appear in [Google's Recipe View](http://googleblog.blogspot.com/2011/02/slice-and-dice-your-recipe-search.html) search. No need to hand-code your recipes into a sophisticated recipe structure when the Zip Recipes Plugin will do all the heavy lifting for you, enhancing the findability of your recipe website.
+Make your recipes SEO-friendly and more likely to appear in [Google's Recipe View](http://googleblog.blogspot.com/2011/02/slice-and-dice-your-recipe-search.html) search. No need to hand-code your recipes into a sophisticated recipe structure when the Zip Recipes plugin will do all the heavy lifting for you, enhancing the findability of your recipe website.
 
-If you're familiar with ZipList Recipe Plugin, built by ZipList, you'll quickly note that Zip Recipe Plugin is an extension of this plugin and it is 100% compatible with it. The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). 
+If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly note that Zip Recipe plugin is an extension of this plugin and it is 100% compatible with it. The Zip Recipes plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). 
 
-Among the new features added by Zip Recipe Plugin are:
+Among the new features added by Zip Recipe plugin are:
 
 **Works with WordPress 4.0:** Updated for full compatibility with WordPress 4.0.
 
@@ -47,23 +47,23 @@ Among the new features added by Zip Recipe Plugin are:
 
 **Multiple Paragraph Support in Summary Section:** Users can now add multiple paragraphs to the Summary field within the plugin.
 
-The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes Plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:help@ziprecipes.net)! We'd love to hear from you!
+The Zip Recipes plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:help@ziprecipes.net)! We'd love to hear from you!
 
 == Installation ==
 
 You can get the [detailed installation instructions here](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf).
 
-You can download and install the Zip Recipes Plugin using the built-in WordPress plugin installer. If you download the Zip Recipes Plugin manually, make sure it is uploaded to "/wp-content/plugins/zip-recipes-plugin/".
+You can download and install the Zip Recipes plugin using the built-in WordPress plugin installer. If you download the Zip Recipes plugin manually, make sure it is uploaded to "/wp-content/plugins/zip-recipes-plugin/".
 
-Activate the Zip Recipes Plugin in the "Plugins" admin panel using the "Activate" link.
+Activate the Zip Recipes plugin in the "Plugins" admin panel using the "Activate" link.
 
 To use the plugin, click the little Zip Recipes icon on the "Edit Post" pages, right next to the other editor toolbar buttons at the top of the text editor box. Then enter the details about your recipe into the appropriate boxes, and then click the "Add Recipe" button. This will save your recipe, and insert it into your blog post.
 
-The Zip Recipes Plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you have more questions on how to use the plugin, feel free to reach out to us at [hello@ziprecipes.net](mailto:hello@ziprecipes.net).
+The Zip Recipes plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you have more questions on how to use the plugin, feel free to reach out to us at [hello@ziprecipes.net](mailto:hello@ziprecipes.net).
 
 == Frequently Asked Questions ==
 
-= How do I edit a recipe with the Zip Recipes Plugin? =
+= How do I edit a recipe with the Zip Recipes plugin? =
 
 To edit or create a recipe, click the spoon and fork icon on the visual editor toolbar. You no longer need to click on the image placeholder within the blog post to edit a recipe.
 
@@ -71,15 +71,15 @@ To edit or create a recipe, click the spoon and fork icon on the visual editor t
 
 There should only be one recipe per post or page. The plugin does allow for compound recipes which is one way to include multiple lists of ingredients in your post (e.g., for a salad and a salad dressing).Simply enter your instructions for the main recipe, then start the next line with an exclamation point to create a label, like "!For the Salad Dressing". Then, add the instructions for the secondary recipe. Starting with version 2.4, we no longer support multiple Zip Recipes recipes within a single post.
 
-= When I use Zip Recipe Plugin where are the recipes stored? =
+= When I use Zip Recipe plugin where are the recipes stored? =
 
-Your recipes are always stored on your own website. With Zip Recipes Plugin, your recipes are stored safely in a separate database table in your main WordPress database. The recipe table is named wp_amd_zlrecipe_recipes and you can take a look at it yourself using any WordPress database tools at your disposal.
+Your recipes are always stored on your own website. With Zip Recipes plugin, your recipes are stored safely in a separate database table in your main WordPress database. The recipe table is named wp_amd_zlrecipe_recipes and you can take a look at it yourself using any WordPress database tools at your disposal.
 
 = Why do you put a placeholder image into my Edit Post page, instead of my actual recipe? =
 
-Because of the way WordPress' text editor works, if you decide to add or remove something from your recipe using the text editor, it can very easily mess up the markup of the code - so the Zip Recipe Plugin prevents that from happening by not allowing you to edit the recipe in the text editor.
+Because of the way WordPress' text editor works, if you decide to add or remove something from your recipe using the text editor, it can very easily mess up the markup of the code - so the Zip Recipe plugin prevents that from happening by not allowing you to edit the recipe in the text editor.
 
-= How can I request a feature to be added in future versions of the Zip Recipes Plugin? =
+= How can I request a feature to be added in future versions of the Zip Recipes plugin? =
 
 I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes.net) with your requests.
 
@@ -87,7 +87,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Screenshots ==
 
-1. The Zip Recipes Plugin icon appears as a fork and spoon on the visual editor toolbar.
+1. The Zip Recipes plugin icon appears as a fork and spoon on the visual editor toolbar.
 2. It's easy to enter the basic information for your recipes: the title, the ingredients and the instructions for preparing the recipe.
 3. There is no limit to the number of ingredients you can add.
 4. And if you want to add even more information about your recipe, such as your rating of the recipe, or the serving size, all you have to do is click the "More Options" link, and you can!
@@ -105,9 +105,9 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 == Upgrade Notice ==
 
 = 4.0.0.9 =
-Upgrade to Zip Recipe Plugin from ZipList Recipe Plugin and lose nothing!
+Upgrade to Zip Recipe plugin from ZipList Recipe Plugin and lose nothing!
 
-== Features that will be added in upcoming versions of the Zip Recipes Plugin ==
+== Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
 * You tell us!
 * Have a suggestion for a feature we should add? [Say hello and tell us!](mailto:hello@ziprecipes.net)
