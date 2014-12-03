@@ -31,14 +31,14 @@
  */
 
 var win=null;
-function zlrPrint(id)
+function zlrPrint(id, plugin_path)
 {
 	var content = document.getElementById(id).innerHTML;
 	win = window.open();
 	self.focus();
 	win.document.open();
 	win.document.write('<html><head>');
-	win.document.write('<link charset=\'utf-8\' href=\'http://www.zlcdn.com/stylesheets/minibox/zlrecipe-print.css\' rel=\'stylesheet\' type=\'text/css\' />');
+	win.document.write("<link charset='utf-8' href='" + plugin_path + "zlrecipe-print.css' rel='stylesheet' type='text/css' />");
 	/* win.document.write('<link charset=\'utf-8\' href=\'http://dev.ziplist.com.s3.amazonaws.com/zlrecipe-print.css\' rel=\'stylesheet\' type=\'text/css\' />'); */
 	win.document.write('</head><body onload="print();">');
 	win.document.write('<div id=\'zlrecipe-print-container\' >');
