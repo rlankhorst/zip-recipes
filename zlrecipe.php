@@ -444,7 +444,7 @@ function zrdn_settings() {
 }
 
 function zrdn_tinymce_plugin($plugin_array) {
-	$plugin_array['zrdn_plugin'] = plugins_url( '/zlrecipe_editor_plugin.js?sver=' . ZRDN_VERSION_NUM, __FILE__ );
+	$plugin_array['zrdn_plugin'] = plugins_url( 'scripts/zlrecipe_editor_plugin.js?sver=' . ZRDN_VERSION_NUM, __FILE__ );
 	return $plugin_array;
 }
 
@@ -1025,7 +1025,7 @@ function zrdn_format_duration($duration) {
 function zrdn_process_head() {
 
 	// Always add the print script
-    $header_html='<script type="text/javascript" async="" src="' . ZRDN_PLUGIN_DIRECTORY . 'zlrecipe_print.js"></script>';
+    $header_html='<script type="text/javascript" async="" src="' . ZRDN_PLUGIN_DIRECTORY . 'scripts/zlrecipe_print.js"></script>';
 
 	// Recipe styling
 	$css = get_option('zlrecipe_stylesheet');
