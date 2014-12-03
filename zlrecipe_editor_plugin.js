@@ -74,7 +74,7 @@
 
 			editor.addButton( 'zrdn_buttons', {
 				title: 'Zip Recipes',
-				image: url + '/zrecipes-icon.png',
+				image: url + '/images/zrecipes-icon.png',
 				onclick: function() {
 					var recipe_id = null;
 					if (recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0]) {
@@ -99,7 +99,7 @@
 
 		_convert_codes_to_imgs : function(co) {
             return co.replace(/\[amd-zlrecipe-recipe:([0-9]+)\]/g, function(a, b) {
-								return '<img id="amd-zlrecipe-recipe-'+b+'" class="amd-zlrecipe-recipe" src="' + plugindir + '/zrecipe-placeholder.png" alt="" />';
+								return '<img id="amd-zlrecipe-recipe-'+b+'" class="amd-zlrecipe-recipe" src="' + plugindir + '/images/zrecipe-placeholder.png" alt="" />';
             });
 		},
 

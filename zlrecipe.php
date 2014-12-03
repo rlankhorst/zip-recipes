@@ -185,7 +185,7 @@ function zrdn_settings() {
         wp_die('You do not have sufficient permissions to access this page.');
     }
 
-    $zrdn_icon = ZRDN_PLUGIN_DIRECTORY . "zrecipes-icon.png";
+    $zrdn_icon = ZRDN_PLUGIN_DIRECTORY . "images/zrecipes-icon.png";
 
     if ($_POST['ingredient-list-type']) {
 		foreach ($_POST as $key=>$val) {
@@ -664,7 +664,7 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
 <!DOCTYPE html>
 <!--suppress HtmlUnknownTarget -->
 <head>
-		<link rel="stylesheet" href="$plugindir/zlrecipe-dlog.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="$plugindir/styles/zlrecipe-dlog.css" type="text/css" media="all" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script type="text/javascript">//<!CDATA[
 
@@ -905,7 +905,7 @@ function zrdn_plugin_footer() {
 
             var output = '<img id="amd-zlrecipe-recipe-';
             output += rid;
-						output += '" class="amd-zlrecipe-recipe" src="' + plugindir + '/zrecipe-placeholder.png" alt="" />';
+						output += '" class="amd-zlrecipe-recipe" src="' + plugindir + '/images/zrecipe-placeholder.png" alt="" />';
 
         	if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() && ed.id=='content') {  //path followed when in Visual editor mode
         		ed.focus();
@@ -948,7 +948,7 @@ function zrdn_convert_to_recipe($post_text) {
             $recipe_id = str_replace('"', '', $recipe_id);
             $recipe = zrdn_select_recipe_db($recipe_id);
             $formatted_recipe = zrdn_format_recipe($recipe);
-						$output = str_replace('<img id="amd-zlrecipe-recipe-' . $recipe_id . '" class="amd-zlrecipe-recipe" src="' . plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/zrecipe-placeholder.png?ver=1.0" alt="" />', $formatted_recipe, $output);
+						$output = str_replace('<img id="amd-zlrecipe-recipe-' . $recipe_id . '" class="amd-zlrecipe-recipe" src="' . plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/images/zrecipe-placeholder.png?ver=1.0" alt="" />', $formatted_recipe, $output);
         }
     }
 
@@ -1030,7 +1030,7 @@ function zrdn_process_head() {
 	// Recipe styling
 	$css = get_option('zlrecipe_stylesheet');
 	if (strcmp($css, '') != 0) {
-		$header_html .= '<link charset="utf-8" href="' . ZRDN_PLUGIN_DIRECTORY . 'zlrecipe-std.css" rel="stylesheet" type="text/css" />';
+		$header_html .= '<link charset="utf-8" href="' . ZRDN_PLUGIN_DIRECTORY . 'styles/zlrecipe-std.css" rel="stylesheet" type="text/css" />';
 	}
 
     echo $header_html;

@@ -121,7 +121,7 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 	margin-top: 5px;
 }
 #zlrecipe-container .zlrecipe-print-link .butn-link {
-    background: url("print-icon.png") no-repeat scroll 0 1px transparent;
+    background: url("../images/print-icon.png") no-repeat scroll 0 1px transparent;
     cursor: pointer;
     padding: 0 0 0 20px;
     display: block;
@@ -138,7 +138,7 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 #zlrecipe-container .meta span, #zlrecipe-container .zlmeta span { font-weight: normal; }
 
 #zlrecipe-rating .rating {
-  background: url('star-rating.gif') no-repeat scroll 0 0;
+  background: url('../images/star-rating.gif') no-repeat scroll 0 0;
   display: inline-block;
   height: 14px;
   text-indent: -9999px;
