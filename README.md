@@ -13,7 +13,7 @@ Tested up to: 4.0.1
 Stable tag: 4.0.0.9
 Version: 4.0.0.9
 
-Formats recipes so they are SEO-friendly. Now fully supports WordPress 3.9.
+Formats recipes so they are SEO-friendly. Now fully supports WordPress 4.0.1.
 
 == Description ==
 
