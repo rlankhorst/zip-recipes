@@ -329,14 +329,7 @@ function zrdn_settings() {
         </tr>';
     }
 
-    echo '<style>
-        .form-table label { line-height: 2.5; }
-        hr { border: none solid #DDD; border-top: 1px; margin: 30px 0; }
-    </style>
-    <div class="wrap">
-        <form enctype="multipart/form-data" method="post" action="" name="zlrecipe_settings_form">
-            <h2><img src="' . $zrdn_icon . '" /> Zip Recipes Plugin Settings</h2>
-            For full customization options, see the <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Instructions document</a>.
+	$forms = 'For full customization options, see the <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Instructions document</a>.
             <table class="form-table">
                 <tr valign="top">
                     <th scope="row">
@@ -438,9 +431,22 @@ function zrdn_settings() {
                 ' . $other_options . '
             </table>
 
-            <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>
-        </form>
+            <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>';
+
+
+
+    $output =  '<style>
+        .form-table label { line-height: 2.5; }
+        hr { border: none solid #DDD; border-top: 1px; margin: 30px 0; }
+    </style>
+    <div class="wrap">
+        <form enctype="multipart/form-data" method="post" action="" name="zlrecipe_settings_form">
+            <h2><img src="' . $zrdn_icon . '" /> Zip Recipes Plugin Settings</h2>' .
+            $forms .
+        '</form>
     </div>';
+
+	echo $output;
 }
 
 function zrdn_tinymce_plugin($plugin_array) {
