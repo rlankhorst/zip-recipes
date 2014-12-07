@@ -35,13 +35,13 @@ This code is derived from the 2.6 version build of ZipList Recipe Plugin release
 defined('ABSPATH') or die("Error! Cannot be called directly.");
 
 if (!defined('ZRDN_VERSION_KEY'))
-    define('ZRDN_VERSION_KEY', 'zrdn_version');
+	define('ZRDN_VERSION_KEY', 'zrdn_version');
 
 if (!defined('ZRDN_VERSION_NUM'))
-    define('ZRDN_VERSION_NUM', '4.0.0.9');
+	define('ZRDN_VERSION_NUM', '4.0.0.9');
 
 if (!defined('ZRDN_PLUGIN_DIRECTORY'))
-		define('ZRDN_PLUGIN_DIRECTORY', plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/');
+	define('ZRDN_PLUGIN_DIRECTORY', plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/');
 
 add_option(ZRDN_VERSION_KEY, ZRDN_VERSION_NUM);  // sort of useless as is never updated
 add_option("amd_zlrecipe_db_version"); // used to store DB version - leaving as is name as legacy
@@ -89,13 +89,13 @@ add_action('admin_head', 'zrdn_js_vars' );
 
 function zrdn_js_vars() {
 
-    if (is_admin()) {
-        ?>
-        <script type="text/javascript">
-        var post_id = '<?php global $post; echo $post->ID; ?>';
-        </script>
-        <?php
-    }
+	if (is_admin()) {
+		?>
+		<script type="text/javascript">
+			var post_id = '<?php global $post; echo $post->ID; ?>';
+		</script>
+	<?php
+	}
 }
 
 if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQUEST_URI'], '&type=z_recipe') && !strpos($_SERVER['REQUEST_URI'], '&wrt='))
@@ -127,14 +127,14 @@ $zrdn_db_version = "3.1";	// This must be changed when the DB structure is modif
 //   1.4x - 2.6       3.1  Adds Notes column to recipes table
 
 function zrdn_recipe_install() {
-    global $wpdb;
-    global $zrdn_db_version;
+	global $wpdb;
+	global $zrdn_db_version;
 
-    $recipes_table = $wpdb->prefix . "amd_zlrecipe_recipes";
-    $installed_db_ver = get_option("amd_zlrecipe_db_version");
+	$recipes_table = $wpdb->prefix . "amd_zlrecipe_recipes";
+	$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
-    if(strcmp($installed_db_ver, $zrdn_db_version) != 0) {				// An older (or no) database table exists
-	    $sql_command = sprintf("CREATE TABLE '%s' (
+	if(strcmp($installed_db_ver, $zrdn_db_version) != 0) {				// An older (or no) database table exists
+		$sql_command = sprintf("CREATE TABLE '%s' (
             recipe_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
             post_id BIGINT(20) UNSIGNED NOT NULL,
             recipe_title TEXT,
@@ -154,180 +154,192 @@ function zrdn_recipe_install() {
             created_at TIMESTAMP DEFAULT NOW()
         	);", $recipes_table);
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql_command);
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		dbDelta($sql_command);
 
-        update_option("amd_zlrecipe_db_version", $zrdn_db_version);
+		update_option("amd_zlrecipe_db_version", $zrdn_db_version);
 
-    }
+	}
 }
 
 add_action('admin_menu', 'zrdn_menu_pages' );
 
 // Adds module to left sidebar in wp-admin for ZLRecipe
 function zrdn_menu_pages() {
-    // Add the top-level admin menu
-    $page_title = 'Zip Recipes Plugin Settings';
-    $menu_title = 'Zip Recipes Plugin';
-    $capability = 'manage_options';
-    $menu_slug = 'zrdn-settings';
-    $function = 'zrdn_settings';
-    add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, 'dashicons-carrot');
+	// Add the top-level admin menu
+	$page_title = 'Zip Recipes Plugin Settings';
+	$menu_title = 'Zip Recipes Plugin';
+	$capability = 'manage_options';
+	$menu_slug = 'zrdn-settings';
+	$function = 'zrdn_settings';
+	add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, 'dashicons-carrot');
 
-    // Add submenu page with same slug as parent to ensure no duplicates
-    $settings_title = 'Settings';
-    add_submenu_page($menu_slug, $page_title, $settings_title, $capability, $menu_slug, $function);
+	// Add submenu page with same slug as parent to ensure no duplicates
+	$settings_title = 'Settings';
+	add_submenu_page($menu_slug, $page_title, $settings_title, $capability, $menu_slug, $function);
 }
 
 // Adds 'Settings' page to the ZipRecipe module
 function zrdn_settings() {
-    if (!current_user_can('manage_options')) {
-        wp_die('You do not have sufficient permissions to access this page.');
-    }
+	global $wp_version;
 
-    $zrdn_icon = ZRDN_PLUGIN_DIRECTORY . "images/zrecipes-icon.png";
+	if (!current_user_can('manage_options')) {
+		wp_die('You do not have sufficient permissions to access this page.');
+	}
 
-    if ($_POST['ingredient-list-type']) {
+	$zrdn_icon = ZRDN_PLUGIN_DIRECTORY . "images/zrecipes-icon.png";
+
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		foreach ($_POST as $key=>$val) {
 			$_POST[$key] = stripslashes($val);
 		}
-        $zrecipe_attribution_hide = $_POST['zrecipe-attribution-hide'];
-        $printed_permalink_hide = $_POST['printed-permalink-hide'];
-        $printed_copyright_statement = $_POST['printed-copyright-statement'];
-        $stylesheet = $_POST['stylesheet'];
-        $recipe_title_hide = $_POST['recipe-title-hide'];
-        $image_hide = $_POST['image-hide'];
-        $image_hide_print = $_POST['image-hide-print'];
-        $print_link_hide = $_POST['print-link-hide'];
-        $ingredient_label = zrdn_strip_chars($_POST['ingredient-label']);
-        $ingredient_label_hide = zrdn_strip_chars($_POST['ingredient-label-hide']);
-        $ingredient_list_type = $_POST['ingredient-list-type'];
-        $instruction_label = zrdn_strip_chars($_POST['instruction-label']);
-        $instruction_label_hide = $_POST['instruction-label-hide'];
-        $instruction_list_type = zrdn_strip_chars($_POST['instruction-list-type']);
-        $notes_label = zrdn_strip_chars($_POST['notes-label']);
-        $notes_label_hide = $_POST['notes-label-hide'];
-        $prep_time_label = zrdn_strip_chars($_POST['prep-time-label']);
-        $prep_time_label_hide = $_POST['prep-time-label-hide'];
-        $cook_time_label = zrdn_strip_chars($_POST['cook-time-label']);
-        $cook_time_label_hide = $_POST['cook-time-label-hide'];
-        $total_time_label = zrdn_strip_chars($_POST['total-time-label']);
-        $total_time_label_hide = $_POST['total-time-label-hide'];
-        $yield_label = zrdn_strip_chars($_POST['yield-label']);
-        $yield_label_hide = $_POST['yield-label-hide'];
-        $serving_size_label = zrdn_strip_chars($_POST['serving-size-label']);
-        $serving_size_label_hide = $_POST['serving-size-label-hide'];
-        $calories_label = zrdn_strip_chars($_POST['calories-label']);
-        $calories_label_hide = $_POST['calories-label-hide'];
-        $fat_label = zrdn_strip_chars($_POST['fat-label']);
-        $fat_label_hide = $_POST['fat-label-hide'];
-        $rating_label = zrdn_strip_chars($_POST['rating-label']);
-        $rating_label_hide = $_POST['rating-label-hide'];
-        $image_width = $_POST['image-width'];
-        $outer_border_style = $_POST['outer-border-style'];
-        $custom_print_image = $_POST['custom-print-image'];
 
-        update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
-        update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );
-        update_option('zlrecipe_printed_copyright_statement', $printed_copyright_statement);
-        update_option('zlrecipe_stylesheet', $stylesheet);
-        update_option('recipe_title_hide', $recipe_title_hide);
-        update_option('zlrecipe_image_hide', $image_hide);
-        update_option('zlrecipe_image_hide_print', $image_hide_print);
-        update_option('zlrecipe_print_link_hide', $print_link_hide);
-        update_option('zlrecipe_ingredient_label', $ingredient_label);
-        update_option('zlrecipe_ingredient_label_hide', $ingredient_label_hide);
-        update_option('zlrecipe_ingredient_list_type', $ingredient_list_type);
-        update_option('zlrecipe_instruction_label', $instruction_label);
-        update_option('zlrecipe_instruction_label_hide', $instruction_label_hide);
-        update_option('zlrecipe_instruction_list_type', $instruction_list_type);
-        update_option('zlrecipe_notes_label', $notes_label);
-        update_option('zlrecipe_notes_label_hide', $notes_label_hide);
-        update_option('zlrecipe_prep_time_label', $prep_time_label);
-        update_option('zlrecipe_prep_time_label_hide', $prep_time_label_hide);
-        update_option('zlrecipe_cook_time_label', $cook_time_label);
-        update_option('zlrecipe_cook_time_label_hide', $cook_time_label_hide);
-        update_option('zlrecipe_total_time_label', $total_time_label);
-        update_option('zlrecipe_total_time_label_hide', $total_time_label_hide);
-        update_option('zlrecipe_yield_label', $yield_label);
-        update_option('zlrecipe_yield_label_hide', $yield_label_hide);
-        update_option('zlrecipe_serving_size_label', $serving_size_label);
-        update_option('zlrecipe_serving_size_label_hide', $serving_size_label_hide);
-        update_option('zlrecipe_calories_label', $calories_label);
-        update_option('zlrecipe_calories_label_hide', $calories_label_hide);
-        update_option('zlrecipe_fat_label', $fat_label);
-        update_option('zlrecipe_fat_label_hide', $fat_label_hide);
-        update_option('zlrecipe_rating_label', $rating_label);
-        update_option('zlrecipe_rating_label_hide', $rating_label_hide);
-        update_option('zlrecipe_image_width', $image_width);
-        update_option('zlrecipe_outer_border_style', $outer_border_style);
-        update_option('zlrecipe_custom_print_image', $custom_print_image);
-    } else {
-        $zrecipe_attribution_hide = get_option('zrdn_attribution_hide');
-        $printed_permalink_hide = get_option('zlrecipe_printed_permalink_hide');
-        $printed_copyright_statement = get_option('zlrecipe_printed_copyright_statement');
-        $stylesheet = get_option('zlrecipe_stylesheet');
-        $recipe_title_hide = get_option('recipe_title_hide');
-        $image_hide = get_option('zlrecipe_image_hide');
-        $image_hide_print = get_option('zlrecipe_image_hide_print');
-        $print_link_hide = get_option('zlrecipe_print_link_hide');
-        $ingredient_label = get_option('zlrecipe_ingredient_label');
-        $ingredient_label_hide = get_option('zlrecipe_ingredient_label_hide');
-        $ingredient_list_type = get_option('zlrecipe_ingredient_list_type');
-        $instruction_label = get_option('zlrecipe_instruction_label');
-        $instruction_label_hide = get_option('zlrecipe_instruction_label_hide');
-        $instruction_list_type = get_option('zlrecipe_instruction_list_type');
-        $image_width = get_option('zlrecipe_image_width');
-        $outer_border_style = get_option('zlrecipe_outer_border_style');
-        $custom_print_image = get_option('zlrecipe_custom_print_image');
-    }
+		$zrecipe_attribution_hide = $_POST['zrecipe-attribution-hide'];
+		$printed_permalink_hide = $_POST['printed-permalink-hide'];
+		$printed_copyright_statement = $_POST['printed-copyright-statement'];
+		$stylesheet = $_POST['stylesheet'];
+		$recipe_title_hide = $_POST['recipe-title-hide'];
+		$image_hide = $_POST['image-hide'];
+		$image_hide_print = $_POST['image-hide-print'];
+		$print_link_hide = $_POST['print-link-hide'];
+		$ingredient_label = zrdn_strip_chars($_POST['ingredient-label']);
+		$ingredient_label_hide = zrdn_strip_chars($_POST['ingredient-label-hide']);
+		$ingredient_list_type = $_POST['ingredient-list-type'];
+		$instruction_label = zrdn_strip_chars($_POST['instruction-label']);
+		$instruction_label_hide = $_POST['instruction-label-hide'];
+		$instruction_list_type = zrdn_strip_chars($_POST['instruction-list-type']);
+		$notes_label = zrdn_strip_chars($_POST['notes-label']);
+		$notes_label_hide = $_POST['notes-label-hide'];
+		$prep_time_label = zrdn_strip_chars($_POST['prep-time-label']);
+		$prep_time_label_hide = $_POST['prep-time-label-hide'];
+		$cook_time_label = zrdn_strip_chars($_POST['cook-time-label']);
+		$cook_time_label_hide = $_POST['cook-time-label-hide'];
+		$total_time_label = zrdn_strip_chars($_POST['total-time-label']);
+		$total_time_label_hide = $_POST['total-time-label-hide'];
+		$yield_label = zrdn_strip_chars($_POST['yield-label']);
+		$yield_label_hide = $_POST['yield-label-hide'];
+		$serving_size_label = zrdn_strip_chars($_POST['serving-size-label']);
+		$serving_size_label_hide = $_POST['serving-size-label-hide'];
+		$calories_label = zrdn_strip_chars($_POST['calories-label']);
+		$calories_label_hide = $_POST['calories-label-hide'];
+		$fat_label = zrdn_strip_chars($_POST['fat-label']);
+		$fat_label_hide = $_POST['fat-label-hide'];
+		$rating_label = zrdn_strip_chars($_POST['rating-label']);
+		$rating_label_hide = $_POST['rating-label-hide'];
+		$image_width = $_POST['image-width'];
+		$outer_border_style = $_POST['outer-border-style'];
+		$custom_print_image = $_POST['custom-print-image'];
 
-    $printed_copyright_statement = esc_attr($printed_copyright_statement);
-    $ingredient_label = esc_attr($ingredient_label);
-    $instruction_label = esc_attr($instruction_label);
-    $image_width = esc_attr($image_width);
+		// if first, last name and email are provided, we assume that user is registering
+		$registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
+		if ($registered)
+		{
+			update_option('zrdn_registered', true);
+		}
+
+		update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
+		update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );
+		update_option('zlrecipe_printed_copyright_statement', $printed_copyright_statement);
+		update_option('zlrecipe_stylesheet', $stylesheet);
+		update_option('recipe_title_hide', $recipe_title_hide);
+		update_option('zlrecipe_image_hide', $image_hide);
+		update_option('zlrecipe_image_hide_print', $image_hide_print);
+		update_option('zlrecipe_print_link_hide', $print_link_hide);
+		update_option('zlrecipe_ingredient_label', $ingredient_label);
+		update_option('zlrecipe_ingredient_label_hide', $ingredient_label_hide);
+		update_option('zlrecipe_ingredient_list_type', $ingredient_list_type);
+		update_option('zlrecipe_instruction_label', $instruction_label);
+		update_option('zlrecipe_instruction_label_hide', $instruction_label_hide);
+		update_option('zlrecipe_instruction_list_type', $instruction_list_type);
+		update_option('zlrecipe_notes_label', $notes_label);
+		update_option('zlrecipe_notes_label_hide', $notes_label_hide);
+		update_option('zlrecipe_prep_time_label', $prep_time_label);
+		update_option('zlrecipe_prep_time_label_hide', $prep_time_label_hide);
+		update_option('zlrecipe_cook_time_label', $cook_time_label);
+		update_option('zlrecipe_cook_time_label_hide', $cook_time_label_hide);
+		update_option('zlrecipe_total_time_label', $total_time_label);
+		update_option('zlrecipe_total_time_label_hide', $total_time_label_hide);
+		update_option('zlrecipe_yield_label', $yield_label);
+		update_option('zlrecipe_yield_label_hide', $yield_label_hide);
+		update_option('zlrecipe_serving_size_label', $serving_size_label);
+		update_option('zlrecipe_serving_size_label_hide', $serving_size_label_hide);
+		update_option('zlrecipe_calories_label', $calories_label);
+		update_option('zlrecipe_calories_label_hide', $calories_label_hide);
+		update_option('zlrecipe_fat_label', $fat_label);
+		update_option('zlrecipe_fat_label_hide', $fat_label_hide);
+		update_option('zlrecipe_rating_label', $rating_label);
+		update_option('zlrecipe_rating_label_hide', $rating_label_hide);
+		update_option('zlrecipe_image_width', $image_width);
+		update_option('zlrecipe_outer_border_style', $outer_border_style);
+		update_option('zlrecipe_custom_print_image', $custom_print_image);
+	}
+	else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+		$registered = get_option('zrdn_registered');
+		$zrecipe_attribution_hide = get_option('zrdn_attribution_hide');
+		$printed_permalink_hide = get_option('zlrecipe_printed_permalink_hide');
+		$printed_copyright_statement = get_option('zlrecipe_printed_copyright_statement');
+		$stylesheet = get_option('zlrecipe_stylesheet');
+		$recipe_title_hide = get_option('recipe_title_hide');
+		$image_hide = get_option('zlrecipe_image_hide');
+		$image_hide_print = get_option('zlrecipe_image_hide_print');
+		$print_link_hide = get_option('zlrecipe_print_link_hide');
+		$ingredient_label = get_option('zlrecipe_ingredient_label');
+		$ingredient_label_hide = get_option('zlrecipe_ingredient_label_hide');
+		$ingredient_list_type = get_option('zlrecipe_ingredient_list_type');
+		$instruction_label = get_option('zlrecipe_instruction_label');
+		$instruction_label_hide = get_option('zlrecipe_instruction_label_hide');
+		$instruction_list_type = get_option('zlrecipe_instruction_list_type');
+		$image_width = get_option('zlrecipe_image_width');
+		$outer_border_style = get_option('zlrecipe_outer_border_style');
+		$custom_print_image = get_option('zlrecipe_custom_print_image');
+	}
+
+	$printed_copyright_statement = esc_attr($printed_copyright_statement);
+	$ingredient_label = esc_attr($ingredient_label);
+	$instruction_label = esc_attr($instruction_label);
+	$image_width = esc_attr($image_width);
 	$custom_print_image = esc_attr($custom_print_image);
 
-    $zrecipe_attribution_hide = (strcmp($zrecipe_attribution_hide, 'Hide') == 0 ? 'checked="checked"' : '');
-    $printed_permalink_hide = (strcmp($printed_permalink_hide, 'Hide') == 0 ? 'checked="checked"' : '');
-    $recipe_title_hide = (strcmp($recipe_title_hide, 'Hide') == 0 ? 'checked="checked"' : '');
-    $image_hide = (strcmp($image_hide, 'Hide') == 0 ? 'checked="checked"' : '');
-    $image_hide_print = (strcmp($image_hide_print, 'Hide') == 0 ? 'checked="checked"' : '');
-    $print_link_hide = (strcmp($print_link_hide, 'Hide') == 0 ? 'checked="checked"' : '');
+	$zrecipe_attribution_hide = (strcmp($zrecipe_attribution_hide, 'Hide') == 0 ? 'checked="checked"' : '');
+	$printed_permalink_hide = (strcmp($printed_permalink_hide, 'Hide') == 0 ? 'checked="checked"' : '');
+	$recipe_title_hide = (strcmp($recipe_title_hide, 'Hide') == 0 ? 'checked="checked"' : '');
+	$image_hide = (strcmp($image_hide, 'Hide') == 0 ? 'checked="checked"' : '');
+	$image_hide_print = (strcmp($image_hide_print, 'Hide') == 0 ? 'checked="checked"' : '');
+	$print_link_hide = (strcmp($print_link_hide, 'Hide') == 0 ? 'checked="checked"' : '');
 
-    // Stylesheet processing
-    $stylesheet = (strcmp($stylesheet, 'zlrecipe-std') == 0 ? 'checked="checked"' : '');
+	// Stylesheet processing
+	$stylesheet = (strcmp($stylesheet, 'zlrecipe-std') == 0 ? 'checked="checked"' : '');
 
-    // Outer (hrecipe) border style
+	// Outer (hrecipe) border style
 	$obs = '';
 	$borders = array('None' => '', 'Solid' => '1px solid', 'Dotted' => '1px dotted', 'Dashed' => '1px dashed', 'Thick Solid' => '2px solid', 'Double' => 'double');
 	foreach ($borders as $label => $code) {
 		$obs .= '<option value="' . $code . '" ' . (strcmp($outer_border_style, $code) == 0 ? 'selected="true"' : '') . '>' . $label . '</option>';
 	}
 
-    $ingredient_label_hide = (strcmp($ingredient_label_hide, 'Hide') == 0 ? 'checked="checked"' : '');
-    $ing_ul = (strcmp($ingredient_list_type, 'ul') == 0 ? 'checked="checked"' : '');
-    $ing_ol = (strcmp($ingredient_list_type, 'ol') == 0 ? 'checked="checked"' : '');
-    $ing_p = (strcmp($ingredient_list_type, 'p') == 0 ? 'checked="checked"' : '');
-    $ing_div = (strcmp($ingredient_list_type, 'div') == 0 ? 'checked="checked"' : '');
-    $instruction_label_hide = (strcmp($instruction_label_hide, 'Hide') == 0 ? 'checked="checked"' : '');
-    $ins_ul = (strcmp($instruction_list_type, 'ul') == 0 ? 'checked="checked"' : '');
-    $ins_ol = (strcmp($instruction_list_type, 'ol') == 0 ? 'checked="checked"' : '');
-    $ins_p = (strcmp($instruction_list_type, 'p') == 0 ? 'checked="checked"' : '');
-    $ins_div = (strcmp($instruction_list_type, 'div') == 0 ? 'checked="checked"' : '');
-    $other_options = '';
-    $other_options_array = array('Rating', 'Prep Time', 'Cook Time', 'Total Time', 'Yield', 'Serving Size', 'Calories', 'Fat', 'Notes');
+	$ingredient_label_hide = (strcmp($ingredient_label_hide, 'Hide') == 0 ? 'checked="checked"' : '');
+	$ing_ul = (strcmp($ingredient_list_type, 'ul') == 0 ? 'checked="checked"' : '');
+	$ing_ol = (strcmp($ingredient_list_type, 'ol') == 0 ? 'checked="checked"' : '');
+	$ing_p = (strcmp($ingredient_list_type, 'p') == 0 ? 'checked="checked"' : '');
+	$ing_div = (strcmp($ingredient_list_type, 'div') == 0 ? 'checked="checked"' : '');
+	$instruction_label_hide = (strcmp($instruction_label_hide, 'Hide') == 0 ? 'checked="checked"' : '');
+	$ins_ul = (strcmp($instruction_list_type, 'ul') == 0 ? 'checked="checked"' : '');
+	$ins_ol = (strcmp($instruction_list_type, 'ol') == 0 ? 'checked="checked"' : '');
+	$ins_p = (strcmp($instruction_list_type, 'p') == 0 ? 'checked="checked"' : '');
+	$ins_div = (strcmp($instruction_list_type, 'div') == 0 ? 'checked="checked"' : '');
+	$other_options = '';
+	$other_options_array = array('Rating', 'Prep Time', 'Cook Time', 'Total Time', 'Yield', 'Serving Size', 'Calories', 'Fat', 'Notes');
 
-    foreach ($other_options_array as $option) {
-        $name = strtolower(str_replace(' ', '-', $option));
-        $value = strtolower(str_replace(' ', '_', $option)) . '_label';
-        $value_hide = strtolower(str_replace(' ', '_', $option)) . '_label_hide';
-        $other_options .= '<tr valign="top">
+	foreach ($other_options_array as $option) {
+		$name = strtolower(str_replace(' ', '-', $option));
+		$value = strtolower(str_replace(' ', '_', $option)) . '_label';
+		$value_hide = strtolower(str_replace(' ', '_', $option)) . '_label_hide';
+		$other_options .= '<tr valign="top">
             <th scope="row">\'' . $option . '\' Label</th>
             <td><input type="text" name="' . $name . '-label" value="' . ${$value} . '" class="regular-text" /><br />
             <label><input type="checkbox" name="' . $name . '-label-hide" value="Hide" ' . ${$value_hide} . ' /> Don\'t show ' . $option . ' label</label></td>
         </tr>';
-    }
+	}
 
 	$forms = 'For full customization options, see the <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Instructions document</a>.
             <table class="form-table">
@@ -433,20 +445,108 @@ function zrdn_settings() {
 
             <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>';
 
+	if (! $registered)
+	{
+		$forms = '
+			<script type="text/javascript">
+				var $form = jQuery("#zlrecipe_settings_form");
+
+		         $form.on("submit", function (event)
+		         {
+	                 jQuery("#register_button").val("Registering...")
+	                 jQuery("#register_button").attr("disabled", true);
 
 
-    $output =  '<style>
+
+		         	jQuery.post("http://localhost:3000/installation/register/", $form.serialize(), function(data)
+		         	{
+		         		var data = JSON.parse(data);
+
+		         		if (data.status === "failure")
+		         		{
+		         			for (var elementID in data.errors)
+		         			{
+		         				if (data.errors.hasOwnProperty(elementID))
+		         				{
+		         					var errors = data.errors[elementID];
+		         					for (var i = 0; i < errors.length; i++)
+		         					{
+		         						jQuery("#" + elementID).parent().append("<br/>"+errors[i]);
+		         					}
+		         				}
+		         			}
+
+			                jQuery("#register_button").val("Register")
+			                jQuery("#register_button").attr("disabled", false);
+		         		}
+		         		else
+		         		{
+		         			// unbind current event hanlder and resubmit the form
+		         			$form.off("submit");
+
+
+		         			$form.get(0).submit();
+		         		}
+		         	});
+
+		         	return false;
+		         });
+			</script>
+			<h3>Register your plugin</h3>
+			Please register your plugin so we can notify you of any security updates or other fixes we make to Zip
+			Recipes plugin. Registering also helps us troubleshoot any problems you may encounter. When you register, we will automatically
+			receive your blog\'s web address, WordPress version, and names of installed plugins.
+            <table class="form-table">
+                <tr valign="top">
+                    <th scope="row" style="padding: 0"><label for="first_name">First Name:</label></th>
+                    <td style="padding: 0"><input type="text" id="first_name" name="first_name" class="regular-text" required autofocus /></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row" style="padding: 0"><label for="last_name">Last Name:</label></th>
+                    <td style="padding: 0"><input type="text" id="last_name" name="last_name" class="regular-text" required /></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row" style="padding: 0"><label for="email">Email:</label></th>
+                    <td style="padding: 0">
+                    	<input type="email" id="email" name="email" class="regular-text" required />
+                    	<input type="hidden" id="wp-version" name="wp_version" value="' . $wp_version . '" />
+                    	<input type="hidden" id="plugins" name="plugins" value="' . zrdn_get_installed_plugins() . '" />
+                    	<input type="hidden" id="blog-url" name="blog_url" value="' . home_url() . '" />
+                    </td>
+                </tr>
+            </table>
+			<p><input type="submit" id="register_button" class="button-primary" value="Register"></p>
+            ';
+	}
+
+	$output =  '<style>
         .form-table label { line-height: 2.5; }
         hr { border: none solid #DDD; border-top: 1px; margin: 30px 0; }
     </style>
     <div class="wrap">
-        <form enctype="multipart/form-data" method="post" action="" name="zlrecipe_settings_form">
+        <form method="post" action="" id="zlrecipe_settings_form" name="zlrecipe_settings_form">
             <h2><img src="' . $zrdn_icon . '" /> Zip Recipes Plugin Settings</h2>' .
-            $forms .
-        '</form>
+	           $forms .
+	           '</form>
     </div>';
 
 	echo $output;
+}
+
+
+/**
+ * Get list of installed plugins as a string. Each plugin is separated with ;
+ */
+function zrdn_get_installed_plugins()
+{
+	$pluginsString = '';
+	$plugins = get_plugins();
+	foreach ($plugins as $path => $pluginData)
+	{
+		$pluginsString .= $pluginData['Name'] . "|";
+	}
+
+	return $pluginsString;
 }
 
 function zrdn_tinymce_plugin($plugin_array) {
@@ -455,15 +555,15 @@ function zrdn_tinymce_plugin($plugin_array) {
 }
 
 function zrdn_register_tinymce_button($buttons) {
-   array_push($buttons, "zrdn_buttons");
-   return $buttons;
+	array_push($buttons, "zrdn_buttons");
+	return $buttons;
 }
 
 function zrdn_add_recipe_button() {
-    // check user permissions
-    if ( !current_user_can('edit_posts') && !current_user_can('edit_pages') ) {
-   	return;
-    }
+	// check user permissions
+	if ( !current_user_can('edit_posts') && !current_user_can('edit_pages') ) {
+		return;
+	}
 
 	// check if WYSIWYG is enabled
 	if ( get_user_option('rich_editing') == 'true') {
@@ -479,7 +579,7 @@ function zrdn_strip_chars( $val )
 
 // Content for the popup iframe when creating or editing a recipe
 function zrdn_iframe_content($post_info = null, $get_info = null) {
-    $recipe_id = 0;
+	$recipe_id = 0;
 	$recipe_title = "";
 	$recipe_image = "";
 	$prep_time_hours = 0;
@@ -505,142 +605,142 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
 	$submitform = '';
 
 
-    if ($post_info || $get_info) {
+	if ($post_info || $get_info) {
 
-    	if( $get_info["add-recipe-button"] || strpos($get_info["post_id"], '-') !== false ) {
-        	$iframe_title = "Update Your Recipe";
-        	$submit = "Update Recipe";
-        } else {
-		    $iframe_title = "Add a Recipe";
-		    $submit       = "Add Recipe";
-	    }
+		if( $get_info["add-recipe-button"] || strpos($get_info["post_id"], '-') !== false ) {
+			$iframe_title = "Update Your Recipe";
+			$submit = "Update Recipe";
+		} else {
+			$iframe_title = "Add a Recipe";
+			$submit       = "Add Recipe";
+		}
 
-        if ($get_info["post_id"] && !$get_info["add-recipe-button"] && strpos($get_info["post_id"], '-') !== false) {
-            $recipe_id = preg_replace('/[0-9]*?\-/i', '', $get_info["post_id"]);
-            $recipe = zrdn_select_recipe_db($recipe_id);
-            $recipe_title = $recipe->recipe_title;
-            $recipe_image = $recipe->recipe_image;
-            $summary = $recipe->summary;
-            $notes = $recipe->notes;
-            $rating = $recipe->rating;
-            $ss = array();
-            $ss[(int)$rating] = 'selected="true"';
-            $prep_time_input = '';
-            $cook_time_input = '';
-            $total_time_input = '';
-            if (class_exists('DateInterval')) {
-                try {
-                    $prep_time = new DateInterval($recipe->prep_time);
-                    $prep_time_minutes = $prep_time->i;
-                    $prep_time_hours = $prep_time->h;
-                } catch (Exception $e) {
-                    if ($recipe->prep_time != null) {
-                        $prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
-                    }
-                }
+		if ($get_info["post_id"] && !$get_info["add-recipe-button"] && strpos($get_info["post_id"], '-') !== false) {
+			$recipe_id = preg_replace('/[0-9]*?\-/i', '', $get_info["post_id"]);
+			$recipe = zrdn_select_recipe_db($recipe_id);
+			$recipe_title = $recipe->recipe_title;
+			$recipe_image = $recipe->recipe_image;
+			$summary = $recipe->summary;
+			$notes = $recipe->notes;
+			$rating = $recipe->rating;
+			$ss = array();
+			$ss[(int)$rating] = 'selected="true"';
+			$prep_time_input = '';
+			$cook_time_input = '';
+			$total_time_input = '';
+			if (class_exists('DateInterval')) {
+				try {
+					$prep_time = new DateInterval($recipe->prep_time);
+					$prep_time_minutes = $prep_time->i;
+					$prep_time_hours = $prep_time->h;
+				} catch (Exception $e) {
+					if ($recipe->prep_time != null) {
+						$prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
+					}
+				}
 
-                try {
-                    $cook_time = new DateInterval($recipe->cook_time);
-                    $cook_time_minutes = $cook_time->i;
-                    $cook_time_hours = $cook_time->h;
-                } catch (Exception $e) {
-                    if ($recipe->cook_time != null) {
-                        $cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
-                    }
-                }
+				try {
+					$cook_time = new DateInterval($recipe->cook_time);
+					$cook_time_minutes = $cook_time->i;
+					$cook_time_hours = $cook_time->h;
+				} catch (Exception $e) {
+					if ($recipe->cook_time != null) {
+						$cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
+					}
+				}
 
-                try {
-                    $total_time = new DateInterval($recipe->total_time);
-                    $total_time_minutes = $total_time->i;
-                    $total_time_hours = $total_time->h;
-                } catch (Exception $e) {
-                    if ($recipe->total_time != null) {
-                        $total_time_input = '<input type="text" name="total_time" value="' . $recipe->total_time . '"/>';
-                    }
-                }
-            } else {
-                if (preg_match('(^[A-Z0-9]*$)', $recipe->prep_time) == 1) {
-                    preg_match('(\d*S)', $recipe->prep_time, $pts);
-                    preg_match('(\d*M)', $recipe->prep_time, $ptm, PREG_OFFSET_CAPTURE, strpos($recipe->prep_time, 'T'));
-                    $prep_time_minutes = str_replace('M', '', $ptm[0][0]);
-                    preg_match('(\d*H)', $recipe->prep_time, $pth);
-                    $prep_time_hours = str_replace('H', '', $pth[0]);
-                    preg_match('(\d*D)', $recipe->prep_time, $ptd);
-                    preg_match('(\d*M)', $recipe->prep_time, $ptmm);
-                    preg_match('(\d*Y)', $recipe->prep_time, $pty);
-                } else {
-                    if ($recipe->prep_time != null) {
-                        $prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
-                    }
-                }
+				try {
+					$total_time = new DateInterval($recipe->total_time);
+					$total_time_minutes = $total_time->i;
+					$total_time_hours = $total_time->h;
+				} catch (Exception $e) {
+					if ($recipe->total_time != null) {
+						$total_time_input = '<input type="text" name="total_time" value="' . $recipe->total_time . '"/>';
+					}
+				}
+			} else {
+				if (preg_match('(^[A-Z0-9]*$)', $recipe->prep_time) == 1) {
+					preg_match('(\d*S)', $recipe->prep_time, $pts);
+					preg_match('(\d*M)', $recipe->prep_time, $ptm, PREG_OFFSET_CAPTURE, strpos($recipe->prep_time, 'T'));
+					$prep_time_minutes = str_replace('M', '', $ptm[0][0]);
+					preg_match('(\d*H)', $recipe->prep_time, $pth);
+					$prep_time_hours = str_replace('H', '', $pth[0]);
+					preg_match('(\d*D)', $recipe->prep_time, $ptd);
+					preg_match('(\d*M)', $recipe->prep_time, $ptmm);
+					preg_match('(\d*Y)', $recipe->prep_time, $pty);
+				} else {
+					if ($recipe->prep_time != null) {
+						$prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
+					}
+				}
 
-                if (preg_match('(^[A-Z0-9]*$)', $recipe->cook_time) == 1) {
-                    preg_match('(\d*S)', $recipe->cook_time, $cts);
-                    preg_match('(\d*M)', $recipe->cook_time, $ctm, PREG_OFFSET_CAPTURE, strpos($recipe->cook_time, 'T'));
-                    $cook_time_minutes = str_replace('M', '', $ctm[0][0]);
-                    preg_match('(\d*H)', $recipe->cook_time, $cth);
-                    $cook_time_hours = str_replace('H', '', $cth[0]);
-                    preg_match('(\d*D)', $recipe->cook_time, $ctd);
-                    preg_match('(\d*M)', $recipe->cook_time, $ctmm);
-                    preg_match('(\d*Y)', $recipe->cook_time, $cty);
-                } else {
-                    if ($recipe->cook_time != null) {
-                        $cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
-                    }
-                }
+				if (preg_match('(^[A-Z0-9]*$)', $recipe->cook_time) == 1) {
+					preg_match('(\d*S)', $recipe->cook_time, $cts);
+					preg_match('(\d*M)', $recipe->cook_time, $ctm, PREG_OFFSET_CAPTURE, strpos($recipe->cook_time, 'T'));
+					$cook_time_minutes = str_replace('M', '', $ctm[0][0]);
+					preg_match('(\d*H)', $recipe->cook_time, $cth);
+					$cook_time_hours = str_replace('H', '', $cth[0]);
+					preg_match('(\d*D)', $recipe->cook_time, $ctd);
+					preg_match('(\d*M)', $recipe->cook_time, $ctmm);
+					preg_match('(\d*Y)', $recipe->cook_time, $cty);
+				} else {
+					if ($recipe->cook_time != null) {
+						$cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
+					}
+				}
 
-                if (preg_match('(^[A-Z0-9]*$)', $recipe->total_time) == 1) {
-                    preg_match('(\d*S)', $recipe->total_time, $tts);
-                    preg_match('(\d*M)', $recipe->total_time, $ttm, PREG_OFFSET_CAPTURE, strpos($recipe->total_time, 'T'));
-                    $total_time_minutes = str_replace('M', '', $ttm[0][0]);
-                    preg_match('(\d*H)', $recipe->total_time, $tth);
-                    $total_time_hours = str_replace('H', '', $tth[0]);
-                    preg_match('(\d*D)', $recipe->total_time, $ttd);
-                    preg_match('(\d*M)', $recipe->total_time, $ttmm);
-                    preg_match('(\d*Y)', $recipe->total_time, $tty);
-                } else {
-                    if ($recipe->total_time != null) {
-                        $total_time_input = '<input type="text" name="total_time" value="' . $recipe->total_time . '"/>';
-                    }
-                }
-            }
+				if (preg_match('(^[A-Z0-9]*$)', $recipe->total_time) == 1) {
+					preg_match('(\d*S)', $recipe->total_time, $tts);
+					preg_match('(\d*M)', $recipe->total_time, $ttm, PREG_OFFSET_CAPTURE, strpos($recipe->total_time, 'T'));
+					$total_time_minutes = str_replace('M', '', $ttm[0][0]);
+					preg_match('(\d*H)', $recipe->total_time, $tth);
+					$total_time_hours = str_replace('H', '', $tth[0]);
+					preg_match('(\d*D)', $recipe->total_time, $ttd);
+					preg_match('(\d*M)', $recipe->total_time, $ttmm);
+					preg_match('(\d*Y)', $recipe->total_time, $tty);
+				} else {
+					if ($recipe->total_time != null) {
+						$total_time_input = '<input type="text" name="total_time" value="' . $recipe->total_time . '"/>';
+					}
+				}
+			}
 
-            $yield = $recipe->yield;
-            $serving_size = $recipe->serving_size;
-            $calories = $recipe->calories;
-            $fat = $recipe->fat;
-            $ingredients = $recipe->ingredients;
-            $instructions = $recipe->instructions;
-        } else {
-        	foreach ($post_info as $key=>$val) {
-        		$post_info[$key] = stripslashes($val);
-        	}
+			$yield = $recipe->yield;
+			$serving_size = $recipe->serving_size;
+			$calories = $recipe->calories;
+			$fat = $recipe->fat;
+			$ingredients = $recipe->ingredients;
+			$instructions = $recipe->instructions;
+		} else {
+			foreach ($post_info as $key=>$val) {
+				$post_info[$key] = stripslashes($val);
+			}
 
-            $recipe_id = $post_info["recipe_id"];
-            if( !$get_info["add-recipe-button"] )
-                 $recipe_title = get_the_title( $get_info["post_id"] );
-            else
-                 $recipe_title = $post_info["recipe_title"];
-            $recipe_image = $post_info["recipe_image"];
-            $summary = $post_info["summary"];
-            $notes = $post_info["notes"];
-            $prep_time_minutes = $post_info["prep_time_minutes"];
-            $prep_time_hours = $post_info["prep_time_hours"];
-            $cook_time_minutes = $post_info["cook_time_minutes"];
-            $cook_time_hours = $post_info["cook_time_hours"];
-            $total_time_minutes = $post_info["total_time_minutes"];
-            $total_time_hours = $post_info["total_time_hours"];
-            $yield = $post_info["yield"];
-            $serving_size = $post_info["serving_size"];
-            $calories = $post_info["calories"];
-            $fat = $post_info["fat"];
-            $ingredients = $post_info["ingredients"];
-            $instructions = $post_info["instructions"];
-            if ($recipe_title != null && $recipe_title != '' && $ingredients != null && $ingredients != '') {
-                $recipe_id = zrdn_insert_db($post_info);
-            }
-        }
-    }
+			$recipe_id = $post_info["recipe_id"];
+			if( !$get_info["add-recipe-button"] )
+				$recipe_title = get_the_title( $get_info["post_id"] );
+			else
+				$recipe_title = $post_info["recipe_title"];
+			$recipe_image = $post_info["recipe_image"];
+			$summary = $post_info["summary"];
+			$notes = $post_info["notes"];
+			$prep_time_minutes = $post_info["prep_time_minutes"];
+			$prep_time_hours = $post_info["prep_time_hours"];
+			$cook_time_minutes = $post_info["cook_time_minutes"];
+			$cook_time_hours = $post_info["cook_time_hours"];
+			$total_time_minutes = $post_info["total_time_minutes"];
+			$total_time_hours = $post_info["total_time_hours"];
+			$yield = $post_info["yield"];
+			$serving_size = $post_info["serving_size"];
+			$calories = $post_info["calories"];
+			$fat = $post_info["fat"];
+			$ingredients = $post_info["ingredients"];
+			$instructions = $post_info["instructions"];
+			if ($recipe_title != null && $recipe_title != '' && $ingredients != null && $ingredients != '') {
+				$recipe_id = zrdn_insert_db($post_info);
+			}
+		}
+	}
 
 	$recipe_title = esc_attr($recipe_title);
 	$recipe_image = esc_attr($recipe_image);
@@ -659,13 +759,13 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
 	$summary = esc_textarea($summary);
 	$notes = esc_textarea($notes);
 
-    $id = (int) $_REQUEST["post_id"];
-    $plugindir = ZRDN_PLUGIN_DIRECTORY;
-    if ($post_info != null) {
-        $submitform .= "<script>window.onload = amdZLRecipeSubmitForm;</script>";
-    }
+	$id = (int) $_REQUEST["post_id"];
+	$plugindir = ZRDN_PLUGIN_DIRECTORY;
+	if ($post_info != null) {
+		$submitform .= "<script>window.onload = amdZLRecipeSubmitForm;</script>";
+	}
 
-    echo <<< HTML
+	echo <<< HTML
 
 <!DOCTYPE html>
 <!--suppress HtmlUnknownTarget -->
@@ -775,117 +875,117 @@ HTML;
  * @return mixed
  */
 function zrdn_insert_db($post_info) {
-    global $wpdb;
+	global $wpdb;
 
-    $recipe_id = $post_info["recipe_id"];
+	$recipe_id = $post_info["recipe_id"];
 
-    if ($post_info["prep_time_years"] || $post_info["prep_time_months"] || $post_info["prep_time_days"] || $post_info["prep_time_hours"] || $post_info["prep_time_minutes"] || $post_info["prep_time_seconds"]) {
-        $prep_time = 'P';
-        if ($post_info["prep_time_years"]) {
-            $prep_time .= $post_info["prep_time_years"] . 'Y';
-        }
-        if ($post_info["prep_time_months"]) {
-            $prep_time .= $post_info["prep_time_months"] . 'M';
-        }
-        if ($post_info["prep_time_days"]) {
-            $prep_time .= $post_info["prep_time_days"] . 'D';
-        }
-        if ($post_info["prep_time_hours"] || $post_info["prep_time_minutes"] || $post_info["prep_time_seconds"]) {
-            $prep_time .= 'T';
-        }
-        if ($post_info["prep_time_hours"]) {
-            $prep_time .= $post_info["prep_time_hours"] . 'H';
-        }
-        if ($post_info["prep_time_minutes"]) {
-            $prep_time .= $post_info["prep_time_minutes"] . 'M';
-        }
-        if ($post_info["prep_time_seconds"]) {
-            $prep_time .= $post_info["prep_time_seconds"] . 'S';
-        }
-    } else {
-        $prep_time = $post_info["prep_time"];
-    }
+	if ($post_info["prep_time_years"] || $post_info["prep_time_months"] || $post_info["prep_time_days"] || $post_info["prep_time_hours"] || $post_info["prep_time_minutes"] || $post_info["prep_time_seconds"]) {
+		$prep_time = 'P';
+		if ($post_info["prep_time_years"]) {
+			$prep_time .= $post_info["prep_time_years"] . 'Y';
+		}
+		if ($post_info["prep_time_months"]) {
+			$prep_time .= $post_info["prep_time_months"] . 'M';
+		}
+		if ($post_info["prep_time_days"]) {
+			$prep_time .= $post_info["prep_time_days"] . 'D';
+		}
+		if ($post_info["prep_time_hours"] || $post_info["prep_time_minutes"] || $post_info["prep_time_seconds"]) {
+			$prep_time .= 'T';
+		}
+		if ($post_info["prep_time_hours"]) {
+			$prep_time .= $post_info["prep_time_hours"] . 'H';
+		}
+		if ($post_info["prep_time_minutes"]) {
+			$prep_time .= $post_info["prep_time_minutes"] . 'M';
+		}
+		if ($post_info["prep_time_seconds"]) {
+			$prep_time .= $post_info["prep_time_seconds"] . 'S';
+		}
+	} else {
+		$prep_time = $post_info["prep_time"];
+	}
 
-    if ($post_info["cook_time_years"] || $post_info["cook_time_months"] || $post_info["cook_time_days"] || $post_info["cook_time_hours"] || $post_info["cook_time_minutes"] || $post_info["cook_time_seconds"]) {
-        $cook_time = 'P';
-        if ($post_info["cook_time_years"]) {
-            $cook_time .= $post_info["cook_time_years"] . 'Y';
-        }
-        if ($post_info["cook_time_months"]) {
-            $cook_time .= $post_info["cook_time_months"] . 'M';
-        }
-        if ($post_info["cook_time_days"]) {
-            $cook_time .= $post_info["cook_time_days"] . 'D';
-        }
-        if ($post_info["cook_time_hours"] || $post_info["cook_time_minutes"] || $post_info["cook_time_seconds"]) {
-            $cook_time .= 'T';
-        }
-        if ($post_info["cook_time_hours"]) {
-            $cook_time .= $post_info["cook_time_hours"] . 'H';
-        }
-        if ($post_info["cook_time_minutes"]) {
-            $cook_time .= $post_info["cook_time_minutes"] . 'M';
-        }
-        if ($post_info["cook_time_seconds"]) {
-            $cook_time .= $post_info["cook_time_seconds"] . 'S';
-        }
-    } else {
-        $cook_time = $post_info["cook_time"];
-    }
+	if ($post_info["cook_time_years"] || $post_info["cook_time_months"] || $post_info["cook_time_days"] || $post_info["cook_time_hours"] || $post_info["cook_time_minutes"] || $post_info["cook_time_seconds"]) {
+		$cook_time = 'P';
+		if ($post_info["cook_time_years"]) {
+			$cook_time .= $post_info["cook_time_years"] . 'Y';
+		}
+		if ($post_info["cook_time_months"]) {
+			$cook_time .= $post_info["cook_time_months"] . 'M';
+		}
+		if ($post_info["cook_time_days"]) {
+			$cook_time .= $post_info["cook_time_days"] . 'D';
+		}
+		if ($post_info["cook_time_hours"] || $post_info["cook_time_minutes"] || $post_info["cook_time_seconds"]) {
+			$cook_time .= 'T';
+		}
+		if ($post_info["cook_time_hours"]) {
+			$cook_time .= $post_info["cook_time_hours"] . 'H';
+		}
+		if ($post_info["cook_time_minutes"]) {
+			$cook_time .= $post_info["cook_time_minutes"] . 'M';
+		}
+		if ($post_info["cook_time_seconds"]) {
+			$cook_time .= $post_info["cook_time_seconds"] . 'S';
+		}
+	} else {
+		$cook_time = $post_info["cook_time"];
+	}
 
-    if ($post_info["total_time_years"] || $post_info["total_time_months"] || $post_info["total_time_days"] || $post_info["total_time_hours"] || $post_info["total_time_minutes"] || $post_info["total_time_seconds"]) {
-        $total_time = 'P';
-        if ($post_info["total_time_years"]) {
-            $total_time .= $post_info["total_time_years"] . 'Y';
-        }
-        if ($post_info["total_time_months"]) {
-            $total_time .= $post_info["total_time_months"] . 'M';
-        }
-        if ($post_info["total_time_days"]) {
-            $total_time .= $post_info["total_time_days"] . 'D';
-        }
-        if ($post_info["total_time_hours"] || $post_info["total_time_minutes"] || $post_info["total_time_seconds"]) {
-            $total_time .= 'T';
-        }
-        if ($post_info["total_time_hours"]) {
-            $total_time .= $post_info["total_time_hours"] . 'H';
-        }
-        if ($post_info["total_time_minutes"]) {
-            $total_time .= $post_info["total_time_minutes"] . 'M';
-        }
-        if ($post_info["total_time_seconds"]) {
-            $total_time .= $post_info["total_time_seconds"] . 'S';
-        }
-    } else {
-        $total_time = $post_info["total_time"];
-    }
+	if ($post_info["total_time_years"] || $post_info["total_time_months"] || $post_info["total_time_days"] || $post_info["total_time_hours"] || $post_info["total_time_minutes"] || $post_info["total_time_seconds"]) {
+		$total_time = 'P';
+		if ($post_info["total_time_years"]) {
+			$total_time .= $post_info["total_time_years"] . 'Y';
+		}
+		if ($post_info["total_time_months"]) {
+			$total_time .= $post_info["total_time_months"] . 'M';
+		}
+		if ($post_info["total_time_days"]) {
+			$total_time .= $post_info["total_time_days"] . 'D';
+		}
+		if ($post_info["total_time_hours"] || $post_info["total_time_minutes"] || $post_info["total_time_seconds"]) {
+			$total_time .= 'T';
+		}
+		if ($post_info["total_time_hours"]) {
+			$total_time .= $post_info["total_time_hours"] . 'H';
+		}
+		if ($post_info["total_time_minutes"]) {
+			$total_time .= $post_info["total_time_minutes"] . 'M';
+		}
+		if ($post_info["total_time_seconds"]) {
+			$total_time .= $post_info["total_time_seconds"] . 'S';
+		}
+	} else {
+		$total_time = $post_info["total_time"];
+	}
 
-    $recipe = array (
-        "recipe_title" =>  $post_info["recipe_title"],
-        "recipe_image" => $post_info["recipe_image"],
-        "summary" =>  $post_info["summary"],
-        "rating" => $post_info["rating"],
-        "prep_time" => $prep_time,
-        "cook_time" => $cook_time,
-        "total_time" => $total_time,
-        "yield" =>  $post_info["yield"],
-        "serving_size" =>  $post_info["serving_size"],
-        "calories" => $post_info["calories"],
-        "fat" => $post_info["fat"],
-        "ingredients" => $post_info["ingredients"],
-        "instructions" => $post_info["instructions"],
-        "notes" => $post_info["notes"],
-    );
+	$recipe = array (
+		"recipe_title" =>  $post_info["recipe_title"],
+		"recipe_image" => $post_info["recipe_image"],
+		"summary" =>  $post_info["summary"],
+		"rating" => $post_info["rating"],
+		"prep_time" => $prep_time,
+		"cook_time" => $cook_time,
+		"total_time" => $total_time,
+		"yield" =>  $post_info["yield"],
+		"serving_size" =>  $post_info["serving_size"],
+		"calories" => $post_info["calories"],
+		"fat" => $post_info["fat"],
+		"ingredients" => $post_info["ingredients"],
+		"instructions" => $post_info["instructions"],
+		"notes" => $post_info["notes"],
+	);
 
-    if (zrdn_select_recipe_db($recipe_id) == null) {
-    	$recipe["post_id"] = $post_info["post_id"];	// set only during record creation
-        $wpdb->insert( $wpdb->prefix . "amd_zlrecipe_recipes", $recipe );
-        $recipe_id = $wpdb->insert_id;
-    } else {
-        $wpdb->update( $wpdb->prefix . "amd_zlrecipe_recipes", $recipe, array( 'recipe_id' => $recipe_id ));
-    }
+	if (zrdn_select_recipe_db($recipe_id) == null) {
+		$recipe["post_id"] = $post_info["post_id"];	// set only during record creation
+		$wpdb->insert( $wpdb->prefix . "amd_zlrecipe_recipes", $recipe );
+		$recipe_id = $wpdb->insert_id;
+	} else {
+		$wpdb->update( $wpdb->prefix . "amd_zlrecipe_recipes", $recipe, array( 'recipe_id' => $recipe_id ));
+	}
 
-    return $recipe_id;
+	return $recipe_id;
 }
 
 // Inserts the recipe into the post editor
@@ -893,7 +993,7 @@ function zrdn_plugin_footer() {
 	$url = site_url();
 	$plugindir = ZRDN_PLUGIN_DIRECTORY;
 
-    echo <<< HTML
+	echo <<< HTML
     <style type="text/css" media="screen">
         #wp_editrecipebtns { position:absolute;display:block;z-index:999998; }
         #wp_editrecipebtn { margin-right:20px; }
@@ -940,48 +1040,48 @@ add_action('admin_footer', 'zrdn_plugin_footer' );
 
 // Converts the image to a recipe for output
 function zrdn_convert_to_recipe($post_text) {
-    $output = $post_text;
-    $needle_old = 'id="amd-zlrecipe-recipe-';
-    $preg_needle_old = '/(id)=("(amd-zlrecipe-recipe-)[0-9^"]*")/i';
-    $needle = '[amd-zlrecipe-recipe:';
-    $preg_needle = '/\[amd-zlrecipe-recipe:([0-9]+)\]/i';
+	$output = $post_text;
+	$needle_old = 'id="amd-zlrecipe-recipe-';
+	$preg_needle_old = '/(id)=("(amd-zlrecipe-recipe-)[0-9^"]*")/i';
+	$needle = '[amd-zlrecipe-recipe:';
+	$preg_needle = '/\[amd-zlrecipe-recipe:([0-9]+)\]/i';
 
-    if (strpos($post_text, $needle_old) !== false) {
-        // This is for backwards compatability. Please do not delete or alter.
-        preg_match_all($preg_needle_old, $post_text, $matches);
-        foreach ($matches[0] as $match) {
-            $recipe_id = str_replace('id="amd-zlrecipe-recipe-', '', $match);
-            $recipe_id = str_replace('"', '', $recipe_id);
-            $recipe = zrdn_select_recipe_db($recipe_id);
-            $formatted_recipe = zrdn_format_recipe($recipe);
-						$output = str_replace('<img id="amd-zlrecipe-recipe-' . $recipe_id . '" class="amd-zlrecipe-recipe" src="' . plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/images/zrecipe-placeholder.png?ver=1.0" alt="" />', $formatted_recipe, $output);
-        }
-    }
+	if (strpos($post_text, $needle_old) !== false) {
+		// This is for backwards compatability. Please do not delete or alter.
+		preg_match_all($preg_needle_old, $post_text, $matches);
+		foreach ($matches[0] as $match) {
+			$recipe_id = str_replace('id="amd-zlrecipe-recipe-', '', $match);
+			$recipe_id = str_replace('"', '', $recipe_id);
+			$recipe = zrdn_select_recipe_db($recipe_id);
+			$formatted_recipe = zrdn_format_recipe($recipe);
+			$output = str_replace('<img id="amd-zlrecipe-recipe-' . $recipe_id . '" class="amd-zlrecipe-recipe" src="' . plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/images/zrecipe-placeholder.png?ver=1.0" alt="" />', $formatted_recipe, $output);
+		}
+	}
 
-    if (strpos($post_text, $needle) !== false) {
-        preg_match_all($preg_needle, $post_text, $matches);
-        foreach ($matches[0] as $match) {
-            $recipe_id = str_replace('[amd-zlrecipe-recipe:', '', $match);
-            $recipe_id = str_replace(']', '', $recipe_id);
-            $recipe = zrdn_select_recipe_db($recipe_id);
-            $formatted_recipe = zrdn_format_recipe($recipe);
-            $output = str_replace('[amd-zlrecipe-recipe:' . $recipe_id . ']', $formatted_recipe, $output);
-        }
-    }
+	if (strpos($post_text, $needle) !== false) {
+		preg_match_all($preg_needle, $post_text, $matches);
+		foreach ($matches[0] as $match) {
+			$recipe_id = str_replace('[amd-zlrecipe-recipe:', '', $match);
+			$recipe_id = str_replace(']', '', $recipe_id);
+			$recipe = zrdn_select_recipe_db($recipe_id);
+			$formatted_recipe = zrdn_format_recipe($recipe);
+			$output = str_replace('[amd-zlrecipe-recipe:' . $recipe_id . ']', $formatted_recipe, $output);
+		}
+	}
 
-    return $output;
+	return $output;
 }
 
 add_filter('the_content', 'zrdn_convert_to_recipe' );
 
 // Pulls a recipe from the db
 function zrdn_select_recipe_db($recipe_id) {
-    global $wpdb;
+	global $wpdb;
 
 	$selectStatement = sprintf("SELECT * FROM `%samd_zlrecipe_recipes` WHERE recipe_id=%d", $wpdb->prefix, $recipe_id);
-    $recipe = $wpdb->get_row($selectStatement);
+	$recipe = $wpdb->get_row($selectStatement);
 
-    return $recipe;
+	return $recipe;
 }
 
 // Format an ISO8601 duration for human readibility
@@ -1013,7 +1113,7 @@ function zrdn_format_duration($duration) {
 		$duration = implode('T', $arr);
 
 		foreach ($date_abbr as $abbr => $name) {
-		if (preg_match('/(\d+)' . $abbr . '/i', $duration, $val)) {
+			if (preg_match('/(\d+)' . $abbr . '/i', $duration, $val)) {
 				$result .= $val[1] . ' ' . $name;
 				if ($val[1] > 1) {
 					$result .= 's';
@@ -1031,7 +1131,7 @@ function zrdn_format_duration($duration) {
 function zrdn_process_head() {
 
 	// Always add the print script
-    $header_html='<script type="text/javascript" async="" src="' . ZRDN_PLUGIN_DIRECTORY . 'scripts/zlrecipe_print.js"></script>';
+	$header_html='<script type="text/javascript" async="" src="' . ZRDN_PLUGIN_DIRECTORY . 'scripts/zlrecipe_print.js"></script>';
 
 	// Recipe styling
 	$css = get_option('zlrecipe_stylesheet');
@@ -1039,7 +1139,7 @@ function zrdn_process_head() {
 		$header_html .= '<link charset="utf-8" href="' . ZRDN_PLUGIN_DIRECTORY . 'styles/zlrecipe-std.css" rel="stylesheet" type="text/css" />';
 	}
 
-    echo $header_html;
+	echo $header_html;
 }
 add_filter('wp_head', 'zrdn_process_head' );
 
@@ -1088,25 +1188,25 @@ function zrdn_format_item($item, $elem, $class, $itemprop, $id, $i) {
 
 // Formats the recipe for output
 function zrdn_format_recipe($recipe) {
-    $output = "";
-    $permalink = get_permalink();
+	$output = "";
+	$permalink = get_permalink();
 
 	// Output main recipe div with border style
 	$style_tag = '';
 	$border_style = get_option('zlrecipe_outer_border_style');
 	if ($border_style != null)
 		$style_tag = 'style="border: ' . $border_style . ';"';
-    $output .= '
+	$output .= '
     <div id="zlrecipe-container-' . $recipe->recipe_id . '" class="zlrecipe-container-border" ' . $style_tag . '>
     <div itemscope itemtype="http://schema.org/Recipe" id="zlrecipe-container" class="serif zlrecipe">
       <div id="zlrecipe-innerdiv">
         <div class="item b-b">';
 
-    // Add the print button
-    if (strcmp(get_option('zlrecipe_print_link_hide'), 'Hide') != 0) {
-    	$custom_print_image = get_option('zlrecipe_custom_print_image');
-    	$button_type = 'butn-link';
-    	$button_image = 'Print'; // NOT a button image in this case, but this is the legacy version
+	// Add the print button
+	if (strcmp(get_option('zlrecipe_print_link_hide'), 'Hide') != 0) {
+		$custom_print_image = get_option('zlrecipe_custom_print_image');
+		$button_type = 'butn-link';
+		$button_image = 'Print'; // NOT a button image in this case, but this is the legacy version
 		if (strlen($custom_print_image) > 0) {
 			$button_type = 'print-link';
 			$button_image = '<img src="' . $custom_print_image . '">';
@@ -1117,7 +1217,7 @@ function zrdn_format_recipe($recipe) {
 	// add the title and close the item class
 	$hide_tag = '';
 	if (strcmp(get_option('recipe_title_hide'), 'Hide') == 0)
-        $hide_tag = ' texthide';
+		$hide_tag = ' texthide';
 	$output .= '<div id="zlrecipe-title" itemprop="name" class="b-b h-1 strong' . $hide_tag . '" >' . $recipe->recipe_title . '</div>
       </div>';
 
@@ -1125,92 +1225,92 @@ function zrdn_format_recipe($recipe) {
 	$output .= '<div class="zlmeta zlclear">
       <div class="fl-l width-50">';
 
-    if ($recipe->rating != 0) {
-        $output .= '<p id="zlrecipe-rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
-        if (strcmp(get_option('zlrecipe_rating_label_hide'), 'Hide') != 0) {
-        	$output .= get_option('zlrecipe_rating_label') . ' ';
-        }
-        $output .= '<span class="rating rating-' . $recipe->rating . '"><span itemprop="ratingValue">' . $recipe->rating . '</span><span itemprop="reviewCount" style="display: none;">1</span></span>
+	if ($recipe->rating != 0) {
+		$output .= '<p id="zlrecipe-rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
+		if (strcmp(get_option('zlrecipe_rating_label_hide'), 'Hide') != 0) {
+			$output .= get_option('zlrecipe_rating_label') . ' ';
+		}
+		$output .= '<span class="rating rating-' . $recipe->rating . '"><span itemprop="ratingValue">' . $recipe->rating . '</span><span itemprop="reviewCount" style="display: none;">1</span></span>
        </p>';
-    }
+	}
 
-    // recipe timing
-    if ($recipe->prep_time != null) {
-    	$prep_time = zrdn_format_duration($recipe->prep_time);
+	// recipe timing
+	if ($recipe->prep_time != null) {
+		$prep_time = zrdn_format_duration($recipe->prep_time);
 
-        $output .= '<p id="zlrecipe-prep-time">';
-        if (strcmp(get_option('zlrecipe_prep_time_label_hide'), 'Hide') != 0) {
-            $output .= get_option('zlrecipe_prep_time_label') . ' ';
-        }
-        $output .= '<span itemprop="prepTime" content="' . $recipe->prep_time . '">' . $prep_time . '</span></p>';
-    }
-    if ($recipe->cook_time != null) {
-        $cook_time = zrdn_format_duration($recipe->cook_time);
+		$output .= '<p id="zlrecipe-prep-time">';
+		if (strcmp(get_option('zlrecipe_prep_time_label_hide'), 'Hide') != 0) {
+			$output .= get_option('zlrecipe_prep_time_label') . ' ';
+		}
+		$output .= '<span itemprop="prepTime" content="' . $recipe->prep_time . '">' . $prep_time . '</span></p>';
+	}
+	if ($recipe->cook_time != null) {
+		$cook_time = zrdn_format_duration($recipe->cook_time);
 
-        $output .= '<p id="zlrecipe-cook-time">';
-        if (strcmp(get_option('zlrecipe_cook_time_label_hide'), 'Hide') != 0) {
-            $output .= get_option('zlrecipe_cook_time_label') . ' ';
-        }
-        $output .= '<span itemprop="cookTime" content="' . $recipe->cook_time . '">' . $cook_time . '</span></p>';
-    }
-    if ($recipe->total_time != null) {
-        $total_time = zrdn_format_duration($recipe->total_time);
+		$output .= '<p id="zlrecipe-cook-time">';
+		if (strcmp(get_option('zlrecipe_cook_time_label_hide'), 'Hide') != 0) {
+			$output .= get_option('zlrecipe_cook_time_label') . ' ';
+		}
+		$output .= '<span itemprop="cookTime" content="' . $recipe->cook_time . '">' . $cook_time . '</span></p>';
+	}
+	if ($recipe->total_time != null) {
+		$total_time = zrdn_format_duration($recipe->total_time);
 
-        $output .= '<p id="zlrecipe-total-time">';
-        if (strcmp(get_option('zlrecipe_total_time_label_hide'), 'Hide') != 0) {
-            $output .= get_option('zlrecipe_total_time_label') . ' ';
-        }
-        $output .= '<span itemprop="totalTime" content="' . $recipe->total_time . '">' . $total_time . '</span></p>';
-    }
+		$output .= '<p id="zlrecipe-total-time">';
+		if (strcmp(get_option('zlrecipe_total_time_label_hide'), 'Hide') != 0) {
+			$output .= get_option('zlrecipe_total_time_label') . ' ';
+		}
+		$output .= '<span itemprop="totalTime" content="' . $recipe->total_time . '">' . $total_time . '</span></p>';
+	}
 
-    //!! close the first container div and open the second
-    $output .= '</div>
+	//!! close the first container div and open the second
+	$output .= '</div>
       <div class="fl-l width-50">';
 
-    //!! yield and nutrition
-    if ($recipe->yield != null) {
-        $output .= '<p id="zlrecipe-yield">';
-        if (strcmp(get_option('zlrecipe_yield_label_hide'), 'Hide') != 0) {
-            $output .= get_option('zlrecipe_yield_label') . ' ';
-        }
-        $output .= '<span itemprop="recipeYield">' . $recipe->yield . '</span></p>';
-    }
+	//!! yield and nutrition
+	if ($recipe->yield != null) {
+		$output .= '<p id="zlrecipe-yield">';
+		if (strcmp(get_option('zlrecipe_yield_label_hide'), 'Hide') != 0) {
+			$output .= get_option('zlrecipe_yield_label') . ' ';
+		}
+		$output .= '<span itemprop="recipeYield">' . $recipe->yield . '</span></p>';
+	}
 
-    if ($recipe->serving_size != null || $recipe->calories != null || $recipe->fat != null) {
-        $output .= '<div id="zlrecipe-nutrition" itemprop="nutrition" itemscope itemtype="http://schema.org/NutritionInformation">';
-        if ($recipe->serving_size != null) {
-            $output .= '<p id="zlrecipe-serving-size">';
-            if (strcmp(get_option('zlrecipe_serving_size_label_hide'), 'Hide') != 0) {
-                $output .= get_option('zlrecipe_serving_size_label') . ' ';
-            }
-            $output .= '<span itemprop="servingSize">' . $recipe->serving_size . '</span></p>';
-        }
-        if ($recipe->calories != null) {
-            $output .= '<p id="zlrecipe-calories">';
-            if (strcmp(get_option('zlrecipe_calories_label_hide'), 'Hide') != 0) {
-                $output .= get_option('zlrecipe_calories_label') . ' ';
-            }
-            $output .= '<span itemprop="calories">' . $recipe->calories . '</span></p>';
-        }
-        if ($recipe->fat != null) {
-            $output .= '<p id="zlrecipe-fat">';
-            if (strcmp(get_option('zlrecipe_fat_label_hide'), 'Hide') != 0) {
-                $output .= get_option('zlrecipe_fat_label') . ' ';
-            }
-            $output .= '<span itemprop="fatContent">' . $recipe->fat . '</span></p>';
-        }
-        $output .= '</div>';
-    }
+	if ($recipe->serving_size != null || $recipe->calories != null || $recipe->fat != null) {
+		$output .= '<div id="zlrecipe-nutrition" itemprop="nutrition" itemscope itemtype="http://schema.org/NutritionInformation">';
+		if ($recipe->serving_size != null) {
+			$output .= '<p id="zlrecipe-serving-size">';
+			if (strcmp(get_option('zlrecipe_serving_size_label_hide'), 'Hide') != 0) {
+				$output .= get_option('zlrecipe_serving_size_label') . ' ';
+			}
+			$output .= '<span itemprop="servingSize">' . $recipe->serving_size . '</span></p>';
+		}
+		if ($recipe->calories != null) {
+			$output .= '<p id="zlrecipe-calories">';
+			if (strcmp(get_option('zlrecipe_calories_label_hide'), 'Hide') != 0) {
+				$output .= get_option('zlrecipe_calories_label') . ' ';
+			}
+			$output .= '<span itemprop="calories">' . $recipe->calories . '</span></p>';
+		}
+		if ($recipe->fat != null) {
+			$output .= '<p id="zlrecipe-fat">';
+			if (strcmp(get_option('zlrecipe_fat_label_hide'), 'Hide') != 0) {
+				$output .= get_option('zlrecipe_fat_label') . ' ';
+			}
+			$output .= '<span itemprop="fatContent">' . $recipe->fat . '</span></p>';
+		}
+		$output .= '</div>';
+	}
 
-    //!! close the second container
-    $output .= '</div>
+	//!! close the second container
+	$output .= '</div>
       <div class="zlclear">
       </div>
     </div>';
 
-    //!! create image and summary container
-    if ($recipe->recipe_image != null || $recipe->summary != null) {
-        $output .= '<div class="img-desc-wrap">';
+	//!! create image and summary container
+	if ($recipe->recipe_image != null || $recipe->summary != null) {
+		$output .= '<div class="img-desc-wrap">';
 		if ($recipe->recipe_image != null) {
 			$style_tag = '';
 			$class_tag = '';
@@ -1234,65 +1334,65 @@ function zrdn_format_recipe($recipe) {
 		$output .= '</div>';
 	}
 
-    $ingredient_type= '';
-    $ingredient_tag = '';
-    $ingredient_list_type_option = get_option('zlrecipe_ingredient_list_type');
-    if (strcmp($ingredient_list_type_option, 'ul') == 0 || strcmp($ingredient_list_type_option, 'ol') == 0) {
-        $ingredient_type = $ingredient_list_type_option;
-        $ingredient_tag = 'li';
-    } else if (strcmp($ingredient_list_type_option, 'p') == 0 || strcmp($ingredient_list_type_option, 'div') == 0) {
-        $ingredient_type = 'span';
-        $ingredient_tag = $ingredient_list_type_option;
-    }
+	$ingredient_type= '';
+	$ingredient_tag = '';
+	$ingredient_list_type_option = get_option('zlrecipe_ingredient_list_type');
+	if (strcmp($ingredient_list_type_option, 'ul') == 0 || strcmp($ingredient_list_type_option, 'ol') == 0) {
+		$ingredient_type = $ingredient_list_type_option;
+		$ingredient_tag = 'li';
+	} else if (strcmp($ingredient_list_type_option, 'p') == 0 || strcmp($ingredient_list_type_option, 'div') == 0) {
+		$ingredient_type = 'span';
+		$ingredient_tag = $ingredient_list_type_option;
+	}
 
-    if (strcmp(get_option('zlrecipe_ingredient_label_hide'), 'Hide') != 0) {
-        $output .= '<p id="zlrecipe-ingredients" class="h-4 strong">' . get_option('zlrecipe_ingredient_label') . '</p>';
-    }
+	if (strcmp(get_option('zlrecipe_ingredient_label_hide'), 'Hide') != 0) {
+		$output .= '<p id="zlrecipe-ingredients" class="h-4 strong">' . get_option('zlrecipe_ingredient_label') . '</p>';
+	}
 
-    $output .= '<' . $ingredient_type . ' id="zlrecipe-ingredients-list">';
-    $i = 0;
-    $ingredients = explode("\n", $recipe->ingredients);
-    foreach ($ingredients as $ingredient) {
+	$output .= '<' . $ingredient_type . ' id="zlrecipe-ingredients-list">';
+	$i = 0;
+	$ingredients = explode("\n", $recipe->ingredients);
+	foreach ($ingredients as $ingredient) {
 		$output .= zrdn_format_item($ingredient, $ingredient_tag, 'ingredient', 'ingredients', 'zlrecipe-ingredient-', $i);
-        $i++;
-    }
+		$i++;
+	}
 
-    $output .= '</' . $ingredient_type . '>';
+	$output .= '</' . $ingredient_type . '>';
 
 	// add the instructions
-    if ($recipe->instructions != null) {
+	if ($recipe->instructions != null) {
 
-        $instruction_type= '';
-        $instruction_tag = '';
-        $instruction_list_type_option = get_option('zlrecipe_instruction_list_type');
-        if (strcmp($instruction_list_type_option, 'ul') == 0 || strcmp($instruction_list_type_option, 'ol') == 0) {
-            $instruction_type = $instruction_list_type_option;
-            $instruction_tag = 'li';
-        } else if (strcmp($instruction_list_type_option, 'p') == 0 || strcmp($instruction_list_type_option, 'div') == 0) {
-            $instruction_type = 'span';
-            $instruction_tag = $instruction_list_type_option;
-        }
+		$instruction_type= '';
+		$instruction_tag = '';
+		$instruction_list_type_option = get_option('zlrecipe_instruction_list_type');
+		if (strcmp($instruction_list_type_option, 'ul') == 0 || strcmp($instruction_list_type_option, 'ol') == 0) {
+			$instruction_type = $instruction_list_type_option;
+			$instruction_tag = 'li';
+		} else if (strcmp($instruction_list_type_option, 'p') == 0 || strcmp($instruction_list_type_option, 'div') == 0) {
+			$instruction_type = 'span';
+			$instruction_tag = $instruction_list_type_option;
+		}
 
-        $instructions = explode("\n", $recipe->instructions);
-        if (strcmp(get_option('zlrecipe_instruction_label_hide'), 'Hide') != 0) {
-            $output .= '<p id="zlrecipe-instructions" class="h-4 strong">' . get_option('zlrecipe_instruction_label') . '</p>';
-        }
-        $output .= '<' . $instruction_type . ' id="zlrecipe-instructions-list" class="instructions">';
-        $j = 0;
-        foreach ($instructions as $instruction) {
-            if (strlen($instruction) > 1) {
-            	$output .= zrdn_format_item($instruction, $instruction_tag, 'instruction', 'recipeInstructions', 'zlrecipe-instruction-', $j);
-                $j++;
-            }
-        }
-        $output .= '</' . $instruction_type . '>';
-    }
+		$instructions = explode("\n", $recipe->instructions);
+		if (strcmp(get_option('zlrecipe_instruction_label_hide'), 'Hide') != 0) {
+			$output .= '<p id="zlrecipe-instructions" class="h-4 strong">' . get_option('zlrecipe_instruction_label') . '</p>';
+		}
+		$output .= '<' . $instruction_type . ' id="zlrecipe-instructions-list" class="instructions">';
+		$j = 0;
+		foreach ($instructions as $instruction) {
+			if (strlen($instruction) > 1) {
+				$output .= zrdn_format_item($instruction, $instruction_tag, 'instruction', 'recipeInstructions', 'zlrecipe-instruction-', $j);
+				$j++;
+			}
+		}
+		$output .= '</' . $instruction_type . '>';
+	}
 
-    //!! add notes section
-    if ($recipe->notes != null) {
-        if (strcmp(get_option('zlrecipe_notes_label_hide'), 'Hide') != 0) {
-            $output .= '<p id="zlrecipe-notes" class="h-4 strong">' . get_option('zlrecipe_notes_label') . '</p>';
-        }
+	//!! add notes section
+	if ($recipe->notes != null) {
+		if (strcmp(get_option('zlrecipe_notes_label_hide'), 'Hide') != 0) {
+			$output .= '<p id="zlrecipe-notes" class="h-4 strong">' . get_option('zlrecipe_notes_label') . '</p>';
+		}
 
 		$output .= '<div id="zlrecipe-notes-list">';
 		$output .= zrdn_break( '<p class="notes">', zrdn_richify_item($recipe->notes, 'notes'), '</p>' );
@@ -1301,26 +1401,26 @@ function zrdn_format_recipe($recipe) {
 	}
 
 	// Zip Recipes attribution and version
-    if (strcmp(get_option('zrdn_attribution_hide'), 'Hide') != 0)
-	    $output .= '<div class="zl-linkback">Schema/Recipe SEO Data Markup by <a title="Zip Recipes Plugin" href="http://www.ziprecipes.net" target="_blank">Zip Recipes Plugin</a></div>';
-    $output .= '<div class="ziplist-recipe-plugin" style="display: none;">' . ZRDN_VERSION_NUM . '</div>';
+	if (strcmp(get_option('zrdn_attribution_hide'), 'Hide') != 0)
+		$output .= '<div class="zl-linkback">Schema/Recipe SEO Data Markup by <a title="Zip Recipes Plugin" href="http://www.ziprecipes.net" target="_blank">Zip Recipes Plugin</a></div>';
+	$output .= '<div class="ziplist-recipe-plugin" style="display: none;">' . ZRDN_VERSION_NUM . '</div>';
 
-    // Add permalink for printed output before closing the innerdiv
-    if (strcmp(get_option('zlrecipe_printed_permalink_hide'), 'Hide') != 0) {
+	// Add permalink for printed output before closing the innerdiv
+	if (strcmp(get_option('zlrecipe_printed_permalink_hide'), 'Hide') != 0) {
 		$output .= '<a id="zl-printed-permalink" href="' . $permalink . '"title="Permalink to Recipe">' . $permalink . '</a>';
 	}
 
-    $output .= '</div>';
+	$output .= '</div>';
 
-    // Add copyright statement for printed output (outside the dotted print line)
-    $printed_copyright_statement = get_option('zlrecipe_printed_copyright_statement');
-    if (strlen($printed_copyright_statement) > 0) {
+	// Add copyright statement for printed output (outside the dotted print line)
+	$printed_copyright_statement = get_option('zlrecipe_printed_copyright_statement');
+	if (strlen($printed_copyright_statement) > 0) {
 		$output .= '<div id="zl-printed-copyright-statement" itemprop="copyrightHolder">' . $printed_copyright_statement . '</div>';
 	}
 
 	$output .= '</div>' .
-			'<img id="zrecipe-beacon" src="http://www.ziprecipes.net/beacon?url=' . urlencode($permalink) . '" width="0" height="0">
+	           '<img id="zrecipe-beacon" src="http://www.ziprecipes.net/beacon?url=' . urlencode($permalink) . '" width="0" height="0">
 		</div>';
 
-    return $output;
+	return $output;
 }
