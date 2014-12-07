@@ -74,7 +74,7 @@
 
 			editor.addButton( 'zrdn_buttons', {
 				title: 'Zip Recipes',
-				image: url + '/images/zrecipes-icon.png',
+				image: url + '/../images/zrecipes-icon.png',
 				onclick: function() {
 					var recipe_id = null;
 					if (recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0]) {

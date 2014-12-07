@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Zip Recipes Plugin
+Plugin Name: Zip Recipes
 Plugin URI: http://www.ziprecipes.net/
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 Description: A plugin that adds all the necessary microdata to your recipes, so they will show up in Google's Recipe Search
@@ -194,84 +194,90 @@ function zrdn_settings() {
 			$_POST[$key] = stripslashes($val);
 		}
 
-		$zrecipe_attribution_hide = $_POST['zrecipe-attribution-hide'];
-		$printed_permalink_hide = $_POST['printed-permalink-hide'];
-		$printed_copyright_statement = $_POST['printed-copyright-statement'];
-		$stylesheet = $_POST['stylesheet'];
-		$recipe_title_hide = $_POST['recipe-title-hide'];
-		$image_hide = $_POST['image-hide'];
-		$image_hide_print = $_POST['image-hide-print'];
-		$print_link_hide = $_POST['print-link-hide'];
-		$ingredient_label = zrdn_strip_chars($_POST['ingredient-label']);
-		$ingredient_label_hide = zrdn_strip_chars($_POST['ingredient-label-hide']);
-		$ingredient_list_type = $_POST['ingredient-list-type'];
-		$instruction_label = zrdn_strip_chars($_POST['instruction-label']);
-		$instruction_label_hide = $_POST['instruction-label-hide'];
-		$instruction_list_type = zrdn_strip_chars($_POST['instruction-list-type']);
-		$notes_label = zrdn_strip_chars($_POST['notes-label']);
-		$notes_label_hide = $_POST['notes-label-hide'];
-		$prep_time_label = zrdn_strip_chars($_POST['prep-time-label']);
-		$prep_time_label_hide = $_POST['prep-time-label-hide'];
-		$cook_time_label = zrdn_strip_chars($_POST['cook-time-label']);
-		$cook_time_label_hide = $_POST['cook-time-label-hide'];
-		$total_time_label = zrdn_strip_chars($_POST['total-time-label']);
-		$total_time_label_hide = $_POST['total-time-label-hide'];
-		$yield_label = zrdn_strip_chars($_POST['yield-label']);
-		$yield_label_hide = $_POST['yield-label-hide'];
-		$serving_size_label = zrdn_strip_chars($_POST['serving-size-label']);
-		$serving_size_label_hide = $_POST['serving-size-label-hide'];
-		$calories_label = zrdn_strip_chars($_POST['calories-label']);
-		$calories_label_hide = $_POST['calories-label-hide'];
-		$fat_label = zrdn_strip_chars($_POST['fat-label']);
-		$fat_label_hide = $_POST['fat-label-hide'];
-		$rating_label = zrdn_strip_chars($_POST['rating-label']);
-		$rating_label_hide = $_POST['rating-label-hide'];
-		$image_width = $_POST['image-width'];
-		$outer_border_style = $_POST['outer-border-style'];
-		$custom_print_image = $_POST['custom-print-image'];
-
-		// if first, last name and email are provided, we assume that user is registering
-		$registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
-		if ($registered)
+		if ($_POST['action'] === "register")
 		{
-			update_option('zrdn_registered', true);
+			// if first, last name and email are provided, we assume that user is registering
+			$registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
+			if ($registered)
+			{
+				update_option('zrdn_registered', true);
+			}
+		}
+		else if ($_POST['action'] === "update_settings")
+		{
+			$zrecipe_attribution_hide = $_POST['zrecipe-attribution-hide'];
+			$printed_permalink_hide = $_POST['printed-permalink-hide'];
+			$printed_copyright_statement = $_POST['printed-copyright-statement'];
+			$stylesheet = $_POST['stylesheet'];
+			$recipe_title_hide = $_POST['recipe-title-hide'];
+			$image_hide = $_POST['image-hide'];
+			$image_hide_print = $_POST['image-hide-print'];
+			$print_link_hide = $_POST['print-link-hide'];
+			$ingredient_label = zrdn_strip_chars($_POST['ingredient-label']);
+			$ingredient_label_hide = zrdn_strip_chars($_POST['ingredient-label-hide']);
+			$ingredient_list_type = $_POST['ingredient-list-type'];
+			$instruction_label = zrdn_strip_chars($_POST['instruction-label']);
+			$instruction_label_hide = $_POST['instruction-label-hide'];
+			$instruction_list_type = zrdn_strip_chars($_POST['instruction-list-type']);
+			$notes_label = zrdn_strip_chars($_POST['notes-label']);
+			$notes_label_hide = $_POST['notes-label-hide'];
+			$prep_time_label = zrdn_strip_chars($_POST['prep-time-label']);
+			$prep_time_label_hide = $_POST['prep-time-label-hide'];
+			$cook_time_label = zrdn_strip_chars($_POST['cook-time-label']);
+			$cook_time_label_hide = $_POST['cook-time-label-hide'];
+			$total_time_label = zrdn_strip_chars($_POST['total-time-label']);
+			$total_time_label_hide = $_POST['total-time-label-hide'];
+			$yield_label = zrdn_strip_chars($_POST['yield-label']);
+			$yield_label_hide = $_POST['yield-label-hide'];
+			$serving_size_label = zrdn_strip_chars($_POST['serving-size-label']);
+			$serving_size_label_hide = $_POST['serving-size-label-hide'];
+			$calories_label = zrdn_strip_chars($_POST['calories-label']);
+			$calories_label_hide = $_POST['calories-label-hide'];
+			$fat_label = zrdn_strip_chars($_POST['fat-label']);
+			$fat_label_hide = $_POST['fat-label-hide'];
+			$rating_label = zrdn_strip_chars($_POST['rating-label']);
+			$rating_label_hide = $_POST['rating-label-hide'];
+			$image_width = $_POST['image-width'];
+			$outer_border_style = $_POST['outer-border-style'];
+			$custom_print_image = $_POST['custom-print-image'];
+
+			update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
+			update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );
+			update_option('zlrecipe_printed_copyright_statement', $printed_copyright_statement);
+			update_option('zlrecipe_stylesheet', $stylesheet);
+			update_option('recipe_title_hide', $recipe_title_hide);
+			update_option('zlrecipe_image_hide', $image_hide);
+			update_option('zlrecipe_image_hide_print', $image_hide_print);
+			update_option('zlrecipe_print_link_hide', $print_link_hide);
+			update_option('zlrecipe_ingredient_label', $ingredient_label);
+			update_option('zlrecipe_ingredient_label_hide', $ingredient_label_hide);
+			update_option('zlrecipe_ingredient_list_type', $ingredient_list_type);
+			update_option('zlrecipe_instruction_label', $instruction_label);
+			update_option('zlrecipe_instruction_label_hide', $instruction_label_hide);
+			update_option('zlrecipe_instruction_list_type', $instruction_list_type);
+			update_option('zlrecipe_notes_label', $notes_label);
+			update_option('zlrecipe_notes_label_hide', $notes_label_hide);
+			update_option('zlrecipe_prep_time_label', $prep_time_label);
+			update_option('zlrecipe_prep_time_label_hide', $prep_time_label_hide);
+			update_option('zlrecipe_cook_time_label', $cook_time_label);
+			update_option('zlrecipe_cook_time_label_hide', $cook_time_label_hide);
+			update_option('zlrecipe_total_time_label', $total_time_label);
+			update_option('zlrecipe_total_time_label_hide', $total_time_label_hide);
+			update_option('zlrecipe_yield_label', $yield_label);
+			update_option('zlrecipe_yield_label_hide', $yield_label_hide);
+			update_option('zlrecipe_serving_size_label', $serving_size_label);
+			update_option('zlrecipe_serving_size_label_hide', $serving_size_label_hide);
+			update_option('zlrecipe_calories_label', $calories_label);
+			update_option('zlrecipe_calories_label_hide', $calories_label_hide);
+			update_option('zlrecipe_fat_label', $fat_label);
+			update_option('zlrecipe_fat_label_hide', $fat_label_hide);
+			update_option('zlrecipe_rating_label', $rating_label);
+			update_option('zlrecipe_rating_label_hide', $rating_label_hide);
+			update_option('zlrecipe_image_width', $image_width);
+			update_option('zlrecipe_outer_border_style', $outer_border_style);
+			update_option('zlrecipe_custom_print_image', $custom_print_image);
 		}
 
-		update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
-		update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );
-		update_option('zlrecipe_printed_copyright_statement', $printed_copyright_statement);
-		update_option('zlrecipe_stylesheet', $stylesheet);
-		update_option('recipe_title_hide', $recipe_title_hide);
-		update_option('zlrecipe_image_hide', $image_hide);
-		update_option('zlrecipe_image_hide_print', $image_hide_print);
-		update_option('zlrecipe_print_link_hide', $print_link_hide);
-		update_option('zlrecipe_ingredient_label', $ingredient_label);
-		update_option('zlrecipe_ingredient_label_hide', $ingredient_label_hide);
-		update_option('zlrecipe_ingredient_list_type', $ingredient_list_type);
-		update_option('zlrecipe_instruction_label', $instruction_label);
-		update_option('zlrecipe_instruction_label_hide', $instruction_label_hide);
-		update_option('zlrecipe_instruction_list_type', $instruction_list_type);
-		update_option('zlrecipe_notes_label', $notes_label);
-		update_option('zlrecipe_notes_label_hide', $notes_label_hide);
-		update_option('zlrecipe_prep_time_label', $prep_time_label);
-		update_option('zlrecipe_prep_time_label_hide', $prep_time_label_hide);
-		update_option('zlrecipe_cook_time_label', $cook_time_label);
-		update_option('zlrecipe_cook_time_label_hide', $cook_time_label_hide);
-		update_option('zlrecipe_total_time_label', $total_time_label);
-		update_option('zlrecipe_total_time_label_hide', $total_time_label_hide);
-		update_option('zlrecipe_yield_label', $yield_label);
-		update_option('zlrecipe_yield_label_hide', $yield_label_hide);
-		update_option('zlrecipe_serving_size_label', $serving_size_label);
-		update_option('zlrecipe_serving_size_label_hide', $serving_size_label_hide);
-		update_option('zlrecipe_calories_label', $calories_label);
-		update_option('zlrecipe_calories_label_hide', $calories_label_hide);
-		update_option('zlrecipe_fat_label', $fat_label);
-		update_option('zlrecipe_fat_label_hide', $fat_label_hide);
-		update_option('zlrecipe_rating_label', $rating_label);
-		update_option('zlrecipe_rating_label_hide', $rating_label_hide);
-		update_option('zlrecipe_image_width', $image_width);
-		update_option('zlrecipe_outer_border_style', $outer_border_style);
-		update_option('zlrecipe_custom_print_image', $custom_print_image);
 	}
 	else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		$registered = get_option('zrdn_registered');
@@ -350,6 +356,7 @@ function zrdn_settings() {
                     	(Optional)
                     </th>
                     <td>
+                    	<input type="hidden" name="action" value="update_settings" />
                         <input placeholder="URL to custom Print button image" type="text" name="custom-print-image" value="' . $custom_print_image . '" class="regular-text" />
                     </td>
                 </tr>
@@ -512,6 +519,7 @@ function zrdn_settings() {
                     	<input type="hidden" id="wp-version" name="wp_version" value="' . $wp_version . '" />
                     	<input type="hidden" id="plugins" name="plugins" value="' . zrdn_get_installed_plugins() . '" />
                     	<input type="hidden" id="blog-url" name="blog_url" value="' . home_url() . '" />
+                    	<input type="hidden" name="action" value="register" />
                     </td>
                 </tr>
             </table>
@@ -579,6 +587,7 @@ function zrdn_strip_chars( $val )
 
 // Content for the popup iframe when creating or editing a recipe
 function zrdn_iframe_content($post_info = null, $get_info = null) {
+
 	$recipe_id = 0;
 	$recipe_title = "";
 	$recipe_image = "";
@@ -765,54 +774,10 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
 		$submitform .= "<script>window.onload = amdZLRecipeSubmitForm;</script>";
 	}
 
-	echo <<< HTML
+	$form = <<< HTML
 
-<!DOCTYPE html>
-<!--suppress HtmlUnknownTarget -->
-<head>
-		<link rel="stylesheet" href="$plugindir/styles/zlrecipe-dlog.css" type="text/css" media="all" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script type="text/javascript">//<!CDATA[
-
-        function amdZLRecipeSubmitForm() {
-            var title = document.forms['recipe_form']['recipe_title'].value;
-
-            if (title==null || title=='') {
-            	var jQrecipeTitle = $('#recipe-title');
-                jQrecipeTitle.find('input').addClass('input-error');
-                jQrecipeTitle.append('<p class="error-message">You must enter a title for your recipe.</p>');
-
-                return false;
-            }
-
-            var jQingredients = $('#z_recipe_ingredients');
-            var jQingredientsTextarea = jQingredients.find('textarea');
-            var ingredients = jQingredientsTextarea.val();
-            if (ingredients==null || ingredients=='' || ingredients==undefined) {
-                jQingredientsTextarea.addClass('input-error');
-                jQingredients.append('<p class="error-message">You must enter at least one ingredient.</p>');
-
-                return false;
-            }
-            window.parent.amdZLRecipeInsertIntoPostEditor('$recipe_id');
-            top.tinymce.activeEditor.windowManager.close(window);
-        }
-
-        $(document).ready(function() {
-            $('#more-options').hide();
-            $('#more-options-toggle').click(function() {
-                $('#more-options').toggle(400);
-                return false;
-            });
-        });
-    //]]>
-    </script>
-    $submitform
-</head>
-<body id="amd-zlrecipe-uploader">
-    <form enctype='multipart/form-data' method='post' action='' name='recipe_form'>
-        <h3 class='amd-zlrecipe-title'>$iframe_title</h3>
-        <div id='amd-zlrecipe-form-items'>
+			<h3 class='amd-zlrecipe-title'>$iframe_title</h3>
+	        <div id='amd-zlrecipe-form-items'>
             <input type='hidden' name='post_id' value='$id' />
             <input type='hidden' name='recipe_id' value='$recipe_id' />
             <p id='recipe-title'><label>Recipe Title <span class='required'>*</span></label> <input type='text' name='recipe_title' value='$recipe_title' /></p>
@@ -863,9 +828,73 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
             </div>
             <input type='submit' value='$submit' name='add-recipe-button' />
         </div>
+HTML;
+
+	if (! get_option('zrdn_registered'))
+	{
+		// Need to figure out why menu_page_url ends up being undefined
+//		if (function_exists('menu_page_url')) {
+//			$settings_page_url = menu_page_url( 'zrdn-settings', false );
+//
+//		}
+		$form              = '<h3 class="amd-zlrecipe-title">Register plugin</h3>
+							<h4>Thank you for installing Zip Recipes plug. Click go to the Zip Recipes Plugin settings page to register the plugin.</h4>';
+	}
+
+	$output = <<< HTML
+
+<!DOCTYPE html>
+<!--suppress HtmlUnknownTarget -->
+<head>
+		<link rel="stylesheet" href="$plugindir/styles/zlrecipe-dlog.css" type="text/css" media="all" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript">//<!CDATA[
+
+        function amdZLRecipeSubmitForm() {
+            var title = document.forms['recipe_form']['recipe_title'].value;
+
+            if (title==null || title=='') {
+            	var jQrecipeTitle = $('#recipe-title');
+                jQrecipeTitle.find('input').addClass('input-error');
+                jQrecipeTitle.append('<p class="error-message">You must enter a title for your recipe.</p>');
+
+                return false;
+            }
+
+            var jQingredients = $('#z_recipe_ingredients');
+            var jQingredientsTextarea = jQingredients.find('textarea');
+            var ingredients = jQingredientsTextarea.val();
+            if (ingredients==null || ingredients=='' || ingredients==undefined) {
+                jQingredientsTextarea.addClass('input-error');
+                jQingredients.append('<p class="error-message">You must enter at least one ingredient.</p>');
+
+                return false;
+            }
+            window.parent.amdZLRecipeInsertIntoPostEditor('$recipe_id');
+            top.tinymce.activeEditor.windowManager.close(window);
+        }
+
+        $(document).ready(function() {
+            $('#more-options').hide();
+            $('#more-options-toggle').click(function() {
+                $('#more-options').toggle(400);
+                return false;
+            });
+        });
+    //]]>
+    </script>
+    $submitform
+</head>
+<body id="amd-zlrecipe-uploader">
+    <form enctype='multipart/form-data' method='post' action='' name='recipe_form'>
+		$form
     </form>
 </body>
 HTML;
+
+
+
+	echo $output;
 }
 
 // Inserts the recipe into the database
