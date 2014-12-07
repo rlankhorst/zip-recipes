@@ -837,7 +837,8 @@ HTML;
 //
 //		}
 		$form              = '<h3 class="amd-zlrecipe-title">Register plugin</h3>
-							<h4>Thank you for installing Zip Recipes plug. Click go to the Zip Recipes Plugin settings page to register the plugin.</h4>';
+							<h4>Thank you for installing Zip Recipes plug. Go to the Zip Recipes Plugin settings page to register the plugin.
+							Be sure to save your draft first.</h4>';
 	}
 
 	$output = <<< HTML
