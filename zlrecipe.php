@@ -189,6 +189,26 @@ function zrdn_settings() {
 
 	$zrdn_icon = ZRDN_PLUGIN_DIRECTORY . "images/zrecipes-icon.png";
 
+	$registered = get_option('zrdn_registered');
+	$zrecipe_attribution_hide = get_option('zrdn_attribution_hide');
+	$printed_permalink_hide = get_option('zlrecipe_printed_permalink_hide');
+	$printed_copyright_statement = get_option('zlrecipe_printed_copyright_statement');
+	$stylesheet = get_option('zlrecipe_stylesheet');
+	$recipe_title_hide = get_option('recipe_title_hide');
+	$image_hide = get_option('zlrecipe_image_hide');
+	$image_hide_print = get_option('zlrecipe_image_hide_print');
+	$print_link_hide = get_option('zlrecipe_print_link_hide');
+	$ingredient_label = get_option('zlrecipe_ingredient_label');
+	$ingredient_label_hide = get_option('zlrecipe_ingredient_label_hide');
+	$ingredient_list_type = get_option('zlrecipe_ingredient_list_type');
+	$instruction_label = get_option('zlrecipe_instruction_label');
+	$instruction_label_hide = get_option('zlrecipe_instruction_label_hide');
+	$instruction_list_type = get_option('zlrecipe_instruction_list_type');
+	$image_width = get_option('zlrecipe_image_width');
+	$outer_border_style = get_option('zlrecipe_outer_border_style');
+	$custom_print_image = get_option('zlrecipe_custom_print_image');
+
+
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		foreach ($_POST as $key=>$val) {
 			$_POST[$key] = stripslashes($val);
@@ -277,27 +297,6 @@ function zrdn_settings() {
 			update_option('zlrecipe_outer_border_style', $outer_border_style);
 			update_option('zlrecipe_custom_print_image', $custom_print_image);
 		}
-
-	}
-	else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-		$registered = get_option('zrdn_registered');
-		$zrecipe_attribution_hide = get_option('zrdn_attribution_hide');
-		$printed_permalink_hide = get_option('zlrecipe_printed_permalink_hide');
-		$printed_copyright_statement = get_option('zlrecipe_printed_copyright_statement');
-		$stylesheet = get_option('zlrecipe_stylesheet');
-		$recipe_title_hide = get_option('recipe_title_hide');
-		$image_hide = get_option('zlrecipe_image_hide');
-		$image_hide_print = get_option('zlrecipe_image_hide_print');
-		$print_link_hide = get_option('zlrecipe_print_link_hide');
-		$ingredient_label = get_option('zlrecipe_ingredient_label');
-		$ingredient_label_hide = get_option('zlrecipe_ingredient_label_hide');
-		$ingredient_list_type = get_option('zlrecipe_ingredient_list_type');
-		$instruction_label = get_option('zlrecipe_instruction_label');
-		$instruction_label_hide = get_option('zlrecipe_instruction_label_hide');
-		$instruction_list_type = get_option('zlrecipe_instruction_list_type');
-		$image_width = get_option('zlrecipe_image_width');
-		$outer_border_style = get_option('zlrecipe_outer_border_style');
-		$custom_print_image = get_option('zlrecipe_custom_print_image');
 	}
 
 	$printed_copyright_statement = esc_attr($printed_copyright_statement);
