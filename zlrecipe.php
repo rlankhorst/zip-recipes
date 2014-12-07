@@ -456,9 +456,9 @@ function zrdn_settings() {
 	                 jQuery("#register_button").val("Registering...")
 	                 jQuery("#register_button").attr("disabled", true);
 
+	                 var postUrl = "http://api.ziprecipes.net/installation/register/";
 
-
-		         	jQuery.post("http://localhost:3000/installation/register/", $form.serialize(), function(data)
+		         	jQuery.post(postUrl, $form.serialize(), function(data)
 		         	{
 		         		var data = JSON.parse(data);
 
