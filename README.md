@@ -21,7 +21,7 @@ Formats recipes so they are SEO-friendly. Now fully supports WordPress 4.0.1.
 
 Make your recipes SEO-friendly and more likely to appear in [Google's Recipe View](http://googleblog.blogspot.com/2011/02/slice-and-dice-your-recipe-search.html) search. No need to hand-code your recipes into a sophisticated recipe structure when the Zip Recipes plugin will do all the heavy lifting for you, enhancing the findability of your recipe website.
 
-If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly note that Zip Recipe plugin is an extension of this plugin and it is 100% compatible with it. The Zip Recipes plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). 
+If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly note that Zip Recipe plugin is an extension of this plugin and it is 100% compatible with it. The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). 
 
 Among the new features added by Zip Recipe plugin are:
 
@@ -47,7 +47,7 @@ Among the new features added by Zip Recipe plugin are:
 
 **Multiple Paragraph Support in Summary Section:** Users can now add multiple paragraphs to the Summary field within the plugin.
 
-The Zip Recipes plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:help@ziprecipes.net)! We'd love to hear from you!
+The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:help@ziprecipes.net)! We'd love to hear from you!
 
 == Installation ==
 
