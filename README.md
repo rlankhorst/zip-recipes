@@ -9,11 +9,11 @@ Author: Gezim Hoxha
 Donate link: http://ziprecipes.com/donate
 Tags: recipe, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, google rich snippets, seo, recipe seo
 Requires at least: 3.1
-Tested up to: 4.0.1
-Stable tag: 4.0.0.9
-Version: 4.0.0.9
+Tested up to: 4.1
+Stable tag: 4.0.0.10
+Version: 4.0.0.10
 
-Formats recipes so they are SEO-friendly. Now fully supports WordPress 4.0.1.
+Formats recipes so they are SEO-friendly. Now fully supports WordPress 4.1.
 
 == Description ==
 
@@ -25,7 +25,7 @@ If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly 
 
 Among the new features added by Zip Recipe plugin are:
 
-**Works with WordPress 4.0:** Updated for full compatibility with WordPress 4.0.
+**Works with WordPress 4.1:** Updated for full compatibility with WordPress 4.1.
 
 **Schema/Recipe Support:** Automatically integrate Schema.org's Recipe mark-up into your recipe posts to make them more findable by search engines. 
 
@@ -97,8 +97,14 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
-4.0.0.9 First iteration, derived from ZipList Recipe Plugin version 2.6 -- thanks for the jump-start ZipList team!  (http://get.ziplist.com/partner-with-ziplist/wordpress-recipe-plugin/)
+4.0.0.10 Support for 4.1 and database fix
 
+* Fixed issue where database would not be created if it didn't already exist (with prior install of ZipList Recipe Plugin). 
+
+
+4.0.0.9 Initial release
+
+* First iteration, derived from ZipList Recipe Plugin version 2.6 -- thanks for the jump-start ZipList team!  (http://get.ziplist.com/partner-with-ziplist/wordpress-recipe-plugin/)
 * To ensure everything runs smoothly when ZipList website and services go down, we've removed all references to ZipList website
 * Removed Save Recipe functionality since ZipList is discontinuing this service (**worry not, we're working on something much cooler! [Shoot us an email](mailto:hello@ziprecipes.net) and we'll tell you all about it!**)
 
@@ -106,6 +112,9 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 = 4.0.0.9 =
 Upgrade to Zip Recipe plugin from ZipList Recipe Plugin and lose nothing!
+
+= 4.0.0.10 =
+Bugfix update. Upgrade if you cannot see the recipes that you created.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 

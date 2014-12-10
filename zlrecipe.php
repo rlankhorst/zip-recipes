@@ -4,7 +4,7 @@ Plugin Name: Zip Recipes
 Plugin URI: http://www.ziprecipes.net/
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 Description: A plugin that adds all the necessary microdata to your recipes, so they will show up in Google's Recipe Search
-Version: 4.0.0.9
+Version: 4.0.0.10
 Author: HappyGezim
 Author URI: http://www.ziprecipes.net/
 License: GPLv3 or later
@@ -38,7 +38,7 @@ if (!defined('ZRDN_VERSION_KEY'))
 	define('ZRDN_VERSION_KEY', 'zrdn_version');
 
 if (!defined('ZRDN_VERSION_NUM'))
-	define('ZRDN_VERSION_NUM', '4.0.0.9');
+	define('ZRDN_VERSION_NUM', '4.0.0.10');
 
 if (!defined('ZRDN_PLUGIN_DIRECTORY'))
 	define('ZRDN_PLUGIN_DIRECTORY', plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/');
