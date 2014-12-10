@@ -133,26 +133,28 @@ function zrdn_recipe_install() {
 	$recipes_table = $wpdb->prefix . "amd_zlrecipe_recipes";
 	$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
+	$charset_collate = $wpdb->get_charset_collate();
+
 	if(strcmp($installed_db_ver, $zrdn_db_version) != 0) {				// An older (or no) database table exists
-		$sql_command = sprintf("CREATE TABLE `%s` (
-            recipe_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            post_id BIGINT(20) UNSIGNED NOT NULL,
-            recipe_title TEXT,
-            recipe_image TEXT,
-            summary TEXT,
-            rating TEXT,
-            prep_time TEXT,
-            cook_time TEXT,
-            total_time TEXT,
-            yield TEXT,
-            serving_size VARCHAR(50),
-            calories VARCHAR(50),
-            fat VARCHAR(50),
-            ingredients TEXT,
-            instructions TEXT,
-            notes TEXT,
-            created_at TIMESTAMP DEFAULT NOW()
-        	);", $recipes_table);
+		$sql_command = "CREATE TABLE `$recipes_table` (
+            recipe_id bigint(20) unsigned NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+            post_id bigint(20) unsigned NOT NULL,
+            recipe_title text,
+            recipe_image text,
+            summary text,
+            rating text,
+            prep_time text,
+            cook_time text,
+            total_time text,
+            yield text,
+            serving_size varchar(50),
+            calories varchar(50),
+            fat varchar(50),
+            ingredients text,
+            instructions text,
+            notes text,
+            created_at timestamp DEFAULT NOW()
+        	) $charset_collate;";
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql_command);
