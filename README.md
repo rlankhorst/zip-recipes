@@ -8,10 +8,9 @@ Author URI: http://www.ziprecipes.net
 Author: Gezim Hoxha
 Donate link: http://ziprecipes.com/donate
 Tags: recipe, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, google rich snippets, seo, recipe seo
-Requires at least: 3.1
+Requires at least: 3.5
 Tested up to: 4.1
 Stable tag: 4.0.0.10
-Version: 4.0.0.10
 
 Formats recipes so they are SEO-friendly. Now fully supports WordPress 4.1.
 
