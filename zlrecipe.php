@@ -134,7 +134,7 @@ function zrdn_recipe_install() {
 	$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
 	if(strcmp($installed_db_ver, $zrdn_db_version) != 0) {				// An older (or no) database table exists
-		$sql_command = sprintf("CREATE TABLE '%s' (
+		$sql_command = sprintf("CREATE TABLE `%s` (
             recipe_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
             post_id BIGINT(20) UNSIGNED NOT NULL,
             recipe_title TEXT,
