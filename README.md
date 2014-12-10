@@ -10,7 +10,7 @@ Donate link: http://ziprecipes.com/donate
 Tags: recipe, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, google rich snippets, seo, recipe seo
 Requires at least: 3.5
 Tested up to: 4.1
-Stable tag: 4.0.0.10
+Stable tag: 4.1.0.10
 
 Formats recipes so they are SEO-friendly. Now fully supports WordPress 4.1.
 
@@ -96,7 +96,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
-4.0.0.10 Support for 4.1 and database fix
+4.1.0.10 Support for 4.1 and database fix
 
 * Fixed issue where database would not be created if it didn't already exist (with prior install of ZipList Recipe Plugin).
 * Updated database schema to v3.2
@@ -113,7 +113,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 = 4.0.0.9 =
 Upgrade to Zip Recipe plugin from ZipList Recipe Plugin and lose nothing!
 
-= 4.0.0.10 =
+= 4.1.0.10 =
 Bugfix update. Upgrade if you cannot see the recipes that you created.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
