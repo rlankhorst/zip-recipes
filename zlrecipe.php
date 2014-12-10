@@ -115,7 +115,7 @@ function zrdn_debug_to_console($data) {
 }
 
 global $zrdn_db_version;
-$zrdn_db_version = "3.1";	// This must be changed when the DB structure is modified
+$zrdn_db_version = "3.2";	// This must be changed when the DB structure is modified
 
 // Creates ZLRecipe tables in the db if they don't exist already.
 // Don't do any data initialization in this routine as it is called on both install as well as
@@ -125,6 +125,7 @@ $zrdn_db_version = "3.1";	// This must be changed when the DB structure is modif
 // Plugin Ver         DB Ver
 //   1.0 - 1.3        3.0
 //   1.4x - 2.6       3.1  Adds Notes column to recipes table
+//   4.0.0.10 -       3.2  Adds primary key, collation
 
 function zrdn_recipe_install() {
 	global $wpdb;
