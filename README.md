@@ -98,7 +98,8 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 == Changelog ==
 4.0.0.10 Support for 4.1 and database fix
 
-* Fixed issue where database would not be created if it didn't already exist (with prior install of ZipList Recipe Plugin). 
+* Fixed issue where database would not be created if it didn't already exist (with prior install of ZipList Recipe Plugin).
+* Updated database schema to v3.2
 
 
 4.0.0.9 Initial release
