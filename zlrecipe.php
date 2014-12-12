@@ -134,7 +134,7 @@ function zrdn_recipe_install() {
 	$recipes_table = $wpdb->prefix . "amd_zlrecipe_recipes";
 	$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
-	$charset_collate = $wpdb->get_charset_collate();
+	$charset_collate = get_charset_collate();
 
 	if(strcmp($installed_db_ver, $zrdn_db_version) != 0) {				// An older (or no) database table exists
 		$sql_command = "CREATE TABLE `$recipes_table` (
@@ -163,6 +163,19 @@ function zrdn_recipe_install() {
 		update_option("amd_zlrecipe_db_version", $zrdn_db_version);
 
 	}
+}
+
+function get_charset_collate() {
+	global $wpdb;
+
+	$charset_collate = '';
+
+	if ( ! empty( $wpdb->charset ) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	if ( ! empty( $wpdb->collate ) )
+		$charset_collate .= " COLLATE $wpdb->collate";
+
+	return $charset_collate;
 }
 
 add_action('admin_menu', 'zrdn_menu_pages' );
