@@ -122,6 +122,10 @@ Upgrade to Zip Recipe plugin from ZipList Recipe Plugin and lose nothing!
 = 4.1.0.10 =
 Bugfix update. Upgrade if you cannot see the recipes that you created.
 
+= 4.1.0.11 =
+Minor update. You don't need to upgrade at all. This update just adds support for WP 3.1
+
+
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
 * You tell us!
