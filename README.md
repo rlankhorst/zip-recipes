@@ -11,9 +11,8 @@ Tags: recipe, recipe card, recipe box, shopping list, grocery list, save recipe,
 Requires at least: 3.1
 Tested up to: 4.1
 Stable tag: 4.1.0.11
-Version: 4.1.0.11
 
-Formats recipes so they are SEO-friendly. Now fully supports WordPress 4.1.
+Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
 == Description ==
 
