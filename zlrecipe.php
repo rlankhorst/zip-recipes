@@ -189,10 +189,6 @@ function zrdn_menu_pages() {
 	$menu_slug = 'zrdn-settings';
 	$function = 'zrdn_settings';
 	add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, 'dashicons-carrot');
-
-	// Add submenu page with same slug as parent to ensure no duplicates
-	$settings_title = 'Settings';
-	add_submenu_page($menu_slug, $page_title, $settings_title, $capability, $menu_slug, $function);
 }
 
 // Adds 'Settings' page to the ZipRecipe module
@@ -847,14 +843,13 @@ HTML;
 
 	if (! get_option('zrdn_registered'))
 	{
-		// Need to figure out why menu_page_url ends up being undefined
-//		if (function_exists('menu_page_url')) {
-//			$settings_page_url = menu_page_url( 'zrdn-settings', false );
-//
-//		}
-		$form              = '<h3 class="amd-zlrecipe-title">Register plugin</h3>
-							<h4>Thank you for installing Zip Recipes plug. Go to the Zip Recipes Plugin settings page to register the plugin.
-							Be sure to save your draft first.</h4>';
+		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
+		$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
+
+		$form              = sprintf('<h3 class="amd-zlrecipe-title">Register Free Plugin</h3>
+							<h4>Thank you for installing Zip Recipes plug. <a href="javascript:window.top.location = \'%s\';">Click here to go to the Zip Recipes plugin settings</a>
+							to register the plugin (it\'s free!).</h4>', $settings_page_url);
 	}
 
 	$output = <<< HTML
