@@ -510,7 +510,7 @@ function zrdn_settings() {
 		         	return false;
 		         });
 			</script>
-			<h3>Register your plugin</h3>
+			<h3>Register Zip Recipes Free</h3>
 			Please register your plugin so we can notify you of any security updates or other fixes we make to Zip
 			Recipes plugin. Registering also helps us troubleshoot any problems you may encounter. When you register, we will automatically
 			receive your blog\'s web address, WordPress version, and names of installed plugins.
@@ -847,7 +847,7 @@ HTML;
 
 		$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
 
-		$form              = sprintf('<h3 class="amd-zlrecipe-title">Register Free Plugin</h3>
+		$form              = sprintf('<h3 class="amd-zlrecipe-title">Register Zip Recipes Free</h3>
 							<h4>Thank you for installing Zip Recipes plug. <a href="javascript:window.top.location = \'%s\';">Click here to go to the Zip Recipes plugin settings</a>
 							to register the plugin (it\'s free!).</h4>', $settings_page_url);
 	}
