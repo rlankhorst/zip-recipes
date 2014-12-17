@@ -1,5 +1,5 @@
 === Zip Recipes ===
-Contributors: hgezim, ZipList Inc., codeswan
+Contributors: hgezim, codeswan
 Plugin Name: Zip Recipes
 Plugin URI: http://www.ziprecipes.net
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
