@@ -46,7 +46,7 @@ Among the new features added by Zip Recipe plugin are:
 
 **Multiple Paragraph Support in Summary Section of a Recipe:** Users can now add multiple paragraphs to the Summary field within the recipe plugin.
 
-The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:help@ziprecipes.net)! We'd love to hear from you!
+The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:hello@ziprecipes.net)! We'd love to hear from you!
 
 == Installation ==
 
