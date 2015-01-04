@@ -220,6 +220,27 @@ function zrdn_settings() {
 	$outer_border_style = get_option('zlrecipe_outer_border_style');
 	$custom_print_image = get_option('zlrecipe_custom_print_image');
 
+	// load other option values in to variables. These variables are used to load saved values through variable variables
+	$notes_label = get_option('zlrecipe_notes_label');
+	$notes_label_hide = get_option('zlrecipe_notes_label_hide');
+	$prep_time_label = get_option('zlrecipe_prep_time_label');
+	$prep_time_label_hide = get_option('zlrecipe_prep_time_label_hide');
+	$cook_time_label = get_option('zlrecipe_cook_time_label');
+	$cook_time_label_hide = get_option('zlrecipe_cook_time_label_hide');
+	$total_time_label = get_option('zlrecipe_total_time_label');
+	$total_time_label_hide = get_option('zlrecipe_total_time_label_hide');
+	$yield_label = get_option('zlrecipe_yield_label');
+	$yield_label_hide = get_option('zlrecipe_yield_label_hide');
+	$serving_size_label = get_option('zlrecipe_serving_size_label');
+	$serving_size_label_hide = get_option('zlrecipe_serving_size_label_hide');
+	$calories_label = get_option('zlrecipe_calories_label');
+	$calories_label_hide = get_option('zlrecipe_calories_label_hide');
+	$fat_label = get_option('zlrecipe_fat_label');
+	$fat_label_hide = get_option('zlrecipe_fat_label_hide');
+	$rating_label = get_option('zlrecipe_rating_label');
+	$rating_label_hide = get_option('zlrecipe_rating_label_hide');
+
+
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		foreach ($_POST as $key=>$val) {
