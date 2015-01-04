@@ -372,10 +372,11 @@ function zrdn_settings() {
 		$name = strtolower(str_replace(' ', '-', $option));
 		$value = strtolower(str_replace(' ', '_', $option)) . '_label';
 		$value_hide = strtolower(str_replace(' ', '_', $option)) . '_label_hide';
+		$value_hide_attr = ${$value_hide} == "Hide" ? 'checked="checked"' : '';
 		$other_options .= '<tr valign="top">
             <th scope="row">\'' . $option . '\' Label</th>
             <td><input type="text" name="' . $name . '-label" value="' . ${$value} . '" class="regular-text" /><br />
-            <label><input type="checkbox" name="' . $name . '-label-hide" value="Hide" ' . ${$value_hide} . ' /> Don\'t show ' . $option . ' label</label></td>
+            <label><input type="checkbox" name="' . $name . '-label-hide" value="Hide" ' . $value_hide_attr . ' /> Don\'t show ' . $option . ' label</label></td>
         </tr>';
 	}
 
