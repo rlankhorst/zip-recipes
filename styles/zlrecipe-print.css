@@ -73,6 +73,12 @@ Copyright 2011, 2012 ZipList, Inc.
     position: relative;
 }
 
+#zlrecipe-print-container span#zlrecipe-ingredients-list .ingredient-label,
+#zlrecipe-print-container span#zlrecipe-instructions-list .instruction-label {
+    left: 0;
+}
+
+
 #zlrecipe-print-container #zl-printed-permalink {
 	font-size: 0.7em;
 	color: #777777;

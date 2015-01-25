@@ -170,6 +170,11 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
   font-weight: bold;
 }
 
+#zlrecipe-container span#zlrecipe-ingredients-list .ingredient-label,
+#zlrecipe-container span#zlrecipe-instructions-list .instruction-label {
+    left: 0;
+}
+
 #zlrecipe-container #zlrecipe-instructions-list { margin: 0 0.5em; }
 
 #zlrecipe-container #zlrecipe-notes-list {
