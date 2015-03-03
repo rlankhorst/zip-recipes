@@ -485,7 +485,13 @@ function zrdn_settings() {
 
             <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>';
 
-	if (! $registered)
+	$is_server_https = false;
+	if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
+	                    || $_SERVER['SERVER_PORT'] == 443) {
+		$is_server_https = true;
+	}
+
+	if (! $registered && ! $is_server_https)
 	{
 		$forms = '
 			<script type="text/javascript">
@@ -1479,10 +1485,6 @@ function zrdn_format_recipe($recipe) {
 	if (strlen($printed_copyright_statement) > 0) {
 		$output .= '<div id="zl-printed-copyright-statement" itemprop="copyrightHolder">' . $printed_copyright_statement . '</div>';
 	}
-
-	$output .= '</div>' .
-	           '<img id="zrecipe-beacon" src="http://www.ziprecipes.net/beacon?url=' . urlencode($permalink) . '" width="0" height="0">
-		</div>';
 
 	return $output;
 }
