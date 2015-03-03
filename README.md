@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.1
-Stable tag: 4.1.0.14
+Stable tag: 4.1.0.15
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -107,6 +107,12 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+4.1.0.15 Bug Fix
+
+* Removed tracking beacon to improve privacy.
+* Fixed some issues with sites that run on HTTPS.
+
+
 4.1.0.14 Bug Fix
 
 * Fixed an issue with recipes not formatting sub-recipes headings properly.
@@ -250,6 +256,10 @@ Bugfix update. Fixed issue with Settings page was not saving settings properly.
 
 = 4.1.0.14 =
 Bugfix update. Fixed issue with formatting of sub-recipe headings.
+
+
+= 4.1.0.15 =
+Bugfix update. Made plugin more privacy-conscious and fixed some issues for sites using HTTPS. 
 
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
