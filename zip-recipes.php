@@ -526,7 +526,7 @@ function zrdn_settings() {
 
             <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>';
 
-	if (! $registered && ! isServerProtocolHttps)
+	if (! $registered && ! isServerProtocolHttps())
 	{
 		$forms = '
 			<script type="text/javascript">
