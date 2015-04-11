@@ -28,8 +28,8 @@ body#amd-zlrecipe-uploader { }
 #amd-zlrecipe-uploader select { padding: 3px; }
 #amd-zlrecipe-uploader .rating { float: right; width: 470px;}
 #amd-zlrecipe-uploader input[type='text']:focus, #amd-zlrecipe-uploader input.text:focus, #amd-zlrecipe-uploader input[type='password']:focus, #amd-zlrecipe-uploader textarea:focus { background-color: #eee; border-color: #ccc; color:#383f41; -webkit-box-shadow:0 0 5px rgba(160,160,112,0.6); }
-#amd-zlrecipe-uploader #amd-zlrecipe-ingredients small { font-weight: normal; display: block; line-height: 16px; font-size: 11px; }
-#amd-zlrecipe-uploader #amd-zlrecipe-ingredients textarea { width: 585px; }
+#amd-zlrecipe-uploader #z_recipe_ingredients small { font-weight: normal; display: block; line-height: 16px; font-size: 11px; }
+#amd-zlrecipe-uploader #z_recipe_ingredients textarea { width: 585px; }
 #amd-zlrecipe-uploader a { color: #21759B; margin-bottom: 32px; }
 #amd-zlrecipe-uploader #amd-zlrecipe-instructions small { font-weight: normal; display: block; line-height: 16px; font-size: 11px; }
 #amd-zlrecipe-uploader #amd-zlrecipe-instructions textarea { width: 585px; }
@@ -41,6 +41,6 @@ body#amd-zlrecipe-uploader { }
 #amd-zlrecipe-uploader input[type="submit"] { -moz-border-radius: 11px; -khtml-border-radius: 11px; -webkit-border-radius: 11px; border-radius: 11px -moz-box-sizing: content-box; border-style: solid; cursor: pointer; line-height: 13px; padding: 10px 25px; text-decoration: none; margin: 16px; text-shadow: 0 1px 0 #fff; background-color: #fff; border: 1px solid #bbb; font-size: 123.1%; font-weight: bold; }
 #amd-zlrecipe-uploader input[type="submit"]:hover { border-color: #666; }
 #amd-zlrecipe-uploader .input-error { border: 2px solid red !important; }
-#amd-zlrecipe-uploader #amd-zlrecipe-ingredients textarea.input-error { width: 585px !important; }
+#amd-zlrecipe-uploader #z_recipe_ingredients textarea.input-error { width: 585px !important; }
 #amd-zlrecipe-uploader p.error-message { color: red; font-weight: bold; }
 #amd-zlrecipe-uploader #recipe-title p.error-message { margin-left: 120px; }
