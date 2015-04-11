@@ -191,6 +191,21 @@ function zrdn_menu_pages() {
 	add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, 'dashicons-carrot');
 }
 
+/**
+ * Determine if server is running on HTTPS.
+ * @return bool Return true if server is running on HTTPS otherwise return false.
+ */
+function isServerProtocolHttps()
+{
+	$is_server_https = false;
+	if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
+	    || $_SERVER['SERVER_PORT'] == 443) {
+		$is_server_https = true;
+	}
+
+	return $is_server_https;
+}
+
 // Adds 'Settings' page to the ZipRecipe module
 function zrdn_settings() {
 	global $wp_version;
@@ -485,13 +500,7 @@ function zrdn_settings() {
 
             <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>';
 
-	$is_server_https = false;
-	if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
-	                    || $_SERVER['SERVER_PORT'] == 443) {
-		$is_server_https = true;
-	}
-
-	if (! $registered && ! $is_server_https)
+	if (! $registered && ! isServerProtocolHttps)
 	{
 		$forms = '
 			<script type="text/javascript">
@@ -869,7 +878,7 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
         </div>
 HTML;
 
-	if (! get_option('zrdn_registered'))
+	if (! get_option('zrdn_registered') && ! isServerProtocolHttps())
 	{
 		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 
