@@ -41,9 +41,7 @@ Copyright 2011, 2012 ZipList, Inc.
 footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-container menu, #zlrecipe-container nav, #zlrecipe-container section {
 	display: block;
 }
-#zlrecipe-container ol, #zlrecipe-container ul {
-	list-style: none;
-}
+
 #zlrecipe-container blockquote, #zlrecipe-container q {
 	quotes: none;
 }
@@ -158,7 +156,7 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 
 #zlrecipe-container #zlrecipe-ingredients-list, #zlrecipe-container #zlrecipe-instructions-list { line-height: 1.5em; }
 
-#zlrecipe-container #zlrecipe-ingredients-list li {
+#zlrecipe-container #zlrecipe-ingredients-list .no-bullet, #zlrecipe-container #zlrecipe-instructions-list .no-bullet {
   list-style-type: none;
 }
 

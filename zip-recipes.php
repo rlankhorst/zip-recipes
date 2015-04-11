@@ -183,8 +183,8 @@ add_action('admin_menu', 'zrdn_menu_pages' );
 // Adds module to left sidebar in wp-admin for ZLRecipe
 function zrdn_menu_pages() {
 	// Add the top-level admin menu
-	$page_title = 'Zip Recipes Plugin Settings';
-	$menu_title = 'Zip Recipes Plugin';
+	$page_title = 'Zip Recipes Settings';
+	$menu_title = 'Zip Recipes';
 	$capability = 'manage_options';
 	$menu_slug = 'zrdn-settings';
 	$function = 'zrdn_settings';
@@ -373,11 +373,13 @@ function zrdn_settings() {
 	$ingredient_label_hide = (strcmp($ingredient_label_hide, 'Hide') == 0 ? 'checked="checked"' : '');
 	$ing_ul = (strcmp($ingredient_list_type, 'ul') == 0 ? 'checked="checked"' : '');
 	$ing_ol = (strcmp($ingredient_list_type, 'ol') == 0 ? 'checked="checked"' : '');
+	$ing_l = (strcmp($ingredient_list_type, 'l') == 0 ? 'checked="checked"' : '');
 	$ing_p = (strcmp($ingredient_list_type, 'p') == 0 ? 'checked="checked"' : '');
 	$ing_div = (strcmp($ingredient_list_type, 'div') == 0 ? 'checked="checked"' : '');
 	$instruction_label_hide = (strcmp($instruction_label_hide, 'Hide') == 0 ? 'checked="checked"' : '');
 	$ins_ul = (strcmp($instruction_list_type, 'ul') == 0 ? 'checked="checked"' : '');
 	$ins_ol = (strcmp($instruction_list_type, 'ol') == 0 ? 'checked="checked"' : '');
+	$ins_l = (strcmp($instruction_list_type, 'l') == 0 ? 'checked="checked"' : '');
 	$ins_p = (strcmp($instruction_list_type, 'p') == 0 ? 'checked="checked"' : '');
 	$ins_div = (strcmp($instruction_list_type, 'div') == 0 ? 'checked="checked"' : '');
 	$other_options = '';
@@ -466,10 +468,22 @@ function zrdn_settings() {
                 </tr>
                 <tr valign="top">
                     <th scope="row">\'Ingredients\' List Type</th>
-                    <td><input type="radio" name="ingredient-list-type" value="ul" ' . $ing_ul . ' /> <label>Bulleted List</label><br />
-                    <input type="radio" name="ingredient-list-type" value="ol" ' . $ing_ol . ' /> <label>Numbered List</label><br />
-                    <input type="radio" name="ingredient-list-type" value="p" ' . $ing_p . ' /> <label>Paragraphs</label><br />
-                    <input type="radio" name="ingredient-list-type" value="div" ' . $ing_div . ' /> <label>Divs</label></td>
+                    <td>
+                        <input type="radio" id="ingredient-list-type-l" name="ingredient-list-type" value="l" ' . $ing_l . ' />
+                        <label for="ingredient-list-type-l">List</label>
+                        <br />
+                        <input type="radio" id="ingredient-list-type-ol" name="ingredient-list-type" value="ol" ' . $ing_ol . ' />
+                        <label for="ingredient-list-type-ol">Numbered List</label>
+                        <br />
+                        <input type="radio" id="ingredient-list-type-ul" name="ingredient-list-type" value="ul" ' . $ing_ul . ' />
+                        <label for="ingredient-list-type-ul">Bulleted List</label>
+                        <br />
+                        <input type="radio" id="ingredient-list-type-p" name="ingredient-list-type" value="p" ' . $ing_p . ' />
+                        <label for="ingredient-list-type-p">Paragraphs</label>
+                        <br />
+                        <input type="radio" id="ingredient-list-type-div" name="ingredient-list-type" value="div" ' . $ing_div . ' />
+                        <label for="ingredient-list-type-div">Divs</label>
+	                </td>
                 </tr>
             </table>
 
@@ -484,10 +498,22 @@ function zrdn_settings() {
                 </tr>
                 <tr valign="top">
                     <th scope="row">\'Instructions\' List Type</th>
-                    <td><input type="radio" name="instruction-list-type" value="ol" ' . $ins_ol . ' /> <label>Numbered List</label><br />
-                    <input type="radio" name="instruction-list-type" value="ul" ' . $ins_ul . ' /> <label>Bulleted List</label><br />
-                    <input type="radio" name="instruction-list-type" value="p" ' . $ins_p . ' /> <label>Paragraphs</label><br />
-                    <input type="radio" name="instruction-list-type" value="div" ' . $ins_div . ' /> <label>Divs</label></td>
+                    <td>
+                        <input type="radio" id="instruction-list-type-l" name="instruction-list-type" value="l" ' . $ins_l . ' />
+                        <label for="instruction-list-type-l">List</label>
+                        <br />
+                        <input type="radio" id="instruction-list-type-ol" name="instruction-list-type" value="ol" ' . $ins_ol . ' />
+                        <label for="instruction-list-type-ol">Numbered List</label>
+                        <br />
+                        <input type="radio" id="instruction-list-type-ul" name="instruction-list-type" value="ul" ' . $ins_ul . ' />
+	                    <label for="instruction-list-type-ul">Bulleted List</label>
+                        <br />
+                        <input type="radio" id="instruction-list-type-p" name="instruction-list-type" value="p" ' . $ins_p . ' />
+	                    <label for="instruction-list-type-p">Paragraphs</label>
+                        <br />
+                        <input type="radio" id="instruction-list-type-div" name="instruction-list-type" value="div" ' . $ins_div . ' />
+                        <label for="instruction-list-type-div">Divs</label>
+	                </td>
                 </tr>
             </table>
 
@@ -581,7 +607,7 @@ function zrdn_settings() {
     </style>
     <div class="wrap">
         <form method="post" action="" id="zlrecipe_settings_form" name="zlrecipe_settings_form">
-            <h2><img src="' . $zrdn_icon . '" /> Zip Recipes Plugin Settings</h2>' .
+            <h2><img src="' . $zrdn_icon . '" /> Zip Recipes Settings</h2>' .
 	           $forms .
 	           '</form>
     </div>';
@@ -1413,13 +1439,20 @@ function zrdn_format_recipe($recipe) {
 
 	$ingredient_type= '';
 	$ingredient_tag = '';
-	$ingredient_list_type_option = get_option('zlrecipe_ingredient_list_type');
-	if (strcmp($ingredient_list_type_option, 'ul') == 0 || strcmp($ingredient_list_type_option, 'ol') == 0) {
-		$ingredient_type = $ingredient_list_type_option;
+	$ingredient_list_type = get_option('zlrecipe_ingredient_list_type');
+	$ingredientClassArray = array("ingredient");
+	if (strcmp($ingredient_list_type, 'ul') == 0 || strcmp($ingredient_list_type, 'ol') == 0) {
+		$ingredient_type = $ingredient_list_type;
 		$ingredient_tag = 'li';
-	} else if (strcmp($ingredient_list_type_option, 'p') == 0 || strcmp($ingredient_list_type_option, 'div') == 0) {
+	}
+	else if (strcmp($ingredient_list_type, 'l') == 0) {
+		$ingredient_type = 'ul';
+		$ingredient_tag = 'li';
+		array_push($ingredientClassArray, "no-bullet");
+	}
+	else if (strcmp($ingredient_list_type, 'p') == 0 || strcmp($ingredient_list_type, 'div') == 0) {
 		$ingredient_type = 'span';
-		$ingredient_tag = $ingredient_list_type_option;
+		$ingredient_tag = $ingredient_list_type;
 	}
 
 	if (strcmp(get_option('zlrecipe_ingredient_label_hide'), 'Hide') != 0) {
@@ -1430,7 +1463,8 @@ function zrdn_format_recipe($recipe) {
 	$i = 0;
 	$ingredients = explode("\n", $recipe->ingredients);
 	foreach ($ingredients as $ingredient) {
-		$output .= zrdn_format_item($ingredient, $ingredient_tag, 'ingredient', 'ingredients', 'zlrecipe-ingredient-', $i);
+		$ingredientClassString = implode(' ', $ingredientClassArray);
+		$output .= zrdn_format_item($ingredient, $ingredient_tag, $ingredientClassString, 'ingredients', 'zlrecipe-ingredient-', $i);
 		$i++;
 	}
 
@@ -1441,11 +1475,18 @@ function zrdn_format_recipe($recipe) {
 
 		$instruction_type= '';
 		$instruction_tag = '';
+		$instructionClassArray = array('instruction');
 		$instruction_list_type_option = get_option('zlrecipe_instruction_list_type');
 		if (strcmp($instruction_list_type_option, 'ul') == 0 || strcmp($instruction_list_type_option, 'ol') == 0) {
 			$instruction_type = $instruction_list_type_option;
 			$instruction_tag = 'li';
-		} else if (strcmp($instruction_list_type_option, 'p') == 0 || strcmp($instruction_list_type_option, 'div') == 0) {
+		}
+		else if (strcmp($instruction_list_type_option, 'l') == 0) {
+			$instruction_type = 'ul';
+			$instruction_tag = 'li';
+			array_push($instructionClassArray, 'no-bullet');
+		}
+		else if (strcmp($instruction_list_type_option, 'p') == 0 || strcmp($instruction_list_type_option, 'div') == 0) {
 			$instruction_type = 'span';
 			$instruction_tag = $instruction_list_type_option;
 		}
@@ -1458,7 +1499,8 @@ function zrdn_format_recipe($recipe) {
 		$j = 0;
 		foreach ($instructions as $instruction) {
 			if (strlen($instruction) > 1) {
-				$output .= zrdn_format_item($instruction, $instruction_tag, 'instruction', 'recipeInstructions', 'zlrecipe-instruction-', $j);
+				$instructionClassString = implode(' ', $instructionClassArray);
+				$output .= zrdn_format_item($instruction, $instruction_tag, $instructionClassString, 'recipeInstructions', 'zlrecipe-instruction-', $j);
 				$j++;
 			}
 		}
