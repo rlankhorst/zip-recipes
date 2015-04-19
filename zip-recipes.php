@@ -800,8 +800,14 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
 			}
 
 			$recipe_id = $post_info["recipe_id"];
-			if( !$get_info["add-recipe-button"] )
-				$recipe_title = get_the_title( $get_info["post_id"] );
+			if( !$get_info["add-recipe-button"] ) {
+				// Setting $recipe_title to blank because calling `get_the_title` causes a fatal exception
+				//  when user has WooCommerce installed
+				// Need to uncomment when WooCommerce fixes this issue: https://github.com/woothemes/woocommerce/issues/7981
+				// $recipe_title = get_the_title( $get_info["post_id"] );
+				// Issue is in v2.3.7. Might be fixed in next release.
+				$recipe_title = "";
+			}
 			else
 				$recipe_title = $post_info["recipe_title"];
 			$recipe_image = $post_info["recipe_image"];
