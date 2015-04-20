@@ -44,6 +44,10 @@ Copyright 2011, 2012 ZipList, Inc.
 
 #zlrecipe-print-container .b-b { margin-bottom: 10px; }
 
+#zlrecipe-container #zlrecipe-ingredients-list .no-bullet, #zlrecipe-container #zlrecipe-instructions-list .no-bullet {
+    list-style-type: none;
+}
+
 #zlrecipe-print-container .zlrecipe-print-link,
 #zlrecipe-print-container .zl-recipe-link,
 #zlrecipe-print-container img.ingredient-image,
