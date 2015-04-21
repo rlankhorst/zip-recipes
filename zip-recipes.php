@@ -81,9 +81,9 @@ add_option('zlrecipe_image_width', '');
 add_option('zlrecipe_outer_border_style', '');
 add_option('zlrecipe_custom_print_image', '');
 
-// Need to remove when WooCommerce fixes this issue: https://github.com/woothemes/woocommerce/issues/7981
-// Issue is in v2.3.7. Might be fixed in next release.
-add_option('zrdn_woocommerce_active', false);
+// Deleting option that was added for WooCommerce conflict.
+//      This can be removed a few releases after 4.1.0.18
+delete_option('zrdn_woocommerce_active');
 
 register_activation_hook(__FILE__, 'zrdn_recipe_install' );
 
@@ -166,59 +166,6 @@ function zrdn_recipe_install() {
 		update_option("amd_zlrecipe_db_version", $zrdn_db_version);
 
 	}
-
-	// Need to remove when WooCommerce fixes this issue: https://github.com/woothemes/woocommerce/issues/7981
-	// Issue is in v2.3.7. Might be fixed in next release.
-	update_option('zrdn_woocommerce_active', is_woocommerce_active());
-}
-
-/*
- * Called when a plugin is activated. Used to update zrdn_woocommerce_active option.
- *
- * Need to uncomment when WooCommerce fixes this issue: https://github.com/woothemes/woocommerce/issues/7981
- * Issue is in v2.3.7. Might be fixed in next release.
- */
-function plugin_activated($plugin, $network_activation)
-{
-	if ($plugin == 'woocommerce/woocommerce.php') {
-		update_option('zrdn_woocommerce_active', true);
-	}
-
-}
-
-/*
- * Called when a plugin is deactivated. Used to update zrdn_woocommerce_active option.
- *
- * Need to uncomment when WooCommerce fixes this issue: https://github.com/woothemes/woocommerce/issues/7981
- * Issue is in v2.3.7. Might be fixed in next release.
- */
-function plugin_deactivated($plugin, $network_activation)
-{
-	if ($plugin == 'woocommerce/woocommerce.php') {
-		update_option('zrdn_woocommerce_active', false);
-	}
-}
-
-add_action('activated_plugin', 'plugin_activated');
-add_action('deactivated_plugin', 'plugin_deactivated');
-
-/*
- * Determine if WooCommerce plugin is installed in this WP instance and it's active
- * @returns true if WooCommerce is installed and active, false otherwise.
- */
-function is_woocommerce_active()
-{
-	$plugins =  get_option('active_plugins');
-
-	foreach($plugins as $plugin)
-	{
-		if ($plugin == 'woocommerce/woocommerce.php')
-		{
-			return true;
-		}
-	}
-
-	return false;
 }
 
 function get_charset_collate() {
@@ -857,23 +804,8 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
 
 			$recipe_id = $post_info["recipe_id"];
 
-			// Need to remove when WooCommerce fixes this issue: https://github.com/woothemes/woocommerce/issues/7981
-			// Issue is in v2.3.7. Might be fixed in next release.
-			$is_woocommerce_active = get_option('zrdn_woocommerce_active');
 			if( !$get_info["add-recipe-button"]) {
-				// Setting $recipe_title to blank because calling `get_the_title` causes a fatal exception
-				//  when user has WooCommerce installed and activated.
-				// Need to remove when WooCommerce fixes this issue: https://github.com/woothemes/woocommerce/issues/7981
-				// Issue is in v2.3.7. Might be fixed in next release.
-
-				if($is_woocommerce_active)
-				{
-					$recipe_title = "";
-				}
-				else
-				{
-					$recipe_title = get_the_title( $get_info["post_id"] );
-				}
+				$recipe_title = get_the_title( $get_info["post_id"] );
 			}
 			else {
 				$recipe_title = $post_info["recipe_title"];
