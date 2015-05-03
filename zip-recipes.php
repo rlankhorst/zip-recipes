@@ -1278,6 +1278,43 @@ function zrdn_convert_to_recipe($post_text) {
 
 add_filter('the_content', 'zrdn_convert_to_recipe' );
 
+
+/**
+ * Replace zip recipes short-code with recipe summary.
+ * This is used for 'the_post' filtering.
+ * @param $post - WordPress post object.
+ * @return Nothing as there is no need to return the $post object.
+ *  https://developer.wordpress.org/reference/classes/wp_post/
+ */
+function zrdn_recipe_summary($post) {
+	if ($post->post_content != null) {
+		$needle = '[amd-zlrecipe-recipe:';
+		$preg_needle = '/\[amd-zlrecipe-recipe:([0-9]+)\]/i';
+
+		$no_summary_string = "[Recipe contains no summary.]";
+
+		if (strpos($post->post_content, $needle) !== false) {
+			preg_match_all($preg_needle, $post->post_content, $matches);
+			foreach ($matches[0] as $match) {
+				$recipe_id = str_replace('[amd-zlrecipe-recipe:', '', $match);
+				$recipe_id = str_replace(']', '', $recipe_id);
+				$recipe = zrdn_select_recipe_db($recipe_id);
+				$recipe_summary = $recipe->summary;
+				if ($recipe_summary != null) {
+					$post->post_content = str_replace( '[amd-zlrecipe-recipe:' . $recipe_id . ']', $recipe_summary,
+						$post->post_content );
+				}
+				else {
+					$post->post_content = str_replace( '[amd-zlrecipe-recipe:' . $recipe_id . ']', $no_summary_string,
+						$post->post_content );
+				}
+			}
+		}
+	}
+}
+
+add_filter('the_post', 'zrdn_recipe_summary');
+
 // Pulls a recipe from the db
 function zrdn_select_recipe_db($recipe_id) {
 	global $wpdb;
