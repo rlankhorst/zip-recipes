@@ -48,6 +48,7 @@ add_option("amd_zlrecipe_db_version"); // used to store DB version - leaving as 
 add_option('zrdn_attribution_hide', '');
 add_option('zlrecipe_printed_permalink_hide', '');
 add_option('zlrecipe_printed_copyright_statement', '');
+add_option('zrdn_print_button_label', 'Print');
 add_option('zlrecipe_stylesheet', 'zlrecipe-std');
 add_option('recipe_title_hide', '');
 add_option('zlrecipe_image_hide', '');
@@ -243,6 +244,7 @@ function zrdn_settings() {
 	$zrecipe_attribution_hide = get_option('zrdn_attribution_hide');
 	$printed_permalink_hide = get_option('zlrecipe_printed_permalink_hide');
 	$printed_copyright_statement = get_option('zlrecipe_printed_copyright_statement');
+	$print_button_label = get_option('zrdn_print_button_label');
 	$stylesheet = get_option('zlrecipe_stylesheet');
 	$recipe_title_hide = get_option('recipe_title_hide');
 	$image_hide = get_option('zlrecipe_image_hide');
@@ -311,6 +313,7 @@ function zrdn_settings() {
 			$zrecipe_attribution_hide = $_POST['zrecipe-attribution-hide'];
 			$printed_permalink_hide = $_POST['printed-permalink-hide'];
 			$printed_copyright_statement = $_POST['printed-copyright-statement'];
+			$print_button_label = $_POST['print-button-label'];
 			$stylesheet = $_POST['stylesheet'];
 			$recipe_title_hide = $_POST['recipe-title-hide'];
 			$image_hide = $_POST['image-hide'];
@@ -359,6 +362,7 @@ function zrdn_settings() {
 			update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
 			update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );
 			update_option('zlrecipe_printed_copyright_statement', $printed_copyright_statement);
+			update_option('zrdn_print_button_label', $print_button_label);
 			update_option('zlrecipe_stylesheet', $stylesheet);
 			update_option('recipe_title_hide', $recipe_title_hide);
 			update_option('zlrecipe_image_hide', $image_hide);
@@ -482,6 +486,10 @@ function zrdn_settings() {
                 <tr valign="top">
                     <th scope="row">Printed Output: Copyright Statement</th>
                     <td><input type="text" name="printed-copyright-statement" value="' . $printed_copyright_statement . '" class="regular-text" /></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Print Button Label:</th>
+                    <td><input type="text" name="print-button-label" value="' . $print_button_label . '" class="regular-text" /></td>
                 </tr>
             </table>
 
@@ -1447,12 +1455,16 @@ function zrdn_format_recipe($recipe) {
 	if (strcmp(get_option('zlrecipe_print_link_hide'), 'Hide') != 0) {
 		$custom_print_image = get_option('zlrecipe_custom_print_image');
 		$button_type = 'butn-link';
-		$button_image = 'Print'; // NOT a button image in this case, but this is the legacy version
+
+		$print_button = get_option('zrdn_print_button_label');
 		if (strlen($custom_print_image) > 0) {
 			$button_type = 'print-link';
-			$button_image = '<img src="' . $custom_print_image . '">';
+			$print_button = '<img src="' . $custom_print_image . '">';
 		}
-		$output .= '<div class="zlrecipe-print-link fl-r"><a class="' . $button_type . '" title="Print this recipe" href="javascript:void(0);" onclick="zlrPrint(\'zlrecipe-container-' . $recipe->recipe_id . '\', \'' . ZRDN_PLUGIN_DIRECTORY . '\'); return false">' . $button_image . '</a></div>';
+		$output .= '<div class="zlrecipe-print-link fl-r"><a class="' . $button_type .
+		           '" title="Print this recipe" href="javascript:void(0);" onclick="zlrPrint(\'zlrecipe-container-' .
+		           $recipe->recipe_id . '\', \'' . ZRDN_PLUGIN_DIRECTORY . '\'); return false" rel="nofollow">' . $print_button .
+		           '</a></div>';
 	}
 
 	// add the title and close the item class
