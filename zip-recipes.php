@@ -1300,7 +1300,7 @@ function zrdn_recipe_summary($post) {
 	}
 }
 
-add_filter('the_post', 'zrdn_convert_to_recipe');
+add_filter('the_post', 'zrdn_recipe_summary');
 
 // Pulls a recipe from the db
 function zrdn_select_recipe_db($recipe_id) {
