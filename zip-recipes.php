@@ -100,6 +100,9 @@ add_option('zlrecipe_custom_print_image', '');
 delete_option('zrdn_woocommerce_active');
 
 register_activation_hook(__FILE__, 'zrdn_recipe_install' );
+# HACK: register_activation_hook doesn't get called when plugin is updated, so we use `plugins_loaded` hook.
+add_action('plugins_loaded', 'zrdn_recipe_install');
+
 
 add_action('admin_head', 'zrdn_add_recipe_button' );
 add_action('admin_head', 'zrdn_js_vars' );
