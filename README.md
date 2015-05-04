@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.2
-Stable tag: 4.2.0.20
+Stable tag: 4.2.0.21
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -107,7 +107,12 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+4.2.0.21 Fixed issue with plugin update
+
+* This fixes an issue where plugin update doesn't happen correctly for v4.2.0.20
+
 4.2.0.20 New nutritional info!
+
 * You can now track: carbs, protein, fiber, sugar, saturated fat and sodium
 * Print button label can now be changed
 * Fixed issue where shortcode was being displayed instead of recipe summary in some themes
@@ -265,8 +270,6 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 0.9 First iteration, derived from Recipe SEO 1.3.1 -- thanks for the jump-start Allison!  (http://sushiday.com/recipe-seo-plugin/)
 
 == Upgrade Notice ==
-= 4.2.0.20 = 
-Upgrade and add more nutritional information to your recipes, translate the print button and get more bug fixes.
 
 = 4.0.0.9 =
 Upgrade to Zip Recipe plugin from ZipList Recipe Plugin and lose nothing!
@@ -301,6 +304,13 @@ Fixed printing formatting and issue with WooCommerce.
 
 = 4.2.0.19 =
 Updated to work with WP 4.2 and refixed a WooCommerce issue.
+
+= 4.2.0.20 = 
+Upgrade and add more nutritional information to your recipes, translate the print button and get more bug fixes.
+
+= 4.2.0.21 = 
+Allows you to update plugin properly. (v4.2.0.20 had an issue with that)
+
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
