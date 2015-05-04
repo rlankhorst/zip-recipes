@@ -447,7 +447,7 @@ function zrdn_settings() {
 	$ins_div = (strcmp($instruction_list_type, 'div') == 0 ? 'checked="checked"' : '');
 	$other_options = '';
 	$other_options_array = array('Rating', 'Prep Time', 'Cook Time', 'Total Time', 'Yield', 'Serving Size', 'Calories',
-		'Fat', 'Carbs', 'Protein', 'Fiber', 'Sugar', 'Saturated Fat', 'Sodium', 'Notes');
+		'Fat', 'Saturated Fat', 'Carbs', 'Protein', 'Fiber', 'Sugar', 'Sodium', 'Notes');
 
 
 	foreach ($other_options_array as $option) {
@@ -998,9 +998,9 @@ function zrdn_iframe_content($post_info = null, $get_info = null) {
                 <p><label>Protein</label> <input type='text' name='protein' value='$protein' /></p>
                 <p><label>Fiber</label> <input type='text' name='fiber' value='$fiber' /></p>
                 <p><label>Sugar</label> <input type='text' name='sugar' value='$sugar' /></p>
-                <p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='$saturated_fat' /></p>
                 <p><label>Sodium</label> <input type='text' name='sodium' value='$sodium' /></p>
                 <p><label>Fat</label> <input type='text' name='fat' value='$fat' /></p>
+                <p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='$saturated_fat' /></p>
                 <p class='cls'><label>Notes</label> <textarea name='notes'>$notes</textarea></label></p>
             </div>
             <input type='submit' value='$submit' name='add-recipe-button' />
@@ -1554,6 +1554,15 @@ function zrdn_format_recipe($recipe) {
 			}
 			$output .= '<span itemprop="fatContent">' . $recipe->fat . '</span></p>';
 		}
+		if($recipe->saturated_fat != null)
+		{
+			$output .= '<p id="zlrecipe-saturated-fat">';
+			if (strcmp(get_option('zlrecipe_saturated_fat_label_hide'), 'Hide') != 0)
+			{
+				$output .= get_option('zlrecipe_saturated_fat_label') . ' ';
+			}
+			$output .= '<span itemprop="saturatedFatContent">' . $recipe->saturated_fat . '</span></p>';
+		}
 		if($recipe->carbs != null)
 		{
 			$output .= '<p id="zlrecipe-carbs">';
@@ -1589,15 +1598,6 @@ function zrdn_format_recipe($recipe) {
 				$output .= get_option('zlrecipe_sugar_label') . ' ';
 			}
 			$output .= '<span itemprop="sugarContent">' . $recipe->sugar . '</span></p>';
-		}
-		if($recipe->saturated_fat != null)
-		{
-			$output .= '<p id="zlrecipe-saturated-fat">';
-			if (strcmp(get_option('zlrecipe_saturated_fat_label_hide'), 'Hide') != 0)
-			{
-				$output .= get_option('zlrecipe_saturated_fat_label') . ' ';
-			}
-			$output .= '<span itemprop="saturatedFatContent">' . $recipe->saturated_fat . '</span></p>';
 		}
 		if ($recipe->sodium != null) {
 			$output .= '<p id="zlrecipe-sodium">';
