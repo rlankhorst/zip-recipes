@@ -119,14 +119,14 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 	margin-top: 5px;
 }
 #zlrecipe-container .zlrecipe-print-link .butn-link {
-    background: url("../images/print-icon.png") no-repeat scroll 0 1px transparent;
+    background: url("../images/print-icon.png") no-repeat scroll 0 4px transparent;
     cursor: pointer;
     padding: 0 0 0 20px;
     display: block;
     height: 20px;
 }
 #zlrecipe-container .zlrecipe-print-link .butn-link:hover {
-	background-position: 0 -24px;
+	background-position: 0 -21px;
 }
 
 #zlrecipe-container .meta, #zlrecipe-container .zlmeta {
