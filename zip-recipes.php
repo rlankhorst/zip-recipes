@@ -1253,8 +1253,14 @@ HTML;
 
 add_action('admin_footer', 'zrdn_plugin_footer' );
 
-// Converts the image to a recipe for output
-function zrdn_convert_to_recipe($post_text) {
+/**
+ * Replace zip recipes shortcodes with actual, full, formatted recipe(s).
+ *
+ * @param $post_text Text of the post which to replace shortcodes in
+ *
+ * @return updated $post_text with formatted recipe(s)
+ */
+function zrdn_convert_to_full_recipe($post_text) {
 	$output = $post_text;
 	$needle_old = 'id="amd-zlrecipe-recipe-';
 	$preg_needle_old = '/(id)=("(amd-zlrecipe-recipe-)[0-9^"]*")/i';
@@ -1287,23 +1293,49 @@ function zrdn_convert_to_recipe($post_text) {
 	return $output;
 }
 
-add_filter('the_content', 'zrdn_convert_to_recipe' );
-
-
 /**
- * Replace zip recipes short-code with recipe.
- * This is used for 'the_post' filtering.
- * @param $post - WordPress post object.
- * @return Nothing as there is no need to return the $post object.
- *  https://developer.wordpress.org/reference/classes/wp_post/
+ * If there is no existing post excerpt, and there is a recipe summary, use that as an excerpt.
+ *   If no recipe summary exists, use recipe instructions as an excerpt.
+ *
+ * Note: I didn't care to implement "old" shortcode search because most people won't have that type of shortcode.
+ *  Besides, we need to get rid of it.
+ *
+ * @param $excerpt_text Text of excerpt.
+ *
+ * @return mixed New excerpt text.
  */
-function zrdn_recipe_summary($post) {
-	if ($post->post_content != null) {
-		$post->post_content = zrdn_convert_to_recipe($post->post_content);
+function zrdn_convert_to_summary_recipe($excerpt_text) {
+	global $post;
+
+	$output = $excerpt_text;
+
+	if ($output == '') {
+		$preg_needle = '/\[amd-zlrecipe-recipe:([0-9]+)\]/i';
+
+		preg_match( $preg_needle, $post->post_content, $recipe_id_match );
+
+		if ( isset( $recipe_id_match[1] ) && $recipe_id_match[1] != '' && $post->post_excerpt == '' ) {
+			$zip_recipes_id = $recipe_id_match[1];
+			$recipe         = zrdn_select_recipe_db( $zip_recipes_id );
+
+			if ($recipe->summary != '') {
+				$output = $recipe->summary;
+			}
+			else {
+				$output = $recipe->instructions;
+			}
+		}
 	}
+
+	return $output;
 }
 
-add_filter('the_post', 'zrdn_recipe_summary');
+// `the_post` has no action/filter added on purpose. It doesn't work as well as `the_content`.
+// It's important for `get_the_excerpt` to have higher priority than `the_content` when hooked.
+//  (The third argument is $priority in `add_filter` function call. The lower the number, the higher the priority.)
+add_filter('get_the_excerpt', 'zrdn_convert_to_summary_recipe', 9);
+add_filter('the_content', 'zrdn_convert_to_full_recipe', 10);
+
 
 // Pulls a recipe from the db
 function zrdn_select_recipe_db($recipe_id) {
