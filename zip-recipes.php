@@ -1399,7 +1399,7 @@ function zrdn_process_head() {
 	// Recipe styling
 	$css = get_option('zlrecipe_stylesheet');
 	if (strcmp($css, '') != 0) {
-		$header_html .= '<link charset="utf-8" href="' . ZRDN_PLUGIN_DIRECTORY . 'styles/zlrecipe-std.css" rel="stylesheet" type="text/css" />';
+		$header_html .= '<link href="' . ZRDN_PLUGIN_DIRECTORY . 'styles/zlrecipe-std.css" rel="stylesheet" type="text/css" />';
 	}
 
 	echo $header_html;
@@ -1745,7 +1745,7 @@ function zrdn_format_recipe($recipe) {
 
 	// Add permalink for printed output before closing the innerdiv
 	if (strcmp(get_option('zlrecipe_printed_permalink_hide'), 'Hide') != 0) {
-		$output .= '<a id="zl-printed-permalink" href="' . $permalink . '"title="Permalink to Recipe">' . $permalink . '</a>';
+		$output .= '<a id="zl-printed-permalink" href="' . $permalink . '" title="Permalink to Recipe">' . $permalink . '</a>';
 	}
 
 	$output .= '</div>';
