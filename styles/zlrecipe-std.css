@@ -161,7 +161,10 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 }
 
 #zlrecipe-container #zlrecipe-ingredients-list .ingredient-label,
-#zlrecipe-container #zlrecipe-instructions-list .instruction-label {
+#zlrecipe-container #zlrecipe-instructions-list .instruction-label,
+#zlrecipe-container #zlrecipe-ingredients-list .no-bullet-label,
+#zlrecipe-container #zlrecipe-instructions-list .no-bullet-label
+{
   position: relative;
   left: -10px;
   margin-top: 5px;
