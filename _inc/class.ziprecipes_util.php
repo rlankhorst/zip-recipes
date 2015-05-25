@@ -1,0 +1,67 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: gezimhoxha
+ * Date: 15-05-25
+ * Time: 12:59 AM
+ */
+
+class ZipRecipesUtil {
+	/* Send debug code to the Javascript console */
+	public static function zrdn_debug_to_console($data) {
+		if(is_array($data) || is_object($data))
+		{
+			echo("<script>console.log('PHP: ".json_encode($data)."');</script>");
+		} else {
+			echo("<script>console.log('PHP: ".$data."');</script>");
+		}
+	}
+
+	 /**
+	 * Determine if server is running on HTTPS.
+	 * @return bool Return true if server is running on HTTPS otherwise return false.
+	 */
+	public static function isServerProtocolHttps()
+	{
+		$is_server_https = false;
+		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
+		    || $_SERVER['SERVER_PORT'] == 443) {
+			$is_server_https = true;
+		}
+
+		return $is_server_https;
+	}
+
+
+	public static function get_charset_collate() {
+		global $wpdb;
+
+		$charset_collate = '';
+
+		if ( ! empty( $wpdb->charset ) )
+			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$charset_collate .= " COLLATE $wpdb->collate";
+
+		return $charset_collate;
+	}
+
+
+	/**
+	 * Get list of installed plugins as a string. Each plugin is separated with ;
+	 */
+	public static function zrdn_get_installed_plugins()
+	{
+		$pluginsString = '';
+		$plugins = get_plugins();
+		foreach ($plugins as $path => $pluginData)
+		{
+			// if you update the delimiter here, ensure the api.ziprecipes.net changes as well
+			$pluginsString .= $pluginData['Name'] . "|";
+		}
+
+		return $pluginsString;
+	}
+
+
+}
