@@ -927,24 +927,25 @@ class ZipRecipes {
 			<script type="text/javascript">
 				var $form = jQuery("#zlrecipe_settings_form");
 
-		         $form.on("submit", function (event)
+		         $form.on("submit", function ()
 		         {
-	                 jQuery("#register_button").val("Registering...")
-	                 jQuery("#register_button").attr("disabled", true);
+		         	var $registerButton = jQuery("#register_button");
+	                 $registerButton.val("Registering...");
+	                 $registerButton.attr("disabled", true);
 
 	                 var postUrl = "http://api.ziprecipes.net/installation/register/";
 
 		         	jQuery.post(postUrl, $form.serialize(), function(data)
 		         	{
-		         		var data = JSON.parse(data);
+		         		var jsonData = JSON.parse(data);
 
-		         		if (data.status === "failure")
+		         		if (jsonData.status === "failure")
 		         		{
-		         			for (var elementID in data.errors)
+		         			for (var elementID in jsonData.errors)
 		         			{
-		         				if (data.errors.hasOwnProperty(elementID))
+		         				if (jsonData.errors.hasOwnProperty(elementID))
 		         				{
-		         					var errors = data.errors[elementID];
+		         					var errors = jsonData.errors[elementID];
 		         					for (var i = 0; i < errors.length; i++)
 		         					{
 		         						jQuery("#" + elementID).parent().append("<br/>"+errors[i]);
@@ -952,8 +953,8 @@ class ZipRecipes {
 		         				}
 		         			}
 
-			                jQuery("#register_button").val("Register")
-			                jQuery("#register_button").attr("disabled", false);
+			                $registerButton.val("Register");
+			                $registerButton.attr("disabled", false);
 		         		}
 		         		else
 		         		{
@@ -1112,7 +1113,6 @@ class ZipRecipes {
 		$submit = '';
 		$ss = array();
 		$iframe_title = '';
-		$submitform = '';
 
 
 		if ($post_info || $get_info) {
@@ -1291,138 +1291,48 @@ class ZipRecipes {
 		$notes = esc_textarea($notes);
 
 		$id = (int) $_REQUEST["post_id"];
-		$plugindir = ZRDN_PLUGIN_DIRECTORY;
-		if ($post_info != null) {
-			$submitform .= "<script>window.onload = amdZLRecipeSubmitForm;</script>";
-		}
 
-		$form = <<< HTML
+		$registration_required = ! get_option('zrdn_registered') && ! ZipRecipesUtil::isServerProtocolHttps();
 
-			<h3 class='amd-zlrecipe-title'>$iframe_title</h3>
-	        <div id='amd-zlrecipe-form-items'>
-            <input type='hidden' name='post_id' value='$id' />
-            <input type='hidden' name='recipe_id' value='$recipe_id' />
-            <p id='recipe-title'><label>Recipe Title <span class='required'>*</span></label> <input type='text' name='recipe_title' value='$recipe_title' /></p>
-            <p id='recipe-image'><label>Recipe Image</label> <input type='text' name='recipe_image' value='$recipe_image' /></p>
-            <p id='z_recipe_ingredients' class='cls'><label>Ingredients <span class='required'>*</span> <small>Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.</small><small>You can also create labels, hyperlinks, bold/italic effects and even add images! <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a></small></label><textarea name='ingredients'>$ingredients</textarea></label></p>
-            <p id='amd-zlrecipe-instructions' class='cls'><label>Instructions <small>Press return after each instruction. There is no need to number your instructions.</small><small>You can also create labels, hyperlinks, bold/italic effects and even add images! <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a></small></label><textarea name='instructions'>$instructions</textarea></label></p>
-            <p><a href='#' id='more-options-toggle'>More options</a></p>
-            <div id='more-options'>
-                <p class='cls'><label>Summary</label> <textarea name='summary'>$summary</textarea></label></p>
-                <p class='cls'><label>Rating</label>
-                	<span class='rating'>
-						<select name="rating">
-							  <option value="0">None</option>
-							  <option value="1" $ss[1]>1 Star</option>
-							  <option value="2" $ss[2]>2 Stars</option>
-							  <option value="3" $ss[3]>3 Stars</option>
-							  <option value="4" $ss[4]>4 Stars</option>
-							  <option value="5" $ss[5]>5 Stars</option>
-						</select>
-					</span>
-				</p>
-                <p class="cls"><label>Prep Time</label>
-                    $prep_time_input
-                    <span class="time">
-                        <span><input type='number' min="0" max="24" name='prep_time_hours' value='$prep_time_hours' /><label>hours</label></span>
-                        <span><input type='number' min="0" max="60" name='prep_time_minutes' value='$prep_time_minutes' /><label>minutes</label></span>
-                    </span>
-                </p>
-                <p class="cls"><label>Cook Time</label>
-                    $cook_time_input
-                    <span class="time">
-                    	<span><input type='number' min="0" max="24" name='cook_time_hours' value='$cook_time_hours' /><label>hours</label></span>
-                        <span><input type='number' min="0" max="60" name='cook_time_minutes' value='$cook_time_minutes' /><label>minutes</label></span>
-                    </span>
-                </p>
-                <p class="cls"><label>Total Time</label>
-                    $total_time_input
-                    <span class="time">
-                        <span><input type='number' min="0" max="24" name='total_time_hours' value='$total_time_hours' /><label>hours</label></span>
-                        <span><input type='number' min="0" max="60" name='total_time_minutes' value='$total_time_minutes' /><label>minutes</label></span>
-                    </span>
-                </p>
-                <p><label>Yield</label> <input type='text' name='yield' value='$yield' /></p>
-                <p><label>Serving Size</label> <input type='text' name='serving_size' value='$serving_size' /></p>
-                <p><label>Calories</label> <input type='text' name='calories' value='$calories' /></p>
-                <p><label>Carbs</label> <input type='text' name='carbs' value='$carbs' /></p>
-                <p><label>Protein</label> <input type='text' name='protein' value='$protein' /></p>
-                <p><label>Fiber</label> <input type='text' name='fiber' value='$fiber' /></p>
-                <p><label>Sugar</label> <input type='text' name='sugar' value='$sugar' /></p>
-                <p><label>Sodium</label> <input type='text' name='sodium' value='$sodium' /></p>
-                <p><label>Fat</label> <input type='text' name='fat' value='$fat' /></p>
-                <p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='$saturated_fat' /></p>
-                <p class='cls'><label>Notes</label> <textarea name='notes'>$notes</textarea></label></p>
-            </div>
-            <input type='submit' value='$submit' name='add-recipe-button' />
-        </div>
-HTML;
+		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+		$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
 
-		if (! get_option('zrdn_registered') && ! ZipRecipesUtil::isServerProtocolHttps())
-		{
-			require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-
-			$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
-
-			$form              = sprintf('<h3 class="amd-zlrecipe-title">Register Zip Recipes Free</h3>
-							<h4>Thank you for installing Zip Recipes plug. <a href="javascript:window.top.location = \'%s\';">Click here to go to the Zip Recipes plugin settings</a>
-							to register the plugin (it\'s free!).</h4>', $settings_page_url);
-		}
-
-		$output = <<< HTML
-
-<!DOCTYPE html>
-<!--suppress HtmlUnknownTarget -->
-<head>
-		<link rel="stylesheet" href="$plugindir/styles/zlrecipe-dlog.css" type="text/css" media="all" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script type="text/javascript">//<!CDATA[
-
-        function amdZLRecipeSubmitForm() {
-            var title = document.forms['recipe_form']['recipe_title'].value;
-
-            if (title==null || title=='') {
-            	var jQrecipeTitle = $('#recipe-title');
-                jQrecipeTitle.find('input').addClass('input-error');
-                jQrecipeTitle.append('<p class="error-message">You must enter a title for your recipe.</p>');
-
-                return false;
-            }
-
-            var jQingredients = $('#z_recipe_ingredients');
-            var jQingredientsTextarea = jQingredients.find('textarea');
-            var ingredients = jQingredientsTextarea.val();
-            if (ingredients==null || ingredients=='' || ingredients==undefined) {
-                jQingredientsTextarea.addClass('input-error');
-                jQingredients.append('<p class="error-message">You must enter at least one ingredient.</p>');
-
-                return false;
-            }
-            window.parent.amdZLRecipeInsertIntoPostEditor('$recipe_id');
-            top.tinymce.activeEditor.windowManager.close(window);
-        }
-
-        $(document).ready(function() {
-            $('#more-options').hide();
-            $('#more-options-toggle').click(function() {
-                $('#more-options').toggle(400);
-                return false;
-            });
-        });
-    //]]>
-    </script>
-    $submitform
-</head>
-<body id="amd-zlrecipe-uploader">
-    <form enctype='multipart/form-data' method='post' action='' name='recipe_form'>
-		$form
-    </form>
-</body>
-HTML;
-
-
-
-		echo $output;
+		self::view('create-update-recipe', array(
+			'plugindir' => ZRDN_PLUGIN_DIRECTORY,
+			'recipe_id' => $recipe_id,
+			'registration_required' => $registration_required,
+			'settings_page_url' => $settings_page_url,
+			'post_info' => $post_info,
+			'ss' => $ss,
+			'iframe_title' => $iframe_title,
+			'id' => $id,
+			'recipe_title' => $recipe_title,
+			'recipe_image' => $recipe_image,
+			'ingredients' => $ingredients,
+			'instructions' => $instructions,
+			'summary' => $summary,
+			'$prep_time_input' => $prep_time_input,
+			'$prep_time_hours' => $prep_time_hours,
+			'$prep_time_minutes' => $prep_time_minutes,
+			'$cook_time_input' => $cook_time_input,
+			'$cook_time_hours' => $cook_time_hours,
+			'$cook_time_minutes' => $cook_time_minutes,
+			'$total_time_input' => $total_time_input,
+			'$total_time_hours' => $total_time_hours,
+			'$total_time_minutes' => $total_time_minutes,
+			'$yield' => $yield,
+			'$serving_size' => $serving_size,
+			'$calories' => $calories,
+			'$carbs' => $carbs,
+			'$protein' => $protein,
+			'$fiber' => $fiber,
+			'$sugar' => $sugar,
+			'$sodium' => $sodium,
+			'$fat' => $fat,
+			'$saturated_fat' => $saturated_fat,
+			'$notes' => $notes,
+			'$submit' => $submit
+ 		));
 	}
 
 	// Inserts the recipe into the database
@@ -1677,4 +1587,15 @@ HTML;
     //]]></script>
 HTML;
 	}
+
+	public static function view( $name, array $args = array() ) {
+		foreach ( $args AS $key => $val ) {
+			$$key = $val;
+		};
+
+		$file = ZRDN_PLUGIN_DIRECTORY . 'views/'. $name . '.php';
+
+		include($file);
+	}
+
 }

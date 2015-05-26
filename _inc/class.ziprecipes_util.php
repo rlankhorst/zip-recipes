@@ -62,6 +62,4 @@ class ZipRecipesUtil {
 
 		return $pluginsString;
 	}
-
-
 }
