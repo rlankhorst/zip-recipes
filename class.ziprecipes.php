@@ -6,7 +6,8 @@
  * Time: 7:39 PM
  */
 
-require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes_util.php');
+
+require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
 
 class ZipRecipes {
 
@@ -34,8 +35,8 @@ class ZipRecipes {
 		// `the_post` has no action/filter added on purpose. It doesn't work as well as `the_content`.
 		// It's important for `get_the_excerpt` to have higher priority than `the_content` when hooked.
 		//  (The third argument is $priority in `add_filter` function call. The lower the number, the higher the priority.)
-		add_filter('get_the_excerpt', array('ZipRecipes', 'zrdn_convert_to_summary_recipe', 9));
-		add_filter('the_content', array('ZipRecipes', 'zrdn_convert_to_full_recipe', 10));
+		add_filter('get_the_excerpt', array('ZipRecipes', 'zrdn_convert_to_summary_recipe'), 9);
+		add_filter('the_content', array('ZipRecipes', 'zrdn_convert_to_full_recipe'), 10);
 
 		add_action('admin_menu', array('ZipRecipes', 'zrdn_menu_pages' ));
 
@@ -225,7 +226,7 @@ class ZipRecipes {
 			}
 			$output .= '<div class="zlrecipe-print-link fl-r"><a class="' . $button_type .
 			           '" title="Print this recipe" href="javascript:void(0);" onclick="zlrPrint(\'zlrecipe-container-' .
-			           $recipe->recipe_id . '\', \'' . ZRDN_PLUGIN_DIRECTORY . '\'); return false" rel="nofollow">' . $print_button .
+			           $recipe->recipe_id . '\', \'' . ZRDN_PLUGIN_URL . '\'); return false" rel="nofollow">' . $print_button .
 			           '</a></div>';
 		}
 
@@ -564,7 +565,7 @@ class ZipRecipes {
 			wp_die('You do not have sufficient permissions to access this page.');
 		}
 
-		$zrdn_icon = ZRDN_PLUGIN_DIRECTORY . "images/zrecipes-icon.png";
+		$zrdn_icon = ZRDN_PLUGIN_URL . "images/zrecipes-icon.png";
 
 		$registered = get_option('zrdn_registered');
 		$zrecipe_attribution_hide = get_option('zrdn_attribution_hide');
@@ -1298,7 +1299,7 @@ class ZipRecipes {
 		$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
 
 		self::view('create-update-recipe', array(
-			'plugindir' => ZRDN_PLUGIN_DIRECTORY,
+			'pluginurl' => ZRDN_PLUGIN_URL,
 			'recipe_id' => $recipe_id,
 			'registration_required' => $registration_required,
 			'settings_page_url' => $settings_page_url,
@@ -1475,12 +1476,12 @@ class ZipRecipes {
 	public static function zrdn_process_head() {
 
 		// Always add the print script
-		$header_html='<script type="text/javascript" async="" src="' . ZRDN_PLUGIN_DIRECTORY . 'scripts/zlrecipe_print.js"></script>';
+		$header_html='<script type="text/javascript" async="" src="' . ZRDN_PLUGIN_URL . 'scripts/zlrecipe_print.js"></script>';
 
 		// Recipe styling
 		$css = get_option('zlrecipe_stylesheet');
 		if (strcmp($css, '') != 0) {
-			$header_html .= '<link href="' . ZRDN_PLUGIN_DIRECTORY . 'styles/zlrecipe-std.css" rel="stylesheet" type="text/css" />';
+			$header_html .= '<link href="' . ZRDN_PLUGIN_URL . 'styles/zlrecipe-std.css" rel="stylesheet" type="text/css" />';
 		}
 
 		echo $header_html;
@@ -1543,7 +1544,7 @@ class ZipRecipes {
 	// Inserts the recipe into the post editor
 	public static function zrdn_plugin_footer() {
 		$url = site_url();
-		$plugindir = ZRDN_PLUGIN_DIRECTORY;
+		$pluginurl = ZRDN_PLUGIN_URL;
 
 		echo <<< HTML
     <style type="text/css" media="screen">
@@ -1554,7 +1555,7 @@ class ZipRecipes {
     </style>
     <script>//<![CDATA[
     var baseurl = '$url';          // This variable is used by the editor plugin
-    var plugindir = '$plugindir';  // This variable is used by the editor plugin
+    var plugindir = '$pluginurl';  // This variable is used by the editor plugin
 
         function amdZLRecipeInsertIntoPostEditor(rid) {
             tb_remove();
@@ -1593,7 +1594,7 @@ HTML;
 			$$key = $val;
 		};
 
-		$file = ZRDN_PLUGIN_DIRECTORY . 'views/'. $name . '.php';
+		$file = ZRDN_PLUGIN_URL . 'views/'. $name . '.php';
 
 		include($file);
 	}

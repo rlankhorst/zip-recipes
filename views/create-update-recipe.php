@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <!--suppress HtmlUnknownTarget -->
 <head>
-	<link rel="stylesheet" href="$plugindir/styles/zlrecipe-dlog.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="$pluginurl/styles/zlrecipe-dlog.css" type="text/css" media="all" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script type="text/javascript">//<!CDATA[
 

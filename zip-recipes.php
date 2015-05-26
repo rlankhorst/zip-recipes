@@ -35,11 +35,12 @@ This code is derived from the 2.6 version build of ZipList Recipe Plugin release
 defined('ABSPATH') or die("Error! Cannot be called directly.");
 
 define('ZRDN_VERSION_NUM', '4.2.0.23');
-define( 'ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
+define('ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
+define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basename(__FILE__))));
 
-require_once(ZRDN__PLUGIN_DIR . 'class.ziprecipes.php');
+require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 
-register_activation_hook(__FILE__, array('ZipRecipes', 'zrdn_recipe_install'));
+add_action( 'init', array( 'ZipRecipes', 'init' ) );
 
 
 if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQUEST_URI'], '&type=z_recipe') && !strpos($_SERVER['REQUEST_URI'], '&wrt='))
