@@ -8,6 +8,7 @@
 
 
 require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
+require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/h2o/h2o.php');
 
 class ZipRecipes {
 
@@ -1312,27 +1313,27 @@ class ZipRecipes {
 			'ingredients' => $ingredients,
 			'instructions' => $instructions,
 			'summary' => $summary,
-			'$prep_time_input' => $prep_time_input,
-			'$prep_time_hours' => $prep_time_hours,
-			'$prep_time_minutes' => $prep_time_minutes,
-			'$cook_time_input' => $cook_time_input,
-			'$cook_time_hours' => $cook_time_hours,
-			'$cook_time_minutes' => $cook_time_minutes,
-			'$total_time_input' => $total_time_input,
-			'$total_time_hours' => $total_time_hours,
-			'$total_time_minutes' => $total_time_minutes,
-			'$yield' => $yield,
-			'$serving_size' => $serving_size,
-			'$calories' => $calories,
-			'$carbs' => $carbs,
-			'$protein' => $protein,
-			'$fiber' => $fiber,
-			'$sugar' => $sugar,
-			'$sodium' => $sodium,
-			'$fat' => $fat,
-			'$saturated_fat' => $saturated_fat,
-			'$notes' => $notes,
-			'$submit' => $submit
+			'prep_time_input' => $prep_time_input,
+			'prep_time_hours' => $prep_time_hours,
+			'prep_time_minutes' => $prep_time_minutes,
+			'cook_time_input' => $cook_time_input,
+			'cook_time_hours' => $cook_time_hours,
+			'cook_time_minutes' => $cook_time_minutes,
+			'total_time_input' => $total_time_input,
+			'total_time_hours' => $total_time_hours,
+			'total_time_minutes' => $total_time_minutes,
+			'yield' => $yield,
+			'serving_size' => $serving_size,
+			'calories' => $calories,
+			'carbs' => $carbs,
+			'protein' => $protein,
+			'fiber' => $fiber,
+			'sugar' => $sugar,
+			'sodium' => $sodium,
+			'fat' => $fat,
+			'saturated_fat' => $saturated_fat,
+			'notes' => $notes,
+			'submit' => $submit
  		));
 	}
 
@@ -1589,14 +1590,13 @@ class ZipRecipes {
 HTML;
 	}
 
-	public static function view( $name, array $args = array() ) {
-		foreach ( $args AS $key => $val ) {
-			$$key = $val;
-		};
+	public static function view($name, array $args = array()) {
+		$viewDir = ZRDN_PLUGIN_DIRECTORY . 'views/';
+		$file = $name . '.html';
+		$cacheDir = sprintf('%s/cache', $viewDir);
 
-		$file = ZRDN_PLUGIN_URL . 'views/'. $name . '.php';
-
-		include($file);
+		$h2o = new H2o($file, array('searchpath' => $viewDir, 'cache'=> 'file', 'cache_dir' => $cacheDir));
+		echo $h2o->render($args);
 	}
 
 }
