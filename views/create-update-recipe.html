@@ -1,10 +1,11 @@
+
+
 <!DOCTYPE html>
 <!--suppress HtmlUnknownTarget -->
 <head>
 	<link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script type="text/javascript">//<!CDATA[
-
+    <script type="text/javascript">
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
 
@@ -35,8 +36,75 @@
                 $('#more-options').toggle(400);
                 return false;
             });
+
+            $('#upload-btn').click(function(e) {
+                e.preventDefault();
+                window.parent.zrdnAddImageHandler(zrdnRecipeImageSelected);
+            });
+
+            var recipe_image_url = $('#recipe_image').val();
+            if (recipe_image_url)
+            {
+                zrdnRecipeImageSelected({url: recipe_image_url});
+            }
         });
-    //]]>
+
+
+        function zrdnRecipeImageSelected(imageData) {
+            // This will return the selected image from the Media Uploader, the result is an object
+
+            // Get image container
+            // Show it
+            // Set $image src to url
+            // scale image
+            if (imageData.url)
+            {
+                var $imageContainer = $('#recipe-image-preview-container'),
+                        $uploadImageContainer = $('#upload-recipe-image-button-container');
+
+                // Set UI state
+                $imageContainer.show();
+                $uploadImageContainer.hide();
+
+                $('#recipe_image').val(imageData.url);
+
+                var $image = $('#recipe-image-preview').
+                        attr('src', imageData.url);
+
+                var defaultWidth = 100,
+                        defaultHeight = 100;
+
+                var imgWidth = defaultWidth,
+                        imgHeight = defaultHeight;
+
+                var ratio = Math.max(imgWidth, imgHeight) / Math.min(imgWidth, imgHeight);
+
+                // ensure we don't get division by zero exception
+                if (ratio !== 0) {
+                    if (imgWidth > imgHeight) {
+                        imgHeight = defaultHeight * (1 / ratio);
+                    }
+                    else {
+                        imgWidth = defaultWidth * (1 / ratio);
+                    }
+                }
+
+                $image.height(imgHeight).weight(imgWidth);
+            }
+        }
+
+
+        function zrdnResetImage()
+        {
+            var $imageContainer = $('#recipe-image-preview-container'),
+                    $uploadImageContainer = $('#upload-recipe-image-button-container');
+
+            $imageContainer.hide();
+            $uploadImageContainer.show();
+
+            $('#recipe_image').val('');
+        }
+
     </script>
     {% if post_info %}
 		<script>window.onload = amdZLRecipeSubmitForm;</script>
@@ -57,7 +125,20 @@
 				<input type='hidden' name='post_id' value='{{ id }}' />
 				<input type='hidden' name='recipe_id' value='{{ recipe_id }}' />
 				<p id='recipe-title'><label>Recipe Title <span class='required'>*</span></label> <input type='text' name='recipe_title' value='{{ recipe_title }}' /></p>
-				<p id='recipe-image'><label>Recipe Image</label> <input type='text' name='recipe_image' value='{{ recipe_image }}' /></p>
+				<p id='recipe-image'>
+                    <div style="float:left; margin-left: 16px;">
+                        <label>Recipe Image</label>
+                        <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+                    </div>
+                    <div id="upload-recipe-image-button-container" style="float: left; margin-left: 25px; padding-top: 5px;">
+                        <input type="button" name="upload-btn" id="upload-btn" class="button-secondary" value="Add Image" />
+                    </div>
+                    <div id="recipe-image-preview-container" style="display: none; float: left; margin-left: 25px; text-align: center;">
+                        <img id="recipe-image-preview" src="" style="display: block" />
+                        <a href="javascript:zrdnResetImage()">Remove Image</a>
+                    </div>
+                </p>
+                <div style="clear: both"></div>
 				<p id='z_recipe_ingredients' class='cls'>
                     <label>Ingredients
                         <span class='required'>*</span>
@@ -126,7 +207,7 @@
 					<p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='{{ saturated_fat }}' /></p>
 					<p class='cls'><label>Notes</label> <textarea name='notes'>{{ notes }}</textarea></label></p>
 				</div>
-				<input type='submit' value='{{ submit }}' name='add-recipe-button' />
+                <input type='submit' value='{{ submit }}' name='add-recipe-button' />
 			</div>
 		{% endif %}
     </form>

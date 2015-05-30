@@ -42,9 +42,7 @@ require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 
 add_action( 'init', array( 'ZipRecipes', 'init' ) );
 
-
 if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQUEST_URI'], '&type=z_recipe') && !strpos($_SERVER['REQUEST_URI'], '&wrt='))
 {
 	ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);
-	exit;
 }

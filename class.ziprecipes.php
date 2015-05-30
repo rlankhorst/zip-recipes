@@ -41,6 +41,9 @@ class ZipRecipes {
 
 		add_action('admin_menu', array('ZipRecipes', 'zrdn_menu_pages' ));
 
+		// Hook is called when recipe editor popup pops up in admin
+		add_action('media_upload_z_recipe', array('ZipRecipes', 'zrdn_load_admin_media'));
+
 		add_option("amd_zlrecipe_db_version"); // used to store DB version - leaving as is name as legacy
 		add_option('zrdn_attribution_hide', '');
 		add_option('zlrecipe_printed_permalink_hide', '');
@@ -1586,6 +1589,20 @@ class ZipRecipes {
         		jQuery( edCanvas ).val( jQuery( edCanvas ).val() + output );
         	}
         }
+
+        function zrdnAddImageHandler(selectImageHandlerFunction)
+        {
+			var image = wp.media({
+	            title: 'Add Image',
+	            multiple: false
+	        }).open().on('select', function()
+	        {
+				var uploaded_image = image.state().get('selection').first();
+	            // We convert uploaded_image to a JSON object to make accessing it easier
+	            var imageData = uploaded_image.toJSON();
+	            selectImageHandlerFunction(imageData);
+	        });
+        }
     //]]></script>
 HTML;
 	}
@@ -1599,4 +1616,12 @@ HTML;
 		echo $h2o->render($args);
 	}
 
+	public static function zrdn_load_admin_media() {
+		wp_enqueue_script('jquery');
+
+		// This will enqueue the Media Uploader script
+		wp_enqueue_script('media-upload');
+
+		wp_enqueue_media();
+	}
 }
