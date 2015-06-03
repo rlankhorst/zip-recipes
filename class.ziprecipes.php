@@ -102,6 +102,14 @@ class ZipRecipes {
 		delete_option('zrdn_woocommerce_active');
 
 		add_action('admin_footer', array('ZipRecipes', 'zrdn_plugin_footer'));
+
+		wp_enqueue_script(
+			'zrdn-admin-script',
+			plugins_url('/scripts/admin.js', __FILE__),
+			array( 'jquery' ), // deps
+			false, // ver
+			true // in_footer
+		);
 	}
 
 	public static function zrdn_js_vars() {
@@ -1589,20 +1597,6 @@ class ZipRecipes {
         		jQuery( edCanvas ).val( jQuery( edCanvas ).val() + output );
         	}
         }
-
-        function zrdnAddImageHandler(selectImageHandlerFunction)
-        {
-			var image = wp.media({
-	            title: 'Add Image',
-	            multiple: false
-	        }).open().on('select', function()
-	        {
-				var uploaded_image = image.state().get('selection').first();
-	            // We convert uploaded_image to a JSON object to make accessing it easier
-	            var imageData = uploaded_image.toJSON();
-	            selectImageHandlerFunction(imageData);
-	        });
-        }
     //]]></script>
 HTML;
 	}
@@ -1623,5 +1617,7 @@ HTML;
 		wp_enqueue_script('media-upload');
 
 		wp_enqueue_media();
+
+		wp_enqueue_script('zrdn-admin-script');
 	}
 }
