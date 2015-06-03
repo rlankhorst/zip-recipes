@@ -63,13 +63,30 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 }
 #zlrecipe-container ul {
   margin: 1em;
-  padding: 0 0 0 2.4em;
+  padding: 0;
 }
+
+/* Covers differences for large(r) screens */
+@media all and (min-width: 361px) {
+    #zlrecipe-container ul {
+        padding: 0 0 0 2.4em;
+    }
+
+    #zlrecipe-container ol {
+        padding: 0 0 0 3em;
+        margin: 1em 0;
+    }
+
+    #zlrecipe-container #zlrecipe-instructions-list {
+        margin: 0 0.5em;
+    }
+}
+
 #zlrecipe-container ol {
   list-style-type: decimal;
-  margin: 1em 0;
-  padding: 0 0 0 3em;
+  margin: 1em;
 }
+
 /* END BASE */
 
 /* TYPOGRAPHY */
@@ -176,7 +193,9 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
     left: 0;
 }
 
-#zlrecipe-container #zlrecipe-instructions-list { margin: 0 0.5em; }
+#zlrecipe-container #zlrecipe-instructions-list {
+    margin: 1em;
+}
 
 #zlrecipe-container #zlrecipe-notes-list {
 	margin: 0 10px;
