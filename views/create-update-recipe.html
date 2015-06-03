@@ -47,6 +47,19 @@
             {
                 zrdnRecipeImageSelected({url: recipe_image_url});
             }
+
+            // Set data-caption attr of summary textarea to false if user types in it or if there's text in it.
+            var $recipeSummaryTextarea = $('textarea#summary');
+            $recipeSummaryTextarea.keyup(function()
+            {
+                $recipeSummaryTextarea.data('caption', 'false');
+            });
+            if ($recipeSummaryTextarea.val())
+            {
+                $recipeSummaryTextarea.data('caption', 'false');
+            }
+
+
         });
 
 
@@ -71,25 +84,19 @@
                 var $image = $('#recipe-image-preview').
                         attr('src', imageData.url);
 
-                var defaultWidth = 100,
-                        defaultHeight = 100;
+                var defaultHeight = 100;
 
-                var imgWidth = defaultWidth,
-                        imgHeight = defaultHeight;
+                // width seems to be set proportionally!
+                $image.height(defaultHeight);
 
-                var ratio = Math.max(imgWidth, imgHeight) / Math.min(imgWidth, imgHeight);
-
-                // ensure we don't get division by zero exception
-                if (ratio !== 0) {
-                    if (imgWidth > imgHeight) {
-                        imgHeight = defaultHeight * (1 / ratio);
-                    }
-                    else {
-                        imgWidth = defaultWidth * (1 / ratio);
-                    }
+                // Set Recipe Summary to image caption if image caption exists and
+                //  if data-caption attr of summary textarea is true
+                var $recipeSummaryTextarea = $('textarea#summary');
+                if (imageData.caption && $recipeSummaryTextarea.data('caption') === true)
+                {
+                    $recipeSummaryTextarea.val(imageData.caption);
+                    $('#more-options').show(400);
                 }
-
-                $image.height(imgHeight).weight(imgWidth);
             }
         }
 
@@ -131,7 +138,7 @@
                         <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
                     </div>
                     <div id="upload-recipe-image-button-container" style="float: left; margin-left: 25px; padding-top: 5px;">
-                        <input type="button" name="upload-btn" id="upload-btn" class="button-secondary" value="Add Image" />
+                        <a id="upload-btn" href="#">Add Image</a>
                     </div>
                     <div id="recipe-image-preview-container" style="display: none; float: left; margin-left: 25px; text-align: center;">
                         <img id="recipe-image-preview" src="" style="display: block" />
@@ -161,7 +168,8 @@
                 </p>
 				<p><a href='#' id='more-options-toggle'>More options</a></p>
 				<div id='more-options'>
-					<p class='cls'><label>Summary</label> <textarea name='summary'>{{ summary }}</textarea></label></p>
+					<p class='cls'><label>Summary</label>
+                        <textarea id='summary' name='summary' data-caption="true">{{ summary }}</textarea></label></p>
 					<p class='cls'><label>Rating</label>
                 	<span class='rating'>
 						<select name="rating">
