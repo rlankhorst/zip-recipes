@@ -42,6 +42,10 @@ require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 
 add_action( 'init', array( 'ZipRecipes', 'init' ) );
 
+// Leaving register_activation_hook here because it's using __FILE__ and it needs to use the main plugin file, which is
+//  this file.
+register_activation_hook(__FILE__, array( 'ZipRecipes', 'zrdn_recipe_install'));
+
 if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQUEST_URI'], '&type=z_recipe') && !strpos($_SERVER['REQUEST_URI'], '&wrt='))
 {
 	ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);
