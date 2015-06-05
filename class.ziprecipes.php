@@ -12,15 +12,14 @@ require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/h2o/h2o.php');
 
 class ZipRecipes {
 
+	const DB_VERSION = "3.3"; // This must be changed when the DB structure is modified
+
 	/**
 	 * Init function.
 	 */
 	public static function init()
 	{
 		self::init_hooks();
-
-		global $zrdn_db_version;
-		$zrdn_db_version = "3.3";	// This must be changed when the DB structure is modified
 	}
 
 	/**
@@ -1052,14 +1051,13 @@ class ZipRecipes {
 	 */
 	public static function zrdn_recipe_install() {
 		global $wpdb;
-		global $zrdn_db_version;
 
 		$recipes_table = $wpdb->prefix . "amd_zlrecipe_recipes";
 		$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
 		$charset_collate = ZipRecipesUtil::get_charset_collate();
 
-		if(strcmp($installed_db_ver, $zrdn_db_version) != 0) {				// An older (or no) database table exists
+		if($installed_db_ver !== self::DB_VERSION) {				// An older (or no) database table exists
 			$sql_command = "CREATE TABLE `$recipes_table` (
             recipe_id bigint(20) unsigned NOT NULL AUTO_INCREMENT  PRIMARY KEY,
             post_id bigint(20) unsigned NOT NULL,
@@ -1089,8 +1087,7 @@ class ZipRecipes {
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			dbDelta($sql_command);
 
-			update_option("amd_zlrecipe_db_version", $zrdn_db_version);
-
+			update_option("amd_zlrecipe_db_version", self::DB_VERSION);
 		}
 	}
 
@@ -1601,6 +1598,12 @@ class ZipRecipes {
 HTML;
 	}
 
+	/**
+	 * Render view and echo it.
+	 *
+	 * @param $name String name of html view to be found in views/ directory. Doesn't contain .html extension.
+	 * @param array $args object View context parameters.
+	 */
 	public static function view($name, array $args = array()) {
 		$viewDir = ZRDN_PLUGIN_DIRECTORY . 'views/';
 		$file = $name . '.html';
