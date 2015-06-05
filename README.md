@@ -39,7 +39,7 @@ Among the new features added by Zip Recipe plugin are:
 
 **Schema Recipe Support:** Automatically integrate Schema.org's Recipe mark-up into your recipe posts to make them easier to find by people searching for recipes. 
 
-**Recipe Image Support:** Add recipes images within the plugin to appear with your recipe.
+**Recipe Image Support:** Easily add recipe image using Media Library to appear with your recipe.
 
 **Copy/Paste Recipe Ingredients:** Simply cut a block of recipe ingredients and paste them into one field. No need to add each recipe ingredient one by one into separate recipe ingertient fields.
 
