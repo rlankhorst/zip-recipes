@@ -118,6 +118,7 @@
 	{% endif %}
 </head>
 <body id="amd-zlrecipe-uploader">
+    {% autoescape off %}
     <form enctype='multipart/form-data' method='post' action='' name='recipe_form'>
 		{% if registration_required %}
 			<h3 class="amd-zlrecipe-title">Register Zip Recipes Free</h3>
@@ -219,4 +220,5 @@
 			</div>
 		{% endif %}
     </form>
+    {% autoescape on %}
 </body>
