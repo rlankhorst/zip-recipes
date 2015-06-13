@@ -17,22 +17,6 @@ class ZipRecipesUtil {
 		}
 	}
 
-	 /**
-	 * Determine if server is running on HTTPS.
-	 * @return bool Return true if server is running on HTTPS otherwise return false.
-	 */
-	public static function isServerProtocolHttps()
-	{
-		$is_server_https = false;
-		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
-		    || $_SERVER['SERVER_PORT'] == 443) {
-			$is_server_https = true;
-		}
-
-		return $is_server_https;
-	}
-
-
 	public static function get_charset_collate() {
 		global $wpdb;
 

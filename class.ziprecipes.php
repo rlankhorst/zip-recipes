@@ -14,6 +14,8 @@ class ZipRecipes {
 
 	const DB_VERSION = "3.3"; // This must be changed when the DB structure is modified
 
+	const registration_url = "https://api.ziprecipes.net/installation/register/";
+
 	/**
 	 * Init function.
 	 */
@@ -933,7 +935,7 @@ class ZipRecipes {
 
             <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>';
 
-		if (! $registered && ! ZipRecipesUtil::isServerProtocolHttps())
+		if (! $registered)
 		{
 			$forms = '
 			<script type="text/javascript">
@@ -945,7 +947,7 @@ class ZipRecipes {
 	                 $registerButton.val("Registering...");
 	                 $registerButton.attr("disabled", true);
 
-	                 var postUrl = "http://api.ziprecipes.net/installation/register/";
+	                 var postUrl = "'. self::registration_url . '";
 
 		         	jQuery.post(postUrl, $form.serialize(), function(data)
 		         	{
@@ -1302,7 +1304,7 @@ class ZipRecipes {
 
 		$id = (int) $_REQUEST["post_id"];
 
-		$registration_required = ! get_option('zrdn_registered') && ! ZipRecipesUtil::isServerProtocolHttps();
+		$registration_required = ! get_option('zrdn_registered');
 
 		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
