@@ -223,6 +223,7 @@ class ZipRecipes {
 			$style_tag = 'style="border: ' . $border_style . ';"';
 		$output .= '
     <div id="zlrecipe-container-' . $recipe->recipe_id . '" class="zlrecipe-container-border" ' . $style_tag . '>
+    <img src="//stats.ziprecipes.net/piwik.php?idsite=1&rec=1" width="1" height="1" style="border:0" alt="" />
     <div itemscope itemtype="http://schema.org/Recipe" id="zlrecipe-container" class="serif zlrecipe">
       <div id="zlrecipe-innerdiv">
         <div class="item b-b">';
