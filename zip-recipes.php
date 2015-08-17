@@ -36,6 +36,7 @@ defined('ABSPATH') or die("Error! Cannot be called directly.");
 
 define('ZRDN_VERSION_NUM', '4.2.1.1');
 define('ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
+define('ZRDN_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basename(__FILE__))));
 
 require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');

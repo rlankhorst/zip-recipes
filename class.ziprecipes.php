@@ -33,6 +33,8 @@ class ZipRecipes {
 	{
 		# HACK: register_activation_hook doesn't get called when plugin is updated, so we use `plugins_loaded` hook.
 		add_action('plugins_loaded', array('ZipRecipes', 'zrdn_recipe_install'));
+		add_action('upgrader_process_complete', array('ZipRecipes', 'plugin_updated'), 10, 2);
+
 		add_action('admin_head', array('ZipRecipes', 'zrdn_js_vars'));
 		add_action('admin_head', array('ZipRecipes', 'zrdn_add_recipe_button'));
 
@@ -1045,6 +1047,24 @@ class ZipRecipes {
 	public static function zrdn_strip_chars( $val )
 	{
 		return str_replace( '\\', '', $val );
+	}
+
+	/**
+	 * Run the install method when plugin is updated.
+	 * This hook is called when any plugins are updated, so we need to ensure that Zip Recipes is updated
+	 *   before the install method is called.
+	 * @param $upgrader {Plugin_Upgrader}
+	 * @param $data {array} Contains "type", "action", "plugins".
+	 */
+	public static function plugin_updated($upgrader, $data)
+	{
+		// if this plugin is being updated, call zrdn_recipe_install method
+		if (is_array($data) && $data['action'] === 'update' && $data['type'] === 'plugin' &&
+		    is_array($data['plugins']) &&
+		    in_array(ZRDN_PLUGIN_BASENAME, $data['plugins']))
+		{
+			self::zrdn_recipe_install();
+		}
 	}
 
 	/**
