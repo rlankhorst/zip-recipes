@@ -1158,7 +1158,7 @@ class ZipRecipes {
 
 		if ($post_info || $get_info) {
 
-			if( $get_info["add-recipe-button"] || strpos($get_info["post_id"], '-') !== false ) {
+			if( $get_info["add-recipe-button"] || strpos($get_info["recipe_post_id"], '-') !== false ) {
 				$iframe_title = "Update Your Recipe";
 				$submit = "Update Recipe";
 			} else {
@@ -1166,8 +1166,8 @@ class ZipRecipes {
 				$submit       = "Add Recipe";
 			}
 
-			if ($get_info["post_id"] && !$get_info["add-recipe-button"] && strpos($get_info["post_id"], '-') !== false) {
-				$recipe_id = preg_replace('/[0-9]*?\-/i', '', $get_info["post_id"]);
+			if ($get_info["recipe_post_id"] && !$get_info["add-recipe-button"] && strpos($get_info["recipe_post_id"], '-') !== false) {
+				$recipe_id = preg_replace('/[0-9]*?\-/i', '', $get_info["recipe_post_id"]);
 				$recipe = self::zrdn_select_recipe_db($recipe_id);
 				$recipe_title = $recipe->recipe_title;
 				$recipe_image = $recipe->recipe_image;
@@ -1276,7 +1276,7 @@ class ZipRecipes {
 				$recipe_id = $post_info["recipe_id"];
 
 				if( !$get_info["add-recipe-button"]) {
-					$recipe_title = get_the_title( $get_info["post_id"] );
+					$recipe_title = get_the_title( $get_info["recipe_post_id"] );
 				}
 				else {
 					$recipe_title = $post_info["recipe_title"];
@@ -1331,7 +1331,7 @@ class ZipRecipes {
 		$summary = esc_textarea($summary);
 		$notes = esc_textarea($notes);
 
-		$id = (int) $_REQUEST["post_id"];
+		$id = (int) $_REQUEST["recipe_post_id"];
 
 		$registration_required = ! get_option('zrdn_registered');
 
@@ -1492,7 +1492,7 @@ class ZipRecipes {
 		);
 
 		if (self::zrdn_select_recipe_db($recipe_id) == null) {
-			$recipe["post_id"] = $post_info["post_id"];	// set only during record creation
+			$recipe["post_id"] = $post_info["recipe_post_id"];	// set only during record creation
 			$wpdb->insert( $wpdb->prefix . "amd_zlrecipe_recipes", $recipe );
 			$recipe_id = $wpdb->insert_id;
 		} else {
