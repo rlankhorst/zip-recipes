@@ -26,6 +26,7 @@
 
                 return false;
             }
+
             window.parent.amdZLRecipeInsertIntoPostEditor('{{ recipe_id }}');
             top.tinymce.activeEditor.windowManager.close(window);
         }
@@ -47,6 +48,10 @@
             {
                 zrdnRecipeImageSelected({url: recipe_image_url});
             }
+
+            // Set focus to ingredients because in WP4.3 focus remains in the tinyMCE editor
+            $ingredients = $('#ingredients');
+            $ingredients.focus();
 
             // Set data-caption attr of summary textarea to false if user types in it or if there's text in it.
             var $recipeSummaryTextarea = $('textarea#summary');
@@ -155,7 +160,7 @@
                             <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
                         </small>
                     </label>
-                    <textarea name='ingredients'>{{ ingredients }}</textarea></label>
+                    <textarea name='ingredients' id='ingredients'>{{ ingredients }}</textarea></label>
                 </p>
 				<p id='amd-zlrecipe-instructions' class='cls'>
                     <label>Instructions
