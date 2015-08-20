@@ -33,7 +33,6 @@ class ZipRecipes {
 	{
 		# HACK: register_activation_hook doesn't get called when plugin is updated, so we use `plugins_loaded` hook.
 		add_action('plugins_loaded', array('ZipRecipes', 'zrdn_recipe_install'));
-		add_action('upgrader_process_complete', array('ZipRecipes', 'plugin_updated'), 10, 2);
 
 		add_action('admin_head', array('ZipRecipes', 'zrdn_js_vars'));
 		add_action('admin_head', array('ZipRecipes', 'zrdn_add_recipe_button'));

@@ -4,7 +4,7 @@ Plugin Name: Zip Recipes
 Plugin URI: http://www.ziprecipes.net/
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 Description: A plugin that adds all the necessary microdata to your recipes, so they will show up in Google's Recipe Search
-Version: 4.3.1.2
+Version: 4.3.1.3
 Author: HappyGezim
 Author URI: http://www.ziprecipes.net/
 License: GPLv3 or later
@@ -34,7 +34,7 @@ This code is derived from the 2.6 version build of ZipList Recipe Plugin release
 // Make sure we don't expose any info if called directly
 defined('ABSPATH') or die("Error! Cannot be called directly.");
 
-define('ZRDN_VERSION_NUM', '4.3.1.2');
+define('ZRDN_VERSION_NUM', '4.3.1.3');
 define('ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
 define('ZRDN_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basename(__FILE__))));
@@ -42,6 +42,7 @@ define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basena
 require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 
 add_action( 'init', array( 'ZipRecipes', 'init' ) );
+add_action('upgrader_process_complete', array('ZipRecipes', 'plugin_updated'), 10, 2);
 
 // Leaving register_activation_hook here because it's using __FILE__ and it needs to use the main plugin file, which is
 //  this file.
