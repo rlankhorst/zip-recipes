@@ -46,4 +46,16 @@ class ZipRecipesUtil {
 
 		return $pluginsString;
 	}
+
+	/**
+	 * Log messages if WP_DEBUG is set.
+	 * @param $message Message to log.
+	 */
+	public static function log($message)
+	{
+		if (WP_DEBUG)
+		{
+			error_log("ZRDN: " . $message);
+		}
+	}
 }
