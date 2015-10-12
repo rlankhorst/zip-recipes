@@ -568,6 +568,14 @@ class ZipRecipes {
 		$menu_slug = 'zrdn-settings';
 		$function = array('ZipRecipes', 'zrdn_settings');
 		add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, 'dashicons-carrot');
+
+		do_action("zrdn__menu_page", array(
+			"page_title" => $page_title,
+			"menu_title" => $menu_title,
+			"capability" => $capability,
+			"menu_slug" => $menu_slug,
+			"function" => $function
+			));
 	}
 
 	public static function zrdn_tinymce_plugin($plugin_array) {
@@ -1119,6 +1127,8 @@ class ZipRecipes {
 
 			update_option("amd_zlrecipe_db_version", self::DB_VERSION);
 		}
+
+		do_action("zrdn__db_setup");
 	}
 
 	// Content for the popup iframe when creating or editing a recipe
