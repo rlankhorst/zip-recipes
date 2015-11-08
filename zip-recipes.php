@@ -31,6 +31,8 @@ This code is derived from the 2.6 version build of ZipList Recipe Plugin release
     along with Zip Recipes Plugin. If not, see <http://www.gnu.org/licenses/>.
 */
 
+namespace ZRDN;
+
 // Make sure we don't expose any info if called directly
 defined('ABSPATH') or die("Error! Cannot be called directly.");
 
@@ -41,14 +43,14 @@ define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basena
 
 require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 
-add_action( 'init', array( 'ZipRecipes', 'init' ) );
-add_action('upgrader_process_complete', array('ZipRecipes', 'plugin_updated'), 10, 2);
+add_action( 'init', __NAMESPACE__ . '\ZipRecipes::init' );
+add_action('upgrader_process_complete', __NAMESPACE__ . '\ZipRecipes::plugin_updated', 10, 2);
 
 // Leaving register_activation_hook here because it's using __FILE__ and it needs to use the main plugin file, which is
 //  this file.
-register_activation_hook(__FILE__, array( 'ZipRecipes', 'zrdn_recipe_install'));
+register_activation_hook(__FILE__, __NAMESPACE__ . '\ZipRecipes::zrdn_recipe_install');
 
 if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQUEST_URI'], '&type=z_recipe') && !strpos($_SERVER['REQUEST_URI'], '&wrt='))
 {
-	ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);
+    ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);
 }

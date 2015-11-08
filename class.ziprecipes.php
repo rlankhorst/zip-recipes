@@ -1,11 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gezimhoxha
- * Date: 15-05-24
- * Time: 7:39 PM
- */
 
+namespace ZRDN;
 
 require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
 require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/h2o/h2o.php');
@@ -24,6 +19,39 @@ class ZipRecipes {
 	public static function init()
 	{
 		self::init_hooks();
+
+		// Instantiate plugin classes
+
+		$parentPath =  dirname(__FILE__);
+		$pluginsDirHandle = opendir("$parentPath/plugins");
+		if ($pluginsDirHandle)
+		{
+			// loop through plugin dirs and require them
+			while (false !== ($fileOrFolder = readdir($pluginsDirHandle)))
+			{
+				// we don't care about files inside `plugins` dir
+				if (! is_dir($fileOrFolder) || $fileOrFolder === "." || $fileOrFolder === "..")
+				{
+					continue;
+				}
+
+				// plugins classes will be in plugins/RecipeIndex/RecipeIndex.php
+				$pluginName = $fileOrFolder;
+				$pluginPath = "$fileOrFolder/$pluginName.php";
+				require_once($pluginPath);
+
+				// instantiate class
+				$namespace = __NAMESPACE__;
+				$fullPluginName = "$namespace\\$pluginName"; // double \\ is needed because \ is an escape char
+				$pluginInstance = new $fullPluginName;
+			}
+		}
+
+		closedir($pluginsDirHandle);
+
+		// Plugins would have added a filter for this action in their constructor and registered any hooks of their
+		// own
+		do_action("zrdn__init_hooks");
 	}
 
 	/**
@@ -32,21 +60,21 @@ class ZipRecipes {
 	private static function init_hooks()
 	{
 		# HACK: register_activation_hook doesn't get called when plugin is updated, so we use `plugins_loaded` hook.
-		add_action('plugins_loaded', array('ZipRecipes', 'zrdn_recipe_install'));
+		add_action('plugins_loaded', __NAMESPACE__ . '\ZipRecipes::zrdn_recipe_install');
 
-		add_action('admin_head', array('ZipRecipes', 'zrdn_js_vars'));
-		add_action('admin_head', array('ZipRecipes', 'zrdn_add_recipe_button'));
+		add_action('admin_head', __NAMESPACE__ . '\ZipRecipes::zrdn_js_vars');
+		add_action('admin_head', __NAMESPACE__ . '\ZipRecipes::zrdn_add_recipe_button');
 
 		// `the_post` has no action/filter added on purpose. It doesn't work as well as `the_content`.
 		// It's important for `get_the_excerpt` to have higher priority than `the_content` when hooked.
 		//  (The third argument is $priority in `add_filter` function call. The lower the number, the higher the priority.)
-		add_filter('get_the_excerpt', array('ZipRecipes', 'zrdn_convert_to_summary_recipe'), 9);
-		add_filter('the_content', array('ZipRecipes', 'zrdn_convert_to_full_recipe'), 10);
+		add_filter('get_the_excerpt', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_summary_recipe', 9);
+		add_filter('the_content', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_full_recipe', 10);
 
-		add_action('admin_menu', array('ZipRecipes', 'zrdn_menu_pages' ));
+		add_action('admin_menu', __NAMESPACE__ . '\ZipRecipes::zrdn_menu_pages');
 
 		// Hook is called when recipe editor popup pops up in admin
-		add_action('media_upload_z_recipe', array('ZipRecipes', 'zrdn_load_admin_media'));
+		add_action('media_upload_z_recipe', __NAMESPACE__ . '\ZipRecipes::zrdn_load_admin_media');
 
 		add_option("amd_zlrecipe_db_version"); // used to store DB version - leaving as is name as legacy
 		add_option('zrdn_attribution_hide', '');
@@ -99,13 +127,13 @@ class ZipRecipes {
 		add_option('zlrecipe_outer_border_style', '');
 		add_option('zlrecipe_custom_print_image', '');
 
-		add_filter('wp_head', array('ZipRecipes', 'zrdn_process_head'));
+		add_filter('wp_head', __NAMESPACE__ . '\ZipRecipes::zrdn_process_head');
 
 		// Deleting option that was added for WooCommerce conflict.
 		//      This can be removed a few releases after 4.1.0.18
 		delete_option('zrdn_woocommerce_active');
 
-		add_action('admin_footer', array('ZipRecipes', 'zrdn_plugin_footer'));
+		add_action('admin_footer', __NAMESPACE__ . '\ZipRecipes::zrdn_plugin_footer');
 
 		wp_enqueue_script(
 			'zrdn-admin-script',
@@ -135,8 +163,8 @@ class ZipRecipes {
 
 		// check if WYSIWYG is enabled
 		if ( get_user_option('rich_editing') == 'true') {
-			add_filter('mce_external_plugins', array('ZipRecipes', 'zrdn_tinymce_plugin'));
-			add_filter('mce_buttons', array('ZipRecipes', 'zrdn_register_tinymce_button'));
+			add_filter('mce_external_plugins', __NAMESPACE__ . '\ZipRecipes::zrdn_tinymce_plugin');
+			add_filter('mce_buttons', __NAMESPACE__ . '\ZipRecipes::zrdn_register_tinymce_button');
 		}
 	}
 
@@ -566,7 +594,7 @@ class ZipRecipes {
 		$menu_title = 'Zip Recipes';
 		$capability = 'manage_options';
 		$menu_slug = 'zrdn-settings';
-		$function = array('ZipRecipes', 'zrdn_settings');
+		$function = __NAMESPACE__ . '\ZipRecipes::zrdn_settings';
 		add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, 'dashicons-carrot');
 
 		do_action("zrdn__menu_page", array(
@@ -1649,7 +1677,7 @@ HTML;
 		$file = $name . '.html';
 		$cacheDir = sprintf('%s/cache', $viewDir);
 
-		$h2o = new H2o($file, array('searchpath' => $viewDir, 'cache'=> 'file', 'cache_dir' => $cacheDir));
+		$h2o = new \H2o($file, array('searchpath' => $viewDir, 'cache'=> 'file', 'cache_dir' => $cacheDir));
 		echo $h2o->render($args);
 	}
 

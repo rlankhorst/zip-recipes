@@ -6,6 +6,8 @@
  * Time: 12:59 AM
  */
 
+namespace ZRDN;
+
 class ZipRecipesUtil {
 	/* Send debug code to the Javascript console */
 	public static function zrdn_debug_to_console($data) {
