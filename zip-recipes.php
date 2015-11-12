@@ -36,13 +36,20 @@ namespace ZRDN;
 // Make sure we don't expose any info if called directly
 defined('ABSPATH') or die("Error! Cannot be called directly.");
 
+// Define constants
 define('ZRDN_VERSION_NUM', '4.3.1.3');
 define('ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
 define('ZRDN_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basename(__FILE__))));
 
+// Requires & includes
+require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
 require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 
+
+ZipRecipesUtil::log("Setting up init hooks.");
+
+// Add initial hooks
 add_action( 'init', __NAMESPACE__ . '\ZipRecipes::init' );
 add_action('upgrader_process_complete', __NAMESPACE__ . '\ZipRecipes::plugin_updated', 10, 2);
 
@@ -50,6 +57,7 @@ add_action('upgrader_process_complete', __NAMESPACE__ . '\ZipRecipes::plugin_upd
 //  this file.
 register_activation_hook(__FILE__, __NAMESPACE__ . '\ZipRecipes::zrdn_recipe_install');
 
+// Setup query catch for recipe insertion popup.
 if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQUEST_URI'], '&type=z_recipe') && !strpos($_SERVER['REQUEST_URI'], '&wrt='))
 {
     ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);

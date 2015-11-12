@@ -59,6 +59,8 @@ class ZipRecipes {
 	 */
 	private static function init_hooks()
 	{
+		syslog(LOG_INFO, "I'm in init_hooks");
+
 		# HACK: register_activation_hook doesn't get called when plugin is updated, so we use `plugins_loaded` hook.
 		add_action('plugins_loaded', __NAMESPACE__ . '\ZipRecipes::zrdn_recipe_install');
 
@@ -149,7 +151,7 @@ class ZipRecipes {
 		if (is_admin()) {
 			?>
 			<script type="text/javascript">
-				var post_id = '<?php global $post; echo $post->ID; ?>';
+				var post_id = '<?php global $post; if ($post instanceof WP_Post) { echo $post->ID; } ?>';
 			</script>
 		<?php
 		}
@@ -1093,6 +1095,8 @@ class ZipRecipes {
 	 */
 	public static function plugin_updated($upgrader, $data)
 	{
+		syslog(LOG_INFO, "ola..i'm in plugin-updated");
+
 		// if this plugin is being updated, call zrdn_recipe_install method
 		if (is_array($data) && $data['action'] === 'update' && $data['type'] === 'plugin' &&
 		    is_array($data['plugins']) &&
@@ -1118,10 +1122,14 @@ class ZipRecipes {
 	public static function zrdn_recipe_install() {
 		global $wpdb;
 
+		syslog(LOG_INFO, "I'm in zrdn_recipe_install");
+
 		$recipes_table = $wpdb->prefix . "amd_zlrecipe_recipes";
 		$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
 		$charset_collate = ZipRecipesUtil::get_charset_collate();
+
+		syslog(LOG_INFO, "In zrdn_recipe_install!!!");
 
 		if($installed_db_ver !== self::DB_VERSION) {				// An older (or no) database table exists
 			$sql_command = "CREATE TABLE `$recipes_table` (
