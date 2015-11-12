@@ -1,0 +1,3 @@
+[submodule "plugins"]
+	path = plugins
+	url = https://hgezim@bitbucket.org/hgezim/zip-recipes-plugins.git
