@@ -8,7 +8,7 @@
 
 namespace ZRDN;
 
-class ZipRecipesUtil {
+class Util {
 	/* Send debug code to the Javascript console */
 	public static function zrdn_debug_to_console($data) {
 		if(is_array($data) || is_object($data))
@@ -17,6 +17,41 @@ class ZipRecipesUtil {
 		} else {
 			echo("<script>console.log('PHP: ".$data."');</script>");
 		}
+	}
+
+	/**
+	 * Render view and echo it.
+	 *
+	 * @param $name String name of html view to be found in views/ directory. Doesn't contain .html extension.
+	 * @param array $args object View context parameters.
+	 */
+	public static function view($name, $args = array()) {
+		$trace=debug_backtrace();
+		$caller=$trace[1];
+
+		if ($caller['class'])
+		{
+			$classComponents = explode("\\", $caller['class']);
+			$class = $classComponents[count($classComponents) - 1];
+			$plugin_name = $class;
+		}
+
+		$pluginDir = "";
+		if ($plugin_name)
+		{
+			$pluginDir = "plugins/$plugin_name/";
+		}
+
+		$viewDir = ZRDN_PLUGIN_DIRECTORY . $pluginDir . 'views/';
+
+		$file = $name . '.html';
+		$cacheDir = sprintf('%s/cache', $viewDir);
+
+		Util::log("Looking for plugin in dir:" . $viewDir);
+		Util::log("Template name:" . $file);
+
+		$h2o = new \H2o($file, array('searchpath' => $viewDir, 'cache'=> 'file', 'cache_dir' => $cacheDir));
+		echo $h2o->render($args);
 	}
 
 	public static function get_charset_collate() {
@@ -51,7 +86,7 @@ class ZipRecipesUtil {
 
 	/**
 	 * Log messages if WP_DEBUG is set.
-	 * @param $message Message to log.
+	 * @param $message String Message to log.
 	 */
 	public static function log($message)
 	{

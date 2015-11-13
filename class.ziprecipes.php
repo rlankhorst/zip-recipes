@@ -23,14 +23,21 @@ class ZipRecipes {
 		// Instantiate plugin classes
 
 		$parentPath =  dirname(__FILE__);
-		$pluginsDirHandle = opendir("$parentPath/plugins");
+		$pluginsPath = "$parentPath/plugins";
+		$pluginsDirHandle = opendir($pluginsPath);
+		Util::log("Searching for plugins in:" . $pluginsPath);
 		if ($pluginsDirHandle)
 		{
+			$originalDir = getcwd();
+			chdir($pluginsPath);
+
 			// loop through plugin dirs and require them
 			while (false !== ($fileOrFolder = readdir($pluginsDirHandle)))
 			{
+				$notDir = ! is_dir($fileOrFolder);
+				$invalidDir = $fileOrFolder === "." || $fileOrFolder === "..";
 				// we don't care about files inside `plugins` dir
-				if (! is_dir($fileOrFolder) || $fileOrFolder === "." || $fileOrFolder === "..")
+				if ($notDir || $invalidDir)
 				{
 					continue;
 				}
@@ -38,13 +45,16 @@ class ZipRecipes {
 				// plugins classes will be in plugins/RecipeIndex/RecipeIndex.php
 				$pluginName = $fileOrFolder;
 				$pluginPath = "$fileOrFolder/$pluginName.php";
+				Util::log("Attempting to load plugin:" . $pluginsPath);
 				require_once($pluginPath);
 
 				// instantiate class
 				$namespace = __NAMESPACE__;
 				$fullPluginName = "$namespace\\$pluginName"; // double \\ is needed because \ is an escape char
-				$pluginInstance = new $fullPluginName;
+				new $fullPluginName;
 			}
+
+			chdir($originalDir);
 		}
 
 		closedir($pluginsDirHandle);
@@ -476,7 +486,6 @@ class ZipRecipes {
 		$output .= '<' . $ingredient_type . ' id="zlrecipe-ingredients-list">';
 		$i = 0;
 		$ingredients = explode("\n", $recipe->ingredients);
-		$beacon_added = false;
 		foreach ($ingredients as $ingredient) {
 			$ingredientClassString = implode(' ', $ingredientClassArray);
 			$addBeacon = $i === 0 ? true : false; # only add beacon on first ingredient as it tracks the whole recipe
@@ -599,12 +608,19 @@ class ZipRecipes {
 		$function = __NAMESPACE__ . '\ZipRecipes::zrdn_settings';
 		add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, 'dashicons-carrot');
 
+		$settings_title = "Settings";
+		add_submenu_page(
+			$settings_title, // parent_slug
+			$page_title, // page_title
+			$settings_title, // menu_title
+			$capability, // capability
+			$menu_slug, // menu_slug
+			$function // callback function
+		);
+
 		do_action("zrdn__menu_page", array(
-			"page_title" => $page_title,
-			"menu_title" => $menu_title,
 			"capability" => $capability,
-			"menu_slug" => $menu_slug,
-			"function" => $function
+			"parent_slug" => $menu_slug,
 			));
 	}
 
@@ -1049,7 +1065,7 @@ class ZipRecipes {
                     <td style="padding: 0">
                     	<input type="email" id="email" name="email" class="regular-text" required />
                     	<input type="hidden" id="wp-version" name="wp_version" value="' . $wp_version . '" />
-                    	<input type="hidden" id="plugins" name="plugins" value="' . ZipRecipesUtil::zrdn_get_installed_plugins() . '" />
+                    	<input type="hidden" id="plugins" name="plugins" value="' . Util::zrdn_get_installed_plugins() . '" />
                     	<input type="hidden" id="blog-url" name="blog_url" value="' . home_url() . '" />
                     	<input type="hidden" name="action" value="register" />
                     </td>
@@ -1127,7 +1143,7 @@ class ZipRecipes {
 		$recipes_table = $wpdb->prefix . "amd_zlrecipe_recipes";
 		$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
-		$charset_collate = ZipRecipesUtil::get_charset_collate();
+		$charset_collate = Util::get_charset_collate();
 
 		syslog(LOG_INFO, "In zrdn_recipe_install!!!");
 
@@ -1383,7 +1399,7 @@ class ZipRecipes {
 		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
 
-		self::view('create-update-recipe', array(
+		Util::view('create-update-recipe', array(
 			'pluginurl' => ZRDN_PLUGIN_URL,
 			'recipe_id' => $recipe_id,
 			'registration_required' => $registration_required,
@@ -1672,21 +1688,6 @@ class ZipRecipes {
         }
     //]]></script>
 HTML;
-	}
-
-	/**
-	 * Render view and echo it.
-	 *
-	 * @param $name String name of html view to be found in views/ directory. Doesn't contain .html extension.
-	 * @param array $args object View context parameters.
-	 */
-	public static function view($name, array $args = array()) {
-		$viewDir = ZRDN_PLUGIN_DIRECTORY . 'views/';
-		$file = $name . '.html';
-		$cacheDir = sprintf('%s/cache', $viewDir);
-
-		$h2o = new \H2o($file, array('searchpath' => $viewDir, 'cache'=> 'file', 'cache_dir' => $cacheDir));
-		echo $h2o->render($args);
 	}
 
 	public static function zrdn_load_admin_media() {
