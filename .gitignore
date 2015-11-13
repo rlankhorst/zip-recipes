@@ -2,3 +2,4 @@
 views/cache/*
 .vagrant/
 vendor/
+plugins/
