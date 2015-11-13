@@ -47,7 +47,7 @@ require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
 require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 
 
-ZipRecipesUtil::log("Setting up init hooks.");
+Util::log("Setting up init hooks.");
 
 // Add initial hooks
 add_action( 'init', __NAMESPACE__ . '\ZipRecipes::init' );
