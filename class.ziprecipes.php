@@ -18,8 +18,6 @@ class ZipRecipes {
 	 */
 	public static function init()
 	{
-		self::init_hooks();
-
 		// Instantiate plugin classes
 
 		$parentPath =  dirname(__FILE__);
@@ -59,9 +57,10 @@ class ZipRecipes {
 
 		closedir($pluginsDirHandle);
 
-		// Plugins would have added a filter for this action in their constructor and registered any hooks of their
-		// own
-		do_action("zrdn__init_hooks");
+		// We need to call `zrdn__init_hooks` action before `init_hooks()` because some actions/filters registered
+		//	in `init_hooks()` get called before plugins have a chance to register their hooks with `zrdn__init_hooks`
+		do_action("zrdn__init_hooks"); // plugins can add an action to listen for this event and register their hooks
+		self::init_hooks();
 	}
 
 	/**
