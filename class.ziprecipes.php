@@ -155,6 +155,8 @@ class ZipRecipes {
 			false, // ver
 			true // in_footer
 		);
+
+		self::zrdn_recipe_install();
 	}
 
 	public static function zrdn_js_vars() {
@@ -1119,7 +1121,7 @@ class ZipRecipes {
 		    is_array($data['plugins']) &&
 		    in_array(ZRDN_PLUGIN_BASENAME, $data['plugins']))
 		{
-			self::zrdn_recipe_install();
+			self::init();
 		}
 	}
 
@@ -1181,7 +1183,7 @@ class ZipRecipes {
 
 		Util::log("Calling db_setup() action");
 
-		do_action("zrdn__db_setup");
+		do_action("zrdn__db_setup", self::TABLE_NAME);
 	}
 
 	// Content for the popup iframe when creating or editing a recipe
