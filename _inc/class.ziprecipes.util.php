@@ -90,9 +90,46 @@ class Util {
 	 */
 	public static function log($message)
 	{
-		if (WP_DEBUG)
+		if (! WP_DEBUG)
 		{
-			error_log("ZRDN: " . $message);
+			return;
 		}
+
+		$trace=debug_backtrace();
+
+		$traceIndex = 1;
+		$caller=$trace[$traceIndex];
+
+		$output = "";
+
+		$output .= print_r($trace, true);
+
+//		do {
+//			$className = array_key_exists('class', $caller) ? $caller['class'] : "";
+//			$functionName = array_key_exists('function', $caller) ? $caller['function'] : "";
+//			$file = array_key_exists('file', $caller) ? $caller['file'] : "";
+//			$lineNumber = array_key_exists('line', $caller) ? $caller['line'] : "";
+//
+//			$prefix = $traceIndex === 1 ? "ZRDN: " : "";
+//			$message = $traceIndex === 1 ? ": $message" : "";
+//			$args = $traceIndex === 1 ? "" : " args: " . print_r($caller['args'], true);
+//
+//			$output .= str_repeat("\t", $traceIndex - 1) . "$prefix$className $functionName" . $message . $args . "\n";
+//			if ($file && $lineNumber) {
+//				$output .= str_repeat("\t", $traceIndex) . " from $file:$lineNumber" . "\n";
+//			}
+//
+//			if (array_key_exists(++$traceIndex, $trace))
+//			{
+//				$caller = $trace[$traceIndex];
+//			}
+//			else
+//			{
+//				$caller = null;
+//			}
+//		} while($caller);
+
+		error_log($output);
+
 	}
 }

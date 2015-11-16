@@ -7,7 +7,8 @@ require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/h2o/h2o.php');
 
 class ZipRecipes {
 
-	const DB_VERSION = "3.3"; // This must be changed when the DB structure is modified
+	const TABLE_VERSION = "3.3"; // This must be changed when the DB structure is modified
+	const TABLE_NAME = "amd_zlrecipe_recipes";
 
 	const registration_url = "https://api.ziprecipes.net/installation/register/";
 
@@ -18,8 +19,9 @@ class ZipRecipes {
 	 */
 	public static function init()
 	{
-		// Instantiate plugin classes
+		Util::log("Core init");
 
+		// Instantiate plugin classes
 		$parentPath =  dirname(__FILE__);
 		$pluginsPath = "$parentPath/plugins";
 		$pluginsDirHandle = opendir($pluginsPath);
@@ -68,7 +70,7 @@ class ZipRecipes {
 	 */
 	private static function init_hooks()
 	{
-		syslog(LOG_INFO, "I'm in init_hooks");
+		Util::log("I'm in init_hooks");
 
 		# HACK: register_activation_hook doesn't get called when plugin is updated, so we use `plugins_loaded` hook.
 		add_action('plugins_loaded', __NAMESPACE__ . '\ZipRecipes::zrdn_recipe_install');
@@ -1110,7 +1112,7 @@ class ZipRecipes {
 	 */
 	public static function plugin_updated($upgrader, $data)
 	{
-		syslog(LOG_INFO, "ola..i'm in plugin-updated");
+		Util::log("In plugin_updated");
 
 		// if this plugin is being updated, call zrdn_recipe_install method
 		if (is_array($data) && $data['action'] === 'update' && $data['type'] === 'plugin' &&
@@ -1137,16 +1139,14 @@ class ZipRecipes {
 	public static function zrdn_recipe_install() {
 		global $wpdb;
 
-		syslog(LOG_INFO, "I'm in zrdn_recipe_install");
+		Util::log("In zrdn_recipe_install");
 
-		$recipes_table = $wpdb->prefix . "amd_zlrecipe_recipes";
+		$recipes_table = $wpdb->prefix . self::TABLE_NAME;
 		$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
 		$charset_collate = Util::get_charset_collate();
 
-		syslog(LOG_INFO, "In zrdn_recipe_install!!!");
-
-		if($installed_db_ver !== self::DB_VERSION) {				// An older (or no) database table exists
+		if($installed_db_ver !== self::TABLE_VERSION) {				// An older (or no) database table exists
 			$sql_command = "CREATE TABLE `$recipes_table` (
             recipe_id bigint(20) unsigned NOT NULL AUTO_INCREMENT  PRIMARY KEY,
             post_id bigint(20) unsigned NOT NULL,
@@ -1176,8 +1176,10 @@ class ZipRecipes {
 			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 			dbDelta($sql_command);
 
-			update_option("amd_zlrecipe_db_version", self::DB_VERSION);
+			update_option("amd_zlrecipe_db_version", self::TABLE_VERSION);
 		}
+
+		Util::log("Calling db_setup() action");
 
 		do_action("zrdn__db_setup");
 	}
@@ -1553,10 +1555,10 @@ class ZipRecipes {
 
 		if (self::zrdn_select_recipe_db($recipe_id) == null) {
 			$recipe["post_id"] = $post_info["recipe_post_id"];	// set only during record creation
-			$wpdb->insert( $wpdb->prefix . "amd_zlrecipe_recipes", $recipe );
+			$wpdb->insert( $wpdb->prefix . self::TABLE_NAME, $recipe );
 			$recipe_id = $wpdb->insert_id;
 		} else {
-			$wpdb->update( $wpdb->prefix . "amd_zlrecipe_recipes", $recipe, array( 'recipe_id' => $recipe_id ));
+			$wpdb->update( $wpdb->prefix . self::TABLE_NAME, $recipe, array( 'recipe_id' => $recipe_id ));
 		}
 
 		return $recipe_id;
@@ -1566,7 +1568,7 @@ class ZipRecipes {
 	public static function zrdn_select_recipe_db($recipe_id) {
 		global $wpdb;
 
-		$selectStatement = sprintf("SELECT * FROM `%samd_zlrecipe_recipes` WHERE recipe_id=%d", $wpdb->prefix, $recipe_id);
+		$selectStatement = sprintf("SELECT * FROM `%s%s` WHERE recipe_id=%d", $wpdb->prefix, self::TABLE_NAME,$recipe_id);
 		$recipe = $wpdb->get_row($selectStatement);
 
 		return $recipe;
