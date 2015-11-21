@@ -29,6 +29,7 @@ class Util {
 		$trace=debug_backtrace();
 		$caller=$trace[1];
 
+		$plugin_name = "";
 		if ($caller['class'])
 		{
 			$classComponents = explode("\\", $caller['class']);
@@ -37,7 +38,8 @@ class Util {
 		}
 
 		$pluginDir = "";
-		if ($plugin_name)
+		// don't consider core class a plugin
+		if ($plugin_name && $plugin_name !== "ZipRecipes") // TODO: ZipRecipes is hardcoded and needs to change
 		{
 			$pluginDir = "plugins/$plugin_name/";
 		}
@@ -47,7 +49,7 @@ class Util {
 		$file = $name . '.html';
 		$cacheDir = sprintf('%s/cache', $viewDir);
 
-		Util::log("Looking for plugin in dir:" . $viewDir);
+		Util::log("Looking for template in dir:" . $viewDir);
 		Util::log("Template name:" . $file);
 
 		$h2o = new \H2o($file, array('searchpath' => $viewDir, 'cache'=> 'file', 'cache_dir' => $cacheDir));
@@ -102,32 +104,29 @@ class Util {
 
 		$output = "";
 
-		$output .= print_r($trace, true);
+		do {
+			$className = array_key_exists('class', $caller) ? $caller['class'] : "";
+			$functionName = array_key_exists('function', $caller) ? $caller['function'] : "";
+			$file = array_key_exists('file', $caller) ? $caller['file'] : "";
+			$lineNumber = array_key_exists('line', $caller) ? $caller['line'] : "";
 
-//		do {
-//			$className = array_key_exists('class', $caller) ? $caller['class'] : "";
-//			$functionName = array_key_exists('function', $caller) ? $caller['function'] : "";
-//			$file = array_key_exists('file', $caller) ? $caller['file'] : "";
-//			$lineNumber = array_key_exists('line', $caller) ? $caller['line'] : "";
-//
-//			$prefix = $traceIndex === 1 ? "ZRDN: " : "";
-//			$message = $traceIndex === 1 ? ": $message" : "";
-//			$args = $traceIndex === 1 ? "" : " args: " . print_r($caller['args'], true);
-//
-//			$output .= str_repeat("\t", $traceIndex - 1) . "$prefix$className $functionName" . $message . $args . "\n";
-//			if ($file && $lineNumber) {
-//				$output .= str_repeat("\t", $traceIndex) . " from $file:$lineNumber" . "\n";
-//			}
-//
-//			if (array_key_exists(++$traceIndex, $trace))
-//			{
-//				$caller = $trace[$traceIndex];
-//			}
-//			else
-//			{
-//				$caller = null;
-//			}
-//		} while($caller);
+			$prefix = $traceIndex === 1 ? "ZRDN: " : "";
+			$message = $traceIndex === 1 ? ": $message" : "";
+
+			$output .= str_repeat("\t", $traceIndex - 1) . "$prefix$className $functionName" . $message . "\n";
+			if ($file && $lineNumber) {
+				$output .= str_repeat("\t", $traceIndex) . " from $file:$lineNumber" . "\n";
+			}
+
+			if (array_key_exists(++$traceIndex, $trace))
+			{
+				$caller = $trace[$traceIndex];
+			}
+			else
+			{
+				$caller = null;
+			}
+		} while($caller);
 
 		error_log($output);
 
