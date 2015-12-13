@@ -52,7 +52,6 @@ Copyright 2011, 2012 ZipList, Inc.
 #zlrecipe-print-container .zl-recipe-link,
 #zlrecipe-print-container img.ingredient-image,
 #zlrecipe-print-container img.instruction-image,
-#zlrecipe-print-container #zlrecipe-rating,
 #zlrecipe-print-container .zl-linkback
 { display:none; }
 

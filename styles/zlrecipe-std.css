@@ -152,25 +152,6 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 }
 #zlrecipe-container .meta span, #zlrecipe-container .zlmeta span { font-weight: normal; }
 
-#zlrecipe-rating .rating {
-  background: url('../images/star-rating.gif') no-repeat scroll 0 0;
-  display: inline-block;
-  height: 14px;
-  text-indent: -9999px;
-  width: 80px;
-}
-#zlrecipe-container #zlrecipe-rating .rating-5 { background-position: 0 0; }
-#zlrecipe-container #zlrecipe-rating .rating-45 { background-position: 0 -14px; }
-#zlrecipe-container #zlrecipe-rating .rating-4 { background-position: 0 -28px; }
-#zlrecipe-container #zlrecipe-rating .rating-35 { background-position: 0 -42px; }
-#zlrecipe-container #zlrecipe-rating .rating-3 { background-position: 0 -56px; }
-#zlrecipe-container #zlrecipe-rating .rating-25 { background-position: 0 -70px; }
-#zlrecipe-container #zlrecipe-rating .rating-2 { background-position: 0 -84px; }
-#zlrecipe-container #zlrecipe-rating .rating-15 { background-position: 0 -98px; }
-#zlrecipe-container #zlrecipe-rating .rating-1 { background-position: 0 -112px; }
-#zlrecipe-container #zlrecipe-rating .rating-05 { background-position: 0 -126px; }
-#zlrecipe-container #zlrecipe-rating .rating-0 { background-position: 0 -140px; }
-
 #zlrecipe-container #zlrecipe-ingredients-list, #zlrecipe-container #zlrecipe-instructions-list { line-height: 1.5em; }
 
 #zlrecipe-container #zlrecipe-ingredients-list .no-bullet, #zlrecipe-container #zlrecipe-instructions-list .no-bullet {

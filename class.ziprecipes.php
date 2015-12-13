@@ -265,8 +265,9 @@ class ZipRecipes {
 		// Output main recipe div with border style
 		$style_tag = '';
 		$border_style = get_option('zlrecipe_outer_border_style');
-		if ($border_style != null)
+		if ($border_style != null) {
 			$style_tag = 'style="border: ' . $border_style . ';"';
+		}
 		$output .= '
     <div id="zlrecipe-container-' . $recipe->recipe_id . '" class="zlrecipe-container-border" ' . $style_tag . '>
     <div itemscope itemtype="http://schema.org/Recipe" id="zlrecipe-container" class="serif zlrecipe">
@@ -300,14 +301,9 @@ class ZipRecipes {
 		$output .= '<div class="zlmeta zlclear">
       <div class="fl-l width-50">';
 
-		if ($recipe->rating != 0) {
-			$output .= '<p id="zlrecipe-rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
-			if (strcmp(get_option('zlrecipe_rating_label_hide'), 'Hide') != 0) {
-				$output .= get_option('zlrecipe_rating_label') . ' ';
-			}
-			$output .= '<span class="rating rating-' . $recipe->rating . '"><span itemprop="ratingValue">' . $recipe->rating . '</span><span itemprop="reviewCount" style="display: none;">1</span></span>
-       </p>';
-		}
+		$output .= '<script type="text/javascript" > window.ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>';
+
+		$output .= apply_filters('zrdn__ratings', $recipe->recipe_id);
 
 		// recipe timing
 		if ($recipe->prep_time != null) {
