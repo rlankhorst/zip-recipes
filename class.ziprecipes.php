@@ -12,8 +12,6 @@ class ZipRecipes {
 
 	const registration_url = "https://api.ziprecipes.net/installation/register/";
 
-	const beacon_image_url = "//stats.ziprecipes.net/piwik.php?idsite=1&rec=1";
-
 	/**
 	 * Init function.
 	 */
@@ -147,14 +145,6 @@ class ZipRecipes {
 		delete_option('zrdn_woocommerce_active');
 
 		add_action('admin_footer', __NAMESPACE__ . '\ZipRecipes::zrdn_plugin_footer');
-
-		wp_enqueue_script(
-			'zrdn-admin-script',
-			plugins_url('/scripts/admin.js', __FILE__),
-			array( 'jquery' ), // deps
-			false, // ver
-			true // in_footer
-		);
 
 		self::zrdn_recipe_install();
 	}
@@ -487,8 +477,7 @@ class ZipRecipes {
 		$ingredients = explode("\n", $recipe->ingredients);
 		foreach ($ingredients as $ingredient) {
 			$ingredientClassString = implode(' ', $ingredientClassArray);
-			$addBeacon = $i === 0 ? true : false; # only add beacon on first ingredient as it tracks the whole recipe
-			$output .= self::zrdn_format_item($ingredient, $ingredient_tag, $ingredientClassString, 'ingredients', 'zlrecipe-ingredient-', $i, $addBeacon);
+			$output .= self::zrdn_format_item($ingredient, $ingredient_tag, $ingredientClassString, 'ingredients', 'zlrecipe-ingredient-', $i);
 			$i++;
 		}
 
@@ -563,13 +552,16 @@ class ZipRecipes {
 
 		$output .= '</div></div>';
 
+		// show piwik script
+		wp_enqueue_script("zrdn_piwik", plugins_url('scripts/piwik.js', __FILE__), /*deps*/ array(), /*version*/ "1.0", /*in_footer*/ true);
+
 		return $output;
 	}
 
 	// Processes markup for attributes like labels, images and links
 	// !Label
 	// %image
-	public static function zrdn_format_item($item, $elem, $class, $itemprop, $id, $i, $add_beacon=false) {
+	public static function zrdn_format_item($item, $elem, $class, $itemprop, $id, $i) {
 
 		if (preg_match("/^%(\S*)/", $item, $matches)) {	// IMAGE Updated to only pull non-whitespace after some blogs were adding additional returns to the output
 			$output = '<img class = "' . $class . '-image" src="' . $matches[1] . '" />';
@@ -587,11 +579,6 @@ class ZipRecipes {
 
 		$output .= self::zrdn_richify_item($item, $class);
 
-		// Adding beacon here to prevent a whole vertial block space from being taken up (i.e. so it can be inline)
-		if ($add_beacon)
-		{
-			$output .= '<img src="' . self::beacon_image_url . '" width="1" height="1" border="0" style="width: 1px; height: 1px; border:0" alt="" />';
-		}
 		$output .= '</' . $elem . '>';
 
 		return $output;
