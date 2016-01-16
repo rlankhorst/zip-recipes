@@ -114,6 +114,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 * Better: Lots of infrastructure improvements and minor bug fixes
 * Fixed: Prevent Google from indexing Zip Recipes code and complaining
 * Fixed: Removed author recipe rating feature (it no longer makes sense and had an issue that makes Google angry)
+* Fixed: Spacing issues after first ingredient (some blogs were seeing this)
 
 4.3.1.2 Bug fixes and preparation for WP4.3
 
