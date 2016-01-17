@@ -366,6 +366,10 @@ Update to receive an important fix for an issue that affects all recipes when th
 = 4.3.1.2 =
 Updating will fix potential issues with WordPress 4.3 and a few other (important) bugs.
 
+= 4.4.2.1 =
+Updating will make Google happier (and therefore you as well) and it will work better with 4.4 + some bug fixes
+
+
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
 * You tell us!
