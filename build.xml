@@ -28,6 +28,6 @@
         <exec command="cp -r ${htdocs}/wordpress stageblog" dir="${htdocs}" description="Copy WP to stageblog" />
         <exec command="${mysql_bin} -u root -proot -e 'drop database stage_blog; create database stage_blog'"
               escape="false" dir="${htdocs}" description="Drop old stageblog db and create new one." />
-        <exec command="open 'http://localhost/stageblog'" description="Open stageblog in browser." />
+        <exec command="open 'http://localhost:8888/stageblog'" description="Open stageblog in browser." />
     </target>
 </project>
