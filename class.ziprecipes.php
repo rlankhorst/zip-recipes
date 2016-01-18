@@ -133,7 +133,6 @@ class ZipRecipes {
 		add_option('zlrecipe_sodium_label_hide', '');
 
 		add_option('zlrecipe_rating_label', 'Rating:');
-		add_option('zlrecipe_rating_label_hide', '');
 		add_option('zlrecipe_image_width', '');
 		add_option('zlrecipe_outer_border_style', '');
 		add_option('zlrecipe_custom_print_image', '');
@@ -680,7 +679,6 @@ class ZipRecipes {
 		$sodium_label = get_option('zlrecipe_sodium_label', 'Sodium:');
 		$sodium_label_hide = get_option('zlrecipe_sodium_label_hide', '');
 		$rating_label = get_option('zlrecipe_rating_label');
-		$rating_label_hide = get_option('zlrecipe_rating_label_hide');
 
 
 
@@ -744,7 +742,6 @@ class ZipRecipes {
 				$sodium_label = $_POST['sodium-label'];
 				$sodium_label_hide = $_POST['sodium-label-hide'];
 				$rating_label = self::zrdn_strip_chars($_POST['rating-label']);
-				$rating_label_hide = $_POST['rating-label-hide'];
 				$image_width = $_POST['image-width'];
 				$outer_border_style = $_POST['outer-border-style'];
 				$custom_print_image = $_POST['custom-print-image'];
@@ -793,7 +790,6 @@ class ZipRecipes {
 				update_option('zlrecipe_sodium_label', $sodium_label);
 				update_option('zlrecipe_sodium_label_hide', $sodium_label_hide);
 				update_option('zlrecipe_rating_label', $rating_label);
-				update_option('zlrecipe_rating_label_hide', $rating_label_hide);
 				update_option('zlrecipe_image_width', $image_width);
 				update_option('zlrecipe_outer_border_style', $outer_border_style);
 				update_option('zlrecipe_custom_print_image', $custom_print_image);
@@ -1138,7 +1134,6 @@ class ZipRecipes {
             recipe_title text,
             recipe_image text,
             summary text,
-            rating text,
             prep_time text,
             cook_time text,
             total_time text,
@@ -1220,17 +1215,17 @@ class ZipRecipes {
 				$recipe_image = $recipe->recipe_image;
 				$summary = $recipe->summary;
 				$notes = $recipe->notes;
-				$rating = $recipe->rating;
 				$ss = array();
-				$ss[(int)$rating] = 'selected="true"';
 				$prep_time_input = '';
 				$cook_time_input = '';
 				$total_time_input = '';
 				if (class_exists('DateInterval')) {
 					try {
-						$prep_time = new \DateInterval($recipe->prep_time);
-						$prep_time_minutes = $prep_time->i;
-						$prep_time_hours = $prep_time->h;
+						if ($recipe->prep_time) {
+							$prep_time = new \DateInterval($recipe->prep_time);
+							$prep_time_minutes = $prep_time->i;
+							$prep_time_hours = $prep_time->h;
+						}
 					} catch (Exception $e) {
 						if ($recipe->prep_time != null) {
 							$prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
@@ -1238,9 +1233,11 @@ class ZipRecipes {
 					}
 
 					try {
-						$cook_time = new \DateInterval($recipe->cook_time);
-						$cook_time_minutes = $cook_time->i;
-						$cook_time_hours = $cook_time->h;
+						if ($recipe->cook_time) {
+							$cook_time = new \DateInterval($recipe->cook_time);
+							$cook_time_minutes = $cook_time->i;
+							$cook_time_hours = $cook_time->h;
+						}
 					} catch (Exception $e) {
 						if ($recipe->cook_time != null) {
 							$cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
@@ -1248,9 +1245,11 @@ class ZipRecipes {
 					}
 
 					try {
-						$total_time = new \DateInterval($recipe->total_time);
-						$total_time_minutes = $total_time->i;
-						$total_time_hours = $total_time->h;
+						if ($recipe->total_time) {
+							$total_time = new \DateInterval($recipe->total_time);
+							$total_time_minutes = $total_time->i;
+							$total_time_hours = $total_time->h;
+						}
 					} catch (Exception $e) {
 						if ($recipe->total_time != null) {
 							$total_time_input = '<input type="text" name="total_time" value="' . $recipe->total_time . '"/>';
@@ -1519,7 +1518,6 @@ class ZipRecipes {
 			"recipe_title" =>  $post_info["recipe_title"],
 			"recipe_image" => $post_info["recipe_image"],
 			"summary" =>  $post_info["summary"],
-			"rating" => $post_info["rating"],
 			"prep_time" => $prep_time,
 			"cook_time" => $cook_time,
 			"total_time" => $total_time,
@@ -1630,6 +1628,14 @@ class ZipRecipes {
 
 	// Inserts the recipe into the post editor
 	public static function zrdn_plugin_footer() {
+		wp_enqueue_script(
+			'zrdn-admin-script',
+			plugins_url('/scripts/admin.js', __FILE__),
+			array( 'jquery' ), // deps
+			false, // ver
+			true // in_footer
+		);
+
 		$url = site_url();
 		$pluginurl = ZRDN_PLUGIN_URL;
 
