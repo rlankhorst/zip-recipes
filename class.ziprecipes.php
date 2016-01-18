@@ -1228,7 +1228,7 @@ class ZipRecipes {
 				$total_time_input = '';
 				if (class_exists('DateInterval')) {
 					try {
-						$prep_time = new DateInterval($recipe->prep_time);
+						$prep_time = new \DateInterval($recipe->prep_time);
 						$prep_time_minutes = $prep_time->i;
 						$prep_time_hours = $prep_time->h;
 					} catch (Exception $e) {
@@ -1238,7 +1238,7 @@ class ZipRecipes {
 					}
 
 					try {
-						$cook_time = new DateInterval($recipe->cook_time);
+						$cook_time = new \DateInterval($recipe->cook_time);
 						$cook_time_minutes = $cook_time->i;
 						$cook_time_hours = $cook_time->h;
 					} catch (Exception $e) {
@@ -1248,7 +1248,7 @@ class ZipRecipes {
 					}
 
 					try {
-						$total_time = new DateInterval($recipe->total_time);
+						$total_time = new \DateInterval($recipe->total_time);
 						$total_time_minutes = $total_time->i;
 						$total_time_hours = $total_time->h;
 					} catch (Exception $e) {
@@ -1591,7 +1591,7 @@ class ZipRecipes {
 
 		if (class_exists('DateInterval')) {
 			try {
-				$result_object = new DateInterval($duration);
+				$result_object = new \DateInterval($duration);
 
 				foreach ($date_abbr as $abbr => $name) {
 					if ($result_object->$abbr > 0) {
