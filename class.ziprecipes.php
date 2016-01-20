@@ -292,7 +292,7 @@ class ZipRecipes {
 
 		$output .= '<script type="text/javascript" > window.ajaxurl = "' . admin_url('admin-ajax.php') . '";</script>';
 
-		$output .= do_action('zrdn__ratings', $recipe->recipe_id);
+		$output .= apply_filters('zrdn__ratings', '', $recipe->recipe_id);
 
 		// recipe timing
 		if ($recipe->prep_time != null) {
