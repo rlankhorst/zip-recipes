@@ -3,3 +3,5 @@ views/cache/*
 .vagrant/
 vendor/
 plugins/
+node_modules/
+build/
