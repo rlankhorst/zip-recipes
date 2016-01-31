@@ -42,7 +42,7 @@ mysql -u root -proot -e "GRANT ALL PRIVILEGES ON wordpress.* TO wordpressuser@lo
 tar xzf latest.tar.gz
 cp wordpress/wp-config-sample.php wordpress/wp-config.php
 
-sed -i "s/define('DB_NAME', 'database_name_here');/define('DB_NAME', 'wordpress');/" wordpress/wp-config.php 
+sed -i "s/define('DB_NAME', 'database_name_here');/define('DB_NAME', 'wordpress');/" wordpress/wp-config.php
 
 sed -i "s/define('DB_USER', 'username_here');/define('DB_USER', 'wordpressuser');/" wordpress/wp-config.php
 
@@ -50,8 +50,8 @@ sed -i "s/define('DB_PASSWORD', 'password_here');/define('DB_PASSWORD', 'passwor
 
 export WP_INSTALLED_LOCATION='/wordpress_env'
 sudo rm -rf $WP_INSTALLED_LOCATION/*
-sudo cp -r wordpress/* $WP_INSTALLED_LOCATION 
-sudo ln -s /vagrant  $WP_INSTALLED_LOCATION/wp-content/plugins/zip-recipes
+sudo cp -r wordpress/* $WP_INSTALLED_LOCATION
+sudo ln -s /vagrant/src  $WP_INSTALLED_LOCATION/wp-content/plugins/zip-recipes
 
 cd $WP_INSTALLED_LOCATION
 sudo chown -R www-data:www-data *
@@ -84,7 +84,7 @@ server {
                 fastcgi_index index.php;
                 include fastcgi_params;
                  }
-        
+
 
 }
 EOF
