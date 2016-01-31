@@ -1,0 +1,30 @@
+{
+  "name": "zip-recipes",
+  "version": "1.0.0",
+  "description": "=== Zip Recipes === Contributors: hgezim, codeswan Plugin Name: Zip Recipes Plugin URI: http://www.ziprecipes.net Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin License: GPLv3 or later Author URI: http://www.ziprecipes.net Author: Gezim Hoxha Donate link: http://www.ziprecipes.net/donate Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition Requires at least: 3.1 Tested up to: 4.4 Stable tag: 4.4.2.1",
+  "main": "zip-recipes.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hgezim/zip-recipes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/hgezim/zip-recipes/issues"
+  },
+  "homepage": "https://github.com/hgezim/zip-recipes#readme",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.0",
+    "gulp-filter": "^3.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-shell": "^0.5.2",
+    "gulp-zip": "^3.1.0"
+  }
+}
