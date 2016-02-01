@@ -9,6 +9,7 @@ class ZipRecipes {
 
 	const TABLE_VERSION = "3.3"; // This must be changed when the DB structure is modified
 	const TABLE_NAME = "amd_zlrecipe_recipes";
+	const PLUGIN_OPTION_NAME = "zrdn__plugins";
 
 	const registration_url = "https://api.ziprecipes.net/installation/register/";
 
@@ -49,7 +50,17 @@ class ZipRecipes {
 				// instantiate class
 				$namespace = __NAMESPACE__;
 				$fullPluginName = "$namespace\\$pluginName"; // double \\ is needed because \ is an escape char
-				new $fullPluginName;
+				$pluginInstance = new $fullPluginName;
+
+				// add plugin to options if it's not already there
+				// zrdn__plugins stores whether plugin is enabled or not:
+				//	array("VisitorRating" => array("active" => false, "description" => "Stuff"),
+				//				"RecipeIndex" => array("active" => true, "description" => "Stuff"))
+				$pluginOptions = get_option(self::PLUGIN_OPTION_NAME, array());
+				if (! array_key_exists($fullPluginName, $pluginOptions)) {
+					$pluginOptions[$fullPluginName] = array("active" => true, "description" => $pluginInstance::DESCRIPTION);
+				}
+				update_option(self::PLUGIN_OPTION_NAME, $pluginOptions);
 			}
 
 			chdir($originalDir);
