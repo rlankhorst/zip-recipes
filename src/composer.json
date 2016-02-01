@@ -1,6 +1,9 @@
 {
     "require-dev": {
-        "phing/phing": "2.*",
-	"twbs/bootstrap": "3.*"
+        "phing/phing": "2.*"
+    },
+    "require": {
+        "twig/twig": "~1.0",
+        "twbs/bootstrap": "3.*"
     }
 }
