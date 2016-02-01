@@ -28,7 +28,10 @@ gulp.task("build-premium", function () {
   // used to change plugin name to Zip Recipes premium
   var mainPluginFileFilter = filter('zip-recipes.php', {restore: true});
 
-  return gulp.src(["src/**", "!src/README.md", "!src/composer.*", "LICENSE"])
+  return gulp.src(["src/**",
+    "!src/README.md",
+    "!src/composer.*",
+    "LICENSE"])
     // rename premium read me
     .pipe(premiumFileFilter)
     .pipe(rename("README.md"))
