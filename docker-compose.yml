@@ -1,0 +1,13 @@
+dev:
+  image: wordpress
+  links:
+    - db:mysql
+  ports:
+    - 8080:80
+  volumes:
+    - /Users/gezimhome/projects/ziprecipes.net/zip-recipes/src:/var/www/html/wp-content/plugins/zip-recipes
+
+db:
+  image: mysql:5.5
+  environment:
+    MYSQL_ROOT_PASSWORD: root
