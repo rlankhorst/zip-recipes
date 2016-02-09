@@ -1385,17 +1385,8 @@ class ZipRecipes {
 
 	// function to include the javascript for the Add Recipe button
 	public static function zrdn_process_head() {
-
-		// Always add the print script
-		$header_html='<script type="text/javascript" async="" src="' . ZRDN_PLUGIN_URL . 'scripts/zlrecipe_print.js"></script>';
-
-		// Recipe styling
 		$css = get_option('zlrecipe_stylesheet');
-		if (strcmp($css, '') != 0) {
-			$header_html .= '<link href="' . ZRDN_PLUGIN_URL . 'styles/zlrecipe-std.css" rel="stylesheet" type="text/css" />';
-		}
-
-		echo $header_html;
+		Util::view('header', array('ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL, 'css' => $css));
 	}
 
 	public static function zrdn_break( $otag, $text, $ctag) {
