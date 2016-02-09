@@ -1,5 +1,5 @@
 .idea/
-views/cache/*
+src/views/cache/*
 .vagrant/
 vendor/
 plugins/
