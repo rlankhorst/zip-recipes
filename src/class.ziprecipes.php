@@ -859,227 +859,42 @@ class ZipRecipes {
         </tr>';
 		}
 
-		$forms = 'For full customization options, see the <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Instructions document</a>.
-            <table class="form-table">
-                <tr valign="top">
-                    <th scope="row">
-                    	Custom Print Button
-                    	<br />
-                    	(Optional)
-                    </th>
-                    <td>
-                    	<input type="hidden" name="action" value="update_settings" />
-                        <input placeholder="URL to custom Print button image" type="text" name="custom-print-image" value="' . $custom_print_image . '" class="regular-text" />
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Zip Recipes Plugin Link</th>
-                    <td><label><input type="checkbox" name="zrecipe-attribution-hide" value="Hide" ' . $zrecipe_attribution_hide . ' /> Don\'t show plugin link</label></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Printed Output: Recipe Permalink</th>
-                    <td><label><input type="checkbox" name="printed-permalink-hide" value="Hide" ' . $printed_permalink_hide . ' /> Don\'t show permalink in printed output</label></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Printed Output: Copyright Statement</th>
-                    <td><input type="text" name="printed-copyright-statement" value="' . $printed_copyright_statement . '" class="regular-text" /></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Print Button Label:</th>
-                    <td><input type="text" name="print-button-label" value="' . $print_button_label . '" class="regular-text" /></td>
-                </tr>
-            </table>
 
-            <hr />
-			<h3>General</h3>
-            <table class="form-table">
-                <tr valign="top">
-                    <th scope="row">Stylesheet</th>
-                    <td><label><input type="checkbox" name="stylesheet" value="zlrecipe-std" ' . $stylesheet . ' /> Use Zip Recipes style</label></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Recipe Title</th>
-                    <td><label><input type="checkbox" name="recipe-title-hide" value="Hide" ' . $recipe_title_hide . ' /> Don\'t show Recipe Title in post (still shows in print view)</label></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Print Button</th>
-                    <td><label><input type="checkbox" name="print-link-hide" value="Hide" ' . $print_link_hide . ' /> Don\'t show Print Button</label></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Image Width</th>
-                    <td><label><input type="text" name="image-width" value="' . $image_width . '" class="regular-text" /> pixels</label></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Image Display</th>
-                    <td>
-                    	<label><input type="checkbox" name="image-hide" value="Hide" ' . $image_hide . ' /> Don\'t show Image in post</label>
-                    	<br />
-                    	<label><input type="checkbox" name="image-hide-print" value="Hide" ' . $image_hide_print . ' /> Don\'t show Image in print view</label>
-                    </td>
-                </tr>
-                <tr valign="top">
-                	<th scope="row">Border Style</th>
-                	<td>
-						<select name="outer-border-style">' . $obs . '</select>
-					</td>
-				</tr>
-            </table>
-            <hr />
-            <h3>Ingredients</h3>
-            <table class="form-table">
-                <tr valign="top">
-                    <th scope="row">\'Ingredients\' Label</th>
-                    <td><input type="text" name="ingredient-label" value="' . $ingredient_label . '" class="regular-text" /><br />
-                    <label><input type="checkbox" name="ingredient-label-hide" value="Hide" ' . $ingredient_label_hide . ' /> Don\'t show Ingredients label</label></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">\'Ingredients\' List Type</th>
-                    <td>
-                        <input type="radio" id="ingredient-list-type-l" name="ingredient-list-type" value="l" ' . $ing_l . ' />
-                        <label for="ingredient-list-type-l">List</label>
-                        <br />
-                        <input type="radio" id="ingredient-list-type-ol" name="ingredient-list-type" value="ol" ' . $ing_ol . ' />
-                        <label for="ingredient-list-type-ol">Numbered List</label>
-                        <br />
-                        <input type="radio" id="ingredient-list-type-ul" name="ingredient-list-type" value="ul" ' . $ing_ul . ' />
-                        <label for="ingredient-list-type-ul">Bulleted List</label>
-                        <br />
-                        <input type="radio" id="ingredient-list-type-p" name="ingredient-list-type" value="p" ' . $ing_p . ' />
-                        <label for="ingredient-list-type-p">Paragraphs</label>
-                        <br />
-                        <input type="radio" id="ingredient-list-type-div" name="ingredient-list-type" value="div" ' . $ing_div . ' />
-                        <label for="ingredient-list-type-div">Divs</label>
-	                </td>
-                </tr>
-            </table>
+		$settingsParams = array('zrdn_icon' => $zrdn_icon,
+				'registered' => $registered,
+				'custom_print_image' => $custom_print_image,
+				'zrecipe_attribution_hide' => $zrecipe_attribution_hide,
+				'printed_permalink_hide' => $printed_permalink_hide,
+				'printed_copyright_statement' => $printed_copyright_statement,
+				'print_button_label' => $print_button_label,
+				'stylesheet' => $stylesheet,
+				'recipe_title_hide' => $recipe_title_hide,
+				'print_link_hide' => $print_link_hide,
+				'image_width' => $image_width,
+				'image_hide' => $image_hide,
+				'$image_hide_print' => $image_hide_print,
+				'$obs' => $obs,
+				'$ingredient_label' => $ingredient_label,
+				'$ingredient_label_hide' => $ingredient_label_hide,
+				'$ing_l' => $ing_l,
+				'$ing_ol' => $ing_ol,
+				'$ing_ul' => $ing_ul,
+				'$ing_p' => $ing_p,
+				'$ing_div' => $ing_div,
+				'$instruction_label' => $instruction_label,
+				'$instruction_label_hide' => $instruction_label_hide,
+				'$ins_l' => $ins_l,
+				'ins_ol' => $ins_ol,
+				'$ins_ul' => $ins_ul,
+				'$ins_p' => $ins_p,
+				'$ins_div' => $ins_div,
+				'other_options' => $other_options,
+				'registration_url' => self::registration_url,
+				'wp_version' => $wp_version,
+				'installed_plugins' => Util::zrdn_get_installed_plugins(),
+				'home_url' => home_url());
 
-            <hr />
-
-            <h3>Instructions</h3>
-            <table class="form-table">
-                <tr valign="top">
-                    <th scope="row">\'Instructions\' Label</th>
-                    <td><input type="text" name="instruction-label" value="' . $instruction_label . '" class="regular-text" /><br />
-                    <label><input type="checkbox" name="instruction-label-hide" value="Hide" ' . $instruction_label_hide . ' /> Don\'t show Instructions label</label></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">\'Instructions\' List Type</th>
-                    <td>
-                        <input type="radio" id="instruction-list-type-l" name="instruction-list-type" value="l" ' . $ins_l . ' />
-                        <label for="instruction-list-type-l">List</label>
-                        <br />
-                        <input type="radio" id="instruction-list-type-ol" name="instruction-list-type" value="ol" ' . $ins_ol . ' />
-                        <label for="instruction-list-type-ol">Numbered List</label>
-                        <br />
-                        <input type="radio" id="instruction-list-type-ul" name="instruction-list-type" value="ul" ' . $ins_ul . ' />
-	                    <label for="instruction-list-type-ul">Bulleted List</label>
-                        <br />
-                        <input type="radio" id="instruction-list-type-p" name="instruction-list-type" value="p" ' . $ins_p . ' />
-	                    <label for="instruction-list-type-p">Paragraphs</label>
-                        <br />
-                        <input type="radio" id="instruction-list-type-div" name="instruction-list-type" value="div" ' . $ins_div . ' />
-                        <label for="instruction-list-type-div">Divs</label>
-	                </td>
-                </tr>
-            </table>
-
-            <hr />
-
-            <h3>Other Options</h3>
-            <table class="form-table">
-                ' . $other_options . '
-            </table>
-
-            <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>';
-
-		if (! $registered)
-		{
-			$forms = '
-			<script type="text/javascript">
-				var $form = jQuery("#zlrecipe_settings_form");
-
-		         $form.on("submit", function ()
-		         {
-		         	var $registerButton = jQuery("#register_button");
-	                 $registerButton.val("Registering...");
-	                 $registerButton.attr("disabled", true);
-
-	                 var postUrl = "'. self::registration_url . '";
-
-		         	jQuery.post(postUrl, $form.serialize(), function(data)
-		         	{
-		         		var jsonData = JSON.parse(data);
-
-		         		if (jsonData.status === "failure")
-		         		{
-		         			for (var elementID in jsonData.errors)
-		         			{
-		         				if (jsonData.errors.hasOwnProperty(elementID))
-		         				{
-		         					var errors = jsonData.errors[elementID];
-		         					for (var i = 0; i < errors.length; i++)
-		         					{
-		         						jQuery("#" + elementID).parent().append("<br/>"+errors[i]);
-		         					}
-		         				}
-		         			}
-
-			                $registerButton.val("Register");
-			                $registerButton.attr("disabled", false);
-		         		}
-		         		else
-		         		{
-		         			// unbind current event hanlder and resubmit the form
-		         			$form.off("submit");
-
-
-		         			$form.get(0).submit();
-		         		}
-		         	});
-
-		         	return false;
-		         });
-			</script>
-			<h3>Register Zip Recipes Free</h3>
-			Please register your plugin so we can notify you of any security updates or other fixes we make to Zip
-			Recipes plugin. Registering also helps us troubleshoot any problems you may encounter. When you register, we will automatically
-			receive your blog\'s web address, WordPress version, and names of installed plugins.
-            <table class="form-table">
-                <tr valign="top">
-                    <th scope="row" style="padding: 0"><label for="first_name">First Name:</label></th>
-                    <td style="padding: 0"><input type="text" id="first_name" name="first_name" class="regular-text" required autofocus /></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row" style="padding: 0"><label for="last_name">Last Name:</label></th>
-                    <td style="padding: 0"><input type="text" id="last_name" name="last_name" class="regular-text" required /></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row" style="padding: 0"><label for="email">Email:</label></th>
-                    <td style="padding: 0">
-                    	<input type="email" id="email" name="email" class="regular-text" required />
-                    	<input type="hidden" id="wp-version" name="wp_version" value="' . $wp_version . '" />
-                    	<input type="hidden" id="plugins" name="plugins" value="' . Util::zrdn_get_installed_plugins() . '" />
-                    	<input type="hidden" id="blog-url" name="blog_url" value="' . home_url() . '" />
-                    	<input type="hidden" name="action" value="register" />
-                    </td>
-                </tr>
-            </table>
-			<p><input type="submit" id="register_button" class="button-primary" value="Register"></p>
-            ';
-		}
-
-		$output =  '<style>
-        .form-table label { line-height: 2.5; }
-        hr { border: none; border-top: 1px; margin: 30px 0; }
-    </style>
-    <div class="wrap">
-        <form method="post" action="" id="zlrecipe_settings_form" name="zlrecipe_settings_form">
-            <h2><img src="' . $zrdn_icon . '" /> Zip Recipes Settings</h2>' .
-		           $forms .
-		           '</form>
-    </div>';
-
-		echo $output;
+		Util::view('settings', $settingsParams);
 	}
 
 	// Replaces the [a|b] pattern with text a that links to b
