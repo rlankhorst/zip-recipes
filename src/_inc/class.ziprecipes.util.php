@@ -8,6 +8,8 @@
 
 namespace ZRDN;
 
+require_once(ZRDN_PLUGIN_DIRECTORY . 'vendor/autoload.php');
+
 class Util {
 	/* Send debug code to the Javascript console */
 	public static function zrdn_debug_to_console($data) {
@@ -47,13 +49,18 @@ class Util {
 		$viewDir = ZRDN_PLUGIN_DIRECTORY . $pluginDir . 'views/';
 
 		$file = $name . '.html';
-		$cacheDir = sprintf('%s/cache', $viewDir);
+		$cacheDir = "${viewDir}cache";
 
 		Util::log("Looking for template in dir:" . $viewDir);
 		Util::log("Template name:" . $file);
 
-		$h2o = new \H2o($file, array('searchpath' => $viewDir, 'cache'=> 'file', 'cache_dir' => $cacheDir));
-		echo $h2o->render($args);
+		$loader = new \Twig_Loader_Filesystem($viewDir);
+		$twig = new \Twig_Environment($loader, array(
+				'cache' => $cacheDir,
+				'autoescape' => true,
+		));
+
+		echo $twig->render($file, $args);
 	}
 
 	public static function get_charset_collate() {
