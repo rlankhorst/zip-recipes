@@ -259,9 +259,6 @@ class ZipRecipes {
 
 	// Formats the recipe for output
 	public static function zrdn_format_recipe($recipe) {
-		$output = "";
-		$permalink = get_permalink();
-
 		$nutritional_info = false;
 		if ($recipe->serving_size != null || $recipe->calories != null || $recipe->fat != null || $recipe->carbs != null
 		    || $recipe->protein != null || $recipe->fiber != null || $recipe->sugar != null || $recipe->saturated_fat != null
@@ -270,6 +267,8 @@ class ZipRecipes {
 			$nutritional_info = true;
 		}
 
+		// add the ingredients
+		$formatted_ingredients = '';
 		if ($recipe->ingredients != null) {
 			$ingredient_tag = '';
 			$ingredient_list_type = get_option('zlrecipe_ingredient_list_type');
@@ -284,7 +283,6 @@ class ZipRecipes {
 			}
 
 			$i = 0;
-			$formatted_ingredients = '';
 			$ingredients = explode("\n", $recipe->ingredients);
 			foreach ($ingredients as $ingredient) {
 				$ingredientClassString = implode(' ', $ingredientClassArray);
@@ -294,6 +292,7 @@ class ZipRecipes {
 		}
 
 		// add the instructions
+		$formatted_instructions = "";
 		if ($recipe->instructions != null) {
 
 			$instruction_tag = '';
@@ -313,7 +312,6 @@ class ZipRecipes {
 			$instructions = explode("\n", $recipe->instructions);
 
 			$j = 0;
-			$formatted_instructions = "";
 			foreach ($instructions as $instruction) {
 				if (strlen($instruction) > 1) {
 					$instructionClassString = implode(' ', $instructionClassArray);
@@ -326,8 +324,9 @@ class ZipRecipes {
 		// show piwik script
 		wp_enqueue_script("zrdn_piwik", plugins_url('scripts/piwik.js', __FILE__), /*deps*/ array(), /*version*/ "1.0", /*in_footer*/ true);
 
-		$viewParams = array('permalink' => get_permalink(),
-				'border_style' => $border_style,
+		$viewParams = array(
+				'permalink' => get_permalink(),
+				'border_style' => get_option('zlrecipe_outer_border_style'),
 				'recipe_id' => $recipe->recipe_id,
 				'custom_print_image' => get_option('zlrecipe_custom_print_image'),
 				'print_label' => get_option('zrdn_print_button_label'),
@@ -398,7 +397,6 @@ class ZipRecipes {
 				'attribution_hide' => get_option('zrdn_attribution_hide'),
 				'version' => ZRDN_VERSION_NUM,
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
-				'permalink' => $permalink,
 				'copyright' => get_option('zlrecipe_printed_copyright_statement')
 		);
 

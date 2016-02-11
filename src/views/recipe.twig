@@ -1,9 +1,6 @@
 {# Output main recipe div with border style #}
-{% if border_style }}
-  <div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border" style="border: {{ border_style|raw }};">
-{% else %}
-  <div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border">
-{% endif %}
+
+<div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border" {% if border_style }}style="border: {{ border_style|raw }};"{% endif %}>
 <div itemscope itemtype="http://schema.org/Recipe" id="zlrecipe-container" class="serif zlrecipe">
   <div id="zlrecipe-innerdiv">
     <div class="item b-b">
@@ -30,13 +27,13 @@
     {# open the zlmeta and fl-l container divs #}
     <div class="zlmeta zlclear">
       <div class="fl-l width-50">
-        <script type="text/javascript" > window.ajaxurl = "{{ ajax_url }}";</script>
+        <script type="text/javascript" > window.ajaxurl = "{{ ajax_url|raw }}";</script>
         {{ recipe_rating|raw }}
 
         {# recipe timing #}
         {% if prep_time %}
           <p id="zlrecipe-prep-time">
-            {% if not prep_time_label_hide %}
+            {% if prep_time_label_hide is not 'Hide' %}
               {{ prep_time_label }}
             {% endif %}
             <span itemprop="prepTime" content="{{ prep_time }}">{{ prep_time }}</span>
@@ -45,7 +42,7 @@
 
         {% if cook_time %}
           <p id="zlrecipe-cook-time">
-            {% if not cook_time_label_hide %}
+            {% if cook_time_label_hide is not 'Hide' %}
               {{ cook_time_label }}
             {% endif %}
             <span itemprop="cookTime" content="{{ cook_time }}">{{ cook_time }}</span>
@@ -90,9 +87,9 @@
 
             {% if calories %}
               <p id="zlrecipe-calories">
-              {% if calories_label_hide != 'Hide' %}
-                {{ calories_label }}
-              {% endif %}
+                {% if calories_label_hide != 'Hide' %}
+                  {{ calories_label }}
+                {% endif %}
                 <span itemprop="calories">{{ calories }}</span>
               </p>
             {% endif %}
@@ -188,6 +185,7 @@
       </div>
     {% endif %}
 
+    {# Add the ingredients #}
     {% if ingredient_label_hide != "Hide" %}
       <p id="zlrecipe-ingredients" class="h-4 strong">{{ ingredient_label }}</p>
     {% endif %}
@@ -206,28 +204,29 @@
       </span>
     {% endif %}
 
+    {# Add the instructions #}
     {% if instruction_label_hide != 'Hide' %}
       <p id="zlrecipe-instructions" class="h-4 strong">{{ instruction_label }}</p>
     {% endif %}
 
     {% if instruction_list_type == 'ul' || instruction_list_type == 'l' %}
       <ul id="zlrecipe-instructions-list" class="instructions">
-        {{ instructions }}
+        {{ instructions|raw }}
       </ul>
     {% else if instruction_list_type == 'ol' %}
       <ol id="zlrecipe-instructions-list" class="instructions">
-        {{ instructions }}
+        {{ instructions|raw }}
       </ol>
     {% else if instruction_list_type == 'p' || instruction_list_type == 'div' %}
       <span id="zlrecipe-instructions-list" class="instructions">
-        {{ instructions }}
+        {{ instructions|raw }}
       </span>
     {% endif %}
 
     {# !! add notes section #}
     {% if notes %}
       {% if notes_label_hide != 'Hide' %}
-        {{ notes_label }}
+        <p id="zlrecipe-notes" class="h-4 strong">{{ notes_label }}</p>
       {% endif %}
       <div id="zlrecipe-notes-list">
        {{ formatted_notes|raw }}
@@ -236,13 +235,13 @@
 
     {# Zip Recipes attribution and version #}
     {% if attribution_hide != 'Hide' %}
-      <div class="zl-linkback">Schema/Recipe SEO Data Markup by <a title="Zip Recipes Plugin" href="http://www.ziprecipes.net" target="_blank">Zip Recipes Plugin</a></div>
+      <div class="zl-linkback">Recipe Management Powered by <a title="Zip Recipes Plugin" href="http://www.ziprecipes.net" target="_blank">Zip Recipes Plugin</a></div>
     {% endif %}
     <div class="ziplist-recipe-plugin" style="display: none;">{{version}}</div>
 
     {# Add permalink for printed output before closing the innerdiv #}
     {% if print_permalink_hide != 'Hide' %}
-      <a id="zl-printed-permalink" href="{{ permalink }}" title="Permalink to Recipe">{{ permalink }}</a>'
+      <a id="zl-printed-permalink" href="{{ permalink }}" title="Permalink to Recipe">{{ permalink }}</a>
     {% endif %}
 
   </div>
