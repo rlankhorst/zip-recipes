@@ -1,12 +1,12 @@
 {# Output main recipe div with border style #}
 
-<div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border" {% if border_style }}style="border: {{ border_style|raw }};"{% endif %}>
+<div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border" {% if border_style %}style="border: {{ border_style|raw }};"{% endif %}>
 <div itemscope itemtype="http://schema.org/Recipe" id="zlrecipe-container" class="serif zlrecipe">
   <div id="zlrecipe-innerdiv">
     <div class="item b-b">
 
       {# Add the print button #}
-      {% if print_hide is not 'Hide' %}
+      {% if print_hide != "Hide" %}
         <div class="zlrecipe-print-link fl-r">
           {% if custom_print_image %}
             <a class="print-link" title="Print this recipe" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
@@ -33,7 +33,7 @@
         {# recipe timing #}
         {% if prep_time %}
           <p id="zlrecipe-prep-time">
-            {% if prep_time_label_hide is not 'Hide' %}
+            {% if prep_time_label_hide != 'Hide' %}
               {{ prep_time_label }}
             {% endif %}
             <span itemprop="prepTime" content="{{ prep_time }}">{{ prep_time }}</span>
@@ -42,7 +42,7 @@
 
         {% if cook_time %}
           <p id="zlrecipe-cook-time">
-            {% if cook_time_label_hide is not 'Hide' %}
+            {% if cook_time_label_hide != 'Hide' %}
               {{ cook_time_label }}
             {% endif %}
             <span itemprop="cookTime" content="{{ cook_time }}">{{ cook_time }}</span>
@@ -194,11 +194,11 @@
       <ol id="zlrecipe-ingredients-list">
         {{ingredients|raw}}
       </ol>
-    {% else if ingredient_list_type == 'ul' || ingredient_list_type == 'l' %}
+    {% elseif ingredient_list_type == 'ul' or ingredient_list_type == 'l' %}
       <ul id="zlrecipe-ingredients-list">
         {{ingredients|raw}}
       </ul>
-    {% else if ingredient_list_type == 'p' || ingredient_list_type == 'div' %}
+    {% elseif ingredient_list_type == 'p' or ingredient_list_type == 'div' %}
       <span id="zlrecipe-ingredients-list">
         {{ingredients|raw}}
       </span>
@@ -209,15 +209,15 @@
       <p id="zlrecipe-instructions" class="h-4 strong">{{ instruction_label }}</p>
     {% endif %}
 
-    {% if instruction_list_type == 'ul' || instruction_list_type == 'l' %}
+    {% if instruction_list_type == 'ul' or instruction_list_type == 'l' %}
       <ul id="zlrecipe-instructions-list" class="instructions">
         {{ instructions|raw }}
       </ul>
-    {% else if instruction_list_type == 'ol' %}
+    {% elseif instruction_list_type == 'ol' %}
       <ol id="zlrecipe-instructions-list" class="instructions">
         {{ instructions|raw }}
       </ol>
-    {% else if instruction_list_type == 'p' || instruction_list_type == 'div' %}
+    {% elseif instruction_list_type == 'p' or instruction_list_type == 'div' %}
       <span id="zlrecipe-instructions-list" class="instructions">
         {{ instructions|raw }}
       </span>
