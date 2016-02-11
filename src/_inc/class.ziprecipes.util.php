@@ -26,6 +26,7 @@ class Util {
 	 *
 	 * @param $name String name of html view to be found in views/ directory. Doesn't contain .html extension.
 	 * @param array $args object View context parameters.
+	 * @return string Rendered view.
 	 */
 	public static function view($name, $args = array()) {
 		$trace=debug_backtrace();
@@ -60,7 +61,11 @@ class Util {
 				'autoescape' => true,
 		));
 
-		echo $twig->render($file, $args);
+		return $twig->render($file, $args);
+	}
+
+	public static function print_view($name, $args = array()) {
+		echo self::view($name, $args);
 	}
 
 	public static function get_charset_collate() {
