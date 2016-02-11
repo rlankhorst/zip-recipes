@@ -43,18 +43,18 @@
           </p>
         {% endif %}
 
-        {% if cook_time % }
+        {% if cook_time %}
           <p id="zlrecipe-cook-time">
             {% if not cook_time_label_hide %}
               {{ cook_time_label }}
             {% endif %}
-            <span itemprop="cookTime" content="' . $recipe->cook_time . '">' . $cook_time . '</span></p>
+            <span itemprop="cookTime" content="{{ cook_time }}">{{ cook_time }}</span>
           </p>
         {% endif %}
 
         {% if total_time %}
           <p id="zlrecipe-total-time">
-            {% if not total_time_label_hide %}
+            {% if total_time_label_hide != 'Hide' %}
               {{ total_time }}
             {% endif %}
             <span itemprop="totalTime" content="{{ total_time }}">{{ total_time }}</span>
@@ -69,7 +69,7 @@
 
         {% if yield %}
           <p id="zlrecipe-yield">
-            {% if yield_label_hide %}
+            {% if yield_label_hide != 'Hide' %}
               {{ yield_label }}
             {% endif %}
             <span itemprop="recipeYield">{{ yield }}</span>
@@ -102,7 +102,8 @@
                 {% if fat_label_hide != 'Hide' %}
                   {{ fat_label }}
                 {% endif %}
-                <span itemprop="fatContent">{{ fat }}</span></p>
+                <span itemprop="fatContent">{{ fat }}</span>
+              </p>
             {% endif %}
 
             {% if saturated_fat %}
@@ -134,10 +135,11 @@
 
             {% if fiber %}
               <p id="zlrecipe-fiber">
-              {% if fiber_label_hide != 'Hide' %}
-                {{ fiber_label }}
-              {% endif %}
-              <span itemprop="fiberContent">{{ fiber }}</span></p>
+                {% if fiber_label_hide != 'Hide' %}
+                  {{ fiber_label }}
+                {% endif %}
+                <span itemprop="fiberContent">{{ fiber }}</span>
+              </p>
             {% endif %}
 
             {% if sugar %}
@@ -154,7 +156,7 @@
                 {% if sodium_label_hide != 'Hide' %}
                   {{ sodium_label }}
                 {% endif %}
-                <span itemprop="sodiumContent">' . $recipe->sodium . '</span>
+                <span itemprop="sodiumContent">{{ sodium }}</span>
               </p>
             {% endif %}
 
