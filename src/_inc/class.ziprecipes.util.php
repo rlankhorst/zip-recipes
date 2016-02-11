@@ -28,9 +28,9 @@ class Util {
 	 * @param array $args object View context parameters.
 	 * @return string Rendered view.
 	 */
-	public static function view($name, $args = array()) {
+	public static function _view($name, $args = array()) {
 		$trace=debug_backtrace();
-		$caller=$trace[1];
+		$caller=$trace[2]; // 0 here is direct caller of _view, 1 would be our Util class so we want 2
 
 		$plugin_name = "";
 		if ($caller['class'])
@@ -46,10 +46,10 @@ class Util {
 		{
 			$pluginDir = "plugins/$plugin_name/";
 		}
-
+		
 		$viewDir = ZRDN_PLUGIN_DIRECTORY . $pluginDir . 'views/';
 
-		$file = $name . '.html';
+		$file = $name . '.twig';
 		$cacheDir = "${viewDir}cache";
 
 		Util::log("Looking for template in dir:" . $viewDir);
@@ -65,7 +65,11 @@ class Util {
 	}
 
 	public static function print_view($name, $args = array()) {
-		echo self::view($name, $args);
+		echo self::_view($name, $args);
+	}
+
+	public static function view($name, $args = array()) {
+		return self::_view($name, $args);
 	}
 
 	public static function get_charset_collate() {
