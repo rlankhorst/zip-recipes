@@ -1,4 +1,5 @@
-FROM wordpress:latest
+FROM hgezim/wordpress-no-cache-xdebug:1.2
 MAINTAINER Gezim Hoxha <hgezim@gmail.com>
-RUN rm -rf /usr/local/etc/php/conf.d/opcache-recommended.ini
 RUN usermod -u 1000 www-data
+
+/usr/share/nginx/html
