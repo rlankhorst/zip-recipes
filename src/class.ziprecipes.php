@@ -677,7 +677,7 @@ class ZipRecipes {
 		$ins_p = (strcmp($instruction_list_type, 'p') == 0 ? 'checked="checked"' : '');
 		$ins_div = (strcmp($instruction_list_type, 'div') == 0 ? 'checked="checked"' : '');
 		$other_options = '';
-		$other_options_array = array('Rating', 'Prep Time', 'Cook Time', 'Total Time', 'Yield', 'Serving Size', 'Calories',
+		$other_options_array = array('Prep Time', 'Cook Time', 'Total Time', 'Yield', 'Serving Size', 'Calories',
 			'Fat', 'Saturated Fat', 'Carbs', 'Protein', 'Fiber', 'Sugar', 'Sodium', 'Notes');
 
 
