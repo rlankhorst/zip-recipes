@@ -59,6 +59,7 @@ class Util {
 		$twig = new \Twig_Environment($loader, array(
 				'cache' => $cacheDir,
 				'autoescape' => true,
+				'auto_reload' => true
 		));
 
 		return $twig->render($file, $args);
