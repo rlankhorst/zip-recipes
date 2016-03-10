@@ -324,6 +324,7 @@ class ZipRecipes {
 		wp_enqueue_script("zrdn_piwik", plugins_url('scripts/piwik.js', __FILE__), /*deps*/ array(), /*version*/ "1.0", /*in_footer*/ true);
 
 		$viewParams = array(
+				'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
 				'permalink' => get_permalink(),
 				'border_style' => get_option('zlrecipe_outer_border_style'),
 				'recipe_id' => $recipe->recipe_id,
@@ -335,13 +336,16 @@ class ZipRecipes {
 				'ajax_url' => admin_url('admin-ajax.php'),
 				'recipe_rating' => apply_filters('zrdn__ratings', '', $recipe->recipe_id),
 				'prep_time' => self::zrdn_format_duration($recipe->prep_time),
+				'prep_time_raw' => $recipe->prep_time,
 				'prep_time_label_hide' => get_option('zlrecipe_prep_time_label_hide'),
 				'prep_time_label' => get_option('zlrecipe_prep_time_label'),
 				'cook_time' => self::zrdn_format_duration($recipe->cook_time),
+				'cook_time_raw' => $recipe->cook_time,
 				'cook_time_label_hide' => get_option('zlrecipe_cook_time_label_hide'),
 				'cook_time_label' => get_option('zlrecipe_cook_time_label'),
 				'total_time' => self::zrdn_format_duration($recipe->total_time),
-				'total_time_label' => get_option('zlrecipe_cook_time_label'),
+				'total_time_raw' => $recipe->total_time,
+				'total_time_label' => get_option('zlrecipe_total_time_label'),
 				'total_time_label_hide' => get_option('zlrecipe_total_time_label_hide'),
 				'yield' => $recipe->yield,
 				'yield_label_hide' => get_option('zlrecipe_yield_label_hide'),

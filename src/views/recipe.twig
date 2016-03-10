@@ -36,7 +36,7 @@
             {% if prep_time_label_hide != 'Hide' %}
               {{ prep_time_label }}
             {% endif %}
-            <span itemprop="prepTime" content="{{ prep_time }}">{{ prep_time }}</span>
+            <span itemprop="prepTime" content="{{ prep_time_raw }}">{{ prep_time }}</span>
           </p>
         {% endif %}
 
@@ -45,16 +45,16 @@
             {% if cook_time_label_hide != 'Hide' %}
               {{ cook_time_label }}
             {% endif %}
-            <span itemprop="cookTime" content="{{ cook_time }}">{{ cook_time }}</span>
+            <span itemprop="cookTime" content="{{ cook_time_raw }}">{{ cook_time }}</span>
           </p>
         {% endif %}
 
         {% if total_time %}
           <p id="zlrecipe-total-time">
             {% if total_time_label_hide != 'Hide' %}
-              {{ total_time }}
+              {{ total_time_label }}
             {% endif %}
-            <span itemprop="totalTime" content="{{ total_time }}">{{ total_time }}</span>
+            <span itemprop="totalTime" content="{{ total_time_raw }}">{{ total_time }}</span>
           </p>
         {% endif %}
 
