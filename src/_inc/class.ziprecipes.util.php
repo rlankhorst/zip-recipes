@@ -26,10 +26,11 @@ class Util {
 	 *
 	 * @param $name String name of html view to be found in views/ directory. Doesn't contain .html extension.
 	 * @param array $args object View context parameters.
+	 * @return string Rendered view.
 	 */
-	public static function view($name, $args = array()) {
+	public static function _view($name, $args = array()) {
 		$trace=debug_backtrace();
-		$caller=$trace[1];
+		$caller=$trace[2]; // 0 here is direct caller of _view, 1 would be our Util class so we want 2
 
 		$plugin_name = "";
 		if ($caller['class'])
@@ -45,10 +46,10 @@ class Util {
 		{
 			$pluginDir = "plugins/$plugin_name/";
 		}
-
+		
 		$viewDir = ZRDN_PLUGIN_DIRECTORY . $pluginDir . 'views/';
 
-		$file = $name . '.html';
+		$file = $name . '.twig';
 		$cacheDir = "${viewDir}cache";
 
 		Util::log("Looking for template in dir:" . $viewDir);
@@ -58,9 +59,18 @@ class Util {
 		$twig = new \Twig_Environment($loader, array(
 				'cache' => $cacheDir,
 				'autoescape' => true,
+				'auto_reload' => true
 		));
 
-		echo $twig->render($file, $args);
+		return $twig->render($file, $args);
+	}
+
+	public static function print_view($name, $args = array()) {
+		echo self::_view($name, $args);
+	}
+
+	public static function view($name, $args = array()) {
+		return self::_view($name, $args);
 	}
 
 	public static function get_charset_collate() {
