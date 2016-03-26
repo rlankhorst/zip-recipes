@@ -2,6 +2,8 @@ server {
         listen   8080;
         server_name zrdn;
 
+	sendfile off;
+
         root /usr/share/nginx/html/wordpress;
         index index.php index.html index.htm;
 
