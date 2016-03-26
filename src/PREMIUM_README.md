@@ -108,6 +108,11 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
+4.4.2.4 Better Ratings
+
+* Better: Shows visitors the number of times a recipe has been rated
+* Better: Make it clear that visitor can rate recipe by adding "Rate this recipe" label
+
 4.4.2.2 Manage Extensions
 
 * New: Activate or deactivate extensions such as Recipe Ratings or Recipe Index, etc.
