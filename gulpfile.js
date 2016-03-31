@@ -2,7 +2,6 @@ var gulp = require("gulp");
 var del = require("del");
 var rename = require("gulp-rename");
 var filter = require("gulp-filter");
-var rename = require("gulp-rename");
 var replace = require("gulp-replace");
 var zip = require("gulp-zip");
 var shell = require('gulp-shell');
@@ -15,7 +14,12 @@ const dest_premium = path.join(build_path, "premium");
 
 gulp.task("build-premium-js", function () {
   return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-    .pipe(gulp.dest(dest_premium))
+    .pipe(gulp.dest(dest_premium));
+});
+
+gulp.task("build-premium-vendor", function() {
+  return gulp.src(["src/vendor/twbs/bootstrap/dist/**"], {base: "src"})
+    .pipe(gulp.dest(dest_premium));
 });
 
 /**
@@ -31,6 +35,8 @@ gulp.task("build-premium", function () {
   return gulp.src(["src/**",
     "!src/README.md",
     "!src/composer.*",
+    "!node_modules/**",
+    "!src/vendor/**",
     "LICENSE"])
     // rename premium read me
     .pipe(premiumFileFilter)
@@ -46,7 +52,7 @@ gulp.task("build-premium", function () {
     .pipe(gulp.dest(dest_premium))
 });
 
-gulp.task("zip-premium", function () {
+gulp.task("compress-premium", function () {
   return gulp.src(path.join(dest_premium, "**"))
     .pipe(zip("zip-recipes-premium.zip"))
     .pipe(gulp.dest("build/"));
@@ -73,7 +79,7 @@ gulp.task("build-free", ["composer", "clean-free"], function () {
 });
 
 gulp.task("premium-sequence", function (cb) {
-  return sequence("clean-premium", ["composer", "build-premium-js", "build-premium"], "zip-premium", cb);
+  return sequence("clean-premium", ["composer", "build-premium-js", "build-premium", "build-premium-vendor"], "compress-premium", cb);
 });
 
 /**
@@ -82,7 +88,6 @@ gulp.task("premium-sequence", function (cb) {
 gulp.task("build", function(cb) {
   return sequence("clean", ["build-free", "premium-sequence"]);
 });
-
 
 gulp.task("clean", function () {
   return del(build_path);
