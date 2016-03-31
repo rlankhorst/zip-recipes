@@ -2,27 +2,14 @@
 <project name="zip-recipes" default="copy_to_git">
     <property name="git-repo" value="/Users/gezimhoxha/projects/ziprecipes.net/zip-recipes/git" />
 
-    <target name="copy_to_git">
-        <copy todir="${git-repo}">
-            <fileset dir="." includes="**" />
-        </copy>
-    </target>
-
-    <target name="build_zip" depends="copy_to_git">
-        <property name="zipped-file" value="${git-repo}/../zip-recipes.zip" />
-
-        <delete file="${zipped-file}" />
-        <zip destfile="${zipped-file}" basedir="${git-repo}" />
-    </target>
-
     <target name="staging_setup">
         <!-- # We don't need to download a new version every single time -->
         <!--curl https://wordpress.org/latest.tar.gz | tar xz-->
         <property name="htdocs" value="/Applications/MAMP/htdocs/" />
         <property name="mysql_bin" value="/Applications/MAMP/Library/bin/mysql" />
 
-        <exec command="curl https://wordpress.org/latest.tar.gz | tar xz" dir="${htdocs}"
-              checkreturn="true" description="Download latest WP" />
+        <!--<exec command="curl https://wordpress.org/latest.tar.gz | tar xz" dir="${htdocs}"-->
+              <!--checkreturn="true" description="Download latest WP" />-->
         <exec command="rm -rf stageblog" dir="${htdocs}" checkreturn="true"
               description="Remove old stageblog" />
         <exec command="cp -r ${htdocs}/wordpress stageblog" dir="${htdocs}" description="Copy WP to stageblog" />
