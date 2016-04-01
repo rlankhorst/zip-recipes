@@ -17,9 +17,19 @@ gulp.task("build-premium-js", function () {
     .pipe(gulp.dest(dest_premium));
 });
 
+gulp.task("build-free-js", function () {
+  return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
+    .pipe(gulp.dest(dest_free));
+});
+
 gulp.task("build-premium-vendor", function() {
   return gulp.src(["src/vendor/twbs/bootstrap/dist/**"], {base: "src"})
     .pipe(gulp.dest(dest_premium));
+});
+
+gulp.task("build-free-vendor", function() {
+  return gulp.src(["src/vendor/twbs/bootstrap/dist/**"], {base: "src"})
+    .pipe(gulp.dest(dest_free));
 });
 
 /**
@@ -37,7 +47,8 @@ gulp.task("build-premium", function () {
     "!src/composer.*",
     "!node_modules/**",
     "!src/vendor/**",
-    "LICENSE"])
+    "LICENSE",
+    "!src/plugins/**"])
     // rename premium read me
     .pipe(premiumFileFilter)
     .pipe(rename("README.md"))
@@ -58,6 +69,34 @@ gulp.task("compress-premium", function () {
     .pipe(gulp.dest("build/"));
 });
 
+gulp.task("plugins-free", function () {
+  return gulp.src(["src/plugins/index.php"], {base: "src"})
+    .pipe(gulp.dest(dest_free));
+});
+
+gulp.task("plugins-premium", function () {
+  return gulp.src(["src/plugins/**"], {base: "src"})
+    .pipe(gulp.dest(dest_premium));
+});
+
+gulp.task("build-free", function () {
+  return gulp.src(["src/**",
+    "!src/PREMIUM_README.md",
+    "!src/composer.*",
+    "!node_modules/**",
+    "!src/vendor/**",
+    "LICENSE",
+    "!src/plugins/**"])
+    // move files to destination
+    .pipe(gulp.dest(dest_free));
+});
+
+gulp.task("compress-free", function() {
+  return gulp.src(path.join(dest_free, "**"))
+    .pipe(zip("zip-recipes.zip"))
+    .pipe(gulp.dest("build/"));
+});
+
 /**
  * Run composer command in src dir.
  */
@@ -68,25 +107,19 @@ gulp.task('composer', shell.task([
 /**
  * Task to build free version of Zip Recipes.
  */
-gulp.task("build-free", ["composer", "clean-free"], function () {
-  return gulp.src(["src/**", "!src/PREMIUM_README.md", "!src/composer.*", "LICENSE", "src/plugins/index.php", "!src/plugins/**"])
-    // move files to destination
-    .pipe(gulp.dest(dest_free))
-
-    // zip it all up
-    .pipe(zip("zip-recipes.zip"))
-    .pipe(gulp.dest("build/"));
+gulp.task("free-sequence", function (cb) {
+  return sequence("clean-free", ["composer", "plugins-free", "build-free-js", "build-free", "build-free-vendor"], "compress-free", cb);
 });
 
 gulp.task("premium-sequence", function (cb) {
-  return sequence("clean-premium", ["composer", "build-premium-js", "build-premium", "build-premium-vendor"], "compress-premium", cb);
+  return sequence("clean-premium", ["composer", "plugins-premium", "build-premium-js", "build-premium", "build-premium-vendor"], "compress-premium", cb);
 });
 
 /**
  * Task to build free and premium versions.
  */
 gulp.task("build", function(cb) {
-  return sequence("clean", ["build-free", "premium-sequence"]);
+  return sequence("clean", ["free-sequence", "premium-sequence"]);
 });
 
 gulp.task("clean", function () {
