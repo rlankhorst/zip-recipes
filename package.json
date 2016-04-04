@@ -22,6 +22,7 @@
   "devDependencies": {
     "del": "^2.2.0",
     "gulp": "^3.9.0",
+    "gulp-debug":"2.1.2",
     "gulp-filter": "^3.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
