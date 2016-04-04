@@ -34,14 +34,16 @@ gulp.task("build-premium", function () {
   // used to change plugin name to Zip Recipes premium
   var mainPluginFileFilter = filter('zip-recipes.php', {restore: true});
 
-  return gulp.src(["src/**",
+  return gulp.src([
+    "src/**",
     "!src/README.md",
     "!src/composer.*",
     "!node_modules/**",
     "!src/vendor-dev/**",
     "!src/vendor-dev",
     "LICENSE",
-    "!src/plugins/**"])
+    "!src/plugins/**"
+  ])
     // rename premium read me
     .pipe(premiumFileFilter)
     .pipe(rename("README.md"))
@@ -83,7 +85,6 @@ gulp.task("build-free", function () {
     "LICENSE",
     "!src/plugins/**"
   ])
-    .pipe(debug())
     // move files to destination
     .pipe(gulp.dest(dest_free));
 });
