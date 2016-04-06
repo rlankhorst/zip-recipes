@@ -109,17 +109,17 @@ gulp.task('vendor-rename-pre', function(done) {
 });
 
 /**
- * Renames vendor-dev to vendor if if it exists
+ * Renames vendor-dev to vendor if if it exists. Removes `vendor` contents
  * This restores vendor name for vendor packages that include dev packages
  */
 gulp.task('vendor-rename-post', function(done) {
-  try {
-    return fs.renameSync('src/vendor-dev', 'src/vendor');
-  }
-  catch (e) {
-    console.log("vendor dir not found");
-  }
-  done();
+  del('src/vendor/**')
+    .then(function () {
+      return fs.rename('src/vendor-dev', 'src/vendor');
+    })
+    .then(function () {
+      done();
+    });
 });
 
 
