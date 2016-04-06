@@ -9,8 +9,8 @@ Author: Gezim Hoxha
 Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
-Tested up to: 4.3
-Stable tag: 4.4.2.4
+Tested up to: 4.5
+Stable tag: 4.5.2.4
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -108,10 +108,14 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-4.4.2.4 Better Ratings
+4.5.2.4 Better Ratings
 
 * Better: Shows visitors the number of times a recipe has been rated
 * Better: Make it clear that visitor can rate recipe by adding "Rate this recipe" label
+* Better: Supports WordPress 4.5
+* Better: Supports PHP 7
+* Fixed: Title was not getting picked up from post title
+* Fixed: Issues with non-English recipe titles for Recipe Indexes
 
 4.4.2.2 Manage Extensions
 
