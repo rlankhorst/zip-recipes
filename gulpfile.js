@@ -99,13 +99,12 @@ gulp.task("compress-free", function() {
  * Renames vendor to vendor-dev if if it exists because vendor contains dev packages as well
  */
 gulp.task('vendor-rename-pre', function(done) {
-  try {
-    return fs.renameSync('src/vendor', 'src/vendor-dev');
-  }
-  catch (e) {
-    console.log("vendor dir not found");
-  }
-  done();
+  fs.rename('src/vendor', 'src/vendor-dev', function(err) {
+    if (err) {
+      console.log("Can't rename `vendor` to `vendor-dev`. Error:", err);
+    }
+    done();
+  });
 });
 
 /**
@@ -115,7 +114,14 @@ gulp.task('vendor-rename-pre', function(done) {
 gulp.task('vendor-rename-post', function(done) {
   del('src/vendor/**')
     .then(function () {
-      return fs.rename('src/vendor-dev', 'src/vendor');
+      return fs.rename('src/vendor-dev', 'src/vendor', function(err) {
+        if (err) {
+          console.log("Couldn't rename `vendor-dev` to `vendor`");
+        }
+      });
+    })
+    .catch(function() {
+      console.log("Could not delete `src/vendor/`");
     })
     .then(function () {
       done();
@@ -131,29 +137,37 @@ gulp.task('composer-install', shell.task([
 ]));
 
 /**
- * Ensure composer is installed with no dev packages (we don't want to ship dev packages).
- * To ensure no dev packages are present we rename vendor to vendor-dev then rename it back after the install.
- */
-gulp.task('composer', function (done) {
-  return sequence('vendor-rename-pre', 'composer-install', 'vendor-rename-post', done);
-});
-
-/**
  * Task to build free version of Zip Recipes.
  */
 gulp.task("free-sequence", function (cb) {
-  return sequence("clean-free", ["composer", "plugins-free", "build-free-js"], "build-free", "compress-free", cb);
+  return sequence(
+    "clean-free",
+    ["plugins-free", "build-free-js"],
+    "build-free",
+    "compress-free",
+    cb);
 });
 
 gulp.task("premium-sequence", function (cb) {
-  return sequence("clean-premium", ["composer", "plugins-premium", "build-premium-js"], "build-premium", "compress-premium", cb);
+  return sequence(
+    "clean-premium",
+    ["plugins-premium", "build-premium-js"],
+    "build-premium",
+    "compress-premium",
+    cb);
 });
 
 /**
  * Task to build free and premium versions.
  */
 gulp.task("build", function(cb) {
-  return sequence("clean", ["free-sequence", "premium-sequence"]);
+  return sequence(
+    "clean",
+    "vendor-rename-pre",
+    "composer-install",
+    ["free-sequence", "premium-sequence"],
+    "vendor-rename-post",
+    cb);
 });
 
 gulp.task("clean", function () {

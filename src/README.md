@@ -35,8 +35,6 @@ If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly 
 
 Among the new features added by Zip Recipe plugin are:
 
-**Works with WordPress 4.4:** Updated for full compatibility with WordPress 4.4.
-
 **Schema Recipe Support:** Automatically integrate Schema.org's Recipe mark-up into your recipe posts to make them easier to find by people searching for recipes. 
 
 **Recipe Image Support:** Easily add recipe image using Media Library to appear with your recipe.
@@ -56,6 +54,11 @@ Among the new features added by Zip Recipe plugin are:
 **Enhanced Recipe Printing Capabilities:** Add a copyright statement or URL to appear at the bottom of your printed recipes. Also, display a permalink at the bottom of printed recipes so users can easily find individual recipes on your website.
 
 **Multiple Paragraph Support in Summary Section of a Recipe:** Users can now add multiple paragraphs to the Summary field within the recipe plugin.
+
+**Works with WordPress 4.5:** Updated for full compatibility with WordPress 4.5.
+
+**Support for PHP 7:** Fully supports the latest and greatest PHP version!
+
 
 The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:hello@ziprecipes.net)! We'd love to hear from you!
 
