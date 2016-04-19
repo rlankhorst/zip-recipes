@@ -9,6 +9,8 @@ var sequence = require('run-sequence');
 var path = require("path");
 var fs = require("fs");
 var debug = require("gulp-debug");
+var wpPot = require('gulp-wp-pot');
+var sort = require('gulp-sort');
 
 const build_path = "build";
 const dest_free = path.join(build_path, "free");
@@ -165,6 +167,7 @@ gulp.task("build", function(cb) {
     "clean",
     "vendor-rename-pre",
     "composer-install",
+    "i18n",
     ["free-sequence", "premium-sequence"],
     "vendor-rename-post",
     cb);
@@ -186,4 +189,17 @@ gulp.task("clean-free", function () {
 */
 gulp.task("clean-premium", function () {
   return del(dest_premium);
+});
+
+gulp.task("i18n", function (done) {
+  gulp.src("src/**/*.php")
+    .pipe(sort())
+    .pipe(wpPot({
+      domain: 'zip-recipes',
+      destFile: 'zip-recipes.pot',
+      bugReport: 'hello@ziprecipes.net'
+    }))
+    .pipe(gulp.dest('src/languages/'));
+
+  done();
 });

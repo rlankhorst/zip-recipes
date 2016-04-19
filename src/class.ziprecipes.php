@@ -826,6 +826,12 @@ class ZipRecipes {
 		Util::log("Calling db_setup() action");
 
 		do_action("zrdn__db_setup", self::TABLE_NAME);
+
+		/**
+		 * Loading translations
+		 */
+		$langDir = plugin_basename( dirname( __FILE__ ) ) . '/languages/';
+		load_plugin_textdomain('zip-recipes', false, $langDir);
 	}
 
 	// Content for the popup iframe when creating or editing a recipe
@@ -1243,24 +1249,33 @@ class ZipRecipes {
 			return '';
 		}
 
-		$date_abbr = array('y' => 'year', 'm' => 'month', 'd' => 'day', 'h' => 'hour', 'i' => 'minute', 's' => 'second');
-		$result = '';
+		$date_abbr = array(
+			'y' => array('singular' => __('%d year', 'zip-recipes'), 'plural' => __('%d years', 'zip-recipes')),
+			'm' => array('singular' => __('%d month', 'zip-recipes'), 'plural' => __('%d months', 'zip-recipes')),
+			'd' => array('singular' => __('%d day', 'zip-recipes'), 'plural' => __('%d days', 'zip-recipes')),
+			'h' => array('singular' => __('%d hour', 'zip-recipes'), 'plural' => __('%d hours', 'zip-recipes')),
+			'i' => array('singular' => __('%d minute', 'zip-recipes'), 'plural' => __('%d minutes', 'zip-recipes')),
+			's' => array('singular' => __('%d second', 'zip-recipes'), 'plural' => __('%d seconds', 'zip-recipes'))
+		);
+
+		$results_array = array();
 
 		if (class_exists('DateInterval')) {
 			try {
 				$result_object = new \DateInterval($duration);
-
-				foreach ($date_abbr as $abbr => $name) {
+				foreach ($date_abbr as $abbr => $name_data) {
+					$current_part = '';
 					if ($result_object->$abbr > 0) {
-						$result .= $result_object->$abbr . ' ' . $name;
+						$current_part = sprintf( $name_data['singular'], $result_object->$abbr );
 						if ($result_object->$abbr > 1) {
-							$result .= 's';
+							$current_part = sprintf( $name_data['plural'], $result_object->$abbr );
 						}
-						$result .= ', ';
+					}
+
+					if ($current_part) {
+						array_push( $results_array, $current_part );
 					}
 				}
-
-				$result = trim($result, ' \t,');
 			} catch (Exception $e) {
 				$result = $duration;
 			}
@@ -1269,19 +1284,18 @@ class ZipRecipes {
 			$arr[1] = str_replace('M', 'I', $arr[1]); // This mimics the DateInterval property name
 			$duration = implode('T', $arr);
 
-			foreach ($date_abbr as $abbr => $name) {
+			foreach ($date_abbr as $abbr => $name_data) {
 				if (preg_match('/(\d+)' . $abbr . '/i', $duration, $val)) {
-					$result .= $val[1] . ' ' . $name;
+					$current_part = sprintf($name_data['singular'], $val[1]);
 					if ($val[1] > 1) {
-						$result .= 's';
+						$current_part = sprintf($name_data['plural'], $val[1]);
 					}
-					$result .= ', ';
+					array_push($results_array, $current_part);
 				}
 			}
-
-			$result = trim($result, ' \t,');
 		}
-		return $result;
+
+		return join(", ", $results_array);
 	}
 
 
