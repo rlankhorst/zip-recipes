@@ -97,4 +97,9 @@ Copyright 2011, 2012 ZipList, Inc.
 	margin-top: 1em;
 }
 
+/* Don't display Mediavine ads */
+.adunit, .adunitlabel, .adunitwrapper {
+  display : none !important;
+}
+
 /* END PRINT FORMATTING */
