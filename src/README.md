@@ -114,6 +114,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 4.5.2.6 We speak your language
 
 * New: you can now properly translate duration times (hour, minute, etc.) to any language!
+* New: Added Albanian translation (my mother tongue :))
 * Better: Suppress  Mediavine Publisher Network ads from showing up when printing recipe
 
 4.5.2.4 Better Ratings
