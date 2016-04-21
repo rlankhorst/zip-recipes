@@ -7,58 +7,63 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-04-20 23:16+0300\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"POT-Creation-Date: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7\n"
+"Last-Translator: \n"
+"Language: ru\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
 
 #: src/class.ziprecipes.php:1253
 msgid "%d year"
-msgstr ""
+msgstr "%d год"
 
 #: src/class.ziprecipes.php:1253
 msgid "%d years"
-msgstr ""
+msgstr "%d года"
 
 #: src/class.ziprecipes.php:1254
 msgid "%d month"
-msgstr ""
+msgstr "%d  месяц"
 
 #: src/class.ziprecipes.php:1254
 msgid "%d months"
-msgstr ""
+msgstr "%d месяцев"
 
 #: src/class.ziprecipes.php:1255
 msgid "%d day"
-msgstr ""
+msgstr "%d день"
 
 #: src/class.ziprecipes.php:1255
 msgid "%d days"
-msgstr ""
+msgstr "%d дней"
 
 #: src/class.ziprecipes.php:1256
 msgid "%d hour"
-msgstr ""
+msgstr "%d час"
 
 #: src/class.ziprecipes.php:1256
 msgid "%d hours"
-msgstr ""
+msgstr "%d часы"
 
 #: src/class.ziprecipes.php:1257
 msgid "%d minute"
-msgstr ""
+msgstr "%d минута"
 
 #: src/class.ziprecipes.php:1257
 msgid "%d minutes"
-msgstr ""
+msgstr "%d минут"
 
 #: src/class.ziprecipes.php:1258
 msgid "%d second"
-msgstr ""
+msgstr "%d секунда"
 
 #: src/class.ziprecipes.php:1258
 msgid "%d seconds"
-msgstr ""
+msgstr "%d секунды"
