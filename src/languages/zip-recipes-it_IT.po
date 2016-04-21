@@ -7,58 +7,66 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-04-21 13:49+0100\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.2\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: src/class.ziprecipes.php:1253
 msgid "%d year"
-msgstr ""
+msgstr "%d anno"
 
 #: src/class.ziprecipes.php:1253
 msgid "%d years"
-msgstr ""
+msgstr "%d anni"
 
 #: src/class.ziprecipes.php:1254
 msgid "%d month"
-msgstr ""
+msgstr "%d mese"
 
 #: src/class.ziprecipes.php:1254
 msgid "%d months"
-msgstr ""
+msgstr "%d mesi"
 
 #: src/class.ziprecipes.php:1255
 msgid "%d day"
-msgstr ""
+msgstr "%d giorno"
 
 #: src/class.ziprecipes.php:1255
 msgid "%d days"
-msgstr ""
+msgstr "%d giorni"
 
 #: src/class.ziprecipes.php:1256
 msgid "%d hour"
-msgstr ""
+msgstr "%d ora"
 
 #: src/class.ziprecipes.php:1256
 msgid "%d hours"
-msgstr ""
+msgstr "%d ore"
 
 #: src/class.ziprecipes.php:1257
 msgid "%d minute"
-msgstr ""
+msgstr "%d minuto"
 
 #: src/class.ziprecipes.php:1257
 msgid "%d minutes"
-msgstr ""
+msgstr "%d minuti"
 
 #: src/class.ziprecipes.php:1258
 msgid "%d second"
-msgstr ""
+msgstr "%d secondo"
 
 #: src/class.ziprecipes.php:1258
 msgid "%d seconds"
-msgstr ""
+msgstr "%d secondi"
+
