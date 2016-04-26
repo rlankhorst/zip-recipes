@@ -185,43 +185,75 @@
       </div>
     {% endif %}
 
-    {# Add the ingredients #}
+    {# ********************* #}
+    {#       Ingredients     #}
+    {# ********************* #}
     {% if ingredient_label_hide != "Hide" %}
       <p id="zlrecipe-ingredients" class="h-4 strong">{{ ingredient_label }}</p>
     {% endif %}
 
-    {% if ingredient_list_type == 'ol' %}
-      <ol id="zlrecipe-ingredients-list">
-        {{ingredients|raw}}
-      </ol>
-    {% elseif ingredient_list_type == 'ul' or ingredient_list_type == 'l' %}
-      <ul id="zlrecipe-ingredients-list">
-        {{ingredients|raw}}
-      </ul>
-    {% elseif ingredient_list_type == 'p' or ingredient_list_type == 'div' %}
-      <span id="zlrecipe-ingredients-list">
-        {{ingredients|raw}}
-      </span>
-    {% endif %}
+    {% set ingredientsHtmlListElem = ingredient_list_type %}
+    {# one exception is when ingredient_list_type is 'l' #}
+    {% if ingredient_list_type == 'l' %}{% set ingredientsHtmlListElem = 'ul' %}{% endif %}
+    {% if ingredient_list_type == 'p' or ingredient_list_type =='div' %}{% set ingredientsHtmlListElem = 'span' %}{% endif %}
 
-    {# Add the instructions #}
+    {% set ingredientsHtmlListChildElem = 'li' %}
+    {% if ingredient_list_type == 'p' %}{% set ingredientsHtmlListChildElem = 'p' %}{% endif %}
+    {% if ingredient_list_type == 'div' %}{% set ingredientsHtmlListChildElem = 'div' %}{% endif %}
+    
+    <{{ ingredientsHtmlListElem }} id="zlrecipe-ingredients-list">
+      {% for ingredient in ingredients %}
+        {% if ingredient.type == 'image' %}
+          <img src="{{ ingredient.content }}" />
+        {% elseif ingredient.type == 'subtitle' %}
+          {# no itemprop for sub-titles (aka labels) #}
+          {# subtitles always use div #}
+          <div class="{% if ingredient_list_type == 'l' %}ingredient no-bullet-label{% else %}ingredient-label{% endif %}">
+            {{ ingredient.content|raw }}
+          </div>
+        {% else %}
+          <{{ ingredientsHtmlListChildElem }} class="ingredient {% if ingredient_list_type == 'l' %}no-bullet{% endif %}" itemprop="recipeIngredient">
+            {{ ingredient.content|raw }}
+          </{{ ingredientsHtmlListChildElem }}>
+        {% endif %}
+      {% endfor %}
+    </{{ ingredientsHtmlListElem }}>
+
+    {# ********************* #}
+    {#      Instructions     #}
+    {# ********************* #}
     {% if instruction_label_hide != 'Hide' %}
       <p id="zlrecipe-instructions" class="h-4 strong">{{ instruction_label }}</p>
     {% endif %}
 
-    {% if instruction_list_type == 'ul' or instruction_list_type == 'l' %}
-      <ul id="zlrecipe-instructions-list" class="instructions">
-        {{ instructions|raw }}
-      </ul>
-    {% elseif instruction_list_type == 'ol' %}
-      <ol id="zlrecipe-instructions-list" class="instructions">
-        {{ instructions|raw }}
-      </ol>
-    {% elseif instruction_list_type == 'p' or instruction_list_type == 'div' %}
-      <span id="zlrecipe-instructions-list" class="instructions">
-        {{ instructions|raw }}
-      </span>
-    {% endif %}
+    {% set instructionsHtmlListElem = instruction_list_type %}
+    {# one exception is when instruction_list_type is 'l' #}
+    {% if instruction_list_type == 'l' %}{% set instructionsHtmlListElem = 'ul' %}{% endif %}
+    {% if instruction_list_type == 'p' or instruction_list_type == 'div' %}{% set instructionsHtmlListElem = 'span' %}{% endif %}
+
+    {# child is always 'li' unless 'div' or 'p' #}
+    {% set instructionsHtmlChildElem = 'li' %}
+    {% if ingredient_list_type == 'p' %}{% set instructionsHtmlChildElem = 'p' %}{% endif %}
+    {% if ingredient_list_type == 'div' %}{% set instructionsHtmlChildElem = 'div' %}{% endif %}
+
+    <{{ instructionsHtmlListElem }} id="zlrecipe-instructions-list" class="instructions">
+      {% for instruction in instructions %}
+        {% if instruction.type == 'image' %}
+          <img src="{{ instruction.content }}" />
+        {% elseif instruction.type == 'subtitle' %}
+          {# no itemprop for sub-titles (aka labels) #}
+          {# subtitles always use div #}
+          <div class="{% if instruction_list_type == 'l' %}instruction no-bullet-label{% else %}instruction-label{% endif %}">
+            {{ instruction.content|raw }}
+          </div>
+        {% else %}
+          <{{ instructionsHtmlChildElem }} class="instruction {% if instruction_list_type == 'l' %}no-bullet{% endif %}" itemprop="recipeInstructions">
+          {{ instruction.content|raw }}
+          </{{ instructionsHtmlChildElem }}>
+        {% endif %}
+      {% endfor %}
+    </{{ instructionsHtmlListElem }}>
+
 
     {# !! add notes section #}
     {% if notes %}

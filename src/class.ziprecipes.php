@@ -158,6 +158,9 @@ class ZipRecipes {
 		self::zrdn_recipe_install();
 	}
 
+	/**
+	 * This is used to get post title in recipe insertion iframe
+	 */
 	public static function zrdn_js_vars() {
 
 		if (is_admin()) {
@@ -266,56 +269,22 @@ class ZipRecipes {
 			$nutritional_info = true;
 		}
 
-		// add the ingredients
-		$formatted_ingredients = '';
+		$ingredients = array();
 		if ($recipe->ingredients != null) {
-			$ingredient_tag = '';
-			$ingredient_list_type = get_option('zlrecipe_ingredient_list_type');
-			$ingredientClassArray = array("ingredient");
-			if (strcmp($ingredient_list_type, 'ul') == 0 || strcmp($ingredient_list_type, 'ol') == 0) {
-				$ingredient_tag = 'li';
-			} else if (strcmp($ingredient_list_type, 'l') == 0) {
-				$ingredient_tag = 'li';
-				array_push($ingredientClassArray, "no-bullet");
-			} else if (strcmp($ingredient_list_type, 'p') == 0 || strcmp($ingredient_list_type, 'div') == 0) {
-				$ingredient_tag = $ingredient_list_type;
-			}
-
-			$i = 0;
-			$ingredients = explode("\n", $recipe->ingredients);
-			foreach ($ingredients as $ingredient) {
-				$ingredientClassString = implode(' ', $ingredientClassArray);
-				$formatted_ingredients .= self::zrdn_format_item($ingredient, $ingredient_tag, $ingredientClassString, 'ingredients', 'zlrecipe-ingredient-', $i);
-				$i++;
+			$raw_ingredients = explode("\n", $recipe->ingredients);
+			foreach ($raw_ingredients as $raw_ingredient) {
+				array_push($ingredients, self::zrdn_format_item($raw_ingredient));
 			}
 		}
 
 		// add the instructions
-		$formatted_instructions = "";
+		$instructions = array();
 		if ($recipe->instructions != null) {
-
-			$instruction_tag = '';
-			$instructionClassArray = array('instruction');
-			$instruction_list_type_option = get_option('zlrecipe_instruction_list_type');
-			if (strcmp($instruction_list_type_option, 'ul') == 0 || strcmp($instruction_list_type_option, 'ol') == 0) {
-				$instruction_tag = 'li';
-			}
-			else if (strcmp($instruction_list_type_option, 'l') == 0) {
-				$instruction_tag = 'li';
-				array_push($instructionClassArray, 'no-bullet');
-			}
-			else if (strcmp($instruction_list_type_option, 'p') == 0 || strcmp($instruction_list_type_option, 'div') == 0) {
-				$instruction_tag = $instruction_list_type_option;
-			}
-
-			$instructions = explode("\n", $recipe->instructions);
-
-			$j = 0;
-			foreach ($instructions as $instruction) {
-				if (strlen($instruction) > 1) {
-					$instructionClassString = implode(' ', $instructionClassArray);
-					$formatted_instructions .= self::zrdn_format_item($instruction, $instruction_tag, $instructionClassString, 'recipeInstructions', 'zlrecipe-instruction-', $j);
-					$j++;
+			$raw_instructions = explode("\n", $recipe->instructions);
+			foreach ($raw_instructions as $raw_instruction) {
+				// not sure why this check is here and not in ingredients. Maybe ingredients can't be empty on client side?!
+				if (strlen($raw_instruction) > 1) {
+					array_push($instructions, self::zrdn_format_item($raw_instruction));
 				}
 			}
 		}
@@ -388,11 +357,11 @@ class ZipRecipes {
 				'ingredient_label_hide' => get_option('zlrecipe_ingredient_label_hide'),
 				'ingredient_label' => get_option('zlrecipe_ingredient_label'),
 				'ingredient_list_type' => get_option('zlrecipe_ingredient_list_type'),
-				'ingredients' => $formatted_ingredients,
+				'ingredients' => $ingredients,
 				'instruction_label_hide' => get_option('zlrecipe_instruction_label_hide'),
 				'instruction_label' => get_option('zlrecipe_instruction_label'),
 				'instruction_list_type' => get_option('zlrecipe_instruction_list_type'),
-				'instructions' => $formatted_instructions,
+				'instructions' => $instructions,
 				'notes' => $recipe->notes,
 				'formatted_notes' => self::zrdn_break('<p class="notes">', self::zrdn_richify_item($recipe->notes, 'notes'), '</p>'),
 				'notes_label_hide' => get_option('zlrecipe_notes_label_hide'),
@@ -406,30 +375,48 @@ class ZipRecipes {
 		return Util::view("recipe", $viewParams);
 	}
 
-	// Processes markup for attributes like labels, images and links
-	// !Label
-	// %image
-	public static function zrdn_format_item($item, $elem, $class, $itemprop, $id, $i) {
-
+	/**
+	 * Processes markup for attributes like labels, images and links.
+	 * Changed behaviour in 4.5.2.6:
+	 *  - links (like [margarine|http://margarine.com] no longer include an
+	 *    'ingredient', 'ingredient-link', 'no-bullet', 'no-bullet-link' classes or a combination thereof
+	 *  - images (like %http://example.com/logo.png no longer include an
+	 *    'ingredient', 'ingredient-image', 'no-bullet', 'no-bullet-image' classes or a combination thereof
+	 *  - ids are no longer added
+	 * Syntax:
+	 * !Label
+	 * %image
+	 * [link|http://example.com/link]
+	 * @param string $item
+	 *
+	 * @return array {
+	 *  @type string $type
+	 *  @type string $content
+	 * }
+	 */
+	public static function zrdn_format_item($item) {
+		$formatted_item = $item;
 		if (preg_match("/^%(\S*)/", $item, $matches)) {	// IMAGE Updated to only pull non-whitespace after some blogs were adding additional returns to the output
-			$output = '<img class = "' . $class . '-image" src="' . $matches[1] . '" />';
-			return $output; // Images don't also have labels or links so return the line immediately.
+			// type: image
+			// content: $matches[1]
+			return array('type' => 'image', 'content' => $matches[1]); // Images don't also have labels or links so return the line immediately.
 		}
 
+		$retArray = array();
 		if (preg_match("/^!(.*)/", $item, $matches)) {	// LABEL
-			$class .= '-label';
-			$elem = 'div';
-			$item = $matches[1];
-			$output = '<' . $elem . ' id="' . $id . $i . '" class="' . $class . '" >';	// No itemprop for labels
+			// type: subtitle
+			// content: formatted $item
+			$formatted_item = $matches[1];
+			$retArray['type'] = 'subtitle';
 		} else {
-			$output = '<' . $elem . ' id="' . $id . $i . '" class="' . $class . '" itemprop="' . $itemprop . '">';
+			// type: default
+			// content: formatted $item
+			$retArray['type'] = 'default';
 		}
 
-		$output .= self::zrdn_richify_item($item, $class);
+		$retArray['content'] = self::zrdn_richify_item($formatted_item);
 
-		$output .= '</' . $elem . '>';
-
-		return $output;
+		return $retArray;
 	}
 
 	// Adds module to left sidebar in wp-admin for ZLRecipe
@@ -737,8 +724,8 @@ class ZipRecipes {
 
 	// Replaces the [a|b] pattern with text a that links to b
 	// Replaces _words_ with an italic span and *words* with a bold span
-	public static function zrdn_richify_item($item, $class) {
-		$output = preg_replace('/\[([^\]\|\[]*)\|([^\]\|\[]*)\]/', '<a href="\\2" class="' . $class . '-link" target="_blank">\\1</a>', $item);
+	public static function zrdn_richify_item($item) {
+		$output = preg_replace('/\[([^\]\|\[]*)\|([^\]\|\[]*)\]/', '<a href="\\2" target="_blank">\\1</a>', $item);
 		$output = preg_replace('/(^|\s)\*([^\s\*][^\*]*[^\s\*]|[^\s\*])\*(\W|$)/', '\\1<span class="bold">\\2</span>\\3', $output);
 		return preg_replace('/(^|\s)_([^\s_][^_]*[^\s_]|[^\s_])_(\W|$)/', '\\1<span class="italic">\\2</span>\\3', $output);
 	}
