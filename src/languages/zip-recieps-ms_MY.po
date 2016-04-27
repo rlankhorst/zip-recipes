@@ -1,0 +1,69 @@
+# Copyright (C) 2016 zip-recipes
+# This file is distributed under the same license as the zip-recipes package.
+msgid ""
+msgstr ""
+"Project-Id-Version: zip-recipes\n"
+"Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-04-26 20:09-0600\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"POT-Creation-Date: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7\n"
+"Last-Translator: Gezim Hoxha <hello@ziprecipes.net>\n"
+"Language: ms_MY@latin\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: src/class.ziprecipes.php:1253
+msgid "%d year"
+msgstr "%d tahun"
+
+#: src/class.ziprecipes.php:1253
+msgid "%d years"
+msgstr "%d tahun"
+
+#: src/class.ziprecipes.php:1254
+msgid "%d month"
+msgstr "%d bulan"
+
+#: src/class.ziprecipes.php:1254
+msgid "%d months"
+msgstr "%d bulan"
+
+#: src/class.ziprecipes.php:1255
+msgid "%d day"
+msgstr "%d hari"
+
+#: src/class.ziprecipes.php:1255
+msgid "%d days"
+msgstr "%d hari"
+
+#: src/class.ziprecipes.php:1256
+msgid "%d hour"
+msgstr "%d jam"
+
+#: src/class.ziprecipes.php:1256
+msgid "%d hours"
+msgstr "%d jam"
+
+#: src/class.ziprecipes.php:1257
+msgid "%d minute"
+msgstr "%d minit"
+
+#: src/class.ziprecipes.php:1257
+msgid "%d minutes"
+msgstr "%d minit"
+
+#: src/class.ziprecipes.php:1258
+msgid "%d second"
+msgstr "%d saat"
+
+#: src/class.ziprecipes.php:1258
+msgid "%d seconds"
+msgstr "%d saat"
