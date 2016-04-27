@@ -377,7 +377,7 @@ class ZipRecipes {
 
 	/**
 	 * Processes markup for attributes like labels, images and links.
-	 * Changed behaviour in 4.5.2.6:
+	 * Changed behaviour in 4.5.2.7:
 	 *  - links (like [margarine|http://margarine.com] no longer include an
 	 *    'ingredient', 'ingredient-link', 'no-bullet', 'no-bullet-link' classes or a combination thereof
 	 *  - images (like %http://example.com/logo.png no longer include an
