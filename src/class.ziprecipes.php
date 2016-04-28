@@ -84,7 +84,7 @@ class ZipRecipes {
 		add_action('plugins_loaded', __NAMESPACE__ . '\ZipRecipes::zrdn_recipe_install');
 
 		add_action('admin_head', __NAMESPACE__ . '\ZipRecipes::zrdn_js_vars');
-		add_action('admin_head', __NAMESPACE__ . '\ZipRecipes::zrdn_add_recipe_button');
+		add_action('admin_init', __NAMESPACE__ . '\ZipRecipes::zrdn_add_recipe_button');
 
 		// `the_post` has no action/filter added on purpose. It doesn't work as well as `the_content`.
 		// It's important for `get_the_excerpt` to have higher priority than `the_content` when hooked.
