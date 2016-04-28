@@ -145,7 +145,7 @@ class Util {
 			}
 		} while($caller);
 
-		error_log($output);
+		//error_log($output);
 
 	}
 }

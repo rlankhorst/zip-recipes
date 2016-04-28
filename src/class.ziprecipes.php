@@ -857,7 +857,7 @@ class ZipRecipes {
 
 		if ($post_info || $get_info) {
 
-			if( $get_info["add-recipe-button"] || strpos($get_info["recipe_post_id"], '-') !== false ) {
+			if( isset($get_info["add-recipe-button"]) || strpos($get_info["recipe_post_id"], '-') !== false ) {
 				$iframe_title = "Update Your Recipe";
 				$submit = "Update Recipe";
 			} else {
@@ -865,7 +865,7 @@ class ZipRecipes {
 				$submit       = "Add Recipe";
 			}
 
-			if ($get_info["recipe_post_id"] && !$get_info["add-recipe-button"] && strpos($get_info["recipe_post_id"], '-') !== false) {
+			if ( isset($get_info["recipe_post_id"]) && ! isset($get_info["add-recipe-button"]) && strpos($get_info["recipe_post_id"], '-') !== false) {
 				$recipe_id = preg_replace('/[0-9]*?\-/i', '', $get_info["recipe_post_id"]);
 				$recipe = self::zrdn_select_recipe_db($recipe_id);
 				$recipe_title = $recipe->recipe_title;
@@ -976,36 +976,36 @@ class ZipRecipes {
 					$post_info[$key] = stripslashes($val);
 				}
 
-				$recipe_id = $post_info["recipe_id"];
+				$recipe_id = isset($post_info["recipe_id"]) ? $post_info["recipe_id"] : '';
 
-				if( !$get_info["add-recipe-button"]) {
+				if( ! isset($get_info["add-recipe-button"])) {
 					$recipe_title = get_the_title( $get_info["recipe_post_id"] );
 				}
 				else {
 					$recipe_title = $post_info["recipe_title"];
 				}
-				$recipe_image = $post_info["recipe_image"];
-				$summary = $post_info["summary"];
-				$notes = $post_info["notes"];
-				$prep_time_minutes = $post_info["prep_time_minutes"];
-				$prep_time_hours = $post_info["prep_time_hours"];
-				$cook_time_minutes = $post_info["cook_time_minutes"];
-				$cook_time_hours = $post_info["cook_time_hours"];
-				$total_time_minutes = $post_info["total_time_minutes"];
-				$total_time_hours = $post_info["total_time_hours"];
-				$yield = $post_info["yield"];
-				$serving_size = $post_info["serving_size"];
-				$calories = $post_info["calories"];
-				$fat = $post_info["fat"];
-				$carbs = $post_info['carbs'];
-				$protein = $post_info['protein'];
-				$fiber = $post_info['fiber'];
-				$sugar = $post_info['sugar'];
-				$saturated_fat = $post_info['saturated_fat'];
-				$sodium = $post_info['sodium'];
-				$ingredients = $post_info["ingredients"];
-				$instructions = $post_info["instructions"];
-				if ($recipe_title != null && $recipe_title != '' && $ingredients != null && $ingredients != '') {
+				$recipe_image = isset($post_info["recipe_image"]) ? $post_info["recipe_image"] : '';
+				$summary = isset($post_info["summary"]) ? $post_info["summary"] : '';
+				$notes = isset($post_info["notes"]) ? $post_info["notes"] : '';
+				$prep_time_minutes = isset($post_info["prep_time_minutes"]) ? $post_info["prep_time_minutes"] : '';
+				$prep_time_hours = isset($post_info["prep_time_hours"]) ? $post_info["prep_time_hours"] : '';
+				$cook_time_minutes = isset($post_info["cook_time_minutes"]) ? $post_info["cook_time_minutes"] : '';
+				$cook_time_hours = isset($post_info["cook_time_hours"]) ? $post_info["cook_time_hours"] : '';
+				$total_time_minutes = isset($post_info["total_time_minutes"]) ? $post_info["total_time_minutes"] : '';
+				$total_time_hours = isset($post_info["total_time_hours"]) ? $post_info["total_time_hours"] : '';
+				$yield = isset($post_info["yield"]) ? $post_info["yield"] :'';
+				$serving_size = isset($post_info["serving_size"]) ? $post_info["serving_size"] : '';
+				$calories = isset($post_info["calories"]) ? $post_info["calories"] : '';
+				$fat = isset($post_info["fat"]) ? $post_info["fat"] : '';
+				$carbs = isset($post_info['carbs']) ? $post_info['carbs'] : '';
+				$protein = isset($post_info['protein']) ? $post_info['protein'] : '';
+				$fiber = isset($post_info['fiber']) ? $post_info['fiber'] : '';
+				$sugar = isset($post_info['sugar']) ? $post_info['sugar'] : '';
+				$saturated_fat = isset($post_info['saturated_fat']) ? $post_info['saturated_fat'] : '';
+				$sodium = isset($post_info['sodium']) ? $post_info['sodium'] : '';
+				$ingredients = isset($post_info["ingredients"]) ? $post_info["ingredients"] : '';
+				$instructions = isset($post_info["instructions"]) ? $post_info["instructions"] : '';
+				if (isset($recipe_title) && $recipe_title != '' && isset($ingredients) && $ingredients != '') {
 					$recipe_id = self::zrdn_insert_db($post_info);
 				}
 			}
