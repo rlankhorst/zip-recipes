@@ -55,6 +55,14 @@ Among the new features added by Zip Recipe plugin are:
 
 **Multiple Paragraph Support in Summary Section of a Recipe:** Users can now add multiple paragraphs to the Summary field within the recipe plugin.
 
+**Support for Your Language** 100% of the recipe card can be your language. Currently we have translations for:
+ 
+ * Albanian
+ * Italian
+ * Malay
+ * Russian
+ * Is your language missing from this list? No problem, [email us and help us translate Zip Recipes!](mailto:hello@ziprecipes.net)
+
 **Works with WordPress 4.5:** Updated for full compatibility with WordPress 4.5.
 
 **Support for PHP 7:** Fully supports the latest and greatest PHP version!
@@ -110,6 +118,14 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+4.5.2.7 We speak your language
+
+* New: Zip Recipes now supports Page Builder by SiteOrigin!
+* Better: We made some under the hood changes to the way ingredients and instructions are shown (hint: this is for Recipe Templates feature coming soon!)
+* New: Si parla italiano - Italian support is here!
+* New: Мы говорим по-русски - Russian support is here!
+* New: Kita bercakap melayu - Malay support is here!
 
 4.5.2.6 We speak your language
 
@@ -391,6 +407,8 @@ Updating will give you better support for WP 4.5, PHP 7 and bug fixes
 = 4.5.2.6 =
 With this update you will have a fully translatable recipe card and more!
 
+= 4.5.2.7 =
+Get Page Builder support, new translations and under the hood improvements in this update!
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
