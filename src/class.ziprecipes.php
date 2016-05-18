@@ -89,7 +89,7 @@ class ZipRecipes {
 		// `the_post` has no action/filter added on purpose. It doesn't work as well as `the_content`.
 		// It's important for `get_the_excerpt` to have higher priority than `the_content` when hooked.
 		//  (The third argument is $priority in `add_filter` function call. The lower the number, the higher the priority.)
-		add_filter('get_the_excerpt', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_summary_recipe', 9);
+		//add_filter('get_the_excerpt', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_summary_recipe', 9);
 		add_filter('the_content', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_full_recipe', 10);
 
 		add_action('admin_menu', __NAMESPACE__ . '\ZipRecipes::zrdn_menu_pages');
