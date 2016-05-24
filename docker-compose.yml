@@ -2,7 +2,7 @@ version: '2'
 services:
   dev:
     container_name: dev
-    image: hgezim/wordpress-nginx-nocache-xdebug:1.37
+    image: hgezim/wordpress-nginx-nocache-xdebug:1.39
     ports:
       - "8080:8080"
       - "21000:21"
