@@ -14,7 +14,7 @@
             </a>
           {% else %}
             <a class="butn-link" title="Print this recipe" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
-              {{ print_label }}
+              {% trans "Print" %}
             </a>
           {% endif %}
         </div>
@@ -34,7 +34,7 @@
         {% if prep_time %}
           <p id="zlrecipe-prep-time">
             {% if prep_time_label_hide != 'Hide' %}
-              {{ prep_time_label }}
+              {% trans "Prep Time:" %}
             {% endif %}
             <span itemprop="prepTime" content="{{ prep_time_raw }}">{{ prep_time }}</span>
           </p>
@@ -43,7 +43,7 @@
         {% if cook_time %}
           <p id="zlrecipe-cook-time">
             {% if cook_time_label_hide != 'Hide' %}
-              {{ cook_time_label }}
+              {% trans "Cook Time:" %}
             {% endif %}
             <span itemprop="cookTime" content="{{ cook_time_raw }}">{{ cook_time }}</span>
           </p>
@@ -52,7 +52,7 @@
         {% if total_time %}
           <p id="zlrecipe-total-time">
             {% if total_time_label_hide != 'Hide' %}
-              {{ total_time_label }}
+              {% trans "Total Time:" %}
             {% endif %}
             <span itemprop="totalTime" content="{{ total_time_raw }}">{{ total_time }}</span>
           </p>
@@ -67,7 +67,7 @@
         {% if yield %}
           <p id="zlrecipe-yield">
             {% if yield_label_hide != 'Hide' %}
-              {{ yield_label }}
+              {% trans "Yield:" %}
             {% endif %}
             <span itemprop="recipeYield">{{ yield }}</span>
           </p>
@@ -79,7 +79,7 @@
             {% if serving_size %}
               <p id="zlrecipe-serving-size">
                 {% if serving_size_label_hide != 'Hide' %}
-                  {{ serving_size_label }}
+                  {% trans "Serving Size:" %}
                 {% endif %}
                 <span itemprop="servingSize">{{ serving_size }}</span>
               </p>
@@ -88,7 +88,7 @@
             {% if calories %}
               <p id="zlrecipe-calories">
                 {% if calories_label_hide != 'Hide' %}
-                  {{ calories_label }}
+                  {% trans "Calories per serving:" %}
                 {% endif %}
                 <span itemprop="calories">{{ calories }}</span>
               </p>
@@ -97,7 +97,7 @@
             {% if fat %}
               <p id="zlrecipe-fat">
                 {% if fat_label_hide != 'Hide' %}
-                  {{ fat_label }}
+                  {% trans "Fat per serving:" %}
                 {% endif %}
                 <span itemprop="fatContent">{{ fat }}</span>
               </p>
@@ -106,7 +106,7 @@
             {% if saturated_fat %}
               <p id="zlrecipe-saturated-fat">
                 {% if saturated_fat_label_hide != 'Hide' %}
-                  {{ saturated_fat_label }}
+                  {% trans "Saturated fat per serving:" %}
                 {% endif %}
                 <span itemprop="saturatedFatContent">{{ saturated_fat }}</span>
               </p>
@@ -115,7 +115,7 @@
             {% if carbs %}
               <p id="zlrecipe-carbs">
                 {% if carbs_label_hide != 'Hide' %}
-                  {{ carbs_label }}
+                  {% trans "Carbs per serving:" %}
                 {% endif %}
                 <span itemprop="carbohydrateContent">{{ carbs }}</span>
               </p>
@@ -124,7 +124,7 @@
             {% if protein %}
               <p id="zlrecipe-protein">
                 {% if protein_label_hide != 'Hide' %}
-                  {{ protein_label }}
+                  {% trans "Protein per serving:" %}
                 {% endif %}
                 <span itemprop="proteinContent">{{ protein }}</span>
               </p>
@@ -133,7 +133,7 @@
             {% if fiber %}
               <p id="zlrecipe-fiber">
                 {% if fiber_label_hide != 'Hide' %}
-                  {{ fiber_label }}
+                  {% trans "Fiber per serving:" %}
                 {% endif %}
                 <span itemprop="fiberContent">{{ fiber }}</span>
               </p>
@@ -142,7 +142,7 @@
             {% if sugar %}
               <p id="zlrecipe-sugar">
                 {% if sugar_label_hide != 'Hide' %}
-                  {{ sugar_label }}
+                  {% trans "Sugar per serving:" %}
                 {% endif %}
                 <span itemprop="sugarContent">{{ sugar }}</span>
               </p>
@@ -151,7 +151,7 @@
             {% if sodium %}
               <p id="zlrecipe-sodium">
                 {% if sodium_label_hide != 'Hide' %}
-                  {{ sodium_label }}
+                  {% trans "Sodium per serving:" %}
                 {% endif %}
                 <span itemprop="sodiumContent">{{ sodium }}</span>
               </p>
@@ -189,7 +189,9 @@
     {#       Ingredients     #}
     {# ********************* #}
     {% if ingredient_label_hide != "Hide" %}
-      <p id="zlrecipe-ingredients" class="h-4 strong">{{ ingredient_label }}</p>
+      <p id="zlrecipe-ingredients" class="h-4 strong">
+        {% trans "Ingredients" %}
+      </p>
     {% endif %}
 
     {% set ingredientsHtmlListElem = ingredient_list_type %}
@@ -223,7 +225,7 @@
     {#      Instructions     #}
     {# ********************* #}
     {% if instruction_label_hide != 'Hide' %}
-      <p id="zlrecipe-instructions" class="h-4 strong">{{ instruction_label }}</p>
+      <p id="zlrecipe-instructions" class="h-4 strong">{% trans "Instructions" %}</p>
     {% endif %}
 
     {% set instructionsHtmlListElem = instruction_list_type %}
@@ -258,7 +260,7 @@
     {# !! add notes section #}
     {% if notes %}
       {% if notes_label_hide != 'Hide' %}
-        <p id="zlrecipe-notes" class="h-4 strong">{{ notes_label }}</p>
+        <p id="zlrecipe-notes" class="h-4 strong">{% trans "Notes" %}</p>
       {% endif %}
       <div id="zlrecipe-notes-list">
        {{ formatted_notes|raw }}

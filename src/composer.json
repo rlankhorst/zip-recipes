@@ -1,10 +1,12 @@
 {
     "require-dev": {
         "phing/phing": "2.*",
-        "phpunit/phpunit": "^5.3"
+        "phpunit/phpunit": "^5.3",
+        "umpirsky/twig-gettext-extractor": "^1.2"
     },
     "require": {
         "twig/twig": "~1.0",
-        "twbs/bootstrap": "3.*"
+        "twbs/bootstrap": "3.*",
+        "twig/extensions": "1.3"
     }
 }
