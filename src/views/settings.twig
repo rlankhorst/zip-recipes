@@ -31,10 +31,6 @@
           <th scope="row">Printed Output: Copyright Statement</th>
           <td><input type="text" name="printed-copyright-statement" value="{{ printed_copyright_statement }}" class="regular-text" /></td>
         </tr>
-        <tr valign="top">
-          <th scope="row">Print Button Label:</th>
-          <td><input type="text" name="print-button-label" value="{{ print_button_label }}" class="regular-text" /></td>
-        </tr>
       </table>
 
       <hr />
@@ -76,8 +72,9 @@
       <table class="form-table">
         <tr valign="top">
           <th scope="row">'Ingredients' Label</th>
-          <td><input type="text" name="ingredient-label" value="{{ ingredient_label }}" class="regular-text" /><br />
-            <label><input type="checkbox" name="ingredient-label-hide" value="Hide" {{ ingredient_label_hide|raw }} /> Don't show Ingredients label</label></td>
+          <td>
+            <label><input type="checkbox" name="ingredient-label-hide" value="Hide" {{ ingredient_label_hide|raw }} /> Don't show Ingredients label</label>
+          </td>
         </tr>
         <tr valign="top">
           <th scope="row">'Ingredients' List Type</th>
@@ -106,8 +103,9 @@
       <table class="form-table">
         <tr valign="top">
           <th scope="row">'Instructions' Label</th>
-          <td><input type="text" name="instruction-label" value="{{ instruction_label }}" class="regular-text" /><br />
-            <label><input type="checkbox" name="instruction-label-hide" value="Hide" {{ instruction_label_hide|raw }} /> Don't show Instructions label</label></td>
+          <td>
+            <label><input type="checkbox" name="instruction-label-hide" value="Hide" {{ instruction_label_hide|raw }} /> Don't show Instructions label</label>
+          </td>
         </tr>
         <tr valign="top">
           <th scope="row">'Instructions' List Type</th>
