@@ -87,9 +87,6 @@ class ZipRecipes {
 		add_action('admin_init', __NAMESPACE__ . '\ZipRecipes::zrdn_add_recipe_button');
 
 		// `the_post` has no action/filter added on purpose. It doesn't work as well as `the_content`.
-		// It's important for `get_the_excerpt` to have higher priority than `the_content` when hooked.
-		//  (The third argument is $priority in `add_filter` function call. The lower the number, the higher the priority.)
-		//add_filter('get_the_excerpt', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_summary_recipe', 9);
 		add_filter('the_content', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_full_recipe', 10);
 
 		add_action('admin_menu', __NAMESPACE__ . '\ZipRecipes::zrdn_menu_pages');
@@ -201,40 +198,6 @@ class ZipRecipes {
 				$recipe = self::zrdn_select_recipe_db($recipe_id);
 				$formatted_recipe = self::zrdn_format_recipe($recipe);
 				$output = str_replace('[amd-zlrecipe-recipe:' . $recipe_id . ']', $formatted_recipe, $output);
-			}
-		}
-
-		return $output;
-	}
-
-	/**
-	 * If there is no existing post excerpt, and there is a recipe summary, use that as an excerpt.
-	 *   If no recipe summary exists, use recipe instructions as an excerpt.
-	 *
-	 * Note: I didn't care to implement "old" shortcode search because most people won't have that type of shortcode.
-	 *  Besides, we need to get rid of it.
-	 *
-	 * @param $excerpt_text String Text of excerpt.
-	 *
-	 * @return mixed New excerpt text.
-	 */
-	public static function zrdn_convert_to_summary_recipe($excerpt_text) {
-		global $post;
-
-		$output = $excerpt_text;
-
-		if ($output == '') {
-			$preg_needle = '/\[amd-zlrecipe-recipe:([0-9]+)\]/i';
-
-			preg_match( $preg_needle, $post->post_content, $recipe_id_match );
-
-			if ( isset( $recipe_id_match[1] ) && $recipe_id_match[1] != '' && $post->post_excerpt == '' ) {
-				$zip_recipes_id = $recipe_id_match[1];
-				$recipe         = self::zrdn_select_recipe_db( $zip_recipes_id );
-
-				if ($recipe->summary != '') {
-					$output = $recipe->summary;
-				}
 			}
 		}
 
