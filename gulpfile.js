@@ -11,10 +11,12 @@ var fs = require("fs");
 var debug = require("gulp-debug");
 var wpPot = require('gulp-wp-pot');
 var sort = require('gulp-sort');
+var path = require('path');
 
 const build_path = "build";
 const dest_free = path.join(build_path, "free");
 const dest_premium = path.join(build_path, "premium");
+const translationTemplateFilePath = "./src/languages/zip-recipes.pot";
 
 gulp.task("build-premium-js", function () {
   return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
@@ -191,15 +193,62 @@ gulp.task("clean-premium", function () {
   return del(dest_premium);
 });
 
-gulp.task("i18n", function (done) {
-  gulp.src("src/**/*.php")
-    .pipe(sort())
-    .pipe(wpPot({
-      domain: 'zip-recipes',
-      destFile: 'zip-recipes.pot',
-      bugReport: 'hello@ziprecipes.net'
-    }))
-    .pipe(gulp.dest('src/languages/'));
+/**
+ * Generate translation template (pot) file.
+ */
+gulp.task("generate-pot", function (done) {
+  var twigFileFilter = filter(['**/*.twig'], {restore: true});
+  var phpFileFilter = filter(['**/*.php'], {restore: true});
 
-  done();
+  // remove all contents of template file because it will not update strings
+  require('fs').writeFileSync(translationTemplateFilePath, '');
+
+  // Extract twig strings
+  return gulp.src(["src/**/*.php", "src/**/*.twig", "!src/vendor/**", "!src/vendor-dev/**"], {read: false})
+    .pipe(twigFileFilter)
+    .pipe(shell([
+      `./src/vendor/bin/twig-gettext-extractor --join-existing --output='${translationTemplateFilePath}' -L PHP --from-code='UTF-8' --default-domain='zip-recipes' --package-name="zip-recipes" --msgid-bugs-address="hello@ziprecipes.net" --copyright-holder="Zip Recipes Ltd" --no-location --files <%= relativePath(file.path) %>`
+    ], {templateData: {
+      // Return relative path, given absolute one. Needed by twig-gettext-extractor
+      relativePath: function (absolutePath) {
+        var relPath = path.relative('.', absolutePath);
+        return relPath;
+      }
+    }}, done))
+    .pipe(twigFileFilter.restore)
+    .pipe(phpFileFilter)
+    .pipe(shell([
+      `xgettext --join-existing --output='${translationTemplateFilePath}' --from-code='UTF-8' --default-domain='zip-recipes' --keyword='__' --no-location --package-name="zip-recipes" --msgid-bugs-address="hello@ziprecipes.net" --copyright-holder="Zip Recipes Ltd" <%= file.path %>`
+    ]));
+});
+
+/**
+ * Copy translation template into all languages.
+ */
+gulp.task('update-languages', function(done) {
+  return gulp.src('./src/languages/*.po')
+    .pipe(shell([`msgmerge -U <%= file.path %> ${translationTemplateFilePath}`])); // {verbose: true} to see details
+});
+
+/**
+ * Generate binary translation files (mo)
+ */
+gulp.task('generate-mos', function(done) {
+  return gulp.src('./src/languages/*.po')
+    .pipe(shell([`msgfmt --output-file='./src/languages/<%= mo(file.path) %>' <%= file.path %>`
+    ], { templateData:
+    {
+      mo: function(path) {
+        return path.replace(/.+\/([a-zA-Z0-9-_]+)\.po/, '$1.mo');
+      }
+    }
+    }));
+});
+
+gulp.task('i18n', function(done) {
+  return sequence(
+    "generate-pot",
+    "update-languages",
+    "generate-mos",
+    done);
 });
