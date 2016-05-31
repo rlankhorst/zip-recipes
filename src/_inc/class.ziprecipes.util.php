@@ -50,7 +50,9 @@ class Util {
 		$viewDir = ZRDN_PLUGIN_DIRECTORY . $pluginDir . 'views/';
 
 		$file = $name . '.twig';
-		$cacheDir = "${viewDir}cache";
+		$tempDir = get_temp_dir();
+		$cacheDir = "${tempDir}zip-recipes/cache";
+
 
 		Util::log("Looking for template in dir:" . $viewDir);
 		Util::log("Template name:" . $file);
