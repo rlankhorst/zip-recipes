@@ -101,48 +101,30 @@ class ZipRecipes {
 		add_option('zrdn_attribution_hide', '');
 		add_option('zlrecipe_printed_permalink_hide', '');
 		add_option('zlrecipe_printed_copyright_statement', '');
-		add_option('zrdn_print_button_label', 'Print');
 		add_option('zlrecipe_stylesheet', 'zlrecipe-std');
 		add_option('recipe_title_hide', '');
 		add_option('zlrecipe_image_hide', '');
 		add_option('zlrecipe_image_hide_print', 'Hide');
 		add_option('zlrecipe_print_link_hide', '');
-		add_option('zlrecipe_ingredient_label', 'Ingredients');
 		add_option('zlrecipe_ingredient_label_hide', '');
 		add_option('zlrecipe_ingredient_list_type', 'l');
-		add_option('zlrecipe_instruction_label', 'Instructions');
 		add_option('zlrecipe_instruction_label_hide', '');
 		add_option('zlrecipe_instruction_list_type', 'ol');
-		add_option('zlrecipe_notes_label', 'Notes');
 		add_option('zlrecipe_notes_label_hide', '');
-		add_option('zlrecipe_prep_time_label', 'Prep Time:');
 		add_option('zlrecipe_prep_time_label_hide', '');
-		add_option('zlrecipe_cook_time_label', 'Cook Time:');
 		add_option('zlrecipe_cook_time_label_hide', '');
-		add_option('zlrecipe_total_time_label', 'Total Time:');
 		add_option('zlrecipe_total_time_label_hide', '');
-		add_option('zlrecipe_yield_label', 'Yield:');
 		add_option('zlrecipe_yield_label_hide', '');
-		add_option('zlrecipe_serving_size_label', 'Serving Size:');
 		add_option('zlrecipe_serving_size_label_hide', '');
-		add_option('zlrecipe_calories_label', 'Calories per serving:');
 		add_option('zlrecipe_calories_label_hide', '');
-		add_option('zlrecipe_fat_label', 'Fat per serving:');
 		add_option('zlrecipe_fat_label_hide', '');
-		add_option('zlrecipe_carbs_label', 'Carbs per serving:');
 		add_option('zlrecipe_carbs_label_hide', '');
-		add_option('zlrecipe_protein_label', 'Protein per serving:');
 		add_option('zlrecipe_protein_label_hide', '');
-		add_option('zlrecipe_fiber_label', 'Fiber per serving:');
 		add_option('zlrecipe_fiber_label_hide', '');
-		add_option('zlrecipe_sugar_label', 'Sugar per serving:');
 		add_option('zlrecipe_sugar_label_hide', '');
-		add_option('zlrecipe_saturated_fat_label', 'Saturated fat per serving:');
 		add_option('zlrecipe_saturated_fat_label_hide', '');
-		add_option('zlrecipe_sodium_label', 'Sodium per serving:');
 		add_option('zlrecipe_sodium_label_hide', '');
 
-		add_option('zlrecipe_rating_label', 'Rating:');
 		add_option('zlrecipe_image_width', '');
 		add_option('zlrecipe_outer_border_style', '');
 		add_option('zlrecipe_custom_print_image', '');
@@ -298,7 +280,6 @@ class ZipRecipes {
 				'border_style' => get_option('zlrecipe_outer_border_style'),
 				'recipe_id' => $recipe->recipe_id,
 				'custom_print_image' => get_option('zlrecipe_custom_print_image'),
-				'print_label' => get_option('zrdn_print_button_label'),
 				'print_hide' => get_option('zlrecipe_print_link_hide'),
 				'title_hide' => get_option('recipe_title_hide'),
 				'recipe_title' => $recipe->recipe_title,
@@ -307,46 +288,33 @@ class ZipRecipes {
 				'prep_time' => self::zrdn_format_duration($recipe->prep_time),
 				'prep_time_raw' => $recipe->prep_time,
 				'prep_time_label_hide' => get_option('zlrecipe_prep_time_label_hide'),
-				'prep_time_label' => get_option('zlrecipe_prep_time_label'),
 				'cook_time' => self::zrdn_format_duration($recipe->cook_time),
 				'cook_time_raw' => $recipe->cook_time,
 				'cook_time_label_hide' => get_option('zlrecipe_cook_time_label_hide'),
-				'cook_time_label' => get_option('zlrecipe_cook_time_label'),
 				'total_time' => self::zrdn_format_duration($recipe->total_time),
 				'total_time_raw' => $recipe->total_time,
-				'total_time_label' => get_option('zlrecipe_total_time_label'),
 				'total_time_label_hide' => get_option('zlrecipe_total_time_label_hide'),
 				'yield' => $recipe->yield,
 				'yield_label_hide' => get_option('zlrecipe_yield_label_hide'),
-				'yield_label' => get_option('zlrecipe_yield_label'),
 				'nutritional_info' => $nutritional_info,
 				'serving_size' => $recipe->serving_size,
 				'serving_size_label_hide' => get_option('zlrecipe_serving_size_label_hide'),
-				'serving_size_label' => get_option('zlrecipe_serving_size_label'),
 				'calories' => $recipe->calories,
 				'calories_label_hide' => get_option('zlrecipe_calories_label_hide'),
-				'calories_label' => get_option('zlrecipe_calories_label'),
 				'fat' => $recipe->fat,
 				'fat_label_hide' => get_option('zlrecipe_fat_label_hide'),
-				'fat_label' => get_option('zlrecipe_fat_label'),
 				'saturated_fat' => $recipe->saturated_fat,
 				'saturated_fat_label_hide' => get_option('zlrecipe_saturated_fat_label_hide'),
-				'saturated_fat_label' => get_option('zlrecipe_saturated_fat_label'),
 				'carbs' => $recipe->carbs,
 				'carbs_label_hide' => get_option('zlrecipe_carbs_label_hide'),
-				'carbs_label' => get_option('zlrecipe_carbs_label'),
 				'protein' => $recipe->protein,
 				'protein_label_hide' => get_option('zlrecipe_protein_label_hide'),
-				'protein_label' => get_option('zlrecipe_protein_label'),
 				'fiber' => $recipe->fiber,
 				'fiber_label_hide' => get_option('zlrecipe_fiber_label_hide'),
-				'fiber_label' => get_option('zlrecipe_fiber_label'),
 				'sugar' => $recipe->sugar,
 				'sugar_label_hide' => get_option('zlrecipe_sugar_label_hide'),
-				'sugar_label' => get_option('zlrecipe_sugar_label'),
 				'sodium' => $recipe->sodium,
 				'sodium_label_hide' => get_option('zlrecipe_sodium_label_hide'),
-				'sodium_label' => get_option('zlrecipe_sodium_label'),
 				'recipe_image' => $recipe->recipe_image,
 				'summary' => $recipe->summary,
 				'summary_rich' => self::zrdn_break('<p class="summary italic">', self::zrdn_richify_item($recipe->summary, 'summary'), '</p>' ),
@@ -355,17 +323,14 @@ class ZipRecipes {
 				'image_hide' => get_option('zlrecipe_image_hide'),
 				'image_hide_print' => get_option('zlrecipe_image_hide_print'),
 				'ingredient_label_hide' => get_option('zlrecipe_ingredient_label_hide'),
-				'ingredient_label' => get_option('zlrecipe_ingredient_label'),
 				'ingredient_list_type' => get_option('zlrecipe_ingredient_list_type'),
 				'ingredients' => $ingredients,
 				'instruction_label_hide' => get_option('zlrecipe_instruction_label_hide'),
-				'instruction_label' => get_option('zlrecipe_instruction_label'),
 				'instruction_list_type' => get_option('zlrecipe_instruction_list_type'),
 				'instructions' => $instructions,
 				'notes' => $recipe->notes,
 				'formatted_notes' => self::zrdn_break('<p class="notes">', self::zrdn_richify_item($recipe->notes, 'notes'), '</p>'),
 				'notes_label_hide' => get_option('zlrecipe_notes_label_hide'),
-				'notes_label' => get_option('zlrecipe_notes_label'),
 				'attribution_hide' => get_option('zrdn_attribution_hide'),
 				'version' => ZRDN_VERSION_NUM,
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
@@ -469,16 +434,13 @@ class ZipRecipes {
 		$zrecipe_attribution_hide = get_option('zrdn_attribution_hide');
 		$printed_permalink_hide = get_option('zlrecipe_printed_permalink_hide');
 		$printed_copyright_statement = get_option('zlrecipe_printed_copyright_statement');
-		$print_button_label = get_option('zrdn_print_button_label');
 		$stylesheet = get_option('zlrecipe_stylesheet');
 		$recipe_title_hide = get_option('recipe_title_hide');
 		$image_hide = get_option('zlrecipe_image_hide');
 		$image_hide_print = get_option('zlrecipe_image_hide_print');
 		$print_link_hide = get_option('zlrecipe_print_link_hide');
-		$ingredient_label = get_option('zlrecipe_ingredient_label');
 		$ingredient_label_hide = get_option('zlrecipe_ingredient_label_hide');
 		$ingredient_list_type = get_option('zlrecipe_ingredient_list_type');
-		$instruction_label = get_option('zlrecipe_instruction_label');
 		$instruction_label_hide = get_option('zlrecipe_instruction_label_hide');
 		$instruction_list_type = get_option('zlrecipe_instruction_list_type');
 		$image_width = get_option('zlrecipe_image_width');
@@ -486,37 +448,20 @@ class ZipRecipes {
 		$custom_print_image = get_option('zlrecipe_custom_print_image');
 
 		// load other option values in to variables. These variables are used to load saved values through variable variables
-		$notes_label = get_option('zlrecipe_notes_label');
 		$notes_label_hide = get_option('zlrecipe_notes_label_hide');
-		$prep_time_label = get_option('zlrecipe_prep_time_label');
 		$prep_time_label_hide = get_option('zlrecipe_prep_time_label_hide');
-		$cook_time_label = get_option('zlrecipe_cook_time_label');
 		$cook_time_label_hide = get_option('zlrecipe_cook_time_label_hide');
-		$total_time_label = get_option('zlrecipe_total_time_label');
 		$total_time_label_hide = get_option('zlrecipe_total_time_label_hide');
-		$yield_label = get_option('zlrecipe_yield_label');
 		$yield_label_hide = get_option('zlrecipe_yield_label_hide');
-		$serving_size_label = get_option('zlrecipe_serving_size_label');
 		$serving_size_label_hide = get_option('zlrecipe_serving_size_label_hide');
-		$calories_label = get_option('zlrecipe_calories_label');
 		$calories_label_hide = get_option('zlrecipe_calories_label_hide');
-		$fat_label = get_option('zlrecipe_fat_label');
 		$fat_label_hide = get_option('zlrecipe_fat_label_hide');
-		$carbs_label = get_option('zlrecipe_carbs_label', 'Carbs:');
 		$carbs_label_hide = get_option('zlrecipe_carbs_label_hide', '');
-		$protein_label = get_option('zlrecipe_protein_label', 'Protein:');
 		$protein_label_hide = get_option('zlrecipe_protein_label_hide', '');
-		$fiber_label = get_option('zlrecipe_fiber_label', 'Fiber:');
 		$fiber_label_hide = get_option('zlrecipe_fiber_label_hide', '');
-		$sugar_label = get_option('zlrecipe_sugar_label', 'Sugar:');
 		$sugar_label_hide = get_option('zlrecipe_sugar_label_hide', '');
-		$saturated_fat_label = get_option('zlrecipe_saturated_fat_label', 'Saturated fat:');
 		$saturated_fat_label_hide = get_option('zlrecipe_saturated_fat_label_hide', '');
-		$sodium_label = get_option('zlrecipe_sodium_label', 'Sodium:');
 		$sodium_label_hide = get_option('zlrecipe_sodium_label_hide', '');
-		$rating_label = get_option('zlrecipe_rating_label');
-
-
 
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			foreach ($_POST as $key=>$val) {
@@ -537,47 +482,29 @@ class ZipRecipes {
 				$zrecipe_attribution_hide = $_POST['zrecipe-attribution-hide'];
 				$printed_permalink_hide = $_POST['printed-permalink-hide'];
 				$printed_copyright_statement = $_POST['printed-copyright-statement'];
-				$print_button_label = $_POST['print-button-label'];
 				$stylesheet = $_POST['stylesheet'];
 				$recipe_title_hide = $_POST['recipe-title-hide'];
 				$image_hide = $_POST['image-hide'];
 				$image_hide_print = $_POST['image-hide-print'];
 				$print_link_hide = $_POST['print-link-hide'];
-				$ingredient_label = self::zrdn_strip_chars($_POST['ingredient-label']);
 				$ingredient_label_hide = self::zrdn_strip_chars($_POST['ingredient-label-hide']);
 				$ingredient_list_type = $_POST['ingredient-list-type'];
-				$instruction_label = self::zrdn_strip_chars($_POST['instruction-label']);
 				$instruction_label_hide = $_POST['instruction-label-hide'];
 				$instruction_list_type = self::zrdn_strip_chars($_POST['instruction-list-type']);
-				$notes_label = self::zrdn_strip_chars($_POST['notes-label']);
 				$notes_label_hide = $_POST['notes-label-hide'];
-				$prep_time_label = self::zrdn_strip_chars($_POST['prep-time-label']);
 				$prep_time_label_hide = $_POST['prep-time-label-hide'];
-				$cook_time_label = self::zrdn_strip_chars($_POST['cook-time-label']);
 				$cook_time_label_hide = $_POST['cook-time-label-hide'];
-				$total_time_label = self::zrdn_strip_chars($_POST['total-time-label']);
 				$total_time_label_hide = $_POST['total-time-label-hide'];
-				$yield_label = self::zrdn_strip_chars($_POST['yield-label']);
 				$yield_label_hide = $_POST['yield-label-hide'];
-				$serving_size_label = self::zrdn_strip_chars($_POST['serving-size-label']);
 				$serving_size_label_hide = $_POST['serving-size-label-hide'];
-				$calories_label = self::zrdn_strip_chars($_POST['calories-label']);
 				$calories_label_hide = $_POST['calories-label-hide'];
-				$fat_label = self::zrdn_strip_chars($_POST['fat-label']);
 				$fat_label_hide = $_POST['fat-label-hide'];
-				$carbs_label = $_POST['carbs-label'];
 				$carbs_label_hide = $_POST['carbs-label-hide'];
-				$protein_label = $_POST['protein-label'];
 				$protein_label_hide = $_POST['protein-label-hide'];
-				$fiber_label = $_POST['fiber-label'];
 				$fiber_label_hide = $_POST['fiber-label-hide'];
-				$sugar_label = $_POST['sugar-label'];
 				$sugar_label_hide = $_POST['sugar-label-hide'];
-				$saturated_fat_label = $_POST['saturated-fat-label'];
 				$saturated_fat_label_hide = $_POST['saturated-fat-label-hide'];
-				$sodium_label = $_POST['sodium-label'];
 				$sodium_label_hide = $_POST['sodium-label-hide'];
-				$rating_label = self::zrdn_strip_chars($_POST['rating-label']);
 				$image_width = $_POST['image-width'];
 				$outer_border_style = $_POST['outer-border-style'];
 				$custom_print_image = $_POST['custom-print-image'];
@@ -585,47 +512,29 @@ class ZipRecipes {
 				update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
 				update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );
 				update_option('zlrecipe_printed_copyright_statement', $printed_copyright_statement);
-				update_option('zrdn_print_button_label', $print_button_label);
 				update_option('zlrecipe_stylesheet', $stylesheet);
 				update_option('recipe_title_hide', $recipe_title_hide);
 				update_option('zlrecipe_image_hide', $image_hide);
 				update_option('zlrecipe_image_hide_print', $image_hide_print);
 				update_option('zlrecipe_print_link_hide', $print_link_hide);
-				update_option('zlrecipe_ingredient_label', $ingredient_label);
 				update_option('zlrecipe_ingredient_label_hide', $ingredient_label_hide);
 				update_option('zlrecipe_ingredient_list_type', $ingredient_list_type);
-				update_option('zlrecipe_instruction_label', $instruction_label);
 				update_option('zlrecipe_instruction_label_hide', $instruction_label_hide);
 				update_option('zlrecipe_instruction_list_type', $instruction_list_type);
-				update_option('zlrecipe_notes_label', $notes_label);
 				update_option('zlrecipe_notes_label_hide', $notes_label_hide);
-				update_option('zlrecipe_prep_time_label', $prep_time_label);
 				update_option('zlrecipe_prep_time_label_hide', $prep_time_label_hide);
-				update_option('zlrecipe_cook_time_label', $cook_time_label);
 				update_option('zlrecipe_cook_time_label_hide', $cook_time_label_hide);
-				update_option('zlrecipe_total_time_label', $total_time_label);
 				update_option('zlrecipe_total_time_label_hide', $total_time_label_hide);
-				update_option('zlrecipe_yield_label', $yield_label);
 				update_option('zlrecipe_yield_label_hide', $yield_label_hide);
-				update_option('zlrecipe_serving_size_label', $serving_size_label);
 				update_option('zlrecipe_serving_size_label_hide', $serving_size_label_hide);
-				update_option('zlrecipe_calories_label', $calories_label);
 				update_option('zlrecipe_calories_label_hide', $calories_label_hide);
-				update_option('zlrecipe_fat_label', $fat_label);
 				update_option('zlrecipe_fat_label_hide', $fat_label_hide);
-				update_option('zlrecipe_carbs_label', $carbs_label);
 				update_option('zlrecipe_carbs_label_hide', $carbs_label_hide);
-				update_option('zlrecipe_protein_label', $protein_label);
 				update_option('zlrecipe_protein_label_hide', $protein_label_hide);
-				update_option('zlrecipe_fiber_label', $fiber_label);
 				update_option('zlrecipe_fiber_label_hide', $fiber_label_hide);
-				update_option('zlrecipe_sugar_label', $sugar_label);
 				update_option('zlrecipe_sugar_label_hide', $sugar_label_hide);
-				update_option('zlrecipe_saturated_fat_label', $saturated_fat_label);
 				update_option('zlrecipe_saturated_fat_label_hide', $saturated_fat_label_hide);
-				update_option('zlrecipe_sodium_label', $sodium_label);
 				update_option('zlrecipe_sodium_label_hide', $sodium_label_hide);
-				update_option('zlrecipe_rating_label', $rating_label);
 				update_option('zlrecipe_image_width', $image_width);
 				update_option('zlrecipe_outer_border_style', $outer_border_style);
 				update_option('zlrecipe_custom_print_image', $custom_print_image);
@@ -633,8 +542,6 @@ class ZipRecipes {
 		}
 
 		$printed_copyright_statement = esc_attr($printed_copyright_statement);
-		$ingredient_label = esc_attr($ingredient_label);
-		$instruction_label = esc_attr($instruction_label);
 		$image_width = esc_attr($image_width);
 		$custom_print_image = esc_attr($custom_print_image);
 
@@ -674,13 +581,14 @@ class ZipRecipes {
 
 		foreach ($other_options_array as $option) {
 			$name = strtolower(str_replace(' ', '-', $option));
-			$value = strtolower(str_replace(' ', '_', $option)) . '_label';
 			$value_hide = strtolower(str_replace(' ', '_', $option)) . '_label_hide';
 			$value_hide_attr = ${$value_hide} == "Hide" ? 'checked="checked"' : '';
 			$other_options .= '<tr valign="top">
-            <th scope="row">\'' . $option . '\' Label</th>
-            <td><input type="text" name="' . $name . '-label" value="' . ${$value} . '" class="regular-text" /><br />
-            <label><input type="checkbox" name="' . $name . '-label-hide" value="Hide" ' . $value_hide_attr . ' /> Don\'t show ' . $option . ' label</label></td>
+            <td>
+            	<label>
+            		<input type="checkbox" name="' . $name . '-label-hide" value="Hide" ' . $value_hide_attr . ' /> Don\'t show ' . $option . ' label
+            	</label>
+            </td>
         </tr>';
 		}
 
@@ -691,7 +599,6 @@ class ZipRecipes {
 				'zrecipe_attribution_hide' => $zrecipe_attribution_hide,
 				'printed_permalink_hide' => $printed_permalink_hide,
 				'printed_copyright_statement' => $printed_copyright_statement,
-				'print_button_label' => $print_button_label,
 				'stylesheet' => $stylesheet,
 				'recipe_title_hide' => $recipe_title_hide,
 				'print_link_hide' => $print_link_hide,
@@ -699,14 +606,12 @@ class ZipRecipes {
 				'image_hide' => $image_hide,
 				'image_hide_print' => $image_hide_print,
 				'obs' => $obs,
-				'ingredient_label' => $ingredient_label,
 				'ingredient_label_hide' => $ingredient_label_hide,
 				'ing_l' => $ing_l,
 				'ing_ol' => $ing_ol,
 				'ing_ul' => $ing_ul,
 				'ing_p' => $ing_p,
 				'ing_div' => $ing_div,
-				'instruction_label' => $instruction_label,
 				'instruction_label_hide' => $instruction_label_hide,
 				'ins_l' => $ins_l,
 				'ins_ol' => $ins_ol,
