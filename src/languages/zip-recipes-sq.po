@@ -4,66 +4,119 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
+"POT-Creation-Date: 2016-05-30 22:31-0600\n"
+"PO-Revision-Date: 2016-04-19 01:14-0600\n"
+"Last-Translator: Gezim Hoxha <hello@ziprecipes.net>\n"
+"Language-Team: \n"
+"Language: sq\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-04-19 01:14-0600\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"POT-Creation-Date: \n"
-"Language-Team: \n"
 "X-Generator: Poedit 1.8.7\n"
-"Last-Translator: Gezim Hoxha <hello@ziprecipes.net>\n"
-"Language: sq\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: src/class.ziprecipes.php:1248
+#, php-format
 msgid "%d year"
 msgstr "%d vit"
 
-#: src/class.ziprecipes.php:1248
+#, php-format
 msgid "%d years"
 msgstr "%d vite"
 
-#: src/class.ziprecipes.php:1249
+#, php-format
 msgid "%d month"
 msgstr "%d muaj"
 
-#: src/class.ziprecipes.php:1249
+#, php-format
 msgid "%d months"
 msgstr "%d muaj"
 
-#: src/class.ziprecipes.php:1250
+#, php-format
 msgid "%d day"
 msgstr "%d ditë"
 
-#: src/class.ziprecipes.php:1250
+#, php-format
 msgid "%d days"
 msgstr "%d ditë"
 
-#: src/class.ziprecipes.php:1251
+#, fuzzy, php-format
 msgid "%d hour"
 msgstr "%d orë"
 
-#: src/class.ziprecipes.php:1251
+#, php-format
 msgid "%d hours"
 msgstr "%d orë"
 
-#: src/class.ziprecipes.php:1252
+#, php-format
 msgid "%d minute"
 msgstr "%d minutë"
 
-#: src/class.ziprecipes.php:1252
+#, php-format
 msgid "%d minutes"
 msgstr "%d minuta"
 
-#: src/class.ziprecipes.php:1253
+#, php-format
 msgid "%d second"
 msgstr "%d sekond"
 
-#: src/class.ziprecipes.php:1253
+#, php-format
 msgid "%d seconds"
 msgstr "%d sekonda"
+
+msgid "Print"
+msgstr "Printo"
+
+msgid "Prep Time:"
+msgstr "Koha e përgaditjës:"
+
+msgid "Cook Time:"
+msgstr "Koha e gatimit:"
+
+msgid "Total Time:"
+msgstr "Koha totale:"
+
+msgid "Yield:"
+msgstr "Prodhim:"
+
+msgid "Serving Size:"
+msgstr "Madhësia për shërbim:"
+
+msgid "Calories per serving:"
+msgstr "Kalori për shërbim:"
+
+msgid "Fat per serving:"
+msgstr "Yndyrë për shërbim:"
+
+msgid "Saturated fat per serving:"
+msgstr "Yndyrë e ngopur për shërbim:"
+
+msgid "Carbs per serving:"
+msgstr "Karbohidrata për shërbim:"
+
+msgid "Protein per serving:"
+msgstr "Proteinë për shërbim:"
+
+msgid "Fiber per serving:"
+msgstr "Fibër për shërbim:"
+
+msgid "Sugar per serving:"
+msgstr "Sheqer për shërbim:"
+
+msgid "Sodium per serving:"
+msgstr "Sodium për shërbim:"
+
+msgid "Ingredients"
+msgstr "Element përbërëse"
+
+msgid "Instructions"
+msgstr "Hapat"
+
+msgid "Notes"
+msgstr "Shënimet"
