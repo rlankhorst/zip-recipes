@@ -61,6 +61,7 @@ class Util {
 				'autoescape' => true,
 				'auto_reload' => true
 		));
+		$twig->addExtension(new \Twig_Extensions_Extension_I18n());
 
 		return $twig->render($file, $args);
 	}
