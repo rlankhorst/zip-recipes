@@ -6,11 +6,11 @@ Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 License: GPLv3 or later
 Author URI: http://www.ziprecipes.net
 Author: Gezim Hoxha
-Donate link: http://www.ziprecipes.net/donate
+Donate link: http://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.5
-Stable tag: 4.5.2.7
+Stable tag: 4.5.2.8
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -55,13 +55,21 @@ Among the new features added by Zip Recipe plugin are:
 
 **Multiple Paragraph Support in Summary Section of a Recipe:** Users can now add multiple paragraphs to the Summary field within the recipe plugin.
 
-**Support for Your Language** 100% of the recipe card can be your language. Currently we have translations for:
+**Ability to Print Recipes with Images:** Flexible settings that allow you to enable/disable image printing or image displaying
+
+**Support for Your Language:** 100% of the recipe card can be your language.
+
+**Supports Blogs with Multiple Languages:** You can now have recipes in different languages in the same blog!
+
+Currently we have translations for:
  
  * Albanian
  * Italian
  * Malay
  * Russian
  * Is your language missing from this list? No problem, [email us and help us translate Zip Recipes!](mailto:hello@ziprecipes.net)
+ 
+**Easy installation process:** We don't require complex permissions to be set 
 
 **Works with WordPress 4.5:** Updated for full compatibility with WordPress 4.5.
 
@@ -118,6 +126,13 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+4.5.2.8 Bug fixes and improvements
+
+* New: All of the recipe card is translatable to your language
+* Better: Changed the way templates are generated to make updates work for more people
+* Fixed: Recipe Summary was being included in excerpts with no way to remove it
+* Fixed: Settings "Don't show Image in post" and "Don't show Image in print view" were not being respected 
 
 4.5.2.7 We speak your language
 
@@ -409,6 +424,9 @@ With this update you will have a fully translatable recipe card and more!
 
 = 4.5.2.7 =
 Get Page Builder support, new translations and under the hood improvements in this update!
+
+= 4.5.2.8 =
+Get your bug fixes bug fixes, get your bug fixes bug fixes today!
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
