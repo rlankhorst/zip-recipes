@@ -206,7 +206,7 @@
     <{{ ingredientsHtmlListElem }} id="zlrecipe-ingredients-list">
       {% for ingredient in ingredients %}
         {% if ingredient.type == 'image' %}
-          <img src="{{ ingredient.content }}" />
+          <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ ingredient.content }}" />
         {% elseif ingredient.type == 'subtitle' %}
           {# no itemprop for sub-titles (aka labels) #}
           {# subtitles always use div #}
@@ -241,7 +241,7 @@
     <{{ instructionsHtmlListElem }} id="zlrecipe-instructions-list" class="instructions">
       {% for instruction in instructions %}
         {% if instruction.type == 'image' %}
-          <img src="{{ instruction.content }}" />
+          <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ instruction.content }}" />
         {% elseif instruction.type == 'subtitle' %}
           {# no itemprop for sub-titles (aka labels) #}
           {# subtitles always use div #}
