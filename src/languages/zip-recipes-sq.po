@@ -118,6 +118,5 @@ msgstr "Element përbërëse"
 msgid "Instructions"
 msgstr "Hapat"
 
-#, fuzzy
 msgid "Notes"
 msgstr "Shënimet"

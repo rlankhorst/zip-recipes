@@ -113,6 +113,5 @@ msgstr "Ingredienti"
 msgid "Instructions"
 msgstr "Istruzioni"
 
-#, fuzzy
 msgid "Notes"
 msgstr "Note"
