@@ -104,7 +104,7 @@ gulp.task("compress-free", function() {
 gulp.task('vendor-rename-pre', function(done) {
   fs.rename('src/vendor', 'src/vendor-dev', function(err) {
     if (err) {
-      console.log("Can't rename `vendor` to `vendor-dev`. Error:", err);
+      console.log("Can't rename `vendor` to `vendor-dev`.");
     }
     done();
   });
@@ -140,6 +140,13 @@ gulp.task('composer-install', shell.task([
 ]));
 
 /**
+ * Run composer install (includes dev packages)
+ */
+gulp.task('composer-dev-install', shell.task([
+  'cd src && php ../composer.phar install'
+]));
+
+/**
  * Task to build free version of Zip Recipes.
  */
 gulp.task("free-sequence", function (cb) {
@@ -164,11 +171,13 @@ gulp.task("premium-sequence", function (cb) {
  * Task to build free and premium versions.
  */
 gulp.task("build", function(cb) {
+  // we need to rename vendor to vendor-dev becaus we don't want to ship vendor dev
   return sequence(
     "clean",
+    "composer-dev-install",
+    "i18n", // needs vendor to include dev packages
     "vendor-rename-pre",
     "composer-install",
-    "i18n",
     ["free-sequence", "premium-sequence"],
     "vendor-rename-post",
     cb);
@@ -206,7 +215,7 @@ gulp.task("generate-pot", function (done) {
   return gulp.src(["src/**/*.php", "src/**/*.twig", "!src/vendor/**", "!src/vendor-dev/**"], {read: false})
     .pipe(twigFileFilter)
     .pipe(shell([
-      `./src/vendor/bin/twig-gettext-extractor --join-existing --output='${translationTemplateFilePath}' -L PHP --from-code='UTF-8' --default-domain='zip-recipes' --package-name="zip-recipes" --msgid-bugs-address="hello@ziprecipes.net" --copyright-holder="Zip Recipes Ltd" --no-location --files <%= relativePath(file.path) %>`
+      `./src/vendor/bin/twig-gettext-extractor --join-existing --output='${translationTemplateFilePath}' -L PHP --from-code='UTF-8' --default-domain='zip-recipes' --package-name="zip-recipes" --msgid-bugs-address="hello@ziprecipes.net" --copyright-holder="Zip Recipes Ltd" --keyword='__' --no-location --files <%= relativePath(file.path) %>`
     ], {templateData: {
       // Return relative path, given absolute one. Needed by twig-gettext-extractor
       relativePath: function (absolutePath) {

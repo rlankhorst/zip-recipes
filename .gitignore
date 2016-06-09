@@ -1,7 +1,8 @@
 .idea/
 src/views/cache/*
 .vagrant/
-vendor/
+src/vendor/
+src/vendor-dev/
 plugins/
 node_modules/
 build/

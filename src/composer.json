@@ -1,12 +1,23 @@
 {
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/hgezim/Twig-Gettext-Extractor"
+        }
+    ],
     "require-dev": {
         "phing/phing": "2.*",
-        "phpunit/phpunit": "^5.3",
-        "umpirsky/twig-gettext-extractor": "^1.2"
+        "phpunit/phpunit": "^5.3"
     },
     "require": {
         "twig/twig": "~1.0",
         "twbs/bootstrap": "3.*",
-        "twig/extensions": "1.3"
+        "twig/extensions": "1.3",
+        "umpirsky/twig-gettext-extractor": "dev-arg_escape"
+    },
+    "autoload": {
+        "psr-4": {
+            "ZRDN\\": "_inc"
+        }
     }
 }
