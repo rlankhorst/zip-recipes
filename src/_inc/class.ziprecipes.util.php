@@ -53,12 +53,13 @@ class Util {
 		$file = $name . '.twig';
 
 		$tempDir = get_temp_dir();
-		$cacheDir = "${viewDir}cache";
+		$cacheDir = "${tempDir}zip-recipes/cache";
 
 		// Prefer to write to temp dir, if possible
+		// Update: nope, not good since more people can write to ./views but not /tmp
 		// Perhaps in the future disable caching if neither is writable?!
-		if (is_writable($tempDir)) {
-			$cacheDir = "${tempDir}zip-recipes/cache";
+		if (is_writable($viewDir)) {
+			$cacheDir = "${viewDir}cache";
 		}
 
 		Util::log("Looking for template in dir:" . $viewDir);
