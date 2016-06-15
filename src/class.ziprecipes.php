@@ -685,8 +685,12 @@ class ZipRecipes {
 		/**
 		 * Loading translations
 		 */
-		$langDir = plugin_basename( dirname( __FILE__ ) ) . '/languages/';
-		load_plugin_textdomain('zip-recipes', false, $langDir);
+		$pluginLangDir = plugin_basename( dirname( __FILE__ ) ) . '/languages/';
+		$globalLangDir = WP_LANG_DIR; // full path
+		if (is_readable($globalLangDir)) {
+			load_plugin_textdomain('zip-recipes', false, $globalLangDir);
+		}
+		load_plugin_textdomain('zip-recipes', false, $pluginLangDir);
 	}
 
 	// Content for the popup iframe when creating or editing a recipe
