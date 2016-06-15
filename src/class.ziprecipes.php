@@ -908,6 +908,8 @@ class ZipRecipes {
 
 		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
+		
+		$custom_head = apply_filters('ziprecipes_editor_customhead', '');
 
 		Util::print_view('create-update-recipe', array(
 			'pluginurl' => ZRDN_PLUGIN_URL,
@@ -943,7 +945,8 @@ class ZipRecipes {
 			'fat' => $fat,
 			'saturated_fat' => $saturated_fat,
 			'notes' => $notes,
-			'submit' => $submit
+			'submit' => $submit,
+			'custom_head' => $custom_head
  		));
 	}
 
