@@ -3,88 +3,89 @@
 # This file is distributed under the same license as the zip-recipes package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-06-14 20:33-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2016-06-14 20:22-0600\n"
+"PO-Revision-Date: 2016-06-14 14:40-0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #, php-format
 msgid "%d year"
-msgstr ""
+msgstr "%d ano"
 
 #, php-format
 msgid "%d years"
-msgstr ""
+msgstr "%d anos"
 
 #, php-format
 msgid "%d month"
-msgstr ""
+msgstr "%d mês"
 
 #, php-format
 msgid "%d months"
-msgstr ""
+msgstr "%d meses"
 
 #, php-format
 msgid "%d day"
-msgstr ""
+msgstr "%d dia"
 
 #, php-format
 msgid "%d days"
-msgstr ""
+msgstr "%d dias"
 
 #, php-format
 msgid "%d hour"
-msgstr ""
+msgstr "%d hora"
 
 #, php-format
 msgid "%d hours"
-msgstr ""
+msgstr "%d horas"
 
 #, php-format
 msgid "%d minute"
-msgstr ""
+msgstr "%d minuto"
 
 #, php-format
 msgid "%d minutes"
-msgstr ""
+msgstr "%d minutos"
 
 #, php-format
 msgid "%d second"
-msgstr ""
+msgstr "%d segundo"
 
 #, php-format
 msgid "%d seconds"
-msgstr ""
+msgstr "%d segundos"
 
 msgid "Print"
-msgstr ""
+msgstr "Imprimir"
 
 msgid "Prep Time:"
-msgstr ""
+msgstr "Preparo:"
 
 msgid "Cook Time:"
-msgstr ""
+msgstr "Cozimento:"
 
 msgid "Total Time:"
-msgstr ""
+msgstr "Pronto em:"
 
 msgid "Yield:"
-msgstr ""
+msgstr "Rende:"
 
 msgid "Serving Size:"
-msgstr ""
+msgstr "Porção:"
 
 msgid "Calories per serving:"
-msgstr ""
+msgstr "Calorias por porção:"
 
 msgid "Fat per serving:"
 msgstr ""
@@ -108,10 +109,10 @@ msgid "Sodium per serving:"
 msgstr ""
 
 msgid "Ingredients"
-msgstr ""
+msgstr "Ingredientes"
 
 msgid "Instructions"
-msgstr ""
+msgstr "Modo de preparo"
 
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
