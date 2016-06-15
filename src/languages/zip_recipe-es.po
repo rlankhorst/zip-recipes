@@ -3,115 +3,116 @@
 # This file is distributed under the same license as the zip-recipes package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-06-14 20:33-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2016-06-14 20:22-0600\n"
+"PO-Revision-Date: 2016-06-14 13:25-0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, php-format
 msgid "%d year"
-msgstr ""
+msgstr "%d año"
 
 #, php-format
 msgid "%d years"
-msgstr ""
+msgstr "%d años"
 
 #, php-format
 msgid "%d month"
-msgstr ""
+msgstr "%d mes"
 
 #, php-format
 msgid "%d months"
-msgstr ""
+msgstr "%d meses"
 
 #, php-format
 msgid "%d day"
-msgstr ""
+msgstr "%d día"
 
 #, php-format
 msgid "%d days"
-msgstr ""
+msgstr "%d días"
 
 #, php-format
 msgid "%d hour"
-msgstr ""
+msgstr "%d hora"
 
 #, php-format
 msgid "%d hours"
-msgstr ""
+msgstr "%d horas"
 
 #, php-format
 msgid "%d minute"
-msgstr ""
+msgstr "%d minuto"
 
 #, php-format
 msgid "%d minutes"
-msgstr ""
+msgstr "%d minutos"
 
 #, php-format
 msgid "%d second"
-msgstr ""
+msgstr "%d segundo"
 
 #, php-format
 msgid "%d seconds"
-msgstr ""
+msgstr "%d segundos"
 
 msgid "Print"
-msgstr ""
+msgstr "Imprimir"
 
 msgid "Prep Time:"
-msgstr ""
+msgstr "Tiempo de preparación:"
 
 msgid "Cook Time:"
-msgstr ""
+msgstr "Tiempo de cocción:"
 
 msgid "Total Time:"
-msgstr ""
+msgstr "Tiempo total:"
 
 msgid "Yield:"
-msgstr ""
+msgstr "Rinde:"
 
 msgid "Serving Size:"
-msgstr ""
+msgstr "Porción:"
 
 msgid "Calories per serving:"
-msgstr ""
+msgstr "Calorías:"
 
 msgid "Fat per serving:"
-msgstr ""
+msgstr "Grasa:"
 
 msgid "Saturated fat per serving:"
-msgstr ""
+msgstr "Grasa saturada:"
 
 msgid "Carbs per serving:"
-msgstr ""
+msgstr "Carbohidratos:"
 
 msgid "Protein per serving:"
-msgstr ""
+msgstr "Proteína:"
 
 msgid "Fiber per serving:"
-msgstr ""
+msgstr "Fibra:"
 
 msgid "Sugar per serving:"
-msgstr ""
+msgstr "Azúcar:"
 
 msgid "Sodium per serving:"
-msgstr ""
+msgstr "Sodio:"
 
 msgid "Ingredients"
-msgstr ""
+msgstr "Ingredientes"
 
 msgid "Instructions"
-msgstr ""
+msgstr "Preparación"
 
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
