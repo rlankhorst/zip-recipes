@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.5
-Stable tag: 4.5.2.10
+Stable tag: 4.5.2.11
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -64,9 +64,12 @@ Among the new features added by Zip Recipe plugin are:
 Currently we have translations for:
  
  * Albanian
+ * French
  * Italian
- * Malay
  * Russian
+ * Serbian
+ * Spanish
+ * Portuguese (Brazilian) - partial translation 
  * Is your language missing from this list? No problem, [email us and help us translate Zip Recipes!](mailto:hello@ziprecipes.net)
  
 **Easy installation process:** We don't require complex permissions to be set 
@@ -126,6 +129,10 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+4.5.2.11 Added new languages
+
+* Added Serbian, Spanish, French, Brazilian Portuguese
 
 4.5.2.10 Second attempt at that fix :(
 
@@ -441,6 +448,9 @@ Fixes an issue 4.5.2.8 was causing with the plugin updating.
 
 = 4.5.2.10 =
 2nd attempt at fixing an issue 4.5.2.8 was causing with the plugin updating. 
+
+= 4.5.2.11 =
+Added Serbian, Spanish, French, Brazilian Portuguese.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
