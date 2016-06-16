@@ -69,7 +69,8 @@ Currently we have translations for:
  * Russian
  * Serbian
  * Spanish
- * Portuguese (Brazilian) - partial translation 
+ * Polish
+ * Portuguese (Brazilian) 
  * Is your language missing from this list? No problem, [email us and help us translate Zip Recipes!](mailto:hello@ziprecipes.net)
  
 **Easy installation process:** We don't require complex permissions to be set 
@@ -132,7 +133,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 4.5.2.11 Added new languages
 
-* Added Serbian, Spanish, French, Brazilian Portuguese
+* Added Serbian, Spanish, French, Brazilian Portuguese, and Polish
 
 4.5.2.10 Second attempt at that fix :(
 
@@ -450,7 +451,7 @@ Fixes an issue 4.5.2.8 was causing with the plugin updating.
 2nd attempt at fixing an issue 4.5.2.8 was causing with the plugin updating. 
 
 = 4.5.2.11 =
-Added Serbian, Spanish, French, Brazilian Portuguese.
+Added Serbian, Spanish, French, Brazilian Portuguese, and Polish.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 

@@ -119,7 +119,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 4.5.2.11 Added new languages
 
-* Added Serbian, Spanish, French, Brazilian Portuguese
+* Added Serbian, Spanish, French, Brazilian Portuguese, and Polish
 
 4.5.2.10 Second attempt at that fix :(
 
@@ -447,7 +447,7 @@ Fixes an issue 4.5.2.8 was causing with the plugin updating.
 2nd attempt at fixing an issue 4.5.2.8 was causing with the plugin updating. 
 
 = 4.5.2.11 =
-Added Serbian, Spanish, French, Brazilian Portuguese.
+Added Serbian, Spanish, French, Brazilian Portuguese, and Polish.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
