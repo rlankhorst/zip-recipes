@@ -122,7 +122,7 @@
 		<script>window.onload = amdZLRecipeSubmitForm;</script>
 	{% endif %}
 	{% if custom_head %}
-		{{ custom_head|e('js') }}
+		{{ custom_head|raw }}
 	{% endif %}
 </head>
 <body id="amd-zlrecipe-uploader">
