@@ -234,8 +234,7 @@ class ZipRecipes {
 			}
 		}
 
-		// show piwik script
-		wp_enqueue_script("zrdn_piwik", plugins_url('scripts/piwik.js', __FILE__), /*deps*/ array(), /*version*/ "1.0", /*in_footer*/ true);
+		do_action('zrdn__usage_stats');
 
 		$viewParams = array(
 				'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,

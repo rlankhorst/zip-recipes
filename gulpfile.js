@@ -68,12 +68,14 @@ gulp.task("compress-premium", function () {
 });
 
 gulp.task("plugins-free", function () {
-  return gulp.src(["src/plugins/index.php"], {base: "src"})
+  // Ship UsageStats plugin with free version
+  return gulp.src(["src/plugins/index.php", "src/plugins/UsageStats/**"], {base: "src"})
     .pipe(gulp.dest(dest_free));
 });
 
 gulp.task("plugins-premium", function () {
-  return gulp.src(["src/plugins/**"], {base: "src"})
+  // Don't ship UsageStats plugin with premium version
+  return gulp.src(["src/plugins/**", "!src/plugins/{UsageStats,UsageStats/**}"], {base: "src"})
     .pipe(gulp.dest(dest_premium));
 });
 
