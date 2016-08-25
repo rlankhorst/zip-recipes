@@ -8,7 +8,7 @@ services:
       - "21000:21"
       - "22000:22"
     volumes:
-      - /Users/gezimhome/projects/ziprecipes.net/zip-recipes/src:/usr/share/nginx/html/wordpress/wp-content/plugins/zip-recipes
+      - ./src:/usr/share/nginx/html/wordpress/wp-content/plugins/zip-recipes
 
   db:
     container_name: db
