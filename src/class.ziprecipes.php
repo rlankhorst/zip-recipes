@@ -441,35 +441,36 @@ class ZipRecipes {
 			}
 			else if ($_POST['action'] === "update_settings")
 			{
-				$zrecipe_attribution_hide = $_POST['zrecipe-attribution-hide'];
-				$printed_permalink_hide = $_POST['printed-permalink-hide'];
-				$printed_copyright_statement = $_POST['printed-copyright-statement'];
-				$stylesheet = $_POST['stylesheet'];
-				$recipe_title_hide = $_POST['recipe-title-hide'];
-				$image_hide = $_POST['image-hide'];
-				$image_hide_print = $_POST['image-hide-print'];
-				$print_link_hide = $_POST['print-link-hide'];
-				$ingredient_label_hide = self::zrdn_strip_chars($_POST['ingredient-label-hide']);
-				$ingredient_list_type = $_POST['ingredient-list-type'];
-				$instruction_label_hide = $_POST['instruction-label-hide'];
-				$instruction_list_type = self::zrdn_strip_chars($_POST['instruction-list-type']);
-				$notes_label_hide = $_POST['notes-label-hide'];
-				$prep_time_label_hide = $_POST['prep-time-label-hide'];
-				$cook_time_label_hide = $_POST['cook-time-label-hide'];
-				$total_time_label_hide = $_POST['total-time-label-hide'];
-				$yield_label_hide = $_POST['yield-label-hide'];
-				$serving_size_label_hide = $_POST['serving-size-label-hide'];
-				$calories_label_hide = $_POST['calories-label-hide'];
-				$fat_label_hide = $_POST['fat-label-hide'];
-				$carbs_label_hide = $_POST['carbs-label-hide'];
-				$protein_label_hide = $_POST['protein-label-hide'];
-				$fiber_label_hide = $_POST['fiber-label-hide'];
-				$sugar_label_hide = $_POST['sugar-label-hide'];
-				$saturated_fat_label_hide = $_POST['saturated-fat-label-hide'];
-				$sodium_label_hide = $_POST['sodium-label-hide'];
-				$image_width = $_POST['image-width'];
-				$outer_border_style = $_POST['outer-border-style'];
-				$custom_print_image = $_POST['custom-print-image'];
+
+				$zrecipe_attribution_hide = Util::get_array_value('zrecipe-attribution-hide', $_POST);
+				$printed_permalink_hide = Util::get_array_value('printed-permalink-hide', $_POST);
+				$printed_copyright_statement = Util::get_array_value('printed-copyright-statement', $_POST);
+				$stylesheet = Util::get_array_value('stylesheet', $_POST);
+				$recipe_title_hide = Util::get_array_value('recipe-title-hide', $_POST);
+				$image_hide = Util::get_array_value('image-hide', $_POST);
+				$image_hide_print = Util::get_array_value('image-hide-print', $_POST);
+				$print_link_hide = Util::get_array_value('print-link-hide', $_POST);
+				$ingredient_label_hide = self::zrdn_strip_chars(Util::get_array_value('ingredient-label-hide', $_POST));
+				$ingredient_list_type = Util::get_array_value('ingredient-list-type', $_POST);
+				$instruction_label_hide = Util::get_array_value('instruction-label-hide', $_POST);
+				$instruction_list_type = self::zrdn_strip_chars(Util::get_array_value('instruction-list-type', $_POST));
+				$notes_label_hide = Util::get_array_value('notes-label-hide', $_POST);
+				$prep_time_label_hide = Util::get_array_value('prep-time-label-hide', $_POST);
+				$cook_time_label_hide = Util::get_array_value('cook-time-label-hide', $_POST);
+				$total_time_label_hide = Util::get_array_value('total-time-label-hide', $_POST);
+				$yield_label_hide = Util::get_array_value('yield-label-hide', $_POST);
+				$serving_size_label_hide = Util::get_array_value('serving-size-label-hide', $_POST);
+				$calories_label_hide = Util::get_array_value('calories-label-hide', $_POST);
+				$fat_label_hide = Util::get_array_value('fat-label-hide', $_POST);
+				$carbs_label_hide = Util::get_array_value('carbs-label-hide', $_POST);
+				$protein_label_hide = Util::get_array_value('protein-label-hide', $_POST);
+				$fiber_label_hide = Util::get_array_value('fiber-label-hide', $_POST);
+				$sugar_label_hide = Util::get_array_value('sugar-label-hide', $_POST);
+				$saturated_fat_label_hide = Util::get_array_value('saturated-fat-label-hide', $_POST);
+				$sodium_label_hide = Util::get_array_value('sodium-label-hide', $_POST);
+				$image_width = Util::get_array_value('image-width', $_POST);
+				$outer_border_style = Util::get_array_value('outer-border-style', $_POST);
+				$custom_print_image = Util::get_array_value('custom-print-image', $_POST);
 
 				update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
 				update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );

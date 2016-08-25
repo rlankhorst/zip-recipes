@@ -98,6 +98,16 @@ class Util {
 		return $charset_collate;
 	}
 
+	// Get value of an array key
+	// Used to suppress warnings if key doesn't exist
+	public static function get_array_value($key, $array) {
+		if (isset($array[$key])) {
+			return $array[$key];
+		}
+
+		return null;
+	}
+
 
 	/**
 	 * Get list of installed plugins as a string. Each plugin is separated with ;
