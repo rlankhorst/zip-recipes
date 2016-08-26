@@ -17,6 +17,26 @@
                 return false;
             }
 
+            var $moreOptions = $('#more-options');
+            var extraFields = ['serving_size', 'calories', 'fat', 'carbs', 'protein', 'fiber', 'sugar', 'saturated_fat', 'sodium'];
+            var moreOptionsValid = true;
+
+            $.each(extraFields, function (index, value) {
+                var $field = $moreOptions.find('input[name="' + value + '"]');
+
+                if ($field.val().length > 255) {
+                    $field.addClass('input-error').parent('p').append('<p style="margin-left: 120px" class="error-message">This field cannot exceed 255 characters.</p>');
+
+                    moreOptionsValid = false;
+                }
+            });
+
+            if (!moreOptionsValid) {
+                $('#amd-zlrecipe-form-items').before('<p class="error-message">There are some errors in the \'more options\' section.</p>');
+
+                return false;
+            }
+
             var jQingredients = $('#z_recipe_ingredients');
             var jQingredientsTextarea = jQingredients.find('textarea');
             var ingredients = jQingredientsTextarea.val();

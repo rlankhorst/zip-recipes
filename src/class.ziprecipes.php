@@ -6,7 +6,7 @@ require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
 
 class ZipRecipes {
 
-	const TABLE_VERSION = "3.3"; // This must be changed when the DB structure is modified
+	const TABLE_VERSION = "3.4"; // This must be changed when the DB structure is modified
 	const TABLE_NAME = "amd_zlrecipe_recipes";
 	const PLUGIN_OPTION_NAME = "zrdn__plugins";
 
@@ -657,15 +657,15 @@ class ZipRecipes {
             cook_time text,
             total_time text,
             yield text,
-            serving_size varchar(50),
-            calories varchar(50),
-            fat varchar(50),
-			carbs varchar(50),
-			protein varchar(50),
-			fiber varchar(50),
-			sugar varchar(50),
-			saturated_fat varchar(50),
-			sodium varchar(50),
+            serving_size varchar(255),
+            calories varchar(255),
+            fat varchar(255),
+			carbs varchar(255),
+			protein varchar(255),
+			fiber varchar(255),
+			sugar varchar(255),
+			saturated_fat varchar(255),
+			sodium varchar(255),
             ingredients text,
             instructions text,
             notes text,
