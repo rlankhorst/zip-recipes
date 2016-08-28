@@ -298,8 +298,8 @@ class ZipRecipes {
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
 				'copyright' => get_option('zlrecipe_printed_copyright_statement')
 		);
-
-		return Util::view("recipe", $viewParams);
+        $custom_template = apply_filters('zrdn__custom_templates_show_tpl', false, $viewParams);
+        return $custom_template ? $custom_template : Util::view('recipe', $viewParams);
 	}
 
 	/**
@@ -501,6 +501,7 @@ class ZipRecipes {
 				update_option('zlrecipe_image_width', $image_width);
 				update_option('zlrecipe_outer_border_style', $outer_border_style);
 				update_option('zlrecipe_custom_print_image', $custom_print_image);
+                do_action('zrdn__custom_templates_save',$_POST);
 			}
 		}
 
@@ -585,6 +586,7 @@ class ZipRecipes {
 				'registration_url' => self::registration_url,
 				'wp_version' => $wp_version,
 				'installed_plugins' => Util::zrdn_get_installed_plugins(),
+				'extensions_settings' => apply_filters('zrdn__extention_settings_section', ''),
 				'home_url' => home_url());
 
 		Util::print_view('settings', $settingsParams);

@@ -262,3 +262,22 @@ gulp.task('i18n', function(done) {
     "generate-mos",
     done);
 });
+
+/**
+ * Custom templates tasks
+ */
+
+var src = 'src/plugins/CustomTemplates/views/';
+var dest = 'src/plugins/CustomTemplates/views/';
+var sass = require('gulp-sass');
+
+gulp.task('zrdn-ct-sass', function() {
+    return gulp.src(src+'assets/sass/*.scss')
+        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(gulp.dest(dest+'styles'));
+});
+
+gulp.task('zrdn-ct-js', function() {
+    return gulp.src(src+'assets/js/*.js')
+        .pipe(gulp.dest(dest+'js'));
+});
