@@ -298,8 +298,8 @@ class ZipRecipes {
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
 				'copyright' => get_option('zlrecipe_printed_copyright_statement')
 		);
-        $custom_template = apply_filters('zrdn__custom_templates_show_tpl', false, $viewParams);
-        return $custom_template ? $custom_template : Util::view('recipe', $viewParams);
+        $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
+        return $custom_template ?: Util::view('recipe', $viewParams);
 	}
 
 	/**
