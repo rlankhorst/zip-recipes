@@ -19,6 +19,9 @@
     "url": "https://github.com/hgezim/zip-recipes/issues"
   },
   "homepage": "https://github.com/hgezim/zip-recipes#readme",
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.3"
+  },
   "devDependencies": {
     "del": "^2.2.0",
     "gulp": "3.9.0",
@@ -26,6 +29,7 @@
     "gulp-filter": "3.0.1",
     "gulp-rename": "1.2.2",
     "gulp-replace": "0.5.4",
+    "gulp-sass": "2.3.2",
     "gulp-shell": "0.5.2",
     "gulp-sort": "2.0.0",
     "gulp-zip": "3.1.0",

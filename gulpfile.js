@@ -11,11 +11,17 @@ var fs = require("fs");
 var debug = require("gulp-debug");
 var sort = require('gulp-sort');
 var path = require('path');
+//custom templates requirements
+var sass = require('gulp-sass');
+
 
 const build_path = "build";
 const dest_free = path.join(build_path, "free");
 const dest_premium = path.join(build_path, "premium");
 const translationTemplateFilePath = "./src/languages/zip-recipes.pot";
+// Custom Templates paths
+const dest = 'src/plugins/CustomTemplates/views/';
+const src = 'src/plugins/CustomTemplates/views/';
 
 gulp.task("build-premium-js", function () {
   return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
@@ -261,4 +267,20 @@ gulp.task('i18n', function(done) {
     "update-languages",
     "generate-mos",
     done);
+});
+
+
+/**
+ * Custom templates tasks
+ * ct stands for Custom Templates
+ */
+gulp.task('zrdn-ct-sass', function() {
+    return gulp.src(src+'assets/sass/*.scss')
+        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(gulp.dest(dest+'styles'));
+});
+
+gulp.task('zrdn-ct-js', function() {
+    return gulp.src(src+'assets/js/*.js')
+        .pipe(gulp.dest(dest+'js'));
 });
