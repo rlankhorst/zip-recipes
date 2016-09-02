@@ -22,6 +22,7 @@ const translationTemplateFilePath = "./src/languages/zip-recipes.pot";
 // Custom Templates paths
 const dest = 'src/plugins/CustomTemplates/views/';
 const src = 'src/plugins/CustomTemplates/views/';
+const modules = 'node_modules';
 
 gulp.task("build-premium-js", function () {
   return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
@@ -276,7 +277,10 @@ gulp.task('i18n', function(done) {
  */
 gulp.task('zrdn-ct-sass', function() {
     return gulp.src(src+'assets/sass/*.scss')
-        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(sass({
+            includePaths: [modules],
+            outputStyle: 'compressed'
+        }).on('error', sass.logError))
         .pipe(gulp.dest(dest+'styles'));
 });
 
