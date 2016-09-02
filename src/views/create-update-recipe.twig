@@ -43,7 +43,7 @@
                 window.parent.zrdnAddImageHandler(zrdnRecipeImageSelected);
             });
 
-            var recipe_image_url = $('#recipe_image').val();
+            var recipe_image_url = $('#recipe_image > input').val();
             if (recipe_image_url)
             {
                 zrdnRecipeImageSelected({url: recipe_image_url});
@@ -121,6 +121,9 @@
     {% if post_info %}
 		<script>window.onload = amdZLRecipeSubmitForm;</script>
 	{% endif %}
+	{% if custom_head %}
+		{{ custom_head|raw }}
+	{% endif %}
 </head>
 <body id="amd-zlrecipe-uploader">
     {% autoescape false %}
@@ -138,20 +141,17 @@
 				<input type='hidden' name='recipe_post_id' value='{{ id }}' />
 				<input type='hidden' name='recipe_id' value='{{ recipe_id }}' />
 				<p id='recipe-title'><label>Recipe Title <span class='required'>*</span></label> <input type='text' name='recipe_title' value='{{ recipe_title }}' /></p>
-				<p id='recipe-image'>
-                    <div style="float:left; margin-left: 16px;">
-                        <label>Recipe Image</label>
-                        <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
-                    </div>
-                    <div id="upload-recipe-image-button-container" style="float: left; margin-left: 25px; padding-top: 5px;">
-                        <a id="upload-btn" href="#">Add Image</a>
-                    </div>
-                    <div id="recipe-image-preview-container" style="display: none; float: left; margin-left: 25px; text-align: center;">
-                        <img id="recipe-image-preview" src="" style="display: block" />
-                        <a href="javascript:zrdnResetImage()">Remove Image</a>
-                    </div>
-                </p>
-                <div style="clear: both"></div>
+				<p id='recipe-image' class='cls'>
+					<label>Recipe Image</label>
+					<input type='hidden' name='recipe_image' value='{{ recipe_image }}' />
+					<span id="upload-recipe-image-button-container" style="margin-left: 25px; padding-top: 5px;">
+						<a id="upload-btn" href="#">Add Image</a>
+					</span>
+					<span id="recipe-image-preview-container" style="display: none; margin-left: 25px; text-align: center;">
+						<img id="recipe-image-preview" src="" style="display: block" />
+						<a href="javascript:zrdnResetImage()">Remove Image</a>
+					</span>
+				</p>
 				<p id='z_recipe_ingredients' class='cls'>
                     <label>Ingredients
                         <span class='required'>*</span>
