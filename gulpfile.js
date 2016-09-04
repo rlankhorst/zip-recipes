@@ -288,3 +288,8 @@ gulp.task('zrdn-ct-js', function() {
     return gulp.src(src+'assets/js/*.js')
         .pipe(gulp.dest(dest+'js'));
 });
+
+gulp.task('zrdn-ct-fonts', function() {
+    return gulp.src(src+'assets/fonts/*')
+        .pipe(gulp.dest(dest+'fonts'));
+});
