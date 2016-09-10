@@ -13,16 +13,17 @@ var sort = require('gulp-sort');
 var path = require('path');
 //custom templates requirements
 var sass = require('gulp-sass');
-
+var argv = require('yargs').argv;
 
 const build_path = "build";
 const dest_free = path.join(build_path, "free");
 const dest_premium = path.join(build_path, "premium");
 const translationTemplateFilePath = "./src/languages/zip-recipes.pot";
 // Custom Templates paths
-const dest = 'src/plugins/CustomTemplates/views/';
-const src = 'src/plugins/CustomTemplates/views/';
-const modules = 'node_modules';
+const ext_location = 'src/plugins/';
+const assets_parent = '/views/';
+const modules = 'node_modules/';
+
 
 gulp.task("build-premium-js", function () {
   return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
@@ -272,24 +273,61 @@ gulp.task('i18n', function(done) {
 
 
 /**
- * Custom templates tasks
- * ct stands for Custom Templates
+ * Custom plugins tasks
  */
-gulp.task('zrdn-ct-sass', function() {
-    return gulp.src(src+'assets/sass/*.scss')
-        .pipe(sass({
-            includePaths: [modules],
-            outputStyle: 'compressed'
-        }).on('error', sass.logError))
-        .pipe(gulp.dest(dest+'styles'));
+
+
+gulp.task('zrdn-custom-plugin-sass', function() {
+    if (argv && argv.dir_name) {
+        var path = ext_location + argv.dir_name + assets_parent;
+        console.log(path + 'assets/sass/*.scss');
+        return gulp.src(path + 'assets/sass/*.scss')
+            .pipe(sass({
+                includePaths: [modules],
+                outputStyle: 'compressed'
+            }).on('error', sass.logError))
+            .pipe(gulp.dest(path + 'styles'));
+    } else {
+        console.log('Please, specify extension directory name.')
+    }
 });
 
-gulp.task('zrdn-ct-js', function() {
-    return gulp.src(src+'assets/js/*.js')
-        .pipe(gulp.dest(dest+'js'));
+gulp.task('zrdn-custom-plugin-js', function() {
+    var path = ext_location + argv.dir_name + assets_parent;
+    if (argv && argv.dir_name) {
+        return gulp.src(path+'assets/js/*.js')
+            .pipe(gulp.dest(path+'js'));
+    } else {
+        console.log('Please, specify extension directory name.')
+    }
 });
 
-gulp.task('zrdn-ct-fonts', function() {
-    return gulp.src(src+'assets/fonts/*')
-        .pipe(gulp.dest(dest+'fonts'));
+gulp.task('zrdn-custom-plugin-fonts', function() {
+    var path = ext_location + argv.dir_name + assets_parent;
+    if (argv && argv.dir_name) {
+        return gulp.src(path+'assets/fonts/*')
+            .pipe(gulp.dest(path+'fonts'));
+    } else {
+        console.log('Please, specify extension directory name.')
+    }
 });
+
+gulp.task('zrdn-custom-plugin-images', function() {
+    var path = ext_location + argv.dir_name + assets_parent;
+    if (argv && argv.dir_name) {
+        return gulp.src(path+'assets/images/*')
+            .pipe(gulp.dest(path+'images'));
+    } else {
+        console.log('Please, specify extension directory name.')
+    }
+});
+
+gulp.task(
+    'zrdn-custom-plugin-build',
+    [
+        'zrdn-custom-plugin-sass',
+        'zrdn-custom-plugin-js',
+        'zrdn-custom-plugin-fonts',
+        'zrdn-custom-plugin-images'
+    ]
+)
