@@ -5,9 +5,6 @@
 <div class="wrap">
   <form method="post" action="" id="zlrecipe_settings_form" name="zlrecipe_settings_form">
     <h2><img src="{{ zrdn_icon }}" /> Zip Recipes Settings</h2>
-    {% if not registered_clear %}
-        <h3 >Please <a href="{{ register_url|raw }}">register</a> ZipRecipes plugin, it is free.</h3>
-    {% endif %}
       For full customization options, see the <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Instructions document</a>.
       {{ extensions_settings|raw }}
       <table class="form-table">

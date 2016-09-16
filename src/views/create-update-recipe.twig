@@ -4,7 +4,8 @@
 <!--suppress HtmlUnknownTarget -->
 <head>
 	<link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.min.js"></script>
     <script type="text/javascript">
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
@@ -43,6 +44,12 @@
                 window.parent.zrdnAddImageHandler(zrdnRecipeImageSelected);
             });
 
+            $('#skip-button').click(function(e) {
+                e.preventDefault();
+                Cookies.set('skip-registration', 1, { expires: 7, path: '/' });
+                $(this).closest('form').remove();
+            });
+
             var recipe_image_url = $('#recipe_image').val();
             if (recipe_image_url)
             {
@@ -63,6 +70,25 @@
             {
                 $recipeSummaryTextarea.data('caption', 'false');
             }
+
+
+            {% if registration_required %}
+                var $form = jQuery("#zlrecipe_settings_form");
+
+                $form.submit(function (e)
+                {
+                    e.preventDefault();
+
+                    jQuery.post($(this).attr('action'), $form.serialize(), function(data) {
+                        //registered
+                        if (data == '200') {
+                            $form.remove();
+                        }
+                    });
+
+                    return false;
+                });
+            {% endif %}
 
 
         });
@@ -116,102 +142,108 @@
 
             $('#recipe_image').val('');
         }
-
     </script>
     {% if post_info %}
 		<script>window.onload = amdZLRecipeSubmitForm;</script>
 	{% endif %}
+    <style>
+        #zlrecipe_settings_form + form {
+            display: none;
+        }
+    </style>
 </head>
 <body id="amd-zlrecipe-uploader">
     {% autoescape false %}
+    {% if registration_required and not reg_skip %}
+        {{ macros.scripts() }}
+        <form id="zlrecipe_settings_form" class="reg-form" method="post" action="{{ registration_url }}">
+            {% import 'macros.twig' as macros %}
+            <input type="hidden" value="1" name="ajax"/>
+            {{ macros.register(wp_version, installed_plugins, home_url) }}
+        </form>
+    {% endif %}
     <form enctype='multipart/form-data' method='post' action='' name='recipe_form'>
-		{% if registration_required %}
-			<h3 class="amd-zlrecipe-title">Register Zip Recipes Free</h3>
-			<h4>Thank you for installing Zip Recipes plug.
-				<a href="javascript:window.top.location = '{{ settings_page_url }}';">
-					Click here to go to the Zip Recipes plugin settings
-				</a> to register the plugin (it's free!).
-			</h4>
-	    {% else %}
-			<h3 class='amd-zlrecipe-title'>{{ iframe_title }}</h3>
-			<div id='amd-zlrecipe-form-items'>
-				<input type='hidden' name='recipe_post_id' value='{{ id }}' />
-				<input type='hidden' name='recipe_id' value='{{ recipe_id }}' />
-				<p id='recipe-title'><label>Recipe Title <span class='required'>*</span></label> <input type='text' name='recipe_title' value='{{ recipe_title }}' /></p>
-				<p id='recipe-image'>
-                    <div style="float:left; margin-left: 16px;">
-                        <label>Recipe Image</label>
-                        <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
-                    </div>
-                    <div id="upload-recipe-image-button-container" style="float: left; margin-left: 25px; padding-top: 5px;">
-                        <a id="upload-btn" href="#">Add Image</a>
-                    </div>
-                    <div id="recipe-image-preview-container" style="display: none; float: left; margin-left: 25px; text-align: center;">
-                        <img id="recipe-image-preview" src="" style="display: block" />
-                        <a href="javascript:zrdnResetImage()">Remove Image</a>
-                    </div>
+        {% if registration_required and reg_skip %}
+            <h3 >Please <a href="{{ registration_url|raw }}" target="_blank">register</a> ZipRecipes plugin, it is free.</h3>
+        {% endif %}
+        <h3 class='amd-zlrecipe-title'>{{ iframe_title }}</h3>
+        <div id='amd-zlrecipe-form-items'>
+            <input type='hidden' name='recipe_post_id' value='{{ id }}' />
+            <input type='hidden' name='recipe_id' value='{{ recipe_id }}' />
+            <p id='recipe-title'><label>Recipe Title <span class='required'>*</span></label> <input type='text' name='recipe_title' value='{{ recipe_title }}' /></p>
+            <p id='recipe-image'>
+                <div style="float:left; margin-left: 16px;">
+                    <label>Recipe Image</label>
+                    <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+                </div>
+                <div id="upload-recipe-image-button-container" style="float: left; margin-left: 25px; padding-top: 5px;">
+                    <a id="upload-btn" href="#">Add Image</a>
+                </div>
+                <div id="recipe-image-preview-container" style="display: none; float: left; margin-left: 25px; text-align: center;">
+                    <img id="recipe-image-preview" src="" style="display: block" />
+                    <a href="javascript:zrdnResetImage()">Remove Image</a>
+                </div>
+            </p>
+            <div style="clear: both"></div>
+            <p id='z_recipe_ingredients' class='cls'>
+                <label>Ingredients
+                    <span class='required'>*</span>
+                    <small>Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.</small>
+                    <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
+                        <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                    </small>
+                </label>
+                <textarea name='ingredients' id='ingredients'>{{ ingredients }}</textarea></label>
+            </p>
+            <p id='amd-zlrecipe-instructions' class='cls'>
+                <label>Instructions
+                    <small>Press return after each instruction. There is no need to number your instructions.</small>
+                    <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
+                        <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                    </small>
+                </label>
+                <textarea name='instructions'>{{ instructions }}</textarea>
+                </label>
+            </p>
+            <p><a href='#' id='more-options-toggle'>More options</a></p>
+            <div id='more-options'>
+                <p class='cls'><label>Summary</label>
+                    <textarea id='summary' name='summary' data-caption="true">{{ summary }}</textarea></label></p>
+                <p class="cls"><label>Prep Time</label>
+                    {{ prep_time_input }}
+                <span class="time">
+                    <span><input type='number' min="0" max="24" name='prep_time_hours' value='{{ prep_time_hours }}' /><label>hours</label></span>
+                    <span><input type='number' min="0" max="60" name='prep_time_minutes' value='{{ prep_time_minutes }}' /><label>minutes</label></span>
+                </span>
                 </p>
-                <div style="clear: both"></div>
-				<p id='z_recipe_ingredients' class='cls'>
-                    <label>Ingredients
-                        <span class='required'>*</span>
-                        <small>Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.</small>
-                        <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
-                            <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
-                        </small>
-                    </label>
-                    <textarea name='ingredients' id='ingredients'>{{ ingredients }}</textarea></label>
+                <p class="cls"><label>Cook Time</label>
+                    {{ cook_time_input }}
+                <span class="time">
+                    <span><input type='number' min="0" max="24" name='cook_time_hours' value='{{ cook_time_hours }}' /><label>hours</label></span>
+                    <span><input type='number' min="0" max="60" name='cook_time_minutes' value='{{ cook_time_minutes }}' /><label>minutes</label></span>
+                </span>
                 </p>
-				<p id='amd-zlrecipe-instructions' class='cls'>
-                    <label>Instructions
-                        <small>Press return after each instruction. There is no need to number your instructions.</small>
-                        <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
-                            <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
-                        </small>
-                    </label>
-                    <textarea name='instructions'>{{ instructions }}</textarea>
-                    </label>
+                <p class="cls"><label>Total Time</label>
+                    {{ total_time_input }}
+                <span class="time">
+                    <span><input type='number' min="0" max="24" name='total_time_hours' value='{{ total_time_hours }}' /><label>hours</label></span>
+                    <span><input type='number' min="0" max="60" name='total_time_minutes' value='{{ total_time_minutes }}' /><label>minutes</label></span>
+                </span>
                 </p>
-				<p><a href='#' id='more-options-toggle'>More options</a></p>
-				<div id='more-options'>
-					<p class='cls'><label>Summary</label>
-                        <textarea id='summary' name='summary' data-caption="true">{{ summary }}</textarea></label></p>
-					<p class="cls"><label>Prep Time</label>
-						{{ prep_time_input }}
-                    <span class="time">
-                        <span><input type='number' min="0" max="24" name='prep_time_hours' value='{{ prep_time_hours }}' /><label>hours</label></span>
-                        <span><input type='number' min="0" max="60" name='prep_time_minutes' value='{{ prep_time_minutes }}' /><label>minutes</label></span>
-                    </span>
-					</p>
-					<p class="cls"><label>Cook Time</label>
-						{{ cook_time_input }}
-                    <span class="time">
-                    	<span><input type='number' min="0" max="24" name='cook_time_hours' value='{{ cook_time_hours }}' /><label>hours</label></span>
-                        <span><input type='number' min="0" max="60" name='cook_time_minutes' value='{{ cook_time_minutes }}' /><label>minutes</label></span>
-                    </span>
-					</p>
-					<p class="cls"><label>Total Time</label>
-						{{ total_time_input }}
-                    <span class="time">
-                        <span><input type='number' min="0" max="24" name='total_time_hours' value='{{ total_time_hours }}' /><label>hours</label></span>
-                        <span><input type='number' min="0" max="60" name='total_time_minutes' value='{{ total_time_minutes }}' /><label>minutes</label></span>
-                    </span>
-					</p>
-					<p><label>Yield</label> <input type='text' name='yield' value='{{ yield }}' /></p>
-					<p><label>Serving Size</label> <input type='text' name='serving_size' value='{{ serving_size }}' /></p>
-					<p><label>Calories</label> <input type='text' name='calories' value='{{ calories }}' /></p>
-					<p><label>Carbs</label> <input type='text' name='carbs' value='{{ carbs }}' /></p>
-					<p><label>Protein</label> <input type='text' name='protein' value='{{ protein }}' /></p>
-					<p><label>Fiber</label> <input type='text' name='fiber' value='{{ fiber }}' /></p>
-					<p><label>Sugar</label> <input type='text' name='sugar' value='{{ sugar }}' /></p>
-					<p><label>Sodium</label> <input type='text' name='sodium' value='{{ sodium }}' /></p>
-					<p><label>Fat</label> <input type='text' name='fat' value='{{ fat }}' /></p>
-					<p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='{{ saturated_fat }}' /></p>
-					<p class='cls'><label>Notes</label> <textarea name='notes'>{{ notes }}</textarea></label></p>
-				</div>
-                <input type='submit' value='{{ submit }}' name='add-recipe-button' />
-			</div>
-		{% endif %}
+                <p><label>Yield</label> <input type='text' name='yield' value='{{ yield }}' /></p>
+                <p><label>Serving Size</label> <input type='text' name='serving_size' value='{{ serving_size }}' /></p>
+                <p><label>Calories</label> <input type='text' name='calories' value='{{ calories }}' /></p>
+                <p><label>Carbs</label> <input type='text' name='carbs' value='{{ carbs }}' /></p>
+                <p><label>Protein</label> <input type='text' name='protein' value='{{ protein }}' /></p>
+                <p><label>Fiber</label> <input type='text' name='fiber' value='{{ fiber }}' /></p>
+                <p><label>Sugar</label> <input type='text' name='sugar' value='{{ sugar }}' /></p>
+                <p><label>Sodium</label> <input type='text' name='sodium' value='{{ sodium }}' /></p>
+                <p><label>Fat</label> <input type='text' name='fat' value='{{ fat }}' /></p>
+                <p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='{{ saturated_fat }}' /></p>
+                <p class='cls'><label>Notes</label> <textarea name='notes'>{{ notes }}</textarea></label></p>
+            </div>
+            <input type='submit' value='{{ submit }}' name='add-recipe-button' />
+        </div>
     </form>
     {% endautoescape %}
 </body>
