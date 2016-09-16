@@ -1,0 +1,12 @@
+
+<style>
+    #skip-button {
+        display: none;
+    }
+</style>
+{% import 'macros.twig' as macros %}
+{{ macros.scripts() }}
+<form method="post" action=""
+      style="max-width: 500px" class="register-page" id="zlrecipe_settings_form" name="zlrecipe_settings_form">
+    {{ macros.register(wp_version, installed_plugins, home_url) }}
+</form>
