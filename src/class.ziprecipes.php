@@ -416,8 +416,10 @@ class ZipRecipes {
         }
 
         if (isset( $_GET['page']) && $_GET['page']=='zrdn-settings') {
-            wp_redirect(admin_url( 'admin.php?page=' . 'zrdn-register' ));
-            exit();
+            if (!get_option('zrdn_registered')) {
+                wp_redirect(admin_url('admin.php?page=' . 'zrdn-register'));
+                exit();
+            }
         }
         if (isset($_GET['page']) && $_GET['page']=='zrdn-register' && isset( $_GET['skipped-reg'])) {
             setcookie( 'skip-registration', 1, time()+60*60*24*7, '/' );
