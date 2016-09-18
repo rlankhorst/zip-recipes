@@ -51,13 +51,13 @@ require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 
 Util::log("Setting up init hooks.");
 
-// Add initial hooks
-add_action( 'init', __NAMESPACE__ . '\ZipRecipes::init' );
 add_action('upgrader_process_complete', __NAMESPACE__ . '\ZipRecipes::plugin_updated', 10, 2);
 
 // Leaving register_activation_hook here because it's using __FILE__ and it needs to use the main plugin file, which is
 //  this file.
 register_activation_hook(__FILE__, __NAMESPACE__ . '\ZipRecipes::init');
+
+ZipRecipes::init();
 
 // Setup query catch for recipe insertion popup.
 if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQUEST_URI'], '&type=z_recipe') && !strpos($_SERVER['REQUEST_URI'], '&wrt='))
