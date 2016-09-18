@@ -69,10 +69,14 @@ class ZipRecipes {
 
 		closedir($pluginsDirHandle);
 
+        // time to init shortcode facade
+        $shortcodes = new __shortcode();
+
 		// We need to call `zrdn__init_hooks` action before `init_hooks()` because some actions/filters registered
 		//	in `init_hooks()` get called before plugins have a chance to register their hooks with `zrdn__init_hooks`
 		do_action("zrdn__init_hooks"); // plugins can add an action to listen for this event and register their hooks
-		self::init_hooks();
+
+        self::init_hooks();
 	}
 
 	/**
@@ -395,36 +399,38 @@ class ZipRecipes {
 	}
 
     public static function preload_check_registered() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            foreach ($_POST as $key => $val) {
-                $_POST[$key] = stripslashes($val);
+        if (isset($_POST['page']) and strpos($_POST['page'], 'zrdn-') !== false) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                foreach ($_POST as $key => $val) {
+                    $_POST[$key] = stripslashes($val);
+                }
+
+                if ($_POST['action'] === "zrdn-register") {
+                    // if first, last name and email are provided, we assume that user is registering
+                    $registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
+                    if ($registered) {
+                        update_option('zrdn_registered', true);
+                        if (isset($_POST['ajax'])) {
+                            echo 200;
+                            die();
+                        }
+                        wp_redirect(admin_url( 'admin.php?page=' . 'zrdn-settings' ));
+                        exit();
+                    }
+                }
             }
 
-            if ($_POST['action'] === "zrdn-register") {
-                // if first, last name and email are provided, we assume that user is registering
-                $registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
-                if ($registered) {
-                    update_option('zrdn_registered', true);
-                    if (isset($_POST['ajax'])) {
-                        echo 200;
-                        die();
-                    }
-                    wp_redirect(admin_url( 'admin.php?page=' . 'zrdn-settings' ));
+            if (isset( $_GET['page']) && $_GET['page']=='zrdn-settings') {
+                if (!get_option('zrdn_registered')) {
+                    wp_redirect(admin_url('admin.php?page=' . 'zrdn-register'));
                     exit();
                 }
             }
-        }
-
-        if (isset( $_GET['page']) && $_GET['page']=='zrdn-settings') {
-            if (!get_option('zrdn_registered')) {
-                wp_redirect(admin_url('admin.php?page=' . 'zrdn-register'));
+            if (isset($_GET['page']) && $_GET['page']=='zrdn-register' && isset( $_GET['skipped-reg'])) {
+                setcookie( 'skip-registration', 1, time()+60*60*24*7, '/' );
+                wp_redirect(admin_url( 'admin.php?page=' . 'zrdn-settings' ));
                 exit();
             }
-        }
-        if (isset($_GET['page']) && $_GET['page']=='zrdn-register' && isset( $_GET['skipped-reg'])) {
-            setcookie( 'skip-registration', 1, time()+60*60*24*7, '/' );
-            wp_redirect(admin_url( 'admin.php?page=' . 'zrdn-settings' ));
-            exit();
         }
     }
 
