@@ -32,6 +32,7 @@
           <th scope="row">Printed Output: Copyright Statement</th>
           <td><input type="text" name="printed-copyright-statement" value="{{ printed_copyright_statement }}" class="regular-text" /></td>
         </tr>
+        {{ author_section|raw }}
       </table>
 
       <hr />
@@ -139,6 +140,7 @@
       <p><input type="submit" name="submit" id="submit" class="button-primary" value="Save Changes"></p>
     {% else %}
       <script type="text/javascript">
+        // REGISTRATION FORM SCRIPT
         var $form = jQuery("#zlrecipe_settings_form");
 
         $form.on("submit", function ()

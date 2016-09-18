@@ -6,7 +6,6 @@ require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
 
 class ZipRecipes {
 
-	const TABLE_VERSION = "3.3"; // This must be changed when the DB structure is modified
 	const TABLE_NAME = "amd_zlrecipe_recipes";
 	const PLUGIN_OPTION_NAME = "zrdn__plugins";
 
@@ -79,9 +78,6 @@ class ZipRecipes {
 	private static function init_hooks()
 	{
 		Util::log("I'm in init_hooks");
-
-		# HACK: register_activation_hook doesn't get called when plugin is updated, so we use `plugins_loaded` hook.
-		add_action('plugins_loaded', __NAMESPACE__ . '\ZipRecipes::zrdn_recipe_install');
 
 		add_action('admin_head', __NAMESPACE__ . '\ZipRecipes::zrdn_js_vars');
 		add_action('admin_init', __NAMESPACE__ . '\ZipRecipes::zrdn_add_recipe_button');
@@ -296,7 +292,8 @@ class ZipRecipes {
 				'attribution_hide' => get_option('zrdn_attribution_hide'),
 				'version' => ZRDN_VERSION_NUM,
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
-				'copyright' => get_option('zlrecipe_printed_copyright_statement')
+				'copyright' => get_option('zlrecipe_printed_copyright_statement'),
+				'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', $recipe)
 		);
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
         return $custom_template ?: Util::view('recipe', $viewParams);
@@ -586,8 +583,10 @@ class ZipRecipes {
 				'registration_url' => self::registration_url,
 				'wp_version' => $wp_version,
 				'installed_plugins' => Util::zrdn_get_installed_plugins(),
-				'extensions_settings' => apply_filters('zrdn__extention_settings_section', ''),
-				'home_url' => home_url());
+                'extensions_settings' => apply_filters('zrdn__extention_settings_section', ''),
+				'home_url' => home_url(),
+				'author_section' => apply_filters('zrdn__authors_get_set_settings', $_POST)
+		);
 
 		Util::print_view('settings', $settingsParams);
 	}
@@ -644,41 +643,49 @@ class ZipRecipes {
 		Util::log("In zrdn_recipe_install");
 
 		$recipes_table = $wpdb->prefix . self::TABLE_NAME;
-		$installed_db_ver = get_option("amd_zlrecipe_db_version");
 
 		$charset_collate = Util::get_charset_collate();
 
-		if($installed_db_ver !== self::TABLE_VERSION) {				// An older (or no) database table exists
-			$sql_command = "CREATE TABLE `$recipes_table` (
-            recipe_id bigint(20) unsigned NOT NULL AUTO_INCREMENT  PRIMARY KEY,
-            post_id bigint(20) unsigned NOT NULL,
-            recipe_title text,
-            recipe_image text,
-            summary text,
-            prep_time text,
-            cook_time text,
-            total_time text,
-            yield text,
-            serving_size varchar(50),
-            calories varchar(50),
-            fat varchar(50),
-			carbs varchar(50),
-			protein varchar(50),
-			fiber varchar(50),
-			sugar varchar(50),
-			saturated_fat varchar(50),
-			sodium varchar(50),
-            ingredients text,
-            instructions text,
-            notes text,
-            created_at timestamp DEFAULT NOW()
-        	) $charset_collate;";
+		// Each column for create table statement is an array element
+		$columns = array(
+			'recipe_id bigint(20) unsigned NOT NULL AUTO_INCREMENT  PRIMARY KEY',
+			'post_id bigint(20) unsigned NOT NULL',
+			'recipe_title text',
+			'recipe_image text',
+			'summary text',
+			'prep_time text',
+			'cook_time text',
+			'total_time text',
+			'yield text',
+			'serving_size varchar(50)',
+			'calories varchar(50)',
+			'fat varchar(50)',
+			'carbs varchar(50)',
+			'protein varchar(50)',
+			'fiber varchar(50)',
+			'sugar varchar(50)',
+			'saturated_fat varchar(50)',
+			'sodium varchar(50)',
+			'ingredients text',
+			'instructions text',
+			'notes text',
+			'created_at timestamp DEFAULT NOW()'
+		);
 
-			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-			dbDelta($sql_command);
+		$all_columns = apply_filters('zrdn__db_recipe_columns', $columns);
 
-			update_option("amd_zlrecipe_db_version", self::TABLE_VERSION);
-		}
+		// For dbDelta to detect different columns, they have to be split using \n (newline).
+		// The comma is part of SQL syntax.
+		$columns_string = implode(",\n", $all_columns);
+		$sql_command = "CREATE TABLE `$recipes_table` ($columns_string) $charset_collate;";
+
+		/**
+		 * dbDelta is smart enough not to make changes if they're not needed so we don't need to have table
+		 *  version checks.
+		 * Also, dbDelta will not drop columns from a table, it only adds new ones.
+		 */
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		dbDelta($sql_command); // run SQL script
 
 		Util::log("Calling db_setup() action");
 
@@ -727,6 +734,7 @@ class ZipRecipes {
 		$submit = '';
 		$ss = array();
 		$iframe_title = '';
+		$recipe = null;
 
 
 		if ($post_info || $get_info) {
@@ -739,7 +747,10 @@ class ZipRecipes {
 				$submit       = "Add Recipe";
 			}
 
-			if ( isset($get_info["recipe_post_id"]) && ! isset($get_info["add-recipe-button"]) && strpos($get_info["recipe_post_id"], '-') !== false) {
+			if ( isset($get_info["recipe_post_id"]) &&
+			     ! isset($get_info["add-recipe-button"]) &&
+			     strpos($get_info["recipe_post_id"], '-') !== false
+			) { // EDIT recipe
 				$recipe_id = preg_replace('/[0-9]*?\-/i', '', $get_info["recipe_post_id"]);
 				$recipe = self::zrdn_select_recipe_db($recipe_id);
 				$recipe_title = $recipe->recipe_title;
@@ -786,7 +797,8 @@ class ZipRecipes {
 							$total_time_input = '<input type="text" name="total_time" value="' . $recipe->total_time . '"/>';
 						}
 					}
-				} else {
+				}
+				else {
 					if (preg_match('(^[A-Z0-9]*$)', $recipe->prep_time) == 1) {
 						preg_match('(\d*S)', $recipe->prep_time, $pts);
 						preg_match('(\d*M)', $recipe->prep_time, $ptm, PREG_OFFSET_CAPTURE, strpos($recipe->prep_time, 'T'));
@@ -845,7 +857,8 @@ class ZipRecipes {
 				$sodium = $recipe->sodium;
 				$ingredients = $recipe->ingredients;
 				$instructions = $recipe->instructions;
-			} else {
+			}
+			else { // SAVE/UPDATE recipe
 				foreach ($post_info as $key=>$val) {
 					$post_info[$key] = stripslashes($val);
 				}
@@ -879,7 +892,12 @@ class ZipRecipes {
 				$sodium = isset($post_info['sodium']) ? $post_info['sodium'] : '';
 				$ingredients = isset($post_info["ingredients"]) ? $post_info["ingredients"] : '';
 				$instructions = isset($post_info["instructions"]) ? $post_info["instructions"] : '';
+				$author = apply_filters('zrdn__authors_get_author_from_post_data', $post_info);
+				if ($author) {
+					$post_info['author'] = $author;
+				}
 				if (isset($recipe_title) && $recipe_title != '' && isset($ingredients) && $ingredients != '') {
+					// Save recipe to database
 					$recipe_id = self::zrdn_insert_db($post_info);
 				}
 			}
@@ -949,8 +967,9 @@ class ZipRecipes {
 			'fat' => $fat,
 			'saturated_fat' => $saturated_fat,
 			'notes' => $notes,
-			'submit' => $submit
- 		));
+			'submit' => $submit,
+			'author_section' => apply_filters('zrdn__authors_recipe_create_update', '', $recipe, $post_info)
+		));
 	}
 
 	// Inserts the recipe into the database
@@ -1045,27 +1064,23 @@ class ZipRecipes {
 			$total_time = $post_info["total_time"];
 		}
 
-		$recipe = array (
-			"recipe_title" =>  $post_info["recipe_title"],
-			"recipe_image" => $post_info["recipe_image"],
-			"summary" =>  $post_info["summary"],
-			"prep_time" => $prep_time,
-			"cook_time" => $cook_time,
-			"total_time" => $total_time,
-			"yield" =>  $post_info["yield"],
-			"serving_size" =>  $post_info["serving_size"],
-			"calories" => $post_info["calories"],
-			"fat" => $post_info["fat"],
-			"carbs" => $post_info['carbs'],
-			"protein" => $post_info['protein'],
-			"fiber" => $post_info['fiber'],
-			"sugar" => $post_info['sugar'],
-			"saturated_fat" => $post_info['saturated_fat'],
-			"sodium" => $post_info['sodium'],
-			"ingredients" => $post_info["ingredients"],
-			"instructions" => $post_info["instructions"],
-			"notes" => $post_info["notes"],
-		);
+		// Build array to be sent to db query call
+		$clean_fields = array(
+			'recipe_title', 'recipe_image', 'summary', 'yield',
+			'serving_size', 'calories', 'fat', 'carbs',  'protein', 'fiber', 'sugar', 'saturated_fat', 'sodium',
+			'ingredients', 'instructions', 'notes', 'author'
+			);
+		$recipe = array();
+		foreach($post_info as $attr => $value) {
+			if (in_array($attr, $clean_fields) && isset($post_info[$attr])) {
+				$recipe[$attr] = $value;
+			}
+		}
+		// Add fields that needed format change
+		$recipe['prep_time'] = $prep_time;
+		$recipe['cook_time'] = $cook_time;
+		$recipe['total_time'] = $total_time;
+
 
 		if (self::zrdn_select_recipe_db($recipe_id) == null) {
 			$recipe["post_id"] = $post_info["recipe_post_id"];	// set only during record creation
