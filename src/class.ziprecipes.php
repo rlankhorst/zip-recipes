@@ -141,7 +141,7 @@ class ZipRecipes {
 		if (is_admin()) {
 			?>
 			<script type="text/javascript">
-				var post_id = '<?php global $post; echo $post->ID; ?>';
+				var post_id = '<?php global $post; if(isset($post)) { echo $post->ID; } ?>';
 			</script>
 		<?php
 		}
