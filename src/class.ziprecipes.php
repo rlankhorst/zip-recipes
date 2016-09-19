@@ -32,7 +32,7 @@ class ZipRecipes {
 			while (false !== ($fileOrFolder = readdir($pluginsDirHandle)))
 			{
 				$notDir = ! is_dir($fileOrFolder);
-				$invalidDir = $fileOrFolder === "." || $fileOrFolder === "..";
+                $invalidDir = $fileOrFolder === "." || $fileOrFolder === ".." || $fileOrFolder === '_internal';
 				// we don't care about files inside `plugins` dir
 				if ($notDir || $invalidDir)
 				{
