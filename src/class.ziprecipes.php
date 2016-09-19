@@ -137,6 +137,8 @@ class ZipRecipes {
         add_action( 'admin_init', __NAMESPACE__. '\ZipRecipes::preload_check_registered');
 		add_action('admin_footer', __NAMESPACE__ . '\ZipRecipes::zrdn_plugin_footer');
 
+		add_filter( 'amp_post_template_metadata', __NAMESPACE__ . '\ZipRecipes::amd_format', 10, 2);
+
 		self::zrdn_recipe_install();
 	}
 
@@ -1336,5 +1338,11 @@ class ZipRecipes {
 		wp_enqueue_media();
 
 		wp_enqueue_script('zrdn-admin-script');
+	}
+
+	public static function  amd_format( $metadata, $post ) {
+		$metadata['@type'] = 'NewsArticle';
+		
+		return $metadata;
 	}
 }
