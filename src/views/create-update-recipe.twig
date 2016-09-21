@@ -132,8 +132,7 @@
         }
 
 
-        function zrdnResetImage()
-        {
+        function zrdnResetImage() {
             var $imageContainer = $('#recipe-image-preview-container'),
                     $uploadImageContainer = $('#upload-recipe-image-button-container');
 
@@ -152,12 +151,13 @@
         }
     </style>
 </head>
+
+{% import 'macros.twig' as macros %}
 <body id="amd-zlrecipe-uploader">
     {% autoescape false %}
     {% if registration_required and not reg_skip %}
         {{ macros.scripts() }}
         <form id="zlrecipe_settings_form" class="reg-form" method="post" action="{{ registration_url }}">
-            {% import 'macros.twig' as macros %}
             <input type="hidden" value="1" name="ajax"/>
             {{ macros.register(wp_version, installed_plugins, home_url) }}
         </form>
