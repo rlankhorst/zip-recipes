@@ -5,7 +5,6 @@
 <head>
 	<link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.min.js"></script>
     <script type="text/javascript">
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
@@ -145,27 +144,12 @@
     {% if post_info %}
 		<script>window.onload = amdZLRecipeSubmitForm;</script>
 	{% endif %}
-    <style>
-        #zlrecipe_settings_form + form {
-            display: none;
-        }
-    </style>
 </head>
 
 {% import 'macros.twig' as macros %}
 <body id="amd-zlrecipe-uploader">
     {% autoescape false %}
-    {% if registration_required and not reg_skip %}
-        {{ macros.scripts() }}
-        <form id="zlrecipe_settings_form" class="reg-form" method="post" action="{{ registration_url }}">
-            <input type="hidden" value="1" name="ajax"/>
-            {{ macros.register(wp_version, installed_plugins, home_url) }}
-        </form>
-    {% endif %}
     <form enctype='multipart/form-data' method='post' action='' name='recipe_form'>
-        {% if registration_required and reg_skip %}
-            <h3 >Please <a href="{{ registration_url|raw }}" target="_blank">register</a> ZipRecipes plugin, it is free.</h3>
-        {% endif %}
         <h3 class='amd-zlrecipe-title'>{{ iframe_title }}</h3>
         <div id='amd-zlrecipe-form-items'>
             <input type='hidden' name='recipe_post_id' value='{{ id }}' />

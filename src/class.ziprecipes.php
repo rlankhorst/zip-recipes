@@ -17,8 +17,8 @@ class ZipRecipes {
 	 */
 	public static function init()
 	{
-       // delete_option('zrdn_registered');
-        //die();
+//        delete_option('zrdn_registered');
+//        die();
 		Util::log("Core init");
 
 		// Instantiate plugin classes
@@ -410,34 +410,6 @@ class ZipRecipes {
 	}
 
     public static function preload_check_registered() {
-        if (isset($_POST['page']) and strpos($_POST['page'], 'zrdn-') !== false) {
-            $cookie_live_period = time()+60*60*24*7;
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                foreach ($_POST as $key => $val) {
-                    $_POST[$key] = stripslashes($val);
-                }
-
-                if ($_POST['action'] === "zrdn-register") {
-                    // if first, last name and email are provided, we assume that user is registering
-                    $registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
-                    if ($registered) {
-                        update_option('zrdn_registered', true);
-                        if (isset($_POST['ajax'])) {
-                            echo 200;
-                            die();
-                        }
-                        wp_redirect(admin_url( 'admin.php?page=' . 'zrdn-settings' ));
-                        exit();
-                    }
-                }
-            }
-
-            if (isset($_GET['page']) && $_GET['page']=='zrdn-register' && isset( $_GET['skipped-reg'])) {
-                setcookie( 'skip-registration', 1, $cookie_live_period, '/' );
-                wp_redirect(admin_url( 'admin.php?page=' . 'zrdn-settings' ));
-                exit();
-            }
-        }
     }
 
     public static function zrdn_registration() {
@@ -447,7 +419,7 @@ class ZipRecipes {
             wp_die('You do not have sufficient permissions to access this page.');
         }
 
-        $settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-register&skipped-reg=1' );
+        $settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
 
         $settingsParams = array(
             'settings_url' => $settings_page_url,
@@ -521,7 +493,7 @@ class ZipRecipes {
 				$_POST[$key] = stripslashes($val);
 			}
 
-			if ($_POST['action'] === "register")
+			if ($_POST['action'] === "zrdn-register")
 			{
 				// if first, last name and email are provided, we assume that user is registering
 				$registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
@@ -792,6 +764,20 @@ class ZipRecipes {
 	// Content for the popup iframe when creating or editing a recipe
 	public static function zrdn_iframe_content($post_info = null, $get_info = null) {
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($_POST['action'] === "zrdn-register") {
+                // if first, last name and email are provided, we assume that user is registering
+                $registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
+                if ($registered) {
+                    update_option('zrdn_registered', true);
+                    if (isset($_POST['return-url'])) {
+                        header('Location: '.$_POST['return-url'] );
+                        exit;
+                    }
+                }
+            }
+        }
+
 		$recipe_id = 0;
 		$recipe_title = "";
 		$recipe_image = "";
@@ -1008,13 +994,41 @@ class ZipRecipes {
 
 		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$settings_page_url = admin_url( 'admin.php?page=' . 'zrdn-settings' );
-		$registration_url = admin_url( 'admin.php?page=' . 'zrdn-register' );
 
-        $skip_registration=false;
+        /*
+         * Here is small trick
+         * if user not registered we should redirect him to register form
+         * and process if user registered
+         */
+
+         if (isset($_GET['skip_registration']) && !isset($_COOKIE['skip-registration'])) {
+             $cookie_live_period = time() + 60 * 60 * 24 * 7;
+             setcookie('skip-registration', 1, $cookie_live_period, '/');
+         }
+
+        $skip_registration = false;
         if (!$skip_registration) {
-            if (isset($_COOKIE['skip-registration'])) {
+            if (isset($_COOKIE['skip-registration']) || isset($_GET['skip_registration'])) {
                 $skip_registration = true;
             }
+        }
+
+        if (!get_option('zrdn_registered') && !$skip_registration) {
+            global $wp_version;
+            $settings_page_url = admin_url('admin.php?page=' . 'zrdn-register');
+
+            $settingsParams = array(
+                'settings_url' => $settings_page_url,
+                'registration_url' => self::registration_url,
+                'wp_version' => $wp_version,
+                'installed_plugins' => Util::zrdn_get_installed_plugins(),
+                'home_url' => home_url(),
+                'return_to_url' => "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
+                'plugin_url' => ZRDN_PLUGIN_URL
+            );
+
+            Util::print_view('register', $settingsParams);
+            return;
         }
 
 		Util::print_view('create-update-recipe', array(
@@ -1052,8 +1066,6 @@ class ZipRecipes {
 			'saturated_fat' => $saturated_fat,
 			'notes' => $notes,
 			'submit' => $submit,
-            'registration_url' => $registration_url,
-            'reg_skip' => $skip_registration
  		));
 	}
 

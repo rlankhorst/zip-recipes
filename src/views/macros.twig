@@ -1,4 +1,4 @@
-{% macro register(wp_version, installed_plugins, home_url) %}
+{% macro register(wp_version, installed_plugins, home_url, return_to_url) %}
     <h3>Register Zip Recipes Free</h3>
     Please register your plugin so we can notify you of any security updates or other fixes we make to Zip
     Recipes plugin. Registering also helps us troubleshoot any problems you may encounter. When you register, we will automatically
@@ -19,12 +19,13 @@
                 <input type="hidden" id="wp-version" name="wp_version" value="{{ wp_version }}" />
                 <input type="hidden" id="plugins" name="plugins" value="{{ installed_plugins }}" />
                 <input type="hidden" id="blog-url" name="blog_url" value="{{ home_url }}" />
+                <input type="hidden" id="return-url" name="return-url" value="{{ return_to_url }}" />
                 <input type="hidden" name="action" value="zrdn-register" />
             </td>
         </tr>
     </table>
     <p style="text-align: right">
-        <a href="{{ settings_url|raw }}" id="skip-button" class="button-skip"
+        <a href="{{ return_to_url|raw }}&skip_registration=1" id="skip-button" class="button-skip"
            style="border: 0; background: none;cursor: pointer;color:#777777;margin-right:10px;">Skip</a>
         <input type="submit" id="register_button" class="button-primary" value="Register">
     </p>
