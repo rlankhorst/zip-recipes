@@ -1,4 +1,4 @@
-{% if return_to_url %}
+{% if iframed_form %}
 <!DOCTYPE html>
     <!--suppress HtmlUnknownTarget -->
     <head>
@@ -23,11 +23,11 @@
 {% endif %}
 {% import 'macros.twig' as macros %}
 {{ macros.scripts() }}
-<form method="post" action=""
+<form method="post" action="{{ registration_action }}"
       style="max-width: 500px" class="register-page" id="zlrecipe_settings_form" name="zlrecipe_settings_form">
     {{ macros.register(wp_version, installed_plugins, home_url, return_to_url) }}
 </form>
-{% if  return_to_url %}
+{% if iframed_form %}
         </body>
 </html>
 {% endif %}
