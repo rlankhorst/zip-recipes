@@ -69,9 +69,6 @@ class ZipRecipes {
 
 		closedir($pluginsDirHandle);
 
-        // time to init shortcode facade
-        $shortcodes = new __shortcode();
-
 		// We need to call `zrdn__init_hooks` action before `init_hooks()` because some actions/filters registered
 		//	in `init_hooks()` get called before plugins have a chance to register their hooks with `zrdn__init_hooks`
 		do_action("zrdn__init_hooks"); // plugins can add an action to listen for this event and register their hooks
@@ -255,13 +252,13 @@ class ZipRecipes {
 				'recipe_title' => $recipe->recipe_title,
 				'ajax_url' => admin_url('admin-ajax.php'),
 				'recipe_rating' => apply_filters('zrdn__ratings', '', $recipe->recipe_id),
-				'prep_time' => self::prettyfy_time($recipe->prep_time),
+				'prep_time' => self::zrdn_format_duration($recipe->prep_time),
 				'prep_time_raw' => $recipe->prep_time,
 				'prep_time_label_hide' => get_option('zlrecipe_prep_time_label_hide'),
-				'cook_time' => self::prettyfy_time($recipe->cook_time),
+				'cook_time' => self::zrdn_format_duration($recipe->cook_time),
 				'cook_time_raw' => $recipe->cook_time,
 				'cook_time_label_hide' => get_option('zlrecipe_cook_time_label_hide'),
-				'total_time' => self::prettyfy_time($recipe->total_time),
+				'total_time' => self::zrdn_format_duration($recipe->total_time),
 				'total_time_raw' => $recipe->total_time,
 				'total_time_label_hide' => get_option('zlrecipe_total_time_label_hide'),
 				'yield' => $recipe->yield,
@@ -1244,27 +1241,6 @@ class ZipRecipes {
 		}
 		return $output;
 	}
-
-    public static function prettyfy_time($item) {
-        $hours = '0';
-        $minutes = '00';
-        $item = str_replace('PT', '',$item);
-        if (strpos($item, 'H') !== false) {
-            $pattern = '/(\d+)H/i';
-            preg_match($pattern, $item, $hours);
-            $hours = $hours[1];
-        }
-        if (strpos($item, 'M') !== false) {
-            $pattern = '/(\d+)M/i';
-            preg_match($pattern, $item, $minutes);
-            $minutes = $minutes[1];
-            if (strlen($minutes) == 1) {
-                $minutes = '0'.$minutes;
-            }
-        }
-        $item = $hours.':'.$minutes;
-        return $item;
-    }
 
 	// Format an ISO8601 duration for human readibility
 	public static function zrdn_format_duration($duration) {
