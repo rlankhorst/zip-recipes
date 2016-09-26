@@ -3,6 +3,7 @@
 namespace ZRDN;
 
 require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
+require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
 
 class ZipRecipes {
 
