@@ -1,3 +1,4 @@
+{% import 'macros.twig' as macros %}
 {% if iframed_form %}
 <!DOCTYPE html>
     <!--suppress HtmlUnknownTarget -->
@@ -21,7 +22,6 @@
         }
     </style>
 {% endif %}
-{% import 'macros.twig' as macros %}
 {{ macros.scripts() }}
 <form method="post" action="{{ registration_action }}"
       style="max-width: 500px" class="register-page" id="zlrecipe_settings_form" name="zlrecipe_settings_form">
