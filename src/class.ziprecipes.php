@@ -1341,7 +1341,16 @@ class ZipRecipes {
 	}
 
 	public static function  amd_format( $metadata, $post ) {
-		$metadata['@type'] = 'NewsArticle';
+		error_log("post ola" . print_r($post, true));
+
+		// get recipe id - limitation: only 1 recipe is supported
+		// $recipe_id = $post->post_content should have the shortcode like this:
+		//   [amd-zlrecipe-recipe:6]Chicken Papriak
+
+		$metadata['hasPart'] = array(
+			"@context" => "http://schema.org",
+			"@type" => "Recipe"
+		);
 		
 		return $metadata;
 	}
