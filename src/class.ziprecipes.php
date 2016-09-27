@@ -33,7 +33,7 @@ class ZipRecipes {
 			while (false !== ($fileOrFolder = readdir($pluginsDirHandle)))
 			{
 				$notDir = ! is_dir($fileOrFolder);
-                $invalidDir = $fileOrFolder === "." || $fileOrFolder === ".." || $fileOrFolder === '_internal';
+				$invalidDir = $fileOrFolder === "." || $fileOrFolder === ".." || $fileOrFolder === "_internal";
 				// we don't care about files inside `plugins` dir
 				if ($notDir || $invalidDir)
 				{
@@ -556,7 +556,6 @@ class ZipRecipes {
 				$image_width = Util::get_array_value('image-width', $_POST);
 				$outer_border_style = Util::get_array_value('outer-border-style', $_POST);
 				$custom_print_image = Util::get_array_value('custom-print-image', $_POST);
-
 
 				update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
 				update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );
@@ -1347,10 +1346,39 @@ class ZipRecipes {
 		// $recipe_id = $post->post_content should have the shortcode like this:
 		//   [amd-zlrecipe-recipe:6]Chicken Papriak
 
-		$metadata['hasPart'] = array(
-			"@context" => "http://schema.org",
-			"@type" => "Recipe"
-		);
+        $preg_shortcode = '/\[amd-zlrecipe-recipe:\d+\]/';
+        $preg_id = '/\d+/';
+
+        preg_match($preg_shortcode, $post->post_content, $matches);
+        if (count($matches) > 0) {
+            preg_match($preg_id, $matches[0], $matches);
+            $recipe = self::zrdn_select_recipe_db($matches[0]);
+            $metadata['hasPart'] = array(
+                "@context" => "http://schema.org",
+                "@type" => "Recipe",
+                "cookTime" => $recipe->cook_time,
+                "datePublished" => $recipe->created_at,
+                "description" => $recipe->summary,
+                "image" => $recipe->recipe_image,
+                "recipeIngredient" => explode(PHP_EOL, $recipe->ingredients),
+                "name" => $recipe->recipe_title,
+                "nutrition" => (object)array(
+                    "@type" => "NutritionInformation",
+                    "calories" => "$recipe->calories calories",
+                    "fatContent" => "$recipe->fat grams fat",
+                    "carbohydrateContent" => "$recipe->carbs grams carbohydrates",
+                    "proteinContent" => "$recipe->protein grams protein",
+                    "fiberContent" => "$recipe->fiber grams fiber",
+                    "sugarContent" => "$recipe->sugar grams sugar",
+                    "saturatedFatContent" => "$recipe->saturated_fat grams saturated fat",
+                    "sodiumContent" => "$recipe->sodium grams sodium"
+                ),
+                "prepTime" => $recipe->prep_time,
+                "totalTime" => $recipe->total_time,
+                "recipeInstructions" => explode(PHP_EOL, $recipe->instructions),
+                "recipeYield" => $recipe->yield
+            );
+        }
 		
 		return $metadata;
 	}

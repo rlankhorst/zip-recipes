@@ -1,4 +1,5 @@
 {# Output main recipe div with border style #}
+{% import 'macros.twig' as recipe_props %}
 
 <div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border" {% if border_style %}style="border: {{ border_style|raw }};"{% endif %}>
 <div itemscope itemtype="http://schema.org/Recipe" id="zlrecipe-container" class="serif zlrecipe">
@@ -54,11 +55,14 @@
             {% if total_time_label_hide != 'Hide' %}
               {% trans "Total Time:" from "zip-recipes" %}
             {% endif %}
-            <span itemprop="totalTime" content="{{ total_time_raw }}">{{ total_time }}</span>
+            <span
+                {{ recipe_props.recipe_attr('itemprop', "totalTime", true) }}
+                {{ recipe_props.recipe_attr('content', total_time_raw, true) }}
+            >{{ total_time }}</span>
           </p>
         {% endif %}
 
-        {{ author_section|raw }}
+        {#{{ author_section|raw }}#}
 
         {# !! close the first container div and open the second #}
       </div>
