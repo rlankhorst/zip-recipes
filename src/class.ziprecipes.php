@@ -240,7 +240,9 @@ class ZipRecipes {
 		}
 
 		do_action('zrdn__usage_stats');
-        if (is_amp_endpoint()){
+        $amp_on = false;
+        if (function_exists('is_amp_endpoint')){
+            $amp_on = is_amp_endpoint();
         }
 
 		$viewParams = array(
@@ -305,7 +307,7 @@ class ZipRecipes {
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
 				'copyright' => get_option('zlrecipe_printed_copyright_statement'),
 				'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', $recipe),
-                'amp_on'=>is_amp_endpoint()
+                'amp_on'=>$amp_on
 		);
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
         return $custom_template ?: Util::view('recipe', $viewParams);
