@@ -67,6 +67,9 @@ class ZipRecipes {
 
 		closedir($pluginsDirHandle);
 
+		// Init shortcode so shortcodes can be used by any plugins
+		$shortcodes = new __shortcode();
+
 		// We need to call `zrdn__init_hooks` action before `init_hooks()` because some actions/filters registered
 		//	in `init_hooks()` get called before plugins have a chance to register their hooks with `zrdn__init_hooks`
 		do_action("zrdn__init_hooks"); // plugins can add an action to listen for this event and register their hooks
