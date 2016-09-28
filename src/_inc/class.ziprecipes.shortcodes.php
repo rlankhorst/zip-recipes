@@ -13,7 +13,7 @@ class __shortcode {
     function __construct ()
     {
         Util::log("In constructor");
-        add_action("zrdn__init_hooks", Array($this, 'init_hooks'));
+        add_action("zrdn__init_hooks", array($this, 'init_hooks'));
     }
 
     public function init_hooks()
