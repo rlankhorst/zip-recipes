@@ -31,51 +31,45 @@
     </p>
 {% endmacro %}
 
-{% macro scripts() %}
+{% macro scripts(registration_url) %}
     <script type="text/javascript">
-        var $form = jQuery("#zlrecipe_settings_form"),
-                $skip = jQuery("#skip-button");
+        jQuery(document).ready(function () {
+            var $form = jQuery("#zlrecipe_settings_form");
 
-        $form.on("submit", function ()
-        {
-            var $registerButton = jQuery("#register_button");
-            $registerButton.val("Registering...");
-            $registerButton.attr("disabled", true);
+            $form.on("submit", function () {
+                var $registerButton = jQuery("#register_button");
+                $registerButton.val("Registering...");
+                $registerButton.attr("disabled", true);
 
-            var postUrl = "{{ registration_url|raw }}";
+                var postUrl = "{{ registration_url|raw }}";
 
-            jQuery.post(postUrl, $form.serialize(), function(data)
-            {
-                var jsonData = JSON.parse(data);
+                jQuery.post(postUrl, $form.serialize(), function (data) {
+                    var jsonData = JSON.parse(data);
 
-                if (jsonData.status === "failure")
-                {
-                    for (var elementID in jsonData.errors)
-                    {
-                        if (jsonData.errors.hasOwnProperty(elementID))
-                        {
-                            var errors = jsonData.errors[elementID];
-                            for (var i = 0; i < errors.length; i++)
-                            {
-                                jQuery("#" + elementID).parent().append("<br/>"+errors[i]);
+                    if (jsonData.status === "failure") {
+                        for (var elementID in jsonData.errors) {
+                            if (jsonData.errors.hasOwnProperty(elementID)) {
+                                var errors = jsonData.errors[elementID];
+                                for (var i = 0; i < errors.length; i++) {
+                                    jQuery("#" + elementID).parent().append("<br/>" + errors[i]);
+                                }
                             }
                         }
+
+                        $registerButton.val("Register");
+                        $registerButton.attr("disabled", false);
                     }
-
-                    $registerButton.val("Register");
-                    $registerButton.attr("disabled", false);
-                }
-                else
-                {
-                    // unbind current event hanlder and resubmit the form
-                    $form.off("submit");
+                    else {
+                        // unbind current event hanlder and resubmit the form
+                        $form.off("submit");
 
 
-                    $form.get(0).submit();
-                }
+                        $form.get(0).submit();
+                    }
+                });
+
+                return false;
             });
-
-            return false;
         });
     </script>
 {% endmacro %}

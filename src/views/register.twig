@@ -22,7 +22,7 @@
         }
     </style>
 {% endif %}
-{{ macros.scripts() }}
+{{ macros.scripts(registration_url) }}
 <form method="post" action="{{ registration_action }}"
       style="max-width: 500px" class="register-page" id="zlrecipe_settings_form" name="zlrecipe_settings_form">
     {{ macros.register(wp_version, installed_plugins, home_url, return_to_url) }}
