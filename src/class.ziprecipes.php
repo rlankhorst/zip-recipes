@@ -17,8 +17,6 @@ class ZipRecipes {
 	 */
 	public static function init()
 	{
-//        delete_option('zrdn_registered');
-//        die();
 		Util::log("Core init");
 
 		// Instantiate plugin classes
