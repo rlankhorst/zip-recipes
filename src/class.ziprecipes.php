@@ -1396,6 +1396,12 @@ class ZipRecipes {
                 "recipeInstructions" => $formattedInstructionsArray,
                 "recipeYield" => $recipe->yield
             );
+			if (apply_filters('zrdn__authors_render_author_for_recipe', $recipe)) {
+				$metadata['hasPart']["author"] = (object) array(
+					"@type" => "Person",
+					"name" => $recipe->author
+				);
+			}
         }
 		
 		return $metadata;
