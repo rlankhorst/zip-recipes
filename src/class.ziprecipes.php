@@ -1356,16 +1356,28 @@ class ZipRecipes {
 
         preg_match($preg_shortcode, $post->post_content, $matches);
         if (count($matches) > 0) {
-            preg_match($preg_id, $matches[0], $matches);
-            $recipe = self::zrdn_select_recipe_db($matches[0]);
+        	// Find recipe
+	        preg_match($preg_id, $matches[0], $matches);
+	        $recipe = self::zrdn_select_recipe_db($matches[0]);
+
+        	$formattedIngredientsArray = array();
+	        foreach(explode("\n", $recipe->ingredients) as $item) {
+	        	$itemArray = self::zrdn_format_item($item);
+	        	$formattedIngredientsArray[] = $itemArray['content'];
+	        }
+
+	        $formattedInstructionsArray = array();
+	        foreach(explode("\n", $recipe->instructions) as $item) {
+		        $itemArray = self::zrdn_format_item($item);
+		        $formattedInstructionsArray[] = $itemArray['content'];
+	        }
+
             $metadata['hasPart'] = array(
                 "@context" => "http://schema.org",
                 "@type" => "Recipe",
-                "cookTime" => $recipe->cook_time,
-                "datePublished" => $recipe->created_at,
                 "description" => $recipe->summary,
                 "image" => $recipe->recipe_image,
-                "recipeIngredient" => explode(PHP_EOL, $recipe->ingredients),
+                "recipeIngredient" => $formattedIngredientsArray,
                 "name" => $recipe->recipe_title,
                 "nutrition" => (object)array(
                     "@type" => "NutritionInformation",
@@ -1378,9 +1390,10 @@ class ZipRecipes {
                     "saturatedFatContent" => "$recipe->saturated_fat grams saturated fat",
                     "sodiumContent" => "$recipe->sodium grams sodium"
                 ),
+                "cookTime" => $recipe->cook_time,
                 "prepTime" => $recipe->prep_time,
                 "totalTime" => $recipe->total_time,
-                "recipeInstructions" => explode(PHP_EOL, $recipe->instructions),
+                "recipeInstructions" => $formattedInstructionsArray,
                 "recipeYield" => $recipe->yield
             );
         }
