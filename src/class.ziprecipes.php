@@ -138,6 +138,7 @@ class ZipRecipes {
 		add_action('admin_footer', __NAMESPACE__ . '\ZipRecipes::zrdn_plugin_footer');
 
 		add_filter( 'amp_post_template_metadata', __NAMESPACE__ . '\ZipRecipes::amp_format', 10, 2);
+		add_action( 'amp_post_template_css', __NAMESPACE__ . '\ZipRecipes::amp_styles' );
 
 		self::zrdn_recipe_install();
 	}
@@ -1422,5 +1423,116 @@ class ZipRecipes {
 		$metadata['hasPart'] = $recipe_json_ld;
 		
 		return $metadata;
+	}
+
+	public static function amp_styles()
+	{
+		$sprite_file = plugins_url('plugins/VisitorRating/images/rating-sprite.png', __FILE__);
+
+		?>
+		.zrdn__rating__container .zrdn_star
+		{
+			background-image: url('<?php echo $sprite_file ?>');
+			background-repeat: no-repeat;
+			height: 18px;
+		}
+
+		.zrdn_five
+		{
+			background-position-y: 2px;
+		}
+
+		.zrdn_four_half
+		{
+		background-position-y: -16px;
+		}
+
+		.zrdn_four
+		{
+			background-position-y: -35px;
+		}
+
+		.zrdn_three_half
+		{
+			background-position-y: -54px;
+		}
+
+		.zrdn_three
+		{
+			background-position-y: -75px;
+		}
+
+		.zrdn_two_half
+		{
+			background-position-y: -93px;
+		}
+
+		.zrdn_two
+		{
+			background-position-y: -111px;
+		}
+
+		.zrdn_one_half
+		{
+			background-position-y: -129px;
+		}
+
+		.zrdn_one
+		{
+			background-position-y: -150px;
+		}
+
+		.zrdn_zero
+		{
+			background-position-y: -168px;
+		}
+
+
+		#zlrecipe-title{border-bottom: 1px solid #000;     font-weight: bold; font-size: 2em;
+		line-height: 1.3em; padding-bottom: 0.5em;
+		font-family:Georgia, "Times New Roman", Times, serif;;
+		}
+
+		.zlrecipe-print-link {float: right;  margin-top: 5px;}
+		#zlrecipe-container-178{ padding:10px}
+
+		.zlrecipe-print-link  a { background: url(http://laylita.com/recettes/wp-content/plugins/zip-recipes-premium/images/print-icon.png) no-repeat scroll 0 4px transparent;
+		cursor: pointer;
+		padding: 0 0 0 20px;
+		display: block;
+		height: 20px;
+		color:#b72f2f;
+
+		}
+		#zlrecipe-prep-time, #zlrecipe-cook-time, #zlrecipe-yield, #zlrecipe-serving-size {line-height: 1.2em;
+		margin: 1em 0; font-size:14px;
+		font-weight: bold;}
+
+		#zlrecipe-prep-time span, #zlrecipe-cook-time span, #zlrecipe-yield span, #zlrecipe-serving-size span{font-weight: normal; display:block}
+		.zlmeta .width-50{ width:50%; float:left}
+		#zlrecipe-summary { padding: 0 10px 10px;}
+		#zlrecipe-summary .summary{ margin: 10px 0; font-style: italic; line-height: 1.2em; font-size: 16px;  font-family: 'Open Sans', sans-serif;}
+
+
+		#zlrecipe-ingredients, #zlrecipe-instructions{ font-weight: bold;  font-size: 1.25em; line-height: 1.2em; margin: 1em 0; padding-bottom:1em;}
+		#zlrecipe-ingredients-list, #zlrecipe-instructions-list{padding:0px;line-height: 1.2em; font-size: 1.1em;
+		}
+		.ingredient.no-bullet  {list-style-type: none; padding: 0 0 0 2.4em; margin: 1em;}
+
+		#zlrecipe-instructions-list li{
+		text-align:left;
+		}
+		#zlrecipe-instructions-list .instruction {margin: 0 1em; list-style-type: decimal;}
+		#zlrecipe-instructions-list {color: #000;padding:0px; margin: 0 0 24px 0;padding-left: 10px;}
+		#zlrecipe-ingredients-list{color: #000;padding-left: 10px;line-height: 1.3em;}
+		#zlrecipe-ingredients-list li{padding-left: 0; text-align: left; padding-bottom:5px;margin:0px; }
+
+		#zlrecipe-container .hide-card{
+		display: none;
+		}
+		#zlrecipe-summary{
+		clear: both;
+		}
+		<?php
 	}
 }
