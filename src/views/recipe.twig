@@ -26,7 +26,6 @@
       {# add the title and close the item class #}
       <div id="zlrecipe-title"
           {{ recipe_props.recipe_attr('itemprop', "name", amp_on) }}
-          {{ recipe_props.recipe_attr('content', recipe_title, amp_on) }}
         class="b-b h-1 strong {% if title_hide %}texthide{% endif %}" >{{ recipe_title }}</div>
     </div>
 
@@ -73,7 +72,7 @@
           </p>
         {% endif %}
 
-        {#{{ author_section|raw }}#}
+        {{ author_section|raw }}
 
         {# !! close the first container div and open the second #}
       </div>
@@ -86,16 +85,15 @@
             {% if yield_label_hide != 'Hide' %}
               {% trans "Yield:" from "zip-recipes" %}
             {% endif %}
-            <span {{ recipe_props.recipe_attr('itemprop', "recipeYield", amp_on) }}
-                    {{ recipe_props.recipe_attr('content', yield, amp_on) }}>{{ yield }}</span>
+            <span {{ recipe_props.recipe_attr('itemprop', "recipeYield", amp_on) }}>{{ yield }}</span>
           </p>
         {% endif %}
 
         {% if nutritional_info %}
           <div id="zlrecipe-nutrition"
                   {{ recipe_props.recipe_attr('itemprop', "nutrition", amp_on) }}
-                  {{ recipe_props.recipe_attr('itemtype', "http://schema.org/NutritionInformation", amp_on) }}
-                  {{ recipe_props.recipe_attr('content', false, amp_on) }}>
+                  {{ recipe_props.recipe_attr('itemscope', false, amp_on) }}
+                  {{ recipe_props.recipe_attr('itemtype', "http://schema.org/NutritionInformation", amp_on) }}>
 
           {% if serving_size %}
               <p id="zlrecipe-serving-size">
@@ -103,8 +101,7 @@
                   {% trans "Serving Size:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "servingSize", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', serving_size, amp_on) }}>{{ serving_size }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "servingSize", amp_on) }}>{{ serving_size }}</span>
               </p>
             {% endif %}
 
@@ -114,8 +111,7 @@
                   {% trans "Calories per serving:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "calories", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', calories, amp_on) }}>{{ calories }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "calories", amp_on) }}>{{ calories }}</span>
               </p>
             {% endif %}
 
@@ -125,8 +121,7 @@
                   {% trans "Fat per serving:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "fatContent", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', fat, amp_on) }}>{{ fat }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "fatContent", amp_on) }}>{{ fat }}</span>
               </p>
             {% endif %}
 
@@ -136,8 +131,7 @@
                   {% trans "Saturated fat per serving:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "saturatedFatContent", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', saturated_fat, amp_on) }}>{{ saturated_fat }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "saturatedFatContent", amp_on) }}>{{ saturated_fat }}</span>
               </p>
             {% endif %}
 
@@ -147,8 +141,7 @@
                   {% trans "Carbs per serving:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "carbohydrateContent", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', carbs, amp_on) }}>{{ carbs }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "carbohydrateContent", amp_on) }}>{{ carbs }}</span>
               </p>
             {% endif %}
 
@@ -158,8 +151,7 @@
                   {% trans "Protein per serving:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "proteinContent", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', protein, amp_on) }} >{{ protein }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "proteinContent", amp_on) }}>{{ protein }}</span>
               </p>
             {% endif %}
 
@@ -169,8 +161,7 @@
                   {% trans "Fiber per serving:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "fiberContent", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', fiber, amp_on) }}>{{ fiber }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "fiberContent", amp_on) }}>{{ fiber }}</span>
               </p>
             {% endif %}
 
@@ -180,8 +171,7 @@
                   {% trans "Sugar per serving:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "sugarContent", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', sugar, amp_on) }}>{{ sugar }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "sugarContent", amp_on) }}>{{ sugar }}</span>
               </p>
             {% endif %}
 
@@ -191,8 +181,7 @@
                   {% trans "Sodium per serving:" from "zip-recipes" %}
                 {% endif %}
                 <span
-                        {{ recipe_props.recipe_attr('itemprop', "sodiumContent", amp_on) }}
-                        {{ recipe_props.recipe_attr('content', sodium, amp_on) }}>{{ sodium }}</span>
+                        {{ recipe_props.recipe_attr('itemprop', "sodiumContent", amp_on) }}>{{ sodium }}</span>
               </p>
             {% endif %}
 
@@ -292,8 +281,7 @@
           </div>
         {% else %}
           <{{ instructionsHtmlChildElem }} class="instruction {% if instruction_list_type == 'l' %}no-bullet{% endif %}"
-            {{ recipe_props.recipe_attr('itemprop', "recipeInstructions", amp_on) }}
-            {{ recipe_props.recipe_attr('content', instruction.content, amp_on) }}>
+            {{ recipe_props.recipe_attr('itemprop', "recipeInstructions", amp_on) }}>
           {{ instruction.content|raw }}
           </{{ instructionsHtmlChildElem }}>
         {% endif %}
