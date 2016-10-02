@@ -1,7 +1,10 @@
 {# Output main recipe div with border style #}
+{% import 'macros.twig' as recipe_props %}
 
 <div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border" {% if border_style %}style="border: {{ border_style|raw }};"{% endif %}>
-<div itemscope itemtype="http://schema.org/Recipe" id="zlrecipe-container" class="serif zlrecipe">
+<div {{ recipe_props.recipe_attr('itemtype', "http://schema.org/Recipe", amp_on) }}
+        {{ recipe_props.recipe_attr('itemscope', false, amp_on) }}
+        id="zlrecipe-container" class="serif zlrecipe">
   <div id="zlrecipe-innerdiv">
     <div class="item b-b">
 
@@ -21,7 +24,9 @@
       {% endif %}
 
       {# add the title and close the item class #}
-      <div id="zlrecipe-title" itemprop="name" class="b-b h-1 strong {% if title_hide %}texthide{% endif %}" >{{ recipe_title }}</div>
+      <div id="zlrecipe-title"
+          {{ recipe_props.recipe_attr('itemprop', "name", amp_on) }}
+        class="b-b h-1 strong {% if title_hide %}texthide{% endif %}" >{{ recipe_title }}</div>
     </div>
 
     {# open the zlmeta and fl-l container divs #}
@@ -36,7 +41,10 @@
             {% if prep_time_label_hide != 'Hide' %}
               {% trans "Prep Time:" from "zip-recipes" %}
             {% endif %}
-            <span itemprop="prepTime" content="{{ prep_time_raw }}">{{ prep_time }}</span>
+            <span
+                {{ recipe_props.recipe_attr('itemprop', "prepTime", amp_on) }}
+                {{ recipe_props.recipe_attr('content', prep_time_raw, amp_on) }}
+            >{{ prep_time }}</span>
           </p>
         {% endif %}
 
@@ -45,7 +53,10 @@
             {% if cook_time_label_hide != 'Hide' %}
               {% trans "Cook Time:" from "zip-recipes" %}
             {% endif %}
-            <span itemprop="cookTime" content="{{ cook_time_raw }}">{{ cook_time }}</span>
+            <span
+                {{ recipe_props.recipe_attr('itemprop', "cookTime", amp_on) }}
+                {{ recipe_props.recipe_attr('content', cook_time_raw, amp_on) }}
+            >{{ cook_time }}</span>
           </p>
         {% endif %}
 
@@ -54,7 +65,10 @@
             {% if total_time_label_hide != 'Hide' %}
               {% trans "Total Time:" from "zip-recipes" %}
             {% endif %}
-            <span itemprop="totalTime" content="{{ total_time_raw }}">{{ total_time }}</span>
+            <span
+                {{ recipe_props.recipe_attr('itemprop', "totalTime", amp_on) }}
+                {{ recipe_props.recipe_attr('content', total_time_raw, amp_on) }}
+            >{{ total_time }}</span>
           </p>
         {% endif %}
 
@@ -71,19 +85,23 @@
             {% if yield_label_hide != 'Hide' %}
               {% trans "Yield:" from "zip-recipes" %}
             {% endif %}
-            <span itemprop="recipeYield">{{ yield }}</span>
+            <span {{ recipe_props.recipe_attr('itemprop', "recipeYield", amp_on) }}>{{ yield }}</span>
           </p>
         {% endif %}
 
         {% if nutritional_info %}
-          <div id="zlrecipe-nutrition" itemprop="nutrition" itemscope itemtype="http://schema.org/NutritionInformation">
+          <div id="zlrecipe-nutrition"
+                  {{ recipe_props.recipe_attr('itemprop', "nutrition", amp_on) }}
+                  {{ recipe_props.recipe_attr('itemscope', false, amp_on) }}
+                  {{ recipe_props.recipe_attr('itemtype', "http://schema.org/NutritionInformation", amp_on) }}>
 
-            {% if serving_size %}
+          {% if serving_size %}
               <p id="zlrecipe-serving-size">
                 {% if serving_size_label_hide != 'Hide' %}
                   {% trans "Serving Size:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="servingSize">{{ serving_size }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "servingSize", amp_on) }}>{{ serving_size }}</span>
               </p>
             {% endif %}
 
@@ -92,7 +110,8 @@
                 {% if calories_label_hide != 'Hide' %}
                   {% trans "Calories per serving:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="calories">{{ calories }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "calories", amp_on) }}>{{ calories }}</span>
               </p>
             {% endif %}
 
@@ -101,7 +120,8 @@
                 {% if fat_label_hide != 'Hide' %}
                   {% trans "Fat per serving:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="fatContent">{{ fat }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "fatContent", amp_on) }}>{{ fat }}</span>
               </p>
             {% endif %}
 
@@ -110,7 +130,8 @@
                 {% if saturated_fat_label_hide != 'Hide' %}
                   {% trans "Saturated fat per serving:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="saturatedFatContent">{{ saturated_fat }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "saturatedFatContent", amp_on) }}>{{ saturated_fat }}</span>
               </p>
             {% endif %}
 
@@ -119,7 +140,8 @@
                 {% if carbs_label_hide != 'Hide' %}
                   {% trans "Carbs per serving:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="carbohydrateContent">{{ carbs }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "carbohydrateContent", amp_on) }}>{{ carbs }}</span>
               </p>
             {% endif %}
 
@@ -128,7 +150,8 @@
                 {% if protein_label_hide != 'Hide' %}
                   {% trans "Protein per serving:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="proteinContent">{{ protein }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "proteinContent", amp_on) }}>{{ protein }}</span>
               </p>
             {% endif %}
 
@@ -137,7 +160,8 @@
                 {% if fiber_label_hide != 'Hide' %}
                   {% trans "Fiber per serving:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="fiberContent">{{ fiber }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "fiberContent", amp_on) }}>{{ fiber }}</span>
               </p>
             {% endif %}
 
@@ -146,7 +170,8 @@
                 {% if sugar_label_hide != 'Hide' %}
                   {% trans "Sugar per serving:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="sugarContent">{{ sugar }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "sugarContent", amp_on) }}>{{ sugar }}</span>
               </p>
             {% endif %}
 
@@ -155,7 +180,8 @@
                 {% if sodium_label_hide != 'Hide' %}
                   {% trans "Sodium per serving:" from "zip-recipes" %}
                 {% endif %}
-                <span itemprop="sodiumContent">{{ sodium }}</span>
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "sodiumContent", amp_on) }}>{{ sodium }}</span>
               </p>
             {% endif %}
 
@@ -173,14 +199,16 @@
       <div class="img-desc-wrap">
         {% if recipe_image %}
           <p class="t-a-c {% if image_hide == 'Hide' %}hide-card{% endif %} {% if image_hide_print == 'Hide' %}hide-print{% endif %}">
-            <img class="photo" itemprop="image" src="{{ image }}" title="{{ recipe_title }}"
+            <img class="photo"
+                    {{ recipe_props.recipe_attr('itemprop', "image", amp_on) }} src="{{ image }}" title="{{ recipe_title }}"
                  alt="{{ recipe_title }}"
                  {% if image_width %}style="width: {{image_width}}px;"{% endif %} />
           </p>
         {% endif %}
 
         {% if summary %}
-          <div id="zlrecipe-summary" itemprop="description">
+          <div id="zlrecipe-summary"
+                {{ recipe_props.recipe_attr('itemprop', "description", amp_on) }}>
             {{ summary_rich|raw }}
           </div>
         {% endif %}
@@ -204,7 +232,7 @@
     {% set ingredientsHtmlListChildElem = 'li' %}
     {% if ingredient_list_type == 'p' %}{% set ingredientsHtmlListChildElem = 'p' %}{% endif %}
     {% if ingredient_list_type == 'div' %}{% set ingredientsHtmlListChildElem = 'div' %}{% endif %}
-    
+
     <{{ ingredientsHtmlListElem }} id="zlrecipe-ingredients-list">
       {% for ingredient in ingredients %}
         {% if ingredient.type == 'image' %}
@@ -216,7 +244,8 @@
             {{ ingredient.content|raw }}
           </div>
         {% else %}
-          <{{ ingredientsHtmlListChildElem }} class="ingredient {% if ingredient_list_type == 'l' %}no-bullet{% endif %}" itemprop="recipeIngredient">
+          <{{ ingredientsHtmlListChildElem }} class="ingredient {% if ingredient_list_type == 'l' %}no-bullet{% endif %}"
+            {{ recipe_props.recipe_attr('itemprop', "recipeIngredient", amp_on) }}>
             {{ ingredient.content|raw }}
           </{{ ingredientsHtmlListChildElem }}>
         {% endif %}
@@ -251,7 +280,8 @@
             {{ instruction.content|raw }}
           </div>
         {% else %}
-          <{{ instructionsHtmlChildElem }} class="instruction {% if instruction_list_type == 'l' %}no-bullet{% endif %}" itemprop="recipeInstructions">
+          <{{ instructionsHtmlChildElem }} class="instruction {% if instruction_list_type == 'l' %}no-bullet{% endif %}"
+            {{ recipe_props.recipe_attr('itemprop', "recipeInstructions", amp_on) }}>
           {{ instruction.content|raw }}
           </{{ instructionsHtmlChildElem }}>
         {% endif %}
@@ -284,7 +314,8 @@
 
   {# Add copyright statement for printed output (outside the dotted print line) #}
   {% if copyright %}
-    <div id="zl-printed-copyright-statement" itemprop="copyrightHolder">{{ copyright }}</div>
+    <div id="zl-printed-copyright-statement"
+            {{ recipe_props.recipe_attr('itemprop', "copyrightHolder", amp_on) }}>{{ copyright }}</div>
   {% endif %}
   </div>
 </div>

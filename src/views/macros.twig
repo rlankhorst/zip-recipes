@@ -73,3 +73,9 @@
         });
     </script>
 {% endmacro %}
+
+{% macro recipe_attr(attr_name, attr_value, amp_on) %}
+    {% if not amp_on %}
+        {{ attr_name }}{% if attr_value %}="{{ attr_value }}"{% endif %}
+    {% endif %}
+{% endmacro %}

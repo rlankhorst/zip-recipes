@@ -33,7 +33,7 @@ class ZipRecipes {
 			while (false !== ($fileOrFolder = readdir($pluginsDirHandle)))
 			{
 				$notDir = ! is_dir($fileOrFolder);
-                $invalidDir = $fileOrFolder === "." || $fileOrFolder === ".." || $fileOrFolder === '_internal';
+				$invalidDir = $fileOrFolder === "." || $fileOrFolder === ".." || $fileOrFolder === "_internal";
 				// we don't care about files inside `plugins` dir
 				if ($notDir || $invalidDir)
 				{
@@ -137,6 +137,9 @@ class ZipRecipes {
         add_action( 'admin_init', __NAMESPACE__. '\ZipRecipes::preload_check_registered');
 		add_action('admin_footer', __NAMESPACE__ . '\ZipRecipes::zrdn_plugin_footer');
 
+		add_filter( 'amp_post_template_metadata', __NAMESPACE__ . '\ZipRecipes::amp_format', 10, 2);
+		add_action( 'amp_post_template_css', __NAMESPACE__ . '\ZipRecipes::amp_styles' );
+
 		self::zrdn_recipe_install();
 	}
 
@@ -238,6 +241,10 @@ class ZipRecipes {
 		}
 
 		do_action('zrdn__usage_stats');
+        $amp_on = false;
+        if (function_exists('is_amp_endpoint')){
+            $amp_on = is_amp_endpoint();
+        }
 
 		$viewParams = array(
 				'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
@@ -300,7 +307,8 @@ class ZipRecipes {
 				'version' => ZRDN_VERSION_NUM,
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
 				'copyright' => get_option('zlrecipe_printed_copyright_statement'),
-				'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', $recipe)
+				'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', $recipe),
+                'amp_on'=>$amp_on
 		);
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
         return $custom_template ?: Util::view('recipe', $viewParams);
@@ -554,7 +562,6 @@ class ZipRecipes {
 				$image_width = Util::get_array_value('image-width', $_POST);
 				$outer_border_style = Util::get_array_value('outer-border-style', $_POST);
 				$custom_print_image = Util::get_array_value('custom-print-image', $_POST);
-
 
 				update_option('zrdn_attribution_hide', $zrecipe_attribution_hide);
 				update_option('zlrecipe_printed_permalink_hide', $printed_permalink_hide );
@@ -1336,5 +1343,198 @@ class ZipRecipes {
 		wp_enqueue_media();
 
 		wp_enqueue_script('zrdn-admin-script');
+	}
+
+	/**
+	 * Add recipe info to JSON-LD metadata for AMP. Only supports one recipe per page.
+	 * @param $metadata Existing JSON-LD metadata.
+	 * @param $post Object WPPost. $post->post_content should have the content and our "shortcode" of recipe.
+	 *
+	 * @return mixed
+	 */
+	public static function  amp_format( $metadata, $post )
+	{
+		$recipe_json_ld = array();
+
+		// get recipe id - limitation: only 1 recipe is supported
+        $shortcode_regex = '/\[amd-zlrecipe-recipe:(\d+)\]/';
+		$matches = array(); // ensure matches is empty
+        preg_match($shortcode_regex, $post->post_content, $matches);
+		if (isset($matches[1])) {
+        	// Find recipe
+			$recipe_id = $matches[1];
+	        $recipe = self::zrdn_select_recipe_db($recipe_id);
+
+        	$formattedIngredientsArray = array();
+	        foreach(explode("\n", $recipe->ingredients) as $item) {
+	        	$itemArray = self::zrdn_format_item($item);
+	        	$formattedIngredientsArray[] = $itemArray['content'];
+	        }
+
+	        $formattedInstructionsArray = array();
+	        foreach(explode("\n", $recipe->instructions) as $item) {
+		        $itemArray = self::zrdn_format_item($item);
+		        $formattedInstructionsArray[] = $itemArray['content'];
+	        }
+
+            $recipe_json_ld = array(
+                "@context" => "http://schema.org",
+                "@type" => "Recipe",
+                "description" => $recipe->summary,
+                "image" => $recipe->recipe_image,
+                "recipeIngredient" => $formattedIngredientsArray,
+                "name" => $recipe->recipe_title,
+                "nutrition" => (object) array(
+                    "@type" => "NutritionInformation",
+                    "calories" => "$recipe->calories calories",
+                    "fatContent" => "$recipe->fat grams fat",
+                    "carbohydrateContent" => "$recipe->carbs grams carbohydrates",
+                    "proteinContent" => "$recipe->protein grams protein",
+                    "fiberContent" => "$recipe->fiber grams fiber",
+                    "sugarContent" => "$recipe->sugar grams sugar",
+                    "saturatedFatContent" => "$recipe->saturated_fat grams saturated fat",
+                    "sodiumContent" => "$recipe->sodium grams sodium"
+                ),
+                "cookTime" => $recipe->cook_time,
+                "prepTime" => $recipe->prep_time,
+                "totalTime" => $recipe->total_time,
+                "recipeInstructions" => $formattedInstructionsArray,
+                "recipeYield" => $recipe->yield
+            );
+
+			$author = apply_filters('zrdn__authors_get_author_for_recipe', false, $recipe);
+
+			if ($author) {
+				$recipe_json_ld["author"] = (object) array(
+					"@type" => "Person",
+					"name" => $author
+				);
+			}
+
+			$rating_data = apply_filters('zrdn__ratings_format_amp', '', $recipe_id);
+			if ($rating_data) {
+				$recipe_json_ld["aggregateRating"] = (object) array(
+					"bestRating"=> $rating_data['max'],
+					"ratingValue"=> $rating_data['rating'],
+					"ratingCount"=> $rating_data['count'],
+					"worstRating"=> $rating_data['min']
+				);
+			}
+        }
+
+		$metadata['hasPart'] = $recipe_json_ld;
+		
+		return $metadata;
+	}
+
+	public static function amp_styles()
+	{
+		$sprite_file = plugins_url('plugins/VisitorRating/images/rating-sprite.png', __FILE__);
+
+		?>
+		.zrdn__rating__container .zrdn_star
+		{
+			background-image: url('<?php echo $sprite_file ?>');
+			background-repeat: no-repeat;
+			height: 18px;
+		}
+
+		.zrdn_five
+		{
+			background-position-y: 2px;
+		}
+
+		.zrdn_four_half
+		{
+		background-position-y: -16px;
+		}
+
+		.zrdn_four
+		{
+			background-position-y: -35px;
+		}
+
+		.zrdn_three_half
+		{
+			background-position-y: -54px;
+		}
+
+		.zrdn_three
+		{
+			background-position-y: -75px;
+		}
+
+		.zrdn_two_half
+		{
+			background-position-y: -93px;
+		}
+
+		.zrdn_two
+		{
+			background-position-y: -111px;
+		}
+
+		.zrdn_one_half
+		{
+			background-position-y: -129px;
+		}
+
+		.zrdn_one
+		{
+			background-position-y: -150px;
+		}
+
+		.zrdn_zero
+		{
+			background-position-y: -168px;
+		}
+
+
+		#zlrecipe-title{border-bottom: 1px solid #000;     font-weight: bold; font-size: 2em;
+		line-height: 1.3em; padding-bottom: 0.5em;
+		font-family:Georgia, "Times New Roman", Times, serif;;
+		}
+
+		.zlrecipe-print-link {float: right;  margin-top: 5px;}
+		#zlrecipe-container-178{ padding:10px}
+
+		.zlrecipe-print-link  a { background: url(http://laylita.com/recettes/wp-content/plugins/zip-recipes-premium/images/print-icon.png) no-repeat scroll 0 4px transparent;
+		cursor: pointer;
+		padding: 0 0 0 20px;
+		display: block;
+		height: 20px;
+		color:#b72f2f;
+
+		}
+		#zlrecipe-prep-time, #zlrecipe-cook-time, #zlrecipe-yield, #zlrecipe-serving-size {line-height: 1.2em;
+		margin: 1em 0; font-size:14px;
+		font-weight: bold;}
+
+		#zlrecipe-prep-time span, #zlrecipe-cook-time span, #zlrecipe-yield span, #zlrecipe-serving-size span{font-weight: normal; display:block}
+		.zlmeta .width-50{ width:50%; float:left}
+		#zlrecipe-summary { padding: 0 10px 10px;}
+		#zlrecipe-summary .summary{ margin: 10px 0; font-style: italic; line-height: 1.2em; font-size: 16px;  font-family: 'Open Sans', sans-serif;}
+
+
+		#zlrecipe-ingredients, #zlrecipe-instructions{ font-weight: bold;  font-size: 1.25em; line-height: 1.2em; margin: 1em 0; padding-bottom:1em;}
+		#zlrecipe-ingredients-list, #zlrecipe-instructions-list{padding:0px;line-height: 1.2em; font-size: 1.1em;
+		}
+		.ingredient.no-bullet  {list-style-type: none; padding: 0 0 0 2.4em; margin: 1em;}
+
+		#zlrecipe-instructions-list li{
+		text-align:left;
+		}
+		#zlrecipe-instructions-list .instruction {margin: 0 1em; list-style-type: decimal;}
+		#zlrecipe-instructions-list {color: #000;padding:0px; margin: 0 0 24px 0;padding-left: 10px;}
+		#zlrecipe-ingredients-list{color: #000;padding-left: 10px;line-height: 1.3em;}
+		#zlrecipe-ingredients-list li{padding-left: 0; text-align: left; padding-bottom:5px;margin:0px; }
+
+		#zlrecipe-container .hide-card{
+		display: none;
+		}
+		#zlrecipe-summary{
+		clear: both;
+		}
+		<?php
 	}
 }
