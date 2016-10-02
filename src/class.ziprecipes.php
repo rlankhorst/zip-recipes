@@ -137,7 +137,7 @@ class ZipRecipes {
         add_action( 'admin_init', __NAMESPACE__. '\ZipRecipes::preload_check_registered');
 		add_action('admin_footer', __NAMESPACE__ . '\ZipRecipes::zrdn_plugin_footer');
 
-		add_filter( 'amp_post_template_metadata', __NAMESPACE__ . '\ZipRecipes::amd_format', 10, 2);
+		add_filter( 'amp_post_template_metadata', __NAMESPACE__ . '\ZipRecipes::amp_format', 10, 2);
 
 		self::zrdn_recipe_install();
 	}
@@ -1344,21 +1344,23 @@ class ZipRecipes {
 		wp_enqueue_script('zrdn-admin-script');
 	}
 
-	public static function  amd_format( $metadata, $post ) {
+	public static function  amp_format( $metadata, $post )
+	{
 		error_log("post ola" . print_r($post, true));
 
 		// get recipe id - limitation: only 1 recipe is supported
 		// $recipe_id = $post->post_content should have the shortcode like this:
 		//   [amd-zlrecipe-recipe:6]Chicken Papriak
 
-        $preg_shortcode = '/\[amd-zlrecipe-recipe:\d+\]/';
-        $preg_id = '/\d+/';
+		$recipe_json_ld = array();
 
-        preg_match($preg_shortcode, $post->post_content, $matches);
-        if (count($matches) > 0) {
+        $shortcode_regex = '/\[amd-zlrecipe-recipe:(\d+)\]/';
+		$matches = array(); // ensure matches is empty
+        preg_match($shortcode_regex, $post->post_content, $matches);
+		if (isset($matches[1])) {
         	// Find recipe
-	        preg_match($preg_id, $matches[0], $matches);
-	        $recipe = self::zrdn_select_recipe_db($matches[0]);
+			$recipe_id = $matches[1];
+	        $recipe = self::zrdn_select_recipe_db($recipe_id);
 
         	$formattedIngredientsArray = array();
 	        foreach(explode("\n", $recipe->ingredients) as $item) {
@@ -1372,14 +1374,14 @@ class ZipRecipes {
 		        $formattedInstructionsArray[] = $itemArray['content'];
 	        }
 
-            $metadata['hasPart'] = array(
+            $recipe_json_ld = array(
                 "@context" => "http://schema.org",
                 "@type" => "Recipe",
                 "description" => $recipe->summary,
                 "image" => $recipe->recipe_image,
                 "recipeIngredient" => $formattedIngredientsArray,
                 "name" => $recipe->recipe_title,
-                "nutrition" => (object)array(
+                "nutrition" => (object) array(
                     "@type" => "NutritionInformation",
                     "calories" => "$recipe->calories calories",
                     "fatContent" => "$recipe->fat grams fat",
@@ -1396,13 +1398,28 @@ class ZipRecipes {
                 "recipeInstructions" => $formattedInstructionsArray,
                 "recipeYield" => $recipe->yield
             );
-			if (apply_filters('zrdn__authors_render_author_for_recipe', $recipe)) {
-				$metadata['hasPart']["author"] = (object) array(
+
+			$author = apply_filters('zrdn__authors_get_author_for_recipe', false, $recipe);
+
+			if ($author) {
+				$recipe_json_ld["author"] = (object) array(
 					"@type" => "Person",
-					"name" => $recipe->author
+					"name" => $author
+				);
+			}
+
+			$rating_data = apply_filters('zrdn__ratings_format_amp', '', $recipe_id);
+			if ($rating_data) {
+				$recipe_json_ld["aggregateRating"] = (object) array(
+					"bestRating"=> $rating_data['max'],
+					"ratingValue"=> $rating_data['rating'],
+					"ratingCount"=> $rating_data['count'],
+					"worstRating"=> $rating_data['min']
 				);
 			}
         }
+
+		$metadata['hasPart'] = $recipe_json_ld;
 		
 		return $metadata;
 	}
