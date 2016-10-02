@@ -1345,16 +1345,18 @@ class ZipRecipes {
 		wp_enqueue_script('zrdn-admin-script');
 	}
 
+	/**
+	 * Add recipe info to JSON-LD metadata for AMP. Only supports one recipe per page.
+	 * @param $metadata Existing JSON-LD metadata.
+	 * @param $post Object WPPost. $post->post_content should have the content and our "shortcode" of recipe.
+	 *
+	 * @return mixed
+	 */
 	public static function  amp_format( $metadata, $post )
 	{
-		error_log("post ola" . print_r($post, true));
-
-		// get recipe id - limitation: only 1 recipe is supported
-		// $recipe_id = $post->post_content should have the shortcode like this:
-		//   [amd-zlrecipe-recipe:6]Chicken Papriak
-
 		$recipe_json_ld = array();
 
+		// get recipe id - limitation: only 1 recipe is supported
         $shortcode_regex = '/\[amd-zlrecipe-recipe:(\d+)\]/';
 		$matches = array(); // ensure matches is empty
         preg_match($shortcode_regex, $post->post_content, $matches);
