@@ -678,7 +678,7 @@ class ZipRecipes {
 				'installed_plugins' => Util::zrdn_get_installed_plugins(),
                 'extensions_settings' => apply_filters('zrdn__extention_settings_section', ''),
 				'home_url' => home_url(),
-				'author_section' => apply_filters('zrdn__authors_get_set_settings', $_POST),
+				'author_section' => apply_filters('zrdn__authors_get_set_settings', '', $_POST),
                 'register_url' => $register_url,
                 'registered_clear' => $registered_clear
 		);
