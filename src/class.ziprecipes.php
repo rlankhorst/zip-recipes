@@ -307,7 +307,7 @@ class ZipRecipes {
 				'version' => ZRDN_VERSION_NUM,
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
 				'copyright' => get_option('zlrecipe_printed_copyright_statement'),
-				'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', $recipe),
+				'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', '', $recipe),
                 'amp_on'=>$amp_on
 		);
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
@@ -1001,7 +1001,7 @@ class ZipRecipes {
 				$sodium = isset($post_info['sodium']) ? $post_info['sodium'] : '';
 				$ingredients = isset($post_info["ingredients"]) ? $post_info["ingredients"] : '';
 				$instructions = isset($post_info["instructions"]) ? $post_info["instructions"] : '';
-				$author = apply_filters('zrdn__authors_get_author_from_post_data', $post_info);
+				$author = apply_filters('zrdn__authors_get_author_from_post_data', '', $post_info);
 				if ($author) {
 					$post_info['author'] = $author;
 				}
