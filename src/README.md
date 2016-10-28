@@ -39,6 +39,8 @@ Among the new features added by Zip Recipe plugin are:
 
 **Recipe Image Support:** Easily add recipe image using Media Library to appear with your recipe.
 
+**Google AMP Support:** Accelerated Mobile Pages will load your recipes really quickly through Google.
+
 **Copy/Paste Recipe Ingredients:** Simply cut a block of recipe ingredients and paste them into one field. No need to add each recipe ingredient one by one into separate recipe ingertient fields.
 
 **Auto-Populate Recipe Name:** The recipe name is automatically replicated inside the plugin, taking the name from the recipe post name, which further enhances SEO.
