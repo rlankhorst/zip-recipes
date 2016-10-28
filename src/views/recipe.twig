@@ -12,11 +12,11 @@
       {% if print_hide != "Hide" %}
         <div class="zlrecipe-print-link fl-r">
           {% if custom_print_image %}
-            <a class="print-link" title="Print this recipe" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
+            <a class="print-link" title="{% trans 'Print this recipe' from 'zip-recipes' %}" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
               <img src="{{ custom_print_image }}">
             </a>
           {% else %}
-            <a class="butn-link" title="Print this recipe" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
+            <a class="butn-link" title="{% trans 'Print this recipe' from 'zip-recipes' %}" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
               {% trans "Print" from "zip-recipes" %}
             </a>
           {% endif %}
