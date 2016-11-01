@@ -96,7 +96,7 @@ class ZipRecipes {
 		add_action('media_upload_z_recipe', __NAMESPACE__ . '\ZipRecipes::zrdn_load_admin_media');
 
 		add_option("amd_zlrecipe_db_version"); // used to store DB version - leaving as is name as legacy
-		add_option('zrdn_attribution_hide', '');
+		add_option('zrdn_attribution_hide', 'Hide');
 		add_option('zlrecipe_printed_permalink_hide', '');
 		add_option('zlrecipe_printed_copyright_statement', '');
 		add_option('zlrecipe_stylesheet', 'zlrecipe-std');
