@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.6
-Stable tag: 4.5.2.13
+Stable tag: 4.5.2.14
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -133,7 +133,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-4.5.2.13 Authors and Google Accelerated Mobile Pages
+4.5.2.14 Authors and Google Accelerated Mobile Pages
 
 * Added Google Accelerated Mobile Pages
 * Made registration optional
@@ -460,7 +460,7 @@ Fixes an issue 4.5.2.8 was causing with the plugin updating.
 = 4.5.2.11 =
 Added Serbian, Spanish, French, Brazilian Portuguese, and Polish.
 
-= 4.5.2.13 =
+= 4.5.2.14 =
 Added support for Google Accelerated Mobile Pages
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
