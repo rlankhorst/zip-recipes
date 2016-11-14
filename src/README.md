@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.6
-Stable tag: 4.5.2.14
+Stable tag: 4.5.2.15
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -37,6 +37,8 @@ Among the new features added by Zip Recipe plugin are:
 
 **Schema Recipe Support:** Automatically integrate Schema.org's Recipe mark-up into your recipe posts to make them easier to find by people searching for recipes. 
 
+**Superior  Architecture:** No Custom Post Type to mess with. Create your recipes right inside a Post.
+
 **Recipe Image Support:** Easily add recipe image using Media Library to appear with your recipe.
 
 **Google AMP Support:** Accelerated Mobile Pages will load your recipes really quickly through Google.
@@ -58,6 +60,10 @@ Among the new features added by Zip Recipe plugin are:
 **Multiple Paragraph Support in Summary Section of a Recipe:** Users can now add multiple paragraphs to the Summary field within the recipe plugin.
 
 **Ability to Print Recipes with Images:** Flexible settings that allow you to enable/disable image printing or image displaying
+
+**Your Recipes Belong to You:** Unlike some other recipe plugins, we don't steal your recipes or use them in any way in our website.
+
+**Tested and Reviewed by WordPress Team for Quality:** Zip Recipes has been reviewed by a member of WordPress to ensure it meets quality standards.
 
 **Support for Your Language:** 100% of the recipe card can be your language.
 
@@ -133,7 +139,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-4.5.2.14 Authors and Google Accelerated Mobile Pages
+4.5.2.15 Authors and Google Accelerated Mobile Pages
 
 * Added Google Accelerated Mobile Pages
 * Made registration optional
@@ -460,7 +466,7 @@ Fixes an issue 4.5.2.8 was causing with the plugin updating.
 = 4.5.2.11 =
 Added Serbian, Spanish, French, Brazilian Portuguese, and Polish.
 
-= 4.5.2.14 =
+= 4.5.2.15 =
 Added support for Google Accelerated Mobile Pages
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
