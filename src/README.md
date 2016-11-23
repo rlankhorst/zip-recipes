@@ -16,9 +16,6 @@ Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipe
 
 == Description ==
 
-**This plugin continues the work of *ZipList Recipe Plugin* and is 100% compatible with it. To replace your ZipList plugin,
-all you do is install this plugin and you're done!**
-
 Make your recipes SEO-friendly and rank higher in [Google's Recipe View](http://googleblog.blogspot.com/2011/02/slice-and-dice-your-recipe-search.html) search. No need to hand-code your recipes into a sophisticated recipe structure when the Zip Recipes plugin will do all the heavy lifting for you, enhancing the findability of your recipe website.
 
 [youtube https://www.youtube.com/watch?v=BoI19PM5YVc]
@@ -46,7 +43,7 @@ If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly 
 >
 > [Learn more about Zip Recipes premium >>](https://www.ziprecipes.net/?utm_campaign=description%25252Bcta&utm_source=https%25253A%25252F%25252Fwordpress.org%25252Fplugins%25252Fzip-recipes%25252F&utm_medium=referral)
 
-== Features ==
+= Features =
 
 Among the new features added by Zip Recipe plugin are:
 
