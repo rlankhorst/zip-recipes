@@ -378,7 +378,7 @@ class ZipRecipes {
             $menu_title,
             $capability,
             $parent_slug,
-            $is_registered?$function:$reg_function,
+            $is_registered ? $function : $reg_function,
             'dashicons-carrot'
         );
 
