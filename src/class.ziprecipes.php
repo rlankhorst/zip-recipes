@@ -307,7 +307,10 @@ class ZipRecipes {
 				'version' => ZRDN_VERSION_NUM,
 				'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
 				'copyright' => get_option('zlrecipe_printed_copyright_statement'),
+				// author_section is used in default theme
 				'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', '', $recipe),
+				// author is used in other themes
+				'author' => apply_filters('zrdn__authors_get_author_for_recipe', '', $recipe),
                 'amp_on'=>$amp_on
 		);
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
