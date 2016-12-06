@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-06-14 20:33-0600\n"
+"POT-Creation-Date: 2016-12-05 21:09-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,6 +65,12 @@ msgstr ""
 msgid "%d seconds"
 msgstr ""
 
+msgid "Your rating:"
+msgstr ""
+
+msgid "Print this recipe"
+msgstr ""
+
 msgid "Print"
 msgstr ""
 
@@ -114,4 +120,64 @@ msgid "Instructions"
 msgstr ""
 
 msgid "Notes"
+msgstr ""
+
+msgid "Author:"
+msgstr ""
+
+msgid "Ingridients:"
+msgstr ""
+
+msgid "Instructions:"
+msgstr ""
+
+msgid "Prep"
+msgstr ""
+
+msgid "Cook"
+msgstr ""
+
+msgid "Ready in"
+msgstr ""
+
+msgid "Total:"
+msgstr ""
+
+msgid "Prep:"
+msgstr ""
+
+msgid "Serves:"
+msgstr ""
+
+msgid "Calories:"
+msgstr ""
+
+msgid "Fat:"
+msgstr ""
+
+msgid "Saturated fat:"
+msgstr ""
+
+msgid "Carbs:"
+msgstr ""
+
+msgid "Protein:"
+msgstr ""
+
+msgid "Fiber:"
+msgstr ""
+
+msgid "Sugar:"
+msgstr ""
+
+msgid "Sodium:"
+msgstr ""
+
+msgid "ratings"
+msgstr ""
+
+msgid "stars"
+msgstr ""
+
+msgid "Rate this recipe"
 msgstr ""

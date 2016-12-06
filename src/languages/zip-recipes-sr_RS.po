@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-06-14 13:23-0600\n"
+"POT-Creation-Date: 2016-12-05 21:09-0700\n"
 "PO-Revision-Date: 2016-06-14 11:54+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -67,6 +67,12 @@ msgstr "%d секунда"
 msgid "%d seconds"
 msgstr "%d секунди"
 
+msgid "Your rating:"
+msgstr ""
+
+msgid "Print this recipe"
+msgstr ""
+
 msgid "Print"
 msgstr "Рецепт за штампу"
 
@@ -117,3 +123,70 @@ msgstr "Припрема"
 
 msgid "Notes"
 msgstr "Напомене"
+
+msgid "Author:"
+msgstr ""
+
+#, fuzzy
+msgid "Ingridients:"
+msgstr "Састојци"
+
+#, fuzzy
+msgid "Instructions:"
+msgstr "Припрема"
+
+msgid "Prep"
+msgstr ""
+
+msgid "Cook"
+msgstr ""
+
+msgid "Ready in"
+msgstr ""
+
+#, fuzzy
+msgid "Total:"
+msgstr "Укупно време:"
+
+#, fuzzy
+msgid "Prep:"
+msgstr "Време припреме:"
+
+#, fuzzy
+msgid "Serves:"
+msgstr "Велличина порције:"
+
+#, fuzzy
+msgid "Calories:"
+msgstr "Калорија по порцији:"
+
+msgid "Fat:"
+msgstr ""
+
+#, fuzzy
+msgid "Saturated fat:"
+msgstr "Засићених масти по порцији:"
+
+msgid "Carbs:"
+msgstr ""
+
+msgid "Protein:"
+msgstr ""
+
+msgid "Fiber:"
+msgstr ""
+
+msgid "Sugar:"
+msgstr ""
+
+msgid "Sodium:"
+msgstr ""
+
+msgid "ratings"
+msgstr ""
+
+msgid "stars"
+msgstr ""
+
+msgid "Rate this recipe"
+msgstr ""

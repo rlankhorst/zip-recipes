@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-06-09 01:52-0600\n"
+"POT-Creation-Date: 2016-12-05 21:09-0700\n"
 "PO-Revision-Date: 2016-04-19 01:14-0600\n"
 "Last-Translator: Gezim Hoxha <hello@ziprecipes.net>\n"
 "Language-Team: \n"
@@ -70,6 +70,12 @@ msgstr "%d sekond"
 msgid "%d seconds"
 msgstr "%d sekonda"
 
+msgid "Your rating:"
+msgstr ""
+
+msgid "Print this recipe"
+msgstr ""
+
 msgid "Print"
 msgstr "Printo"
 
@@ -120,3 +126,70 @@ msgstr "Hapat"
 
 msgid "Notes"
 msgstr "Shënimet"
+
+msgid "Author:"
+msgstr ""
+
+#, fuzzy
+msgid "Ingridients:"
+msgstr "Element përbërëse"
+
+#, fuzzy
+msgid "Instructions:"
+msgstr "Hapat"
+
+msgid "Prep"
+msgstr ""
+
+msgid "Cook"
+msgstr ""
+
+msgid "Ready in"
+msgstr ""
+
+#, fuzzy
+msgid "Total:"
+msgstr "Koha totale:"
+
+#, fuzzy
+msgid "Prep:"
+msgstr "Koha e përgaditjës:"
+
+#, fuzzy
+msgid "Serves:"
+msgstr "Madhësia për shërbim:"
+
+#, fuzzy
+msgid "Calories:"
+msgstr "Kalori për shërbim:"
+
+msgid "Fat:"
+msgstr ""
+
+#, fuzzy
+msgid "Saturated fat:"
+msgstr "Yndyrë e ngopur për shërbim:"
+
+msgid "Carbs:"
+msgstr ""
+
+msgid "Protein:"
+msgstr ""
+
+msgid "Fiber:"
+msgstr ""
+
+msgid "Sugar:"
+msgstr ""
+
+msgid "Sodium:"
+msgstr ""
+
+msgid "ratings"
+msgstr ""
+
+msgid "stars"
+msgstr ""
+
+msgid "Rate this recipe"
+msgstr ""
