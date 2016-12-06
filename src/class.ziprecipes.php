@@ -1538,6 +1538,12 @@ class ZipRecipes {
 		#zlrecipe-summary{
 		clear: both;
 		}
+
+		#zlrecipe-container .h-4 { font-size: 1.25em; font-weight: bold; }
+
+		.ziprecipes-plugin { display: none; }
+
+		#zl-printed-copyright-statement, #zl-printed-permalink { display: none; }
 		<?php
 	}
 }
