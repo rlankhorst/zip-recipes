@@ -102,4 +102,45 @@ Copyright 2011, 2012 ZipList, Inc.
   display : none !important;
 }
 
+#zlrecipe-print-container#zlrecipe-print-container .zrdn__rating {
+  display: none; }
+
+#zlrecipe-print-container .zrdn__rating_print {
+  /* url has to be relative from `styles` dir */
+  background-image: url("../plugins/VisitorRating/images/rating-sprite.png");
+  background-repeat: no-repeat;
+  height: 18px;
+  width: 100px; }
+
+#zlrecipe-print-container .zrdn_five {
+  background-position-y: 2px; }
+
+#zlrecipe-print-container .zrdn_four_half {
+  background-position-y: -16px; }
+
+#zlrecipe-print-container .zrdn_four {
+  background-position-y: -35px; }
+
+#zlrecipe-print-container .zrdn_three_half {
+  background-position-y: -54px; }
+
+#zlrecipe-print-container .zrdn_three {
+  background-position-y: -75px; }
+
+#zlrecipe-print-container .zrdn_two_half {
+  background-position-y: -93px; }
+
+#zlrecipe-print-container .zrdn_two {
+  background-position-y: -111px; }
+
+#zlrecipe-print-container .zrdn_one_half {
+  background-position-y: -129px; }
+
+#zlrecipe-print-container .zrdn_one {
+  background-position-y: -150px; }
+
+#zlrecipe-print-container .zrdn_zero {
+  background-position-y: -168px; }
+
+
 /* END PRINT FORMATTING */
