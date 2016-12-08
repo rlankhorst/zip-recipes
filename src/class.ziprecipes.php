@@ -1078,9 +1078,11 @@ class ZipRecipes {
         }
 
 		$author_section  = apply_filters('zrdn__authors_recipe_create_update', '', $recipe, $post_info);
-//		$author_section = Util::view('author_ad', array(
-//			'warning_icon_url' => ZRDN_PLUGIN_URL . "images/warning-icon.png"
-//		));
+		if (!$author_section) {// author plugin doesn't exist
+			$author_section = Util::view('author_promo', array(
+				'warning_icon_url' => ZRDN_PLUGIN_URL . "images/warning-icon.png"
+			));
+		}
 
 		Util::print_view('create-update-recipe', array(
 			'pluginurl' => ZRDN_PLUGIN_URL,
