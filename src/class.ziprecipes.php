@@ -220,25 +220,8 @@ class ZipRecipes {
 			$nutritional_info = true;
 		}
 
-		$ingredients = array();
-		if ($recipe->ingredients != null) {
-			$raw_ingredients = explode("\n", $recipe->ingredients);
-			foreach ($raw_ingredients as $raw_ingredient) {
-				array_push($ingredients, self::zrdn_format_item($raw_ingredient));
-			}
-		}
-
-		// add the instructions
-		$instructions = array();
-		if ($recipe->instructions != null) {
-			$raw_instructions = explode("\n", $recipe->instructions);
-			foreach ($raw_instructions as $raw_instruction) {
-				// not sure why this check is here and not in ingredients. Maybe ingredients can't be empty on client side?!
-				if (strlen($raw_instruction) > 1) {
-					array_push($instructions, self::zrdn_format_item($raw_instruction));
-				}
-			}
-		}
+		$nested_ingredients = self::get_nested_items($recipe->ingredients);
+		$nested_instructions = self::get_nested_items($recipe->instructions);
 
 		do_action('zrdn__usage_stats');
         $amp_on = false;
@@ -296,10 +279,10 @@ class ZipRecipes {
 				'image_hide_print' => get_option('zlrecipe_image_hide_print'),
 				'ingredient_label_hide' => get_option('zlrecipe_ingredient_label_hide'),
 				'ingredient_list_type' => get_option('zlrecipe_ingredient_list_type'),
-				'ingredients' => $ingredients,
+				'nested_ingredients' => $nested_ingredients,
 				'instruction_label_hide' => get_option('zlrecipe_instruction_label_hide'),
 				'instruction_list_type' => get_option('zlrecipe_instruction_list_type'),
-				'instructions' => $instructions,
+				'nested_instructions' => $nested_instructions,
 				'notes' => $recipe->notes,
 				'formatted_notes' => self::zrdn_break('<p class="notes">', self::zrdn_richify_item($recipe->notes, 'notes'), '</p>'),
 				'notes_label_hide' => get_option('zlrecipe_notes_label_hide'),
@@ -315,6 +298,65 @@ class ZipRecipes {
 		);
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
         return $custom_template ?: Util::view('recipe', $viewParams);
+	}
+
+	/**
+	 * Get formatted items (ingredients or instructions) in a nested array (see return).
+	 * @param $items string Unformatted string of ingredients or instructions.
+	 *
+	 * @return array|bool Nested array with formatted items for each sublist. E.g.:
+	 *  [
+	 *      ["4 skinless, boneless chicken breast halves", "1 1/2 tablespoons vegetable oil"]
+	 *      ["subtitle for second part", "4g of onions", "5g of beans"]
+	 * ]
+	 */
+	private static function get_nested_items($items)
+	{
+		$nested_list = array();
+		if (! $items) {
+			return false;
+		}
+
+		$raw_items = explode("\n", $items);
+		foreach ($raw_items as $raw_item) {
+			// don't add items that are empty
+			if (strlen(trim($raw_item)) < 1) {
+				continue;
+			}
+			$number_of_sublists = count($nested_list);
+			$item_array = self::zrdn_format_item($raw_item);
+			// if last item is an array
+			if ($number_of_sublists > 0 && is_array($nested_list[$number_of_sublists-1])) {
+				$subtitle = self::get_subtitle($raw_item);
+				if ($subtitle)  {
+					array_push($nested_list, array($item_array));
+				}
+				else {
+					array_push($nested_list[count($nested_list) - 1], $item_array);
+				}
+			}
+			else {
+				array_push($nested_list, array($item_array));
+			}
+		}
+
+		return $nested_list;
+	}
+
+	/**
+	 * Return subtitle for item.
+	 * @param $item string Raw ingredients/instructions item
+	 *
+	 */
+	private static function get_subtitle($item) {
+		preg_match("/^!(.*)/", $item, $matches);
+
+		$title = "";
+		if (count($matches) > 1) {
+			$title = $matches[1];
+		}
+
+		return $title;
 	}
 
 	/**
@@ -345,10 +387,11 @@ class ZipRecipes {
 		}
 
 		$retArray = array();
-		if (preg_match("/^!(.*)/", $item, $matches)) {	// LABEL
+		$subtitle = self::get_subtitle($item);
+		if ($subtitle) {	// subtitle
 			// type: subtitle
 			// content: formatted $item
-			$formatted_item = $matches[1];
+			$formatted_item = $subtitle;
 			$retArray['type'] = 'subtitle';
 		} else {
 			// type: default

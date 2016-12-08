@@ -232,24 +232,26 @@
     {% if ingredient_list_type == 'p' %}{% set ingredientsHtmlListChildElem = 'p' %}{% endif %}
     {% if ingredient_list_type == 'div' %}{% set ingredientsHtmlListChildElem = 'div' %}{% endif %}
 
-    <{{ ingredientsHtmlListElem }} id="zlrecipe-ingredients-list">
-      {% for ingredient in ingredients %}
-        {% if ingredient.type == 'image' %}
-          <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ ingredient.content }}" />
-        {% elseif ingredient.type == 'subtitle' %}
-          {# no itemprop for sub-titles (aka labels) #}
-          {# subtitles always use div #}
-          <div class="{% if ingredient_list_type == 'l' %}ingredient no-bullet-label{% else %}ingredient-label{% endif %}">
-            {{ ingredient.content|raw }}
-          </div>
-        {% else %}
-          <{{ ingredientsHtmlListChildElem }} class="ingredient {% if ingredient_list_type == 'l' %}no-bullet{% endif %}"
-            {{ recipe_props.recipe_attr('itemprop', "recipeIngredient", amp_on) }}>
-            {{ ingredient.content|raw }}
-          </{{ ingredientsHtmlListChildElem }}>
-        {% endif %}
-      {% endfor %}
-    </{{ ingredientsHtmlListElem }}>
+    {% for ingredient_list in nested_ingredients %}
+      <{{ ingredientsHtmlListElem }} id="zlrecipe-ingredients-list">
+        {% for ingredient in ingredient_list %}
+          {% if ingredient.type == 'image' %}
+            <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ ingredient.content }}" />
+          {% elseif ingredient.type == 'subtitle' %}
+            {# no itemprop for sub-titles (aka labels) #}
+            {# subtitles always use div #}
+            <div class="{% if ingredient_list_type == 'l' %}ingredient no-bullet-label{% else %}ingredient-label{% endif %}">
+              {{ ingredient.content|raw }}
+            </div>
+          {% else %}
+            <{{ ingredientsHtmlListChildElem }} class="ingredient {% if ingredient_list_type == 'l' %}no-bullet{% endif %}"
+              {{ recipe_props.recipe_attr('itemprop', "recipeIngredient", amp_on) }}>
+              {{ ingredient.content|raw }}
+            </{{ ingredientsHtmlListChildElem }}>
+          {% endif %}
+        {% endfor %}
+      </{{ ingredientsHtmlListElem }}>
+    {% endfor %}
 
     {# ********************* #}
     {#      Instructions     #}
@@ -268,24 +270,26 @@
     {% if ingredient_list_type == 'p' %}{% set instructionsHtmlChildElem = 'p' %}{% endif %}
     {% if ingredient_list_type == 'div' %}{% set instructionsHtmlChildElem = 'div' %}{% endif %}
 
-    <{{ instructionsHtmlListElem }} id="zlrecipe-instructions-list" class="instructions">
-      {% for instruction in instructions %}
-        {% if instruction.type == 'image' %}
-          <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ instruction.content }}" />
-        {% elseif instruction.type == 'subtitle' %}
-          {# no itemprop for sub-titles (aka labels) #}
-          {# subtitles always use div #}
-          <div class="{% if instruction_list_type == 'l' %}instruction no-bullet-label{% else %}instruction-label{% endif %}">
+    {% for instruction_list in nested_instructions %}
+        <{{ instructionsHtmlListElem }} id="zlrecipe-instructions-list" class="instructions">
+        {% for instruction in instruction_list %}
+          {% if instruction.type == 'image' %}
+            <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ instruction.content }}" />
+          {% elseif instruction.type == 'subtitle' %}
+            {# no itemprop for sub-titles (aka labels) #}
+            {# subtitles always use div #}
+            <div class="{% if instruction_list_type == 'l' %}instruction no-bullet-label{% else %}instruction-label{% endif %}">
+              {{ instruction.content|raw }}
+            </div>
+          {% else %}
+            <{{ instructionsHtmlChildElem }} class="instruction {% if instruction_list_type == 'l' %}no-bullet{% endif %}"
+              {{ recipe_props.recipe_attr('itemprop', "recipeInstructions", amp_on) }}>
             {{ instruction.content|raw }}
-          </div>
-        {% else %}
-          <{{ instructionsHtmlChildElem }} class="instruction {% if instruction_list_type == 'l' %}no-bullet{% endif %}"
-            {{ recipe_props.recipe_attr('itemprop', "recipeInstructions", amp_on) }}>
-          {{ instruction.content|raw }}
-          </{{ instructionsHtmlChildElem }}>
-        {% endif %}
-      {% endfor %}
-    </{{ instructionsHtmlListElem }}>
+            </{{ instructionsHtmlChildElem }}>
+          {% endif %}
+        {% endfor %}
+      </{{ instructionsHtmlListElem }}>
+    {% endfor %}
 
 
     {# !! add notes section #}
