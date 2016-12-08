@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-12-05 21:09-0700\n"
+"POT-Creation-Date: 2016-12-05 22:19-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,9 +63,6 @@ msgstr ""
 
 #, php-format
 msgid "%d seconds"
-msgstr ""
-
-msgid "Your rating:"
 msgstr ""
 
 msgid "Print this recipe"
@@ -173,10 +170,10 @@ msgstr ""
 msgid "Sodium:"
 msgstr ""
 
-msgid "ratings"
+msgid "stars"
 msgstr ""
 
-msgid "stars"
+msgid "ratings"
 msgstr ""
 
 msgid "Rate this recipe"
