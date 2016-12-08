@@ -9,7 +9,7 @@ Author: Gezim Hoxha
 Donate link: http://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: 4.7.2.17
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
@@ -151,7 +151,13 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-4.7.2.17 
+4.7.2.17 More AMP and better Secondary recipes!
+
+* [Better] Better formatting for Google AMP (Accelerated Mobile Pages)
+* [Better] Removed copyright, permalink and Zip Recipes version from Google AMP view
+* [Better] Secondary recipe number starts at 1 instead of continuing
+* [New] Information about Author feature
+* [Better] WordPress 4.7 support
 
 4.5.2.15 Authors and Google Accelerated Mobile Pages
 
@@ -482,6 +488,9 @@ Added Serbian, Spanish, French, Brazilian Portuguese, and Polish.
 
 = 4.5.2.15 =
 Added support for Google Accelerated Mobile Pages
+
+= 4.7.2.17 =
+More AMP and better Secondary recipes!
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
