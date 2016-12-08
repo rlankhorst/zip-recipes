@@ -1509,11 +1509,11 @@ class ZipRecipes {
 		color:#b72f2f;
 
 		}
-		#zlrecipe-prep-time, #zlrecipe-cook-time, #zlrecipe-yield, #zlrecipe-serving-size {line-height: 1.2em;
+		#zlrecipe-fiber, #zlrecipe-sodium, #zlrecipe-sugar, #zlrecipe-protein, #zlrecipe-protein, #zlrecipe-carbs, #zlrecipe-saturated-fat, #zlrecipe-fat, #zlrecipe-calories, #zrdn__author, #zlrecipe-total-time, #zlrecipe-prep-time, #zlrecipe-cook-time, #zlrecipe-yield, #zlrecipe-serving-size {line-height: 1.2em;
 		margin: 1em 0; font-size:14px;
 		font-weight: bold;}
 
-		#zlrecipe-prep-time span, #zlrecipe-cook-time span, #zlrecipe-yield span, #zlrecipe-serving-size span{font-weight: normal; display:block}
+		#zlrecipe-fiber span, #zlrecipe-sodium span, #zlrecipe-sugar span, #zlrecipe-protein span, #zlrecipe-protein span, #zlrecipe-carbs span, #zlrecipe-saturated-fat span, #zlrecipe-fat span, #zlrecipe-calories span, #zrdn__author span, #zlrecipe-total-time span, #zlrecipe-prep-time span, #zlrecipe-cook-time span, #zlrecipe-yield span, #zlrecipe-serving-size span{font-weight: normal; display:block}
 		.zlmeta .width-50{ width:50%; float:left}
 		#zlrecipe-summary { padding: 0 10px 10px;}
 		#zlrecipe-summary .summary{ margin: 10px 0; font-style: italic; line-height: 1.2em; font-size: 16px;  font-family: 'Open Sans', sans-serif;}
