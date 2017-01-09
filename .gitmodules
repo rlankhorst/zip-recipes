@@ -1,3 +1,3 @@
 [submodule "plugins"]
 	path = src/plugins
-	url = git@bitbucket.org:hgezim/zip-recipes-plugins.git
+	url = git@gitlab.com:hgezim/zip-recipes-plugins.git
