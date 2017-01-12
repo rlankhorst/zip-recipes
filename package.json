@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/hgezim/zip-recipes#readme",
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.3"
+    "bootstrap": "^4.0.0-alpha.3",
+    "bulma": "github:hgezim/bulma"
   },
   "devDependencies": {
     "del": "^2.2.0",
