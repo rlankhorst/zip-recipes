@@ -810,6 +810,10 @@ class ZipRecipes {
 			'ingredients text',
 			'instructions text',
 			'notes text',
+			'category varchar(100)',
+			'cuisine varchar(50)',
+			'trans_fat varchar(50)',
+			'cholesterol varchar(50)',
 			'created_at timestamp DEFAULT NOW()'
 		);
 
