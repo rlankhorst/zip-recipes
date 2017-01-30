@@ -6,3 +6,4 @@ src/vendor-dev/
 plugins/
 node_modules/
 build/
+nbproject
