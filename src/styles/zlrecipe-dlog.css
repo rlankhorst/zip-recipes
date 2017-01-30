@@ -43,6 +43,7 @@ body#amd-zlrecipe-uploader { }
 #amd-zlrecipe-uploader #z_recipe_ingredients textarea.input-error { width: 585px !important; }
 #amd-zlrecipe-uploader p.error-message { color: red; font-weight: bold; }
 #amd-zlrecipe-uploader #recipe-title p.error-message { margin-left: 120px; }
+#amd-zlrecipe-uploader #recipe-author small { display: block; }
 
 #amd-zlrecipe-uploader #recipe-title input[type="text"] {
     width:90%;
