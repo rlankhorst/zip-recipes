@@ -117,6 +117,15 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
+4.7.2.17
+
+* [New] Easy Recipe and Easy Recipe PLUS import tool
+* [Better] Secondary recipes start with number 1
+* [Better] Re-organized Recipe Index feature to get it ready for Recipe Grid!
+* [Better] Fixed label alignment in Add Recipe window
+* [Fixed] Images get resized in print preview properly
+* [Fixed] Emojis can be used in recipe title and elsewhere <3! 
+
 4.5.2.16 Themesss!
 
 * Added 5, delicious  themes for you to choose from
