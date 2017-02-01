@@ -65,7 +65,7 @@ class Util {
 		Util::log("Looking for template in dir:" . $viewDir);
 		Util::log("Template name:" . $file);
 
-		$loader = new \Twig_Loader_Filesystem($viewDir);
+		$loader = new \Twig_Loader_Filesystem(array($viewDir, ZRDN_PLUGIN_DIRECTORY . 'views/'));
 		$twig = new \Twig_Environment($loader, array(
 				'cache' => $cacheDir,
 				'autoescape' => true,
