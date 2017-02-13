@@ -25,7 +25,6 @@
         });
     };
     scanDeprecated();
-
     var convertDepr = function () {
         var deferred = new $.Deferred();
         var _queue = function (index) {
@@ -53,7 +52,7 @@
                         }
                         $(".progress").append("<p>Process finished ...</p>");
                         $(".steps-success").show();
-                        //_doneDepr();
+                        _doneDepr(); // zrdn_upgrade.settings
                         return deferred.promise();
                     }
                 }

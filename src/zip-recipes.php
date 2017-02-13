@@ -61,7 +61,7 @@ register_activation_hook(__FILE__, __NAMESPACE__ . '\ZipRecipes::init');
 ZipRecipes::init();
 
 $zrdn_plugin_is_upgrade = get_option('zrdn_plugin_is_upgrade', 'no');
-if ($zrdn_plugin_is_upgrade == 'no') {
+if ($zrdn_plugin_is_upgrade == 'no' && ZRDN_VERSION_NUM == '4.7.2.17') {
     require_once(ZRDN_PLUGIN_DIRECTORY . 'class.upgrade.php');
 }
 // Setup query catch for recipe insertion popup.
