@@ -48,7 +48,7 @@
                         _queue(index);
                     } else {
                         if (found == 0) {
-                            $('.progress p:last-child').html('None found out of ' + initial);
+                            $('.progress p:last-child').html('0 found out of ' + initial);
                         }
                         $(".progress").append("<p>Process finished ...</p>");
                         $(".steps-success").show();
@@ -63,7 +63,7 @@
             _queue(index); // go!            
         }
     };
-    
+
     var _doneDepr = function () {
         var queryString = {action: 'upgrade_callback', zrdn_action: 'done'};
         $.ajax({

@@ -1133,8 +1133,17 @@ class ZipRecipes {
 				'warning_icon_url' => ZRDN_PLUGIN_URL . "images/warning-icon.png"
 			));
 		}
+                $showNotice = '';
+                $zrdn_plugin_is_upgrade = get_option('zrdn_plugin_is_upgrade', 'no');
+                if ($zrdn_plugin_is_upgrade == 'no' && ZRDN_VERSION_NUM == '4.7.2.17') {
 
-		Util::print_view('create-update-recipe', array(
+                    $showNotice = '<div id="message" class="update-nag">'
+                            . 'Zip Recipes needs to be upgraded. '
+                            . '<a target="_parent" href="' . admin_url('admin.php?page=zrdn-upgrade') . '" aria-label="Please update WordPress now">Please upgrade now</a>.'
+                            . '</div>';
+                }
+
+        Util::print_view('create-update-recipe', array(
 			'pluginurl' => ZRDN_PLUGIN_URL,
 			'recipe_id' => $recipe_id,
 			'registration_required' => $registration_required,
@@ -1170,7 +1179,8 @@ class ZipRecipes {
 			'saturated_fat' => $saturated_fat,
 			'notes' => $notes,
 			'submit' => $submit,
-			'author_section' => $author_section
+			'author_section' => $author_section,
+			'showNotice' => $showNotice,
 		));
 	}
 
