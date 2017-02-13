@@ -27,10 +27,17 @@ class ZipUpgrade extends ZipRecipes {
     /**
      * Defined Constants
      */
-    const DESCRIPTION = "Import Recipes from Easy Recipe";
+    const DESCRIPTION = "Upgrade recipes";
     const PAGE_ID = "zrdn-upgrade";
     const MAIN_JS_SCRIPT = "upgrade-js";
     const MAIN_CSS_SCRIPT = "upgrade-css";
+
+    function __construct() {
+        // check if not updated
+        if (get_option('zrdn_plugin_is_upgrade', 'no') == 'yes') {
+            return false;
+        }
+    }
 
     /**
      * Initializer for setting up action handler
@@ -95,6 +102,7 @@ class ZipUpgrade extends ZipRecipes {
     public static function zrdn_enqueue_assets() {
         wp_register_script(self::MAIN_JS_SCRIPT, plugins_url('scripts/upgrade.js', __FILE__), array('jquery'), '1.0', true);
         wp_enqueue_script(self::MAIN_JS_SCRIPT);
+        wp_localize_script(self::MAIN_JS_SCRIPT, 'zrdn_upgrade', array('settings' => admin_url('admin.php?page=zrdn-upgrade')));
         wp_register_style(self::MAIN_CSS_SCRIPT, plugins_url('styles/upgrade.css', __FILE__), array(), NULL, 'all');
         wp_enqueue_style(self::MAIN_CSS_SCRIPT);
     }
@@ -155,9 +163,9 @@ class ZipUpgrade extends ZipRecipes {
         $post_content = ZipUpgrade::zrdn_find_replace($content->post_content);
         if (strlen($post_content) != strlen($post_content)) {
             $found = 1;
+            $content->post_content = $post_content;
+            wp_update_post($content);
         }
-        $content->post_content = $post_content;
-        wp_update_post($content);
         return $found;
     }
 
@@ -172,11 +180,11 @@ class ZipUpgrade extends ZipRecipes {
         $string = preg_replace('/(id)=("(amd-zlrecipe-recipe-)[0-9^"]*")/i', "[ziprecipes recipe id='$1']", $string);
         return $string;
     }
-    
+
     /**
      * Update done Option
      * 
-     * @return type
+     * @return Boolean
      */
     public static function zrdn_convert_deprecated_done() {
         return update_option('zrdn_plugin_is_upgrade', 'yes');
