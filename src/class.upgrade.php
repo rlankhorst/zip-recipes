@@ -66,10 +66,8 @@ class ZipUpgrade extends ZipRecipes {
 
     /**
      * Admin Submenu defined
-     * 
-     * @param type $settings
      */
-    public static function admin_menu($settings = array()) {
+    public static function admin_menu() {
         $pageTitle = "Upgrade";
         $menuTitle = $pageTitle;
         $menuSlug = self::PAGE_ID;
