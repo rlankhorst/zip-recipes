@@ -30,6 +30,7 @@ class Util {
 	 * @return string Rendered view.
 	 */
 	public static function _view($name, $args = array()) {
+                $coreClasses = array("ZipRecipes","ZipUpgrade"); // core class array
 		$trace=debug_backtrace();
 		$caller=$trace[2]; // 0 here is direct caller of _view, 1 would be our Util class so we want 2
 
@@ -43,13 +44,12 @@ class Util {
 
 		$pluginDir = "";
 		// don't consider core class a plugin
-		if ($plugin_name && $plugin_name !== "ZipRecipes") // TODO: ZipRecipes is hardcoded and needs to change
+		if ($plugin_name && !in_array($plugin_name, $coreClasses)) // TODO: ZipRecipes is hardcoded and needs to change
 		{
 			$pluginDir = "plugins/$plugin_name/";
 		}
 		
 		$viewDir = ZRDN_PLUGIN_DIRECTORY . $pluginDir . 'views/';
-
 		$file = $name . '.twig';
 
 		$tempDir = get_temp_dir();
