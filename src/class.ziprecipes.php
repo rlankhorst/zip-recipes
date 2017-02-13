@@ -1110,14 +1110,14 @@ class ZipRecipes {
             if (!$skip_registration || (isset($_GET['register']) && $_GET['register'] == 1)) {
                 global $wp_version;
                 $settings_page_url = admin_url('admin.php?page=' . 'zrdn-register');
-
+	            $url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                 $settingsParams = array(
                     'settings_url' => $settings_page_url,
                     'registration_url' => self::registration_url,
                     'wp_version' => $wp_version,
                     'installed_plugins' => Util::zrdn_get_installed_plugins(),
                     'home_url' => home_url(),
-                    'return_to_url' => str_replace('&register=1', '', "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"),
+                    'return_to_url' => str_replace('&register=1', '', $url),
                     'plugin_url' => ZRDN_PLUGIN_URL,
                     'iframed_form' => true
                 );
@@ -1134,12 +1134,13 @@ class ZipRecipes {
 			));
 		}
 
+		$url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		Util::print_view('create-update-recipe', array(
 			'pluginurl' => ZRDN_PLUGIN_URL,
 			'recipe_id' => $recipe_id,
 			'registration_required' => $registration_required,
 			'settings_page_url' => $settings_page_url,
-            'recipe_url' => "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
+            'recipe_url' => $url,
 			'post_info' => $post_info,
 			'ss' => $ss,
 			'iframe_title' => $iframe_title,
@@ -1555,7 +1556,7 @@ class ZipRecipes {
 		.zlrecipe-print-link {float: right;  margin-top: 5px;}
 		#zlrecipe-container-178{ padding:10px}
 
-		.zlrecipe-print-link  a { background: url(http://laylita.com/recettes/wp-content/plugins/zip-recipes-premium/images/print-icon.png) no-repeat scroll 0 4px transparent;
+		.zlrecipe-print-link  a { background: url(<?php echo ZRDN_PLUGIN_URL . "images/print-icon.png"; ?> ) no-repeat scroll 0 4px transparent;
 		cursor: pointer;
 		padding: 0 0 0 20px;
 		display: block;

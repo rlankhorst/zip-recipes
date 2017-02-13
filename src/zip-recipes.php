@@ -11,7 +11,7 @@ Author: HappyGezim
 Author URI: http://www.ziprecipes.net/
 License: GPLv3 or later
 
-Copyright 2016 Gezim Hoxha
+Copyright 2017 Gezim Hoxha
 This code is derived from the 2.6 version build of ZipList Recipe Plugin released by ZipList Inc.:
 	http://get.ziplist.com/partner-with-ziplist/wordpress-recipe-plugin/ and licensed under GPLv3 or later
 */
