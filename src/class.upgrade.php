@@ -89,8 +89,8 @@ class ZipUpgrade extends ZipRecipes {
      */
     public static function zrdn_upgrade_notice_version() {
         echo '<div id="message" class="update-nag">'
-        . 'Zip recipes required upgradation. '
-        . '<a href="' . admin_url('admin.php?page=zrdn-upgrade') . '" aria-label="Please update WordPress now">Please update now</a>'
+        . 'Zip Recipes needs to be upgraded. '
+        . '<a href="' . admin_url('admin.php?page=zrdn-upgrade') . '" aria-label="Please update WordPress now">Please upgrade now</a>.'
         . '</div>';
     }
 
@@ -159,7 +159,8 @@ class ZipUpgrade extends ZipRecipes {
         $id = $request['zrdn_id'];
         $content = get_post($id);
         $post_content = ZipUpgrade::zrdn_find_replace($content->post_content);
-        if (strlen($post_content) != strlen($post_content)) {
+        $diff = strcmp($content->post_content, $post_content);
+        if ($diff != 0) {
             $found = 1;
             $content->post_content = $post_content;
             wp_update_post($content);
