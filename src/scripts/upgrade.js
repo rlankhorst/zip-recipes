@@ -40,15 +40,14 @@
                     index++;    // going to next queue entry                    
                     if (data == 1) {
                         found++;
-                        var html = (found) + ' found out of ' + initial + '';
-                        $('.progress p:last-child').html(html);
+                        $('.progress p:last-child').html('Converted ' + found);
                     }
                     // check if it exists
                     if (_ids[index] != undefined) {
                         _queue(index);
                     } else {
                         if (found == 0) {
-                            $('.progress p:last-child').html('0 found out of ' + initial);
+                            $('.progress p:last-child').html('Converted 0');
                         }
                         $(".progress").append("<p>Process finished ...</p>");
                         $(".steps-success").show();

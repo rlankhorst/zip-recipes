@@ -54,5 +54,8 @@ and open the template in the editor.
     line-height: 20px;
     width: 100%;
 }
+#update-nag, .update-nag{    
+    border-left: 4px solid #F00;
+}
 
 
