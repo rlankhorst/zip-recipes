@@ -22,7 +22,7 @@ if (0) {
  * @author     Mudassar Ali <sahil_bwp@yahoo.com>
  * @copyright  2017 Gezim Hoxha
  */
-class ZipUpgrade extends ZipRecipes {
+class ZipUpgrade {
 
     /**
      * Defined Constants
@@ -34,6 +34,7 @@ class ZipUpgrade extends ZipRecipes {
 
     function __construct() {
         // check if not updated
+        die('---called---');
         if (get_option('zrdn_plugin_is_upgrade', 'no') == 'yes') {
             return false;
         }
@@ -68,12 +69,16 @@ class ZipUpgrade extends ZipRecipes {
      * Admin Submenu defined
      */
     public static function admin_menu() {
+        $menu_slug = 'zrdn-settings';
+        $is_registered = get_option('zrdn_registered');
+        $reg_menu_slug = 'zrdn-register';
+        $parent_slug = $is_registered ? $menu_slug : $reg_menu_slug;
         $pageTitle = "Upgrade";
         $menuTitle = $pageTitle;
         $menuSlug = self::PAGE_ID;
         $pageRenderer = __CLASS__ . '::zrdn_upgrade_shortcodes';
         add_submenu_page(
-                'zrdn-settings', $pageTitle, $menuTitle, 'manage_options', $menuSlug, $pageRenderer
+                $parent_slug, $pageTitle, $menuTitle, 'manage_options', $menuSlug, $pageRenderer
         );
     }
 
