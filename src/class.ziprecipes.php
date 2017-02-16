@@ -65,12 +65,16 @@ class ZipRecipes {
         // Init shortcode so shortcodes can be used by any plugins
         $shortcodes = new __shortcode();
 
+        /**
+         * apply new shortcode
+         */
+        add_filter('zrdn__shortcode', array(get_called_class(), 'shortcode_recipe'), 10, 2);
+        
         // We need to call `zrdn__init_hooks` action before `init_hooks()` because some actions/filters registered
         //	in `init_hooks()` get called before plugins have a chance to register their hooks with `zrdn__init_hooks`
         do_action("zrdn__init_hooks"); // plugins can add an action to listen for this event and register their hooks
-
-        self::init_hooks();
-        add_filter('zrdn__shortcode', array(get_called_class(), 'shortcode_recipe'), 10, 2);
+        
+        self::init_hooks();   
     }
 
     /**
@@ -1581,7 +1585,14 @@ class ZipRecipes {
         #zl-printed-copyright-statement, #zl-printed-permalink { display: none; }
         <?php
     }
-
+    
+    /**
+     * New shorcode apply
+     * 
+     * @param Array $data
+     * @param Array $atts
+     * @return String view
+     */
     public static function shortcode_recipe($data, $atts) {
         if (!$atts || !is_array($atts)) {
             return $data;
