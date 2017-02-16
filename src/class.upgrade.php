@@ -33,17 +33,18 @@ class ZipUpgrade {
     const MAIN_CSS_SCRIPT = "upgrade-css";
 
     function __construct() {
-        // check if not updated
-        die('---called---');
-        if (get_option('zrdn_plugin_is_upgrade', 'no') == 'yes') {
-            return false;
-        }
+        
     }
 
     /**
      * Initializer for setting up action handler
      */
     public static function run() {
+        // check if not updated
+        if (get_option('zrdn_plugin_is_upgrade', 'no') === 'yes') {
+            return false;
+        }
+
         /**
          * hook so we can add menus to our admin left-hand menu
          */
@@ -180,8 +181,8 @@ class ZipUpgrade {
      * @return String
      */
     public static function zrdn_find_replace($string) {
-        $string = preg_replace('/\[amd-zlrecipe-recipe:([0-9]+)\]/i', "[ziprecipes recipe id='$1']", $string);
-        $string = preg_replace('/(id)=("(amd-zlrecipe-recipe-)[0-9^"]*")/i', "[ziprecipes recipe id='$1']", $string);
+        $string = preg_replace('/\[amd-zlrecipe-recipe:([0-9]+)\]/i', '[ziprecipes recipe id="$1"]', $string);
+        $string = preg_replace('/(id)=("(amd-zlrecipe-recipe-)[0-9^"]*")/i', '[ziprecipes recipe id="$1"]', $string);
         return $string;
     }
 
