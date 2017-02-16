@@ -33,6 +33,7 @@
 			//replace shortcode before editor content set
 			editor.onBeforeSetContent.add(function(ed, o) {
 				o.content = t._convert_codes_to_imgs(o.content);
+				o.content = t._convert_new_codes_to_imgs(o.content);
 			});
 
 			/* FIXME
@@ -48,6 +49,7 @@
 				if (cmd ==='mceInsertContent') {
 					var bm = tinyMCE.activeEditor.selection.getBookmark();
 					tinyMCE.activeEditor.setContent( t._convert_codes_to_imgs(tinyMCE.activeEditor.getContent()) );
+					tinyMCE.activeEditor.setContent( t._convert_new_codes_to_imgs(tinyMCE.activeEditor.getContent()) );
 					tinyMCE.activeEditor.selection.moveToBookmark(bm);
 				}
 			});
@@ -91,14 +93,21 @@
     	},
 
 		_convert_codes_to_imgs : function(co) {
-            return co.replace(/\[amd-zlrecipe-recipe:([0-9]+)\]/g, function(a, b) {
-								return '<img id="amd-zlrecipe-recipe-'+b+'" class="amd-zlrecipe-recipe" src="' + plugindir + '/images/zrecipe-placeholder.png" alt="" />';
-            });
+                    return co.replace(/\[amd-zlrecipe-recipe:([0-9]+)\]/g, function(a, b) {
+                                                                        return '<img id="amd-zlrecipe-recipe-'+b+'" class="amd-zlrecipe-recipe" src="' + plugindir + '/images/zrecipe-placeholder.png" alt="" />';
+                    });
+		},
+		_convert_new_codes_to_imgs : function(co) {
+                    return co.replace(/\[ziprecipes recipe id="([0-9]+)"\]/g, function(a, b) {
+                                                                        return '<img id="amd-zlrecipe-recipe-'+b+'" class="amd-zlrecipe-recipe" src="' + plugindir + '/images/zrecipe-placeholder.png" alt="" />';
+                    });
 		},
 
 		_convert_imgs_to_codes : function(co) {
+//			return co.replace(/\<img[^>]*?\sid="amd-zlrecipe-recipe-([0-9]+)[^>]*?\>/g, function(a, b){
+//                return '[amd-zlrecipe-recipe:'+b+']';
 			return co.replace(/\<img[^>]*?\sid="amd-zlrecipe-recipe-([0-9]+)[^>]*?\>/g, function(a, b){
-                return '[amd-zlrecipe-recipe:'+b+']';
+                return '[ziprecipes recipe id="'+b+'"]';
             });
 		},
 
