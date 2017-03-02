@@ -1,0 +1,61 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 16, 2017, 4:35:18 PM
+    Author     : sahil
+*/
+.upgrade-wrapper{
+    height:auto;
+}
+.upgrade-wrapper .button {
+    margin-top: 10px;
+}
+.upgrade-wrapper .steps-success img {
+    float: left;
+    margin-right: 5px;
+}
+.upgrade-wrapper .steps-success p {
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 20px;
+    padding: 10px 0;
+}
+
+.upgrade-wrapper .space-left img {
+    margin-left: 20px;
+}
+.upgrade-wrapper .steps {
+    padding: 20px 0;
+}
+
+.upgrade-wrapper .alert{
+    clear: both;
+    width: 100%;
+}
+.upgrade-wrapper .alert h4{
+    color: #F4270B;
+    width: 6%;
+    float: left;
+}
+.upgrade-wrapper .alert p{
+    width: 94%;
+    float: left;
+}
+.upgrade-wrapper .progress {
+    text-align: center;
+}
+.upgrade-wrapper .progress p{
+    text-align: left;
+    font-size: 25px;
+    font-weight: 300;
+    line-height: 20px;
+    width: 100%;
+}
+#update-nag, .update-nag{    
+    border-left: 4px solid #F00;
+}
+
+
