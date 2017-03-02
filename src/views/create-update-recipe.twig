@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript">
+        var args = top.tinymce.activeEditor.windowManager.getParams();
+        var editor = args['editor'];
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
 
@@ -26,8 +28,9 @@
 
                 return false;
             }
-
-            window.parent.amdZLRecipeInsertIntoPostEditor('{{ recipe_id }}');
+            var shortcode = '[amd-zlrecipe-recipe:{{ recipe_id }}]';
+            editor.execCommand('mceInsertContent', false, shortcode);
+            //window.parent.amdZLRecipeInsertIntoPostEditor('{{ recipe_id }}');
             top.tinymce.activeEditor.windowManager.close(window);
         }
 
