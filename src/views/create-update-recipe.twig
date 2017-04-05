@@ -174,6 +174,8 @@
                 </p>
                 <p><a href='#' id='more-options-toggle'>More options</a></p>
                 <div id='more-options'>
+                    <p><label>Category</label> <input placeholder="e.g. French, Ethiopian, etc." type='text' name='category' value='{{ category }}' /></p>
+                    <p><label>Cuisine</label> <input placeholder="e.g. appetizer, entree, etc." type='text' name='cuisine' value='{{ cuisine }}' /></p>
                     <p class='cls'><label>Summary</label>
                         <textarea id='summary' name='summary' data-caption="true">{{ summary }}</textarea></p>
                     <p class="cls"><label>Prep Time</label>
@@ -208,9 +210,7 @@
                     <p><label>Fat</label> <input type='text' name='fat' value='{{ fat }}' /></p>
                     <p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='{{ saturated_fat }}' /></p>
                     <p><label>Trans. Fat</label> <input type='text' name='trans_fat' value='{{ trans_fat }}' /></p>
-                    <p><label>Cholesterol</label> <input type='text' name='cholesterol' value='{{ cholesterol }}' /></p>                    
-                    <p><label>Category</label> <input type='text' name='category' value='{{ category }}' /></p>                    
-                    <p><label>Cuisine</label> <input type='text' name='cuisine' value='{{ cuisine }}' /></p>                    
+                    <p><label>Cholesterol</label> <input type='text' name='cholesterol' value='{{ cholesterol }}' /></p>
                     <p class='cls'><label>Notes</label> <textarea name='notes'>{{ notes }}</textarea></p>
                 </div>
                 <input type='submit' value='{{ submit }}' name='add-recipe-button' />
