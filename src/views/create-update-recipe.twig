@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript">
+        var args = top.tinymce.activeEditor.windowManager.getParams();
+        var editor = args['editor'];
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
 
@@ -24,8 +26,8 @@
 
                 return false;
             }
-
-            window.parent.amdZLRecipeInsertIntoPostEditor('{{ recipe_id }}');
+            var shortcode = '[amd-zlrecipe-recipe:{{ recipe_id }}]';
+            editor.execCommand('mceInsertContent', false, shortcode);
             top.tinymce.activeEditor.windowManager.close(window);
         }
 
@@ -156,7 +158,7 @@
                         <span class='required'>*</span>
                         <small>Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.</small>
                         <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
-                            <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                            <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
                         </small>
                     </label>
                     <textarea name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
@@ -165,7 +167,7 @@
                     <label>Instructions
                         <small>Press return after each instruction. There is no need to number your instructions.</small>
                         <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
-                            <a href="http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                            <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
                         </small>
                     </label>
                     <textarea name='instructions'>{{ instructions }}</textarea>

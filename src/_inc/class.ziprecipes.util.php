@@ -54,17 +54,18 @@ class Util {
         $tempDir = get_temp_dir();
         $cacheDir = "${tempDir}zip-recipes/cache";
 
-        // Prefer to write to temp dir, if possible
-        // Update: nope, not good since more people can write to ./views but not /tmp
+		// Prefer to write to views dir, if possible. More people can write to views dir than temp from experience.
+		// If views is not writable, try to give it read/write permission to user and group
         // Perhaps in the future disable caching if neither is writable?!
-        if (is_writable($viewDir)) {
+		// Note: chmod returns true on success :D
+		if (is_writable($viewDir) || chmod($viewDir, 0660)) {
             $cacheDir = "${viewDir}cache";
         }
 
         Util::log("Looking for template in dir:" . $viewDir);
         Util::log("Template name:" . $file);
 
-        $loader = new \Twig_Loader_Filesystem($viewDir);
+		$loader = new \Twig_Loader_Filesystem(array($viewDir, ZRDN_PLUGIN_DIRECTORY . 'views/'));
         $twig = new \Twig_Environment($loader, array(
             'cache' => $cacheDir,
             'autoescape' => true,
