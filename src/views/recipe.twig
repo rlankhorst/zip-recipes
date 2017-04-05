@@ -70,6 +70,30 @@
             >{{ total_time }}</span>
           </p>
         {% endif %}
+            
+        {% if category %}
+          <p id="zlrecipe-category">
+            {% if category_label_hide != 'Hide' %}
+              {% trans "Category:" from "zip-recipes" %}
+            {% endif %}
+            <span
+                {{ recipe_props.recipe_attr('itemprop', "recipeCategory", amp_on) }}
+                {{ recipe_props.recipe_attr('content', category, amp_on) }}
+            >{{ category }}</span>
+          </p>
+        {% endif %}            
+            
+         {% if cuisine %}
+          <p id="zlrecipe-cuisine">
+            {% if cuisine_label_hide != 'Hide' %}
+              {% trans "Cuisine:" from "zip-recipes" %}
+            {% endif %}
+            <span
+                {{ recipe_props.recipe_attr('itemprop', "recipeCuisine", amp_on) }}
+                {{ recipe_props.recipe_attr('content', cuisine, amp_on) }}
+            >{{ cuisine }}</span>
+          </p>
+        {% endif %}
 
         {{ author_section|raw }}
 
@@ -181,6 +205,26 @@
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "sodiumContent", amp_on) }}>{{ sodium }}</span>
+              </p>
+            {% endif %}
+                
+            {% if trans_fat %}
+              <p id="zlrecipe-trans_fat">
+                {% if trans_fat_label_hide != 'Hide' %}
+                  {% trans "Trans fat per serving:" from "zip-recipes" %}
+                {% endif %}
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "transfatContent", amp_on) }}>{{ trans_fat }}</span>
+              </p>
+            {% endif %}
+                
+            {% if cholesterol %}
+              <p id="zlrecipe-cholesterol">
+                {% if cholesterol_label_hide != 'Hide' %}
+                  {% trans "Cholesterol per serving:" from "zip-recipes" %}
+                {% endif %}
+                <span
+                        {{ recipe_props.recipe_attr('itemprop', "cholesterolContent", amp_on) }}>{{ cholesterol }}</span>
               </p>
             {% endif %}
 
