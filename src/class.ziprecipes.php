@@ -221,6 +221,7 @@ class ZipRecipes {
                 $recipe->fiber != null ||
                 $recipe->sugar != null ||
                 $recipe->saturated_fat != null ||
+                $recipe->cholesterol != null ||
                 $recipe->sodium != null ||
                 $recipe->trans_fat
         ) {
