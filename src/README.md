@@ -164,23 +164,11 @@ Lastly, you can now add images anywhere in Notes and Summary using the image url
 
 Oops, that's not all. We've added support for Divi theme and Divi Builder! Rejoice Divi users!
 
-
-= 4.7.2.20 =
-
-* A major new feature available in Zip Recipes Lover premium plan: [https://www.ziprecipes.net|https://www.ziprecipes.net]
-* [New] Recipe Picture Gallery - Zip Recipes Lover plan
-* [Fixed] Issue with Easy Recipe import - Zip Recipes Admirer and Lover plan
+Bug fixes:
 * [Better] We do a better job at trying to write to cache to make things faster
-
-= 4.7.2.19 =
-
-* [Fixed] Some files were missing from 4.7.2.18 for premium version.
-
-= 4.7.2.18 = 
-
 * [Better] Improved HTTPS support for your blog
 
-4.7.2.17 More AMP and better Secondary recipes!
+= 4.7.2.17 More AMP and better Secondary recipes! =
 
 * [Better] Better formatting for Google AMP (Accelerated Mobile Pages)
 * [Better] Removed copyright, permalink and Zip Recipes version from Google AMP view
@@ -188,7 +176,7 @@ Oops, that's not all. We've added support for Divi theme and Divi Builder! Rejoi
 * [New] Information about Author feature
 * [Better] WordPress 4.7 support
 
-4.5.2.15 Authors and Google Accelerated Mobile Pages
+= 4.5.2.15 Authors and Google Accelerated Mobile Pages =
 
 * Added Google Accelerated Mobile Pages
 * Made registration optional
