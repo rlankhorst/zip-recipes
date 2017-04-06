@@ -95,7 +95,7 @@ Currently we have translations for:
  
 **Easy installation process:** We don't require complex permissions to be set 
 
-**Works with WordPress 4.5:** Updated for full compatibility with WordPress 4.5.
+**Works with WordPress 4.7:** Updated for full compatibility with WordPress 4.7.
 
 **Support for PHP 7:** Fully supports the latest and greatest PHP version!
 
@@ -151,18 +151,32 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-4.7.2.20
+= 4.8 More nutrition fields, improved notes and summary =
+
+Ever felt like you couldn't track all your nutritional info? Well, now you can track more than ever.
+We just added *cholesterol* and *trans fat* fields.
+
+Speak of more fields, now you can categorize your recipes as an appetizer, entree, etc.
+In addition, you can specify a cuisine for your recipe such as French, Ethiopian, etc.
+Look for the *Category*  and *Cuisine* fields under *More Options* when you're adding a recipe.
+
+Lastly, you can now add images anywhere in Notes and Summary using the image url syntax (e.g. `%https://i.ytimg.com/vi/P4LhWSN3YSw/maxresdefault.jpg`)!
+
+Oops, that's not all. We've added support for Divi theme and Divi Builder! Rejoice Divi users!
+
+
+= 4.7.2.20 =
 
 * A major new feature available in Zip Recipes Lover premium plan: [https://www.ziprecipes.net|https://www.ziprecipes.net]
 * [New] Recipe Picture Gallery - Zip Recipes Lover plan
 * [Fixed] Issue with Easy Recipe import - Zip Recipes Admirer and Lover plan
 * [Better] We do a better job at trying to write to cache to make things faster
 
-4.7.2.19
+= 4.7.2.19 =
 
 * [Fixed] Some files were missing from 4.7.2.18 for premium version.
 
-4.7.2.18 
+= 4.7.2.18 = 
 
 * [Better] Improved HTTPS support for your blog
 
@@ -515,6 +529,9 @@ Fix for premium version.
 
 = 4.7.2.20 =
 Recipe Picture Gallery is here!
+
+= 4.8 =
+More nutritional fields. Category and Cuisine can now be set. Added Divi theme support.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
