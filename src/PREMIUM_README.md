@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.7
-Stable tag: 4.8
+Stable tag: 4.9
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -117,7 +117,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-4.8 More nutrition fields, improved notes and summary
+= 4.9 Fixed a bug with translations and other changes previously =
 
 Ever felt like you couldn't track all your nutritional info? Well, now you can track more than ever.
 We just added *cholesterol* and *trans fat* fields.
@@ -129,6 +129,10 @@ Look for the *Category*  and *Cuisine* fields under *More Options* when you're a
 Lastly, you can now add images anywhere in Notes and Summary using the image url syntax (e.g. `%https://i.ytimg.com/vi/P4LhWSN3YSw/maxresdefault.jpg`)!
 
 Oops, that's not all. We've added support for Divi theme and Divi Builder! Rejoice Divi users!
+
+Bug fixes:
+* [Better] We do a better job at trying to write to cache to make things faster
+* [Better] Improved HTTPS support for your blog
 
 4.7.2.20 Here comes the gallery!
 
