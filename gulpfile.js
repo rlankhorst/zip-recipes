@@ -17,7 +17,9 @@ var argv = require('yargs').argv;
 
 const build_path = "build";
 const dest_free = path.join(build_path, "free");
-const dest_premium = path.join(build_path, "premium");
+const dest_premium_lover = path.join(build_path, "premium-lover");
+const dest_premium_admirer = path.join(build_path, "premium-admirer");
+const dest_premium_friend = path.join(build_path, "premium-friend");
 const translationTemplateFilePath = "./src/languages/zip-recipes.pot";
 // Custom Templates paths
 const ext_location = 'src/plugins/';
@@ -25,9 +27,19 @@ const assets_parent = '/views/';
 const modules = 'node_modules/';
 
 
-gulp.task("build-premium-js", function () {
+gulp.task("build-premium-js-lover", function () {
   return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-    .pipe(gulp.dest(dest_premium));
+    .pipe(gulp.dest(dest_premium_lover));
+});
+
+gulp.task("build-premium-js-admirer", function () {
+    return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
+        .pipe(gulp.dest(dest_premium_admirer));
+});
+
+gulp.task("build-premium-js-friend", function () {
+    return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
+        .pipe(gulp.dest(dest_premium_friend));
 });
 
 gulp.task("build-free-js", function () {
@@ -36,9 +48,9 @@ gulp.task("build-free-js", function () {
 });
 
 /**
- *  Task to build premium version of Zip Recipes.
+ *  Task to build premium (lover plan) version of Zip Recipes.
  */
-gulp.task("build-premium", function () {
+gulp.task("build-premium-lover", function () {
   // used to rename premium readme file
   var premiumFileFilter = filter('PREMIUM_README.md', {restore: true});
 
@@ -62,17 +74,98 @@ gulp.task("build-premium", function () {
 
     // replace plugin name to premium
     .pipe(mainPluginFileFilter)
-    .pipe(replace(/(Plugin Name:) Zip Recipes/, "$1 Zip Recipes Premium"))
+    .pipe(replace(/(Plugin Name:) Zip Recipes/, "$1 Zip Recipes Lover"))
     .pipe(mainPluginFileFilter.restore)
 
     // move files to destination
-    .pipe(gulp.dest(dest_premium))
+    .pipe(gulp.dest(dest_premium_lover))
 });
 
-gulp.task("compress-premium", function () {
-  return gulp.src(path.join(dest_premium, "**"))
-    .pipe(zip("zip-recipes-premium.zip"))
+/**
+ *  Task to build premium (admirer plan) version of Zip Recipes.
+ */
+gulp.task("build-premium-admirer", function () {
+    // used to rename premium readme file
+    var premiumFileFilter = filter('PREMIUM_README.md', {restore: true});
+
+    // used to change plugin name to Zip Recipes premium
+    var mainPluginFileFilter = filter('zip-recipes.php', {restore: true});
+
+    return gulp.src([
+        "src/**",
+        "!src/README.md",
+        "!src/composer.*",
+        "!node_modules/**",
+        "!src/vendor-dev/**",
+        "!src/vendor-dev",
+        "LICENSE",
+        "!src/plugins/**"
+    ])
+    // rename premium read me
+        .pipe(premiumFileFilter)
+        .pipe(rename("README.md"))
+        .pipe(premiumFileFilter.restore)
+
+        // replace plugin name to premium
+        .pipe(mainPluginFileFilter)
+        .pipe(replace(/(Plugin Name:) Zip Recipes/, "$1 Zip Recipes Admirer"))
+        .pipe(mainPluginFileFilter.restore)
+
+        // move files to destination
+        .pipe(gulp.dest(dest_premium_admirer))
+});
+
+/**
+ *  Task to build premium (friend plan) version of Zip Recipes.
+ */
+gulp.task("build-premium-friend", function () {
+    // used to rename premium readme file
+    var premiumFileFilter = filter('PREMIUM_README.md', {restore: true});
+
+    // used to change plugin name to Zip Recipes premium
+    var mainPluginFileFilter = filter('zip-recipes.php', {restore: true});
+
+    return gulp.src([
+        "src/**",
+        "!src/README.md",
+        "!src/composer.*",
+        "!node_modules/**",
+        "!src/vendor-dev/**",
+        "!src/vendor-dev",
+        "LICENSE",
+        "!src/plugins/**"
+    ])
+    // rename premium read me
+        .pipe(premiumFileFilter)
+        .pipe(rename("README.md"))
+        .pipe(premiumFileFilter.restore)
+
+        // replace plugin name to premium
+        .pipe(mainPluginFileFilter)
+        .pipe(replace(/(Plugin Name:) Zip Recipes/, "$1 Zip Recipes Friend"))
+        .pipe(mainPluginFileFilter.restore)
+
+        // move files to destination
+        .pipe(gulp.dest(dest_premium_friend))
+});
+
+
+gulp.task("compress-premium-lover", function () {
+  return gulp.src(path.join(dest_premium_lover, "**"))
+    .pipe(zip("zip-recipes-lover.zip"))
     .pipe(gulp.dest("build/"));
+});
+
+gulp.task("compress-premium-admirer", function () {
+    return gulp.src(path.join(dest_premium_admirer, "**"))
+        .pipe(zip("zip-recipes-admirer.zip"))
+        .pipe(gulp.dest("build/"));
+});
+
+gulp.task("compress-premium-friend", function () {
+    return gulp.src(path.join(dest_premium_friend, "**"))
+        .pipe(zip("zip-recipes-friend.zip"))
+        .pipe(gulp.dest("build/"));
 });
 
 gulp.task("plugins-free", function () {
@@ -81,10 +174,22 @@ gulp.task("plugins-free", function () {
     .pipe(gulp.dest(dest_free));
 });
 
-gulp.task("plugins-premium", function () {
+gulp.task("plugins-premium-lover", function () {
   // Don't ship UsageStats plugin with premium version
   return gulp.src(["src/plugins/**", "!src/plugins/{UsageStats,UsageStats/**}"], {base: "src"})
-    .pipe(gulp.dest(dest_premium));
+    .pipe(gulp.dest(dest_premium_lover));
+});
+
+gulp.task("plugins-premium-admirer", function () {
+    // Don't ship UsageStats plugin with premium version
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipesGrid,RecipesGrid/**,UsageStats,UsageStats/**}"], {base: "src"})
+        .pipe(gulp.dest(dest_premium_admirer));
+});
+
+gulp.task("plugins-premium-friend", function () {
+    // Don't ship UsageStats plugin with premium version
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipesSearch,RecipesSearch/**,Import,Import/**,RecipesGrid,RecipesGrid/**,UsageStats,UsageStats/**}"], {base: "src"})
+        .pipe(gulp.dest(dest_premium_friend));
 });
 
 gulp.task("build-free", function () {
@@ -161,20 +266,37 @@ gulp.task('composer-dev-install', shell.task([
  */
 gulp.task("free-sequence", function (cb) {
   return sequence(
-    "clean-free",
     ["plugins-free", "build-free-js"],
     "build-free",
     "compress-free",
     cb);
 });
 
-gulp.task("premium-sequence", function (cb) {
+gulp.task("premium-sequence-lover", function (cb) {
   return sequence(
-    "clean-premium",
-    ["plugins-premium", "build-premium-js"],
-    "build-premium",
-    "compress-premium",
+    "custom-templates", // build CustomTemplates plugin
+    ["plugins-premium-lover", "build-premium-js-lover"],
+    "build-premium-lover",
+    "compress-premium-lover",
     cb);
+});
+
+gulp.task("premium-sequence-admirer", function (cb) {
+    return sequence(
+        "custom-templates", // build CustomTemplates plugin
+        ["plugins-premium-admirer", "build-premium-js-admirer"],
+        "build-premium-admirer",
+        "compress-premium-admirer",
+        cb);
+});
+
+gulp.task("premium-sequence-friend", function (cb) {
+    return sequence(
+        "custom-templates", // build CustomTemplates plugin
+        ["plugins-premium-friend", "build-premium-js-friend"],
+        "build-premium-friend",
+        "compress-premium-friend",
+        cb);
 });
 
 /**
@@ -185,30 +307,16 @@ gulp.task("build", function(cb) {
   return sequence(
     "clean",
     "composer-dev-install",
-    "i18n", // needs vendor to include dev packages
+    // "i18n", // needs vendor to include dev packages
     "vendor-rename-pre",
     "composer-install",
-    ["free-sequence", "premium-sequence"],
+    ["free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
     "vendor-rename-post",
     cb);
 });
 
 gulp.task("clean", function () {
   return del(build_path);
-});
-
-/**
- * Task to clean free version build.
- */
-gulp.task("clean-free", function () {
-  return del(dest_free);
-});
-
-/**
-* Task to clean premium version build.
-*/
-gulp.task("clean-premium", function () {
-  return del(dest_premium);
 });
 
 /**
@@ -273,61 +381,44 @@ gulp.task('i18n', function(done) {
 
 
 /**
- * Custom plugins tasks
+ * CustomTemplates plugin tasks
  */
 
+gulp.task('customTemplatesSaas', function() {
+    var dir_name = "CustomTemplates";
 
-gulp.task('zrdn-custom-plugin-sass', function() {
-    if (argv && argv.dir_name) {
-        var path = ext_location + argv.dir_name + assets_parent;
-        console.log(path + 'assets/sass/*.scss');
-        return gulp.src(path + 'assets/sass/*.scss')
-            .pipe(sass({
-                includePaths: [modules],
-                outputStyle: 'compressed'
-            }).on('error', sass.logError))
-            .pipe(gulp.dest(path + 'styles'));
-    } else {
-        console.log('Please, specify extension directory name.')
-    }
+    var path = ext_location + dir_name + assets_parent;
+    console.log(path + 'assets/sass/*.scss');
+    return gulp.src(path + 'assets/sass/*.scss')
+        .pipe(sass({
+            includePaths: [modules],
+            outputStyle: 'compressed'
+        }).on('error', sass.logError))
+        .pipe(gulp.dest(path + 'styles'));
 });
 
-gulp.task('zrdn-custom-plugin-js', function() {
-    var path = ext_location + argv.dir_name + assets_parent;
-    if (argv && argv.dir_name) {
-        return gulp.src(path+'assets/js/*.js')
-            .pipe(gulp.dest(path+'js'));
-    } else {
-        console.log('Please, specify extension directory name.')
-    }
+gulp.task('customTemplatesJS', function (cb) {
+    var dir_name = "CustomTemplates";
+    var path = ext_location + dir_name + assets_parent;
+
+    return gulp.src(path+'assets/js/*.js')
+        .pipe(gulp.dest(path+'js'));
 });
 
-gulp.task('zrdn-custom-plugin-fonts', function() {
-    var path = ext_location + argv.dir_name + assets_parent;
-    if (argv && argv.dir_name) {
-        return gulp.src(path+'assets/fonts/*')
-            .pipe(gulp.dest(path+'fonts'));
-    } else {
-        console.log('Please, specify extension directory name.')
-    }
+gulp.task('customTemplatesFonts', function(cb) {
+    var dir_name = "CustomTemplates";
+    var path = ext_location + dir_name + assets_parent;
+    return gulp.src(path+'assets/fonts/*')
+        .pipe(gulp.dest(path+'fonts'));
 });
 
-gulp.task('zrdn-custom-plugin-images', function() {
-    var path = ext_location + argv.dir_name + assets_parent;
-    if (argv && argv.dir_name) {
-        return gulp.src(path+'assets/images/*')
-            .pipe(gulp.dest(path+'images'));
-    } else {
-        console.log('Please, specify extension directory name.')
-    }
+gulp.task('customTemplatesImages', function(cb) {
+    var dir_name = "CustomTemplates";
+    var path = ext_location + dir_name + assets_parent;
+    return gulp.src(path+'assets/images/*')
+        .pipe(gulp.dest(path+'images'));
 });
 
-gulp.task(
-    'zrdn-custom-plugin-build',
-    [
-        'zrdn-custom-plugin-sass',
-        'zrdn-custom-plugin-js',
-        'zrdn-custom-plugin-fonts',
-        'zrdn-custom-plugin-images'
-    ]
-)
+gulp.task('custom-templates',
+    ['customTemplatesSaas', 'customTemplatesJS', 'customTemplatesFonts', 'customTemplatesImages']
+);
