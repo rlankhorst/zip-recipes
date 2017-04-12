@@ -1,0 +1,181 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Zip Recipes Ltd
+# This file is distributed under the same license as the zip-recipes package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: zip-recipes\n"
+"Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
+"POT-Creation-Date: 2017-03-01 21:18+0200\n"
+"PO-Revision-Date: 2017-03-01 21:27+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"Last-Translator: Kirsi Jaakkola <jaakkola.kirsi@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: fi_FI\n"
+
+#, php-format
+msgid "%d year"
+msgstr "%d vuosi"
+
+#, php-format
+msgid "%d years"
+msgstr "%d vuotta"
+
+#, php-format
+msgid "%d month"
+msgstr "%d kuukausi"
+
+#, php-format
+msgid "%d months"
+msgstr "%d kuukautta"
+
+#, php-format
+msgid "%d day"
+msgstr "%d päivä"
+
+#, php-format
+msgid "%d days"
+msgstr "%d päivää"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d tunti"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d tuntia"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d minuutti"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d minuuttia"
+
+#, php-format
+msgid "%d second"
+msgstr "%d sekuntti"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekunttia"
+
+msgid "Print this recipe"
+msgstr "Tulosta resepti"
+
+msgid "Print"
+msgstr "Tulosta"
+
+msgid "Prep Time:"
+msgstr "Valmistelu aika:"
+
+msgid "Cook Time:"
+msgstr "Paisto aika:"
+
+msgid "Total Time:"
+msgstr "Aika yhteensä:"
+
+msgid "Yield:"
+msgstr "Koko:"
+
+msgid "Serving Size:"
+msgstr "Annoksien määrä:"
+
+msgid "Calories per serving:"
+msgstr "Kaloria annosta kohden:"
+
+msgid "Fat per serving:"
+msgstr "Rasvaa annosta kohden:"
+
+msgid "Saturated fat per serving:"
+msgstr "Tyydyttynyt rasva annosta kohden:"
+
+msgid "Carbs per serving:"
+msgstr "Hiilihydraatit annosta kohden:"
+
+msgid "Protein per serving:"
+msgstr "Proteiini annosta kohden:"
+
+msgid "Fiber per serving:"
+msgstr "Kuitu annosta kohden:"
+
+msgid "Sugar per serving:"
+msgstr "Sokeri annosta kohden:"
+
+msgid "Sodium per serving:"
+msgstr "Natrium annosta kohden:"
+
+msgid "Ingredients"
+msgstr "Ainesosat"
+
+msgid "Instructions"
+msgstr "Ohje"
+
+msgid "Notes"
+msgstr "Muistiinpanot"
+
+msgid "Author:"
+msgstr "Tekijä"
+
+msgid "Ingridients:"
+msgstr "Aineet:"
+
+msgid "Instructions:"
+msgstr "Ohjeet:"
+
+msgid "Prep"
+msgstr "Valmistelu"
+
+msgid "Cook"
+msgstr "Paisto"
+
+msgid "Ready in"
+msgstr "Valmista:"
+
+msgid "Total:"
+msgstr "Yhteensä:"
+
+msgid "Prep:"
+msgstr "Valmistelu:"
+
+msgid "Serves:"
+msgstr "Hlö:"
+
+msgid "Calories:"
+msgstr "Kalorit:"
+
+msgid "Fat:"
+msgstr "Rasva:"
+
+msgid "Saturated fat:"
+msgstr "Tyydyttynyt rasva:"
+
+msgid "Carbs:"
+msgstr "Hiilihydraatit:"
+
+msgid "Protein:"
+msgstr "Proteiini:"
+
+msgid "Fiber:"
+msgstr "Kuitu:"
+
+msgid "Sugar:"
+msgstr "Sokeri:"
+
+msgid "Sodium:"
+msgstr "Natrium:"
+
+msgid "stars"
+msgstr "tähdet"
+
+msgid "ratings"
+msgstr "arvioita"
+
+msgid "Rate this recipe"
+msgstr "Arvostele resepti"
