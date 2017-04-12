@@ -1,0 +1,181 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Zip Recipes Ltd
+# This file is distributed under the same license as the zip-recipes package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: zip-recipes\n"
+"Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
+"POT-Creation-Date: 2017-04-10 17:37+0400\n"
+"PO-Revision-Date: 2017-04-10 20:00+0400\n"
+"Language-Team: Dr. Alaa Qashllan <doctor3ala2@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"Language: ar\n"
+
+#, php-format
+msgid "%d year"
+msgstr "%d سنة"
+
+#, php-format
+msgid "%d years"
+msgstr "%d سنوات"
+
+#, php-format
+msgid "%d month"
+msgstr "%d شهر"
+
+#, php-format
+msgid "%d months"
+msgstr "%d شهراً"
+
+#, php-format
+msgid "%d day"
+msgstr "%d يوم"
+
+#, php-format
+msgid "%d days"
+msgstr "%d ايام"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d ساعة"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d ساعات"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d دقيقة"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d دقائق"
+
+#, php-format
+msgid "%d second"
+msgstr "%d ثانية"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d ثواني"
+
+msgid "Print this recipe"
+msgstr "طباعة هذه الوصفة"
+
+msgid "Print"
+msgstr "طباعة"
+
+msgid "Prep Time:"
+msgstr "مدة الإعداد: "
+
+msgid "Cook Time:"
+msgstr "مدة الطبخ: "
+
+msgid "Total Time:"
+msgstr "الوقت الكلي:"
+
+msgid "Yield:"
+msgstr "الحصص:"
+
+msgid "Serving Size:"
+msgstr "حجم الحصة:"
+
+msgid "Calories per serving:"
+msgstr "السعرات الحرارية لكل حصة:"
+
+msgid "Fat per serving:"
+msgstr "الدهون لكل حصة:"
+
+msgid "Saturated fat per serving:"
+msgstr "الدهون المشبعة لكل حصة:"
+
+msgid "Carbs per serving:"
+msgstr "الكربوهيدرات لكل حصة:"
+
+msgid "Protein per serving:"
+msgstr "صةالبروتين في لكل حصة:"
+
+msgid "Fiber per serving:"
+msgstr "الألياف لكل حصة:"
+
+msgid "Sugar per serving:"
+msgstr "السكر لكل حصة:"
+
+msgid "Sodium per serving:"
+msgstr "الصوديوم لكل حصة:"
+
+msgid "Ingredients"
+msgstr "المقادير"
+
+msgid "Instructions"
+msgstr "خطوات التحضير"
+
+msgid "Notes"
+msgstr "ملاحظات"
+
+msgid "Author:"
+msgstr "المؤلف: "
+
+msgid "Ingridients:"
+msgstr "المقادير: "
+
+msgid "Instructions:"
+msgstr "خطوات التحضير: "
+
+msgid "Prep"
+msgstr "مدة الإعداد: "
+
+msgid "Cook"
+msgstr "مدة الطبخ: "
+
+msgid "Ready in"
+msgstr "جاهزة في"
+
+msgid "Total:"
+msgstr "الوقت الكلي: "
+
+msgid "Prep:"
+msgstr "مدة الإعداد: "
+
+msgid "Serves:"
+msgstr "الحصص: "
+
+msgid "Calories:"
+msgstr "الكالوري:"
+
+msgid "Fat:"
+msgstr "الدهون:"
+
+msgid "Saturated fat:"
+msgstr "الدهون المشبعة:"
+
+msgid "Carbs:"
+msgstr "الكربوهيدرات:"
+
+msgid "Protein:"
+msgstr "البروتين:"
+
+msgid "Fiber:"
+msgstr "الألياف:"
+
+msgid "Sugar:"
+msgstr "سكر:"
+
+msgid "Sodium:"
+msgstr "الصوديوم:"
+
+msgid "stars"
+msgstr "نجوم"
+
+msgid "ratings"
+msgstr "تقييمات"
+
+msgid "Rate this recipe"
+msgstr "قيم هذه الوصفة"
