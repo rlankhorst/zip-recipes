@@ -72,7 +72,13 @@ class Util {
             'auto_reload' => true
         ));
 
-        $twig->addExtension(new WP_I18n_Twig_Extension());
+//        $twig->addExtension(new WP_I18n_Twig_Extension());
+
+        $twig->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension(
+            new \Symfony\Component\Translation\Translator(null)
+        ));
+        $twig->addExtension(new \Twig_Extensions_Extension_I18n());
+
         return $twig->render($file, $args);
     }
 

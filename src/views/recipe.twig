@@ -12,12 +12,12 @@
       {% if print_hide != "Hide" %}
         <div class="zlrecipe-print-link fl-r">
           {% if custom_print_image %}
-            <a class="print-link" title="{% trans 'Print this recipe' from 'zip-recipes' %}" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
+            <a class="print-link" title="{% trans %}Print this recipe{% endtrans %}" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
               <img src="{{ custom_print_image }}">
             </a>
           {% else %}
-            <a class="butn-link" title="{% trans 'Print this recipe' from 'zip-recipes' %}" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
-              {% trans "Print" from "zip-recipes" %}
+            <a class="butn-link" title="{% trans %}Print this recipe{% endtrans %}" href="javascript:void(0);" onclick="zlrPrint('zlrecipe-container-{{ recipe_id }}', '{{ ZRDN_PLUGIN_URL }}'); return false" rel="nofollow">
+              {% trans %}Print{% endtrans %}
             </a>
           {% endif %}
         </div>
@@ -38,7 +38,7 @@
         {% if prep_time %}
           <p id="zlrecipe-prep-time">
             {% if prep_time_label_hide != 'Hide' %}
-              {% trans "Prep Time:" from "zip-recipes" %}
+              {% trans %}Prep Time:{% endtrans %}
             {% endif %}
             <span
                 {{ recipe_props.recipe_attr('itemprop', "prepTime", amp_on) }}
@@ -50,7 +50,7 @@
         {% if cook_time %}
           <p id="zlrecipe-cook-time">
             {% if cook_time_label_hide != 'Hide' %}
-              {% trans "Cook Time:" from "zip-recipes" %}
+              {% trans %}Cook Time:{% endtrans %}
             {% endif %}
             <span
                 {{ recipe_props.recipe_attr('itemprop', "cookTime", amp_on) }}
@@ -62,7 +62,7 @@
         {% if total_time %}
           <p id="zlrecipe-total-time">
             {% if total_time_label_hide != 'Hide' %}
-              {% trans "Total Time:" from "zip-recipes" %}
+              {% trans %}Total Time:{% endtrans %}
             {% endif %}
             <span
                 {{ recipe_props.recipe_attr('itemprop', "totalTime", amp_on) }}
@@ -74,7 +74,7 @@
         {% if category %}
           <p id="zlrecipe-category">
             {% if category_label_hide != 'Hide' %}
-              {% trans "Category:" from "zip-recipes" %}
+              {% trans %}Category:{% endtrans %}
             {% endif %}
             <span
                 {{ recipe_props.recipe_attr('itemprop', "recipeCategory", amp_on) }}
@@ -86,7 +86,7 @@
          {% if cuisine %}
           <p id="zlrecipe-cuisine">
             {% if cuisine_label_hide != 'Hide' %}
-              {% trans "Cuisine:" from "zip-recipes" %}
+              {% trans %}Cuisine:{% endtrans %}
             {% endif %}
             <span
                 {{ recipe_props.recipe_attr('itemprop', "recipeCuisine", amp_on) }}
@@ -106,7 +106,7 @@
         {% if yield %}
           <p id="zlrecipe-yield">
             {% if yield_label_hide != 'Hide' %}
-              {% trans "Yield:" from "zip-recipes" %}
+              {% trans %}Yield:{% endtrans %}
             {% endif %}
             <span {{ recipe_props.recipe_attr('itemprop', "recipeYield", amp_on) }}>{{ yield }}</span>
           </p>
@@ -121,7 +121,7 @@
           {% if serving_size %}
               <p id="zlrecipe-serving-size">
                 {% if serving_size_label_hide != 'Hide' %}
-                  {% trans "Serving Size:" from "zip-recipes" %}
+                  {% trans %}Serving Size:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "servingSize", amp_on) }}>{{ serving_size }}</span>
@@ -131,7 +131,7 @@
             {% if calories %}
               <p id="zlrecipe-calories">
                 {% if calories_label_hide != 'Hide' %}
-                  {% trans "Calories per serving:" from "zip-recipes" %}
+                  {% trans %}Calories per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "calories", amp_on) }}>{{ calories }}</span>
@@ -141,7 +141,7 @@
             {% if fat %}
               <p id="zlrecipe-fat">
                 {% if fat_label_hide != 'Hide' %}
-                  {% trans "Fat per serving:" from "zip-recipes" %}
+                  {% trans %}Fat per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "fatContent", amp_on) }}>{{ fat }}</span>
@@ -151,7 +151,7 @@
             {% if saturated_fat %}
               <p id="zlrecipe-saturated-fat">
                 {% if saturated_fat_label_hide != 'Hide' %}
-                  {% trans "Saturated fat per serving:" from "zip-recipes" %}
+                  {% trans %}Saturated fat per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "saturatedFatContent", amp_on) }}>{{ saturated_fat }}</span>
@@ -161,7 +161,7 @@
             {% if carbs %}
               <p id="zlrecipe-carbs">
                 {% if carbs_label_hide != 'Hide' %}
-                  {% trans "Carbs per serving:" from "zip-recipes" %}
+                  {% trans %}Carbs per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "carbohydrateContent", amp_on) }}>{{ carbs }}</span>
@@ -171,7 +171,7 @@
             {% if protein %}
               <p id="zlrecipe-protein">
                 {% if protein_label_hide != 'Hide' %}
-                  {% trans "Protein per serving:" from "zip-recipes" %}
+                  {% trans %}Protein per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "proteinContent", amp_on) }}>{{ protein }}</span>
@@ -181,7 +181,7 @@
             {% if fiber %}
               <p id="zlrecipe-fiber">
                 {% if fiber_label_hide != 'Hide' %}
-                  {% trans "Fiber per serving:" from "zip-recipes" %}
+                  {% trans %}Fiber per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "fiberContent", amp_on) }}>{{ fiber }}</span>
@@ -191,7 +191,7 @@
             {% if sugar %}
               <p id="zlrecipe-sugar">
                 {% if sugar_label_hide != 'Hide' %}
-                  {% trans "Sugar per serving:" from "zip-recipes" %}
+                  {% trans %}Sugar per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "sugarContent", amp_on) }}>{{ sugar }}</span>
@@ -201,7 +201,7 @@
             {% if sodium %}
               <p id="zlrecipe-sodium">
                 {% if sodium_label_hide != 'Hide' %}
-                  {% trans "Sodium per serving:" from "zip-recipes" %}
+                  {% trans %}Sodium per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "sodiumContent", amp_on) }}>{{ sodium }}</span>
@@ -211,7 +211,7 @@
             {% if trans_fat %}
               <p id="zlrecipe-trans_fat">
                 {% if trans_fat_label_hide != 'Hide' %}
-                  {% trans "Trans fat per serving:" from "zip-recipes" %}
+                  {% trans %}Trans fat per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "transfatContent", amp_on) }}>{{ trans_fat }}</span>
@@ -221,7 +221,7 @@
             {% if cholesterol %}
               <p id="zlrecipe-cholesterol">
                 {% if cholesterol_label_hide != 'Hide' %}
-                  {% trans "Cholesterol per serving:" from "zip-recipes" %}
+                  {% trans %}Cholesterol per serving:{% endtrans %}
                 {% endif %}
                 <span
                         {{ recipe_props.recipe_attr('itemprop', "cholesterolContent", amp_on) }}>{{ cholesterol }}</span>
@@ -263,7 +263,7 @@
     {# ********************* #}
     {% if ingredient_label_hide != "Hide" %}
       <p id="zlrecipe-ingredients" class="h-4 strong">
-        {% trans "Ingredients" from "zip-recipes" %}
+        {% trans %}Ingredients{% endtrans %}
       </p>
     {% endif %}
 
@@ -301,7 +301,7 @@
     {#      Instructions     #}
     {# ********************* #}
     {% if instruction_label_hide != 'Hide' %}
-      <p id="zlrecipe-instructions" class="h-4 strong">{% trans "Instructions" from "zip-recipes" %}</p>
+      <p id="zlrecipe-instructions" class="h-4 strong">{% trans %}Instructions{% endtrans %}</p>
     {% endif %}
 
     {% set instructionsHtmlListElem = instruction_list_type %}
@@ -339,7 +339,7 @@
     {# !! add notes section #}
     {% if notes %}
       {% if notes_label_hide != 'Hide' %}
-        <p id="zlrecipe-notes" class="h-4 strong">{% trans "Notes" from "zip-recipes" %}</p>
+        <p id="zlrecipe-notes" class="h-4 strong">{% trans %}Notes{% endtrans %}</p>
       {% endif %}
       <div id="zlrecipe-notes-list">
        {{ formatted_notes|raw }}
