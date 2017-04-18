@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-12-05 22:19-0700\n"
+"POT-Creation-Date: 2017-04-18 13:25-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,22 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#, php-format
-msgid "%d year"
-msgstr ""
-
-#, php-format
-msgid "%d years"
-msgstr ""
-
-#, php-format
-msgid "%d month"
-msgstr ""
-
-#, php-format
-msgid "%d months"
-msgstr ""
 
 #, php-format
 msgid "%d day"
@@ -58,6 +42,14 @@ msgid "%d minutes"
 msgstr ""
 
 #, php-format
+msgid "%d month"
+msgstr ""
+
+#, php-format
+msgid "%d months"
+msgstr ""
+
+#, php-format
 msgid "%d second"
 msgstr ""
 
@@ -65,49 +57,57 @@ msgstr ""
 msgid "%d seconds"
 msgstr ""
 
-msgid "Print this recipe"
+#, php-format
+msgid "%d year"
 msgstr ""
 
-msgid "Print"
+#, php-format
+msgid "%d years"
 msgstr ""
 
-msgid "Prep Time:"
-msgstr ""
-
-msgid "Cook Time:"
-msgstr ""
-
-msgid "Total Time:"
-msgstr ""
-
-msgid "Yield:"
-msgstr ""
-
-msgid "Serving Size:"
+msgid "Author:"
 msgstr ""
 
 msgid "Calories per serving:"
 msgstr ""
 
-msgid "Fat per serving:"
-msgstr ""
-
-msgid "Saturated fat per serving:"
+msgid "Calories:"
 msgstr ""
 
 msgid "Carbs per serving:"
 msgstr ""
 
-msgid "Protein per serving:"
+msgid "Carbs:"
+msgstr ""
+
+msgid "Category:"
+msgstr ""
+
+msgid "Cholesterol per serving:"
+msgstr ""
+
+msgid "Cholesterol:"
+msgstr ""
+
+msgid "Cook"
+msgstr ""
+
+msgid "Cook Time:"
+msgstr ""
+
+msgid "Cuisine:"
+msgstr ""
+
+msgid "Fat per serving:"
+msgstr ""
+
+msgid "Fat:"
 msgstr ""
 
 msgid "Fiber per serving:"
 msgstr ""
 
-msgid "Sugar per serving:"
-msgstr ""
-
-msgid "Sodium per serving:"
+msgid "Fiber:"
 msgstr ""
 
 msgid "Ingredients"
@@ -119,62 +119,77 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-msgid "Author:"
-msgstr ""
-
-msgid "Ingridients:"
-msgstr ""
-
-msgid "Instructions:"
-msgstr ""
-
 msgid "Prep"
 msgstr ""
 
-msgid "Cook"
-msgstr ""
-
-msgid "Ready in"
-msgstr ""
-
-msgid "Total:"
+msgid "Prep Time:"
 msgstr ""
 
 msgid "Prep:"
 msgstr ""
 
-msgid "Serves:"
+msgid "Print"
 msgstr ""
 
-msgid "Calories:"
+msgid "Print this recipe"
 msgstr ""
 
-msgid "Fat:"
-msgstr ""
-
-msgid "Saturated fat:"
-msgstr ""
-
-msgid "Carbs:"
+msgid "Protein per serving:"
 msgstr ""
 
 msgid "Protein:"
 msgstr ""
 
-msgid "Fiber:"
+msgid "Rate this recipe"
 msgstr ""
 
-msgid "Sugar:"
+msgid "Ready in"
+msgstr ""
+
+msgid "Saturated fat per serving:"
+msgstr ""
+
+msgid "Saturated fat:"
+msgstr ""
+
+msgid "Serves:"
+msgstr ""
+
+msgid "Serving Size:"
+msgstr ""
+
+msgid "Sodium per serving:"
 msgstr ""
 
 msgid "Sodium:"
 msgstr ""
 
-msgid "stars"
+msgid "Sugar per serving:"
+msgstr ""
+
+msgid "Sugar:"
+msgstr ""
+
+msgid "Total Time:"
+msgstr ""
+
+msgid "Total:"
+msgstr ""
+
+msgid "Trans fat per serving:"
+msgstr ""
+
+msgid "Trans fat:"
+msgstr ""
+
+msgid "Yield:"
+msgstr ""
+
+msgid "Your rating:"
 msgstr ""
 
 msgid "ratings"
 msgstr ""
 
-msgid "Rate this recipe"
+msgid "stars"
 msgstr ""

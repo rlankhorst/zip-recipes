@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-12-05 22:18-0700\n"
+"POT-Creation-Date: 2017-04-18 13:25-0600\n"
 "PO-Revision-Date: 2016-04-19 01:14-0600\n"
 "Last-Translator: Gezim Hoxha <hello@ziprecipes.net>\n"
 "Language-Team: \n"
@@ -21,22 +21,6 @@ msgstr ""
 "X-Generator: Poedit 1.8.7\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
-
-#, php-format
-msgid "%d year"
-msgstr "%d vit"
-
-#, php-format
-msgid "%d years"
-msgstr "%d vite"
-
-#, php-format
-msgid "%d month"
-msgstr "%d muaj"
-
-#, php-format
-msgid "%d months"
-msgstr "%d muaj"
 
 #, php-format
 msgid "%d day"
@@ -63,6 +47,14 @@ msgid "%d minutes"
 msgstr "%d minuta"
 
 #, php-format
+msgid "%d month"
+msgstr "%d muaj"
+
+#, php-format
+msgid "%d months"
+msgstr "%d muaj"
+
+#, php-format
 msgid "%d second"
 msgstr "%d sekond"
 
@@ -70,50 +62,60 @@ msgstr "%d sekond"
 msgid "%d seconds"
 msgstr "%d sekonda"
 
-msgid "Print this recipe"
+#, php-format
+msgid "%d year"
+msgstr "%d vit"
+
+#, php-format
+msgid "%d years"
+msgstr "%d vite"
+
+msgid "Author:"
 msgstr ""
-
-msgid "Print"
-msgstr "Printo"
-
-msgid "Prep Time:"
-msgstr "Koha e përgaditjës:"
-
-msgid "Cook Time:"
-msgstr "Koha e gatimit:"
-
-msgid "Total Time:"
-msgstr "Koha totale:"
-
-msgid "Yield:"
-msgstr "Prodhim:"
-
-msgid "Serving Size:"
-msgstr "Madhësia për shërbim:"
 
 msgid "Calories per serving:"
 msgstr "Kalori për shërbim:"
 
-msgid "Fat per serving:"
-msgstr "Yndyrë për shërbim:"
-
-msgid "Saturated fat per serving:"
-msgstr "Yndyrë e ngopur për shërbim:"
+#, fuzzy
+msgid "Calories:"
+msgstr "Kalori për shërbim:"
 
 msgid "Carbs per serving:"
 msgstr "Karbohidrata për shërbim:"
 
-msgid "Protein per serving:"
-msgstr "Proteinë për shërbim:"
+msgid "Carbs:"
+msgstr ""
+
+msgid "Category:"
+msgstr ""
+
+#, fuzzy
+msgid "Cholesterol per serving:"
+msgstr "Kalori për shërbim:"
+
+msgid "Cholesterol:"
+msgstr ""
+
+msgid "Cook"
+msgstr ""
+
+msgid "Cook Time:"
+msgstr "Koha e gatimit:"
+
+msgid "Cuisine:"
+msgstr ""
+
+msgid "Fat per serving:"
+msgstr "Yndyrë për shërbim:"
+
+msgid "Fat:"
+msgstr ""
 
 msgid "Fiber per serving:"
 msgstr "Fibër për shërbim:"
 
-msgid "Sugar per serving:"
-msgstr "Sheqer për shërbim:"
-
-msgid "Sodium per serving:"
-msgstr "Sodium për shërbim:"
+msgid "Fiber:"
+msgstr ""
 
 msgid "Ingredients"
 msgstr "Element përbërëse"
@@ -124,69 +126,94 @@ msgstr "Hapat"
 msgid "Notes"
 msgstr "Shënimet"
 
-msgid "Author:"
-msgstr ""
-
-#, fuzzy
-msgid "Ingridients:"
-msgstr "Element përbërëse"
-
-#, fuzzy
-msgid "Instructions:"
-msgstr "Hapat"
-
 msgid "Prep"
 msgstr ""
 
-msgid "Cook"
+msgid "Prep Time:"
+msgstr "Koha e përgaditjës:"
+
+#, fuzzy
+msgid "Prep:"
+msgstr "Koha e përgaditjës:"
+
+msgid "Print"
+msgstr "Printo"
+
+msgid "Print this recipe"
+msgstr ""
+
+msgid "Protein per serving:"
+msgstr "Proteinë për shërbim:"
+
+msgid "Protein:"
+msgstr ""
+
+msgid "Rate this recipe"
 msgstr ""
 
 msgid "Ready in"
 msgstr ""
+
+msgid "Saturated fat per serving:"
+msgstr "Yndyrë e ngopur për shërbim:"
+
+#, fuzzy
+msgid "Saturated fat:"
+msgstr "Yndyrë e ngopur për shërbim:"
+
+#, fuzzy
+msgid "Serves:"
+msgstr "Madhësia për shërbim:"
+
+msgid "Serving Size:"
+msgstr "Madhësia për shërbim:"
+
+msgid "Sodium per serving:"
+msgstr "Sodium për shërbim:"
+
+msgid "Sodium:"
+msgstr ""
+
+msgid "Sugar per serving:"
+msgstr "Sheqer për shërbim:"
+
+msgid "Sugar:"
+msgstr ""
+
+msgid "Total Time:"
+msgstr "Koha totale:"
 
 #, fuzzy
 msgid "Total:"
 msgstr "Koha totale:"
 
 #, fuzzy
-msgid "Prep:"
-msgstr "Koha e përgaditjës:"
-
-#, fuzzy
-msgid "Serves:"
-msgstr "Madhësia për shërbim:"
-
-#, fuzzy
-msgid "Calories:"
-msgstr "Kalori për shërbim:"
-
-msgid "Fat:"
-msgstr ""
-
-#, fuzzy
-msgid "Saturated fat:"
+msgid "Trans fat per serving:"
 msgstr "Yndyrë e ngopur për shërbim:"
 
-msgid "Carbs:"
+msgid "Trans fat:"
 msgstr ""
 
-msgid "Protein:"
-msgstr ""
+msgid "Yield:"
+msgstr "Prodhim:"
 
-msgid "Fiber:"
-msgstr ""
-
-msgid "Sugar:"
-msgstr ""
-
-msgid "Sodium:"
-msgstr ""
-
-msgid "stars"
+msgid "Your rating:"
 msgstr ""
 
 msgid "ratings"
 msgstr ""
 
-msgid "Rate this recipe"
+msgid "stars"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Instructions:"
+#~ msgstr "Hapat"
+
+#, fuzzy
+#~ msgid "Ingredients:"
+#~ msgstr "Element përbërëse"
+
+#, fuzzy
+#~ msgid "Ingridients:"
+#~ msgstr "Element përbërëse"

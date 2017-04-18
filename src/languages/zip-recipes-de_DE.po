@@ -2,12 +2,12 @@
 # Copyright (C) YEAR Zip Recipes Ltd
 # This file is distributed under the same license as the zip-recipes package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2016-12-05 22:18-0700\n"
+"POT-Creation-Date: 2017-04-18 13:25-0600\n"
 "PO-Revision-Date: 2017-03-14 12:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,22 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#, php-format
-msgid "%d year"
-msgstr "%d Jahr"
-
-#, php-format
-msgid "%d years"
-msgstr "%d Jahre"
-
-#, php-format
-msgid "%d month"
-msgstr "%d Monat"
-
-#, php-format
-msgid "%d months"
-msgstr "%d Monate"
 
 #, php-format
 msgid "%d day"
@@ -59,6 +43,14 @@ msgid "%d minutes"
 msgstr "%d Minuten"
 
 #, php-format
+msgid "%d month"
+msgstr "%d Monat"
+
+#, php-format
+msgid "%d months"
+msgstr "%d Monate"
+
+#, php-format
 msgid "%d second"
 msgstr "%d Sekunde"
 
@@ -66,50 +58,59 @@ msgstr "%d Sekunde"
 msgid "%d seconds"
 msgstr "%d Sekunden"
 
-msgid "Print this recipe"
-msgstr "Rezept drucken"
+#, php-format
+msgid "%d year"
+msgstr "%d Jahr"
 
-msgid "Print"
-msgstr "Drucken"
+#, php-format
+msgid "%d years"
+msgstr "%d Jahre"
 
-msgid "Prep Time:"
-msgstr "Vorbereitungszeit:"
-
-msgid "Cook Time:"
-msgstr "Kochzeit:"
-
-msgid "Total Time:"
-msgstr "Gesamtzeit:"
-
-msgid "Yield:"
-msgstr "Menge:"
-
-msgid "Serving Size:"
-msgstr "Portionen:"
+msgid "Author:"
+msgstr "Autor"
 
 msgid "Calories per serving:"
 msgstr "Kalorien pro Portion:"
 
-msgid "Fat per serving:"
-msgstr "Fett pro Portion:"
-
-msgid "Saturated fat per serving:"
-msgstr "Grasa saturada:"
+msgid "Calories:"
+msgstr "Kalorien:"
 
 msgid "Carbs per serving:"
 msgstr "Kohlenhydrate pro Portion:"
 
-msgid "Protein per serving:"
-msgstr "Proteine pro Portion:"
+msgid "Carbs:"
+msgstr "Kohlenhydrate:"
+
+msgid "Category:"
+msgstr ""
+
+#, fuzzy
+msgid "Cholesterol per serving:"
+msgstr "Kalorien pro Portion:"
+
+msgid "Cholesterol:"
+msgstr ""
+
+msgid "Cook"
+msgstr "Kochen"
+
+msgid "Cook Time:"
+msgstr "Kochzeit:"
+
+msgid "Cuisine:"
+msgstr ""
+
+msgid "Fat per serving:"
+msgstr "Fett pro Portion:"
+
+msgid "Fat:"
+msgstr "Fett:"
 
 msgid "Fiber per serving:"
 msgstr "Balaststoffe pro Portion:"
 
-msgid "Sugar per serving:"
-msgstr "Zucker pro Portion:"
-
-msgid "Sodium per serving:"
-msgstr "Natrium pro Portion:"
+msgid "Fiber:"
+msgstr "Balaststoffe:"
 
 msgid "Ingredients"
 msgstr "Zutaten"
@@ -120,69 +121,88 @@ msgstr "Zubereitung"
 msgid "Notes"
 msgstr "Hinweis:"
 
-msgid "Author:"
-msgstr "Autor"
-
-msgid "Ingredients:"
-msgstr "Zutaten:"
-
-msgid "Instructions:"
-msgstr "Zubereitung:"
-
-msgid "Nutrition information"
-msgstr "Rezept Informationen"
-
 msgid "Prep"
 msgstr "Vorbereitung"
 
-msgid "Cook"
-msgstr "Kochen"
-
-msgid "Ready in"
-msgstr "Fertig in"
-
-msgid "Total:"
-msgstr "Gesamt:"
+msgid "Prep Time:"
+msgstr "Vorbereitungszeit:"
 
 msgid "Prep:"
 msgstr "Zubereitungszeit:"
 
-msgid "Serves:"
-msgstr "Portionen:"
+msgid "Print"
+msgstr "Drucken"
 
-msgid "Calories:"
-msgstr "Kalorien:"
+msgid "Print this recipe"
+msgstr "Rezept drucken"
 
-msgid "Fat:"
-msgstr "Fett:"
-
-msgid "Saturated fat:"
-msgstr "Gesättigte Fettsäuren::"
-
-msgid "Carbs:"
-msgstr "Kohlenhydrate:"
+msgid "Protein per serving:"
+msgstr "Proteine pro Portion:"
 
 msgid "Protein:"
 msgstr "Protein:"
 
-msgid "Fiber:"
-msgstr "Balaststoffe:"
+msgid "Rate this recipe"
+msgstr "Rezept Bewerten"
 
-msgid "Sugar:"
-msgstr "Zucker:"
+msgid "Ready in"
+msgstr "Fertig in"
+
+msgid "Saturated fat per serving:"
+msgstr "Grasa saturada:"
+
+msgid "Saturated fat:"
+msgstr "Gesättigte Fettsäuren::"
+
+msgid "Serves:"
+msgstr "Portionen:"
+
+msgid "Serving Size:"
+msgstr "Portionen:"
+
+msgid "Sodium per serving:"
+msgstr "Natrium pro Portion:"
 
 msgid "Sodium:"
 msgstr "Natrium:"
 
-msgid "stars"
-msgstr "Sterne"
+msgid "Sugar per serving:"
+msgstr "Zucker pro Portion:"
+
+msgid "Sugar:"
+msgstr "Zucker:"
+
+msgid "Total Time:"
+msgstr "Gesamtzeit:"
+
+msgid "Total:"
+msgstr "Gesamt:"
+
+#, fuzzy
+msgid "Trans fat per serving:"
+msgstr "Grasa saturada:"
+
+msgid "Trans fat:"
+msgstr ""
+
+msgid "Yield:"
+msgstr "Menge:"
+
+#, fuzzy
+msgid "Your rating:"
+msgstr "Deine Bewertung"
 
 msgid "ratings"
 msgstr "Bewertungen"
 
-msgid "Rate this recipe"
-msgstr "Rezept Bewerten"
+msgid "stars"
+msgstr "Sterne"
 
-#, fuzzy
-#~ msgid "Your rating:"
-#~ msgstr "Deine Bewertung"
+#~ msgid "Instructions:"
+#~ msgstr "Zubereitung:"
+
+#~ msgid "Ingredients:"
+#~ msgstr "Zutaten:"
+
+#~ msgid "Nutrition information"
+#~ msgstr "Rezept Informationen"
