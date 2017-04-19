@@ -7,32 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2017-03-01 21:18+0200\n"
+"POT-Creation-Date: 2017-04-18 13:25-0600\n"
 "PO-Revision-Date: 2017-03-01 21:27+0200\n"
+"Last-Translator: Kirsi Jaakkola <jaakkola.kirsi@gmail.com>\n"
 "Language-Team: \n"
+"Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.12\n"
-"Last-Translator: Kirsi Jaakkola <jaakkola.kirsi@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: fi_FI\n"
-
-#, php-format
-msgid "%d year"
-msgstr "%d vuosi"
-
-#, php-format
-msgid "%d years"
-msgstr "%d vuotta"
-
-#, php-format
-msgid "%d month"
-msgstr "%d kuukausi"
-
-#, php-format
-msgid "%d months"
-msgstr "%d kuukautta"
 
 #, php-format
 msgid "%d day"
@@ -59,6 +43,14 @@ msgid "%d minutes"
 msgstr "%d minuuttia"
 
 #, php-format
+msgid "%d month"
+msgstr "%d kuukausi"
+
+#, php-format
+msgid "%d months"
+msgstr "%d kuukautta"
+
+#, php-format
 msgid "%d second"
 msgstr "%d sekuntti"
 
@@ -66,50 +58,59 @@ msgstr "%d sekuntti"
 msgid "%d seconds"
 msgstr "%d sekunttia"
 
-msgid "Print this recipe"
-msgstr "Tulosta resepti"
+#, php-format
+msgid "%d year"
+msgstr "%d vuosi"
 
-msgid "Print"
-msgstr "Tulosta"
+#, php-format
+msgid "%d years"
+msgstr "%d vuotta"
 
-msgid "Prep Time:"
-msgstr "Valmistelu aika:"
-
-msgid "Cook Time:"
-msgstr "Paisto aika:"
-
-msgid "Total Time:"
-msgstr "Aika yhteensä:"
-
-msgid "Yield:"
-msgstr "Koko:"
-
-msgid "Serving Size:"
-msgstr "Annoksien määrä:"
+msgid "Author:"
+msgstr "Tekijä"
 
 msgid "Calories per serving:"
 msgstr "Kaloria annosta kohden:"
 
-msgid "Fat per serving:"
-msgstr "Rasvaa annosta kohden:"
-
-msgid "Saturated fat per serving:"
-msgstr "Tyydyttynyt rasva annosta kohden:"
+msgid "Calories:"
+msgstr "Kalorit:"
 
 msgid "Carbs per serving:"
 msgstr "Hiilihydraatit annosta kohden:"
 
-msgid "Protein per serving:"
-msgstr "Proteiini annosta kohden:"
+msgid "Carbs:"
+msgstr "Hiilihydraatit:"
+
+msgid "Category:"
+msgstr ""
+
+#, fuzzy
+msgid "Cholesterol per serving:"
+msgstr "Kaloria annosta kohden:"
+
+msgid "Cholesterol:"
+msgstr ""
+
+msgid "Cook"
+msgstr "Paisto"
+
+msgid "Cook Time:"
+msgstr "Paisto aika:"
+
+msgid "Cuisine:"
+msgstr ""
+
+msgid "Fat per serving:"
+msgstr "Rasvaa annosta kohden:"
+
+msgid "Fat:"
+msgstr "Rasva:"
 
 msgid "Fiber per serving:"
 msgstr "Kuitu annosta kohden:"
 
-msgid "Sugar per serving:"
-msgstr "Sokeri annosta kohden:"
-
-msgid "Sodium per serving:"
-msgstr "Natrium annosta kohden:"
+msgid "Fiber:"
+msgstr "Kuitu:"
 
 msgid "Ingredients"
 msgstr "Ainesosat"
@@ -120,62 +121,89 @@ msgstr "Ohje"
 msgid "Notes"
 msgstr "Muistiinpanot"
 
-msgid "Author:"
-msgstr "Tekijä"
-
-msgid "Ingridients:"
-msgstr "Aineet:"
-
-msgid "Instructions:"
-msgstr "Ohjeet:"
-
 msgid "Prep"
 msgstr "Valmistelu"
 
-msgid "Cook"
-msgstr "Paisto"
-
-msgid "Ready in"
-msgstr "Valmista:"
-
-msgid "Total:"
-msgstr "Yhteensä:"
+msgid "Prep Time:"
+msgstr "Valmistelu aika:"
 
 msgid "Prep:"
 msgstr "Valmistelu:"
 
-msgid "Serves:"
-msgstr "Hlö:"
+msgid "Print"
+msgstr "Tulosta"
 
-msgid "Calories:"
-msgstr "Kalorit:"
+msgid "Print this recipe"
+msgstr "Tulosta resepti"
 
-msgid "Fat:"
-msgstr "Rasva:"
-
-msgid "Saturated fat:"
-msgstr "Tyydyttynyt rasva:"
-
-msgid "Carbs:"
-msgstr "Hiilihydraatit:"
+msgid "Protein per serving:"
+msgstr "Proteiini annosta kohden:"
 
 msgid "Protein:"
 msgstr "Proteiini:"
 
-msgid "Fiber:"
-msgstr "Kuitu:"
+msgid "Rate this recipe"
+msgstr "Arvostele resepti"
 
-msgid "Sugar:"
-msgstr "Sokeri:"
+msgid "Ready in"
+msgstr "Valmista:"
+
+msgid "Saturated fat per serving:"
+msgstr "Tyydyttynyt rasva annosta kohden:"
+
+msgid "Saturated fat:"
+msgstr "Tyydyttynyt rasva:"
+
+msgid "Serves:"
+msgstr "Hlö:"
+
+msgid "Serving Size:"
+msgstr "Annoksien määrä:"
+
+msgid "Sodium per serving:"
+msgstr "Natrium annosta kohden:"
 
 msgid "Sodium:"
 msgstr "Natrium:"
 
-msgid "stars"
-msgstr "tähdet"
+msgid "Sugar per serving:"
+msgstr "Sokeri annosta kohden:"
+
+msgid "Sugar:"
+msgstr "Sokeri:"
+
+msgid "Total Time:"
+msgstr "Aika yhteensä:"
+
+msgid "Total:"
+msgstr "Yhteensä:"
+
+#, fuzzy
+msgid "Trans fat per serving:"
+msgstr "Tyydyttynyt rasva annosta kohden:"
+
+msgid "Trans fat:"
+msgstr ""
+
+msgid "Yield:"
+msgstr "Koko:"
+
+#, fuzzy
+msgid "Your rating:"
+msgstr "arvioita"
 
 msgid "ratings"
 msgstr "arvioita"
 
-msgid "Rate this recipe"
-msgstr "Arvostele resepti"
+msgid "stars"
+msgstr "tähdet"
+
+#~ msgid "Instructions:"
+#~ msgstr "Ohjeet:"
+
+#, fuzzy
+#~ msgid "Ingredients:"
+#~ msgstr "Ainesosat"
+
+#~ msgid "Ingridients:"
+#~ msgstr "Aineet:"
