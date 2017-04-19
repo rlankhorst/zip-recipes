@@ -198,7 +198,7 @@ msgid "Your rating:"
 msgstr "note"
 
 msgid "ratings"
-msgstr "note"
+msgstr "note(s)"
 
 msgid "stars"
 msgstr "étoile(s)"
