@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+require_once("../_inc/TrHelper.php");
+
 /**
  * Extracts translations from twig templates.
  *
@@ -26,10 +28,8 @@ $twig = new Twig_Environment(new Twig\Gettext\Loader\Filesystem('/'), array(
     'cache'       => '/tmp/cache/'.uniqid(),
     'auto_reload' => true
 ));
-$twig->addExtension(new Symfony\Bridge\Twig\Extension\TranslationExtension(
-    new Symfony\Component\Translation\Translator(null)
-));
-$twig->addExtension(new Twig_Extensions_Extension_I18n());
+
+$twig->addExtension(new   Twig_Extensions_Extension_I18n());
 $twig->addExtension(new Symfony\Bridge\Twig\Extension\RoutingExtension(
     new Twig\Gettext\Routing\Generator\UrlGenerator()
 ));
@@ -39,6 +39,7 @@ $twig->addExtension(new Symfony\Bridge\Twig\Extension\FormExtension(
     )
 ));
 // You can add more extensions here.
+$twig->addExtension(new ZRDN\TrHelper());
 
 array_shift($_SERVER['argv']);
 $addTemplate = false;

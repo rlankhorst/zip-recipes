@@ -10,7 +10,6 @@
 namespace ZRDN;
 
 require_once(ZRDN_PLUGIN_DIRECTORY . 'vendor/autoload.php');
-require_once("WP_I18n_Twig_Extension.php");
 
 class Util {
     /* Send debug code to the Javascript console */
@@ -72,12 +71,7 @@ class Util {
             'auto_reload' => true
         ));
 
-//        $twig->addExtension(new WP_I18n_Twig_Extension());
-
-        $twig->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension(
-            new \Symfony\Component\Translation\Translator(null)
-        ));
-        $twig->addExtension(new \Twig_Extensions_Extension_I18n());
+        $twig->addExtension(new TrHelper());
 
         return $twig->render($file, $args);
     }
