@@ -9,13 +9,16 @@ class ZipRecipes {
 
     const TABLE_NAME = "amd_zlrecipe_recipes";
     const PLUGIN_OPTION_NAME = "zrdn__plugins";
-    const registration_url = "https://api.ziprecipes.net/installation/register/";
+
+    public static $registration_url;
 
     /**
      * Init function.
      */
     public static function init() {
         Util::log("Core init");
+
+        self::$registration_url = ZRDN_API_URL . "/installation/register/";
 
         // Instantiate plugin classes
         $parentPath = dirname(__FILE__);
@@ -508,7 +511,7 @@ class ZipRecipes {
 
         $settingsParams = array(
             'settings_url' => $settings_page_url,
-            'registration_url' => self::registration_url,
+            'registration_url' => self::$registration_url,
             'wp_version' => $wp_version,
             'installed_plugins' => Util::zrdn_get_installed_plugins(),
             'home_url' => home_url(),
@@ -741,7 +744,7 @@ class ZipRecipes {
             'ins_p' => $ins_p,
             'ins_div' => $ins_div,
             'other_options' => $other_options,
-            'registration_url' => self::registration_url,
+            'registration_url' => self::$registration_url,
             'wp_version' => $wp_version,
             'installed_plugins' => Util::zrdn_get_installed_plugins(),
             'extensions_settings' => apply_filters('zrdn__extention_settings_section', ''),
@@ -1147,7 +1150,7 @@ class ZipRecipes {
 	            $url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                 $settingsParams = array(
                     'settings_url' => $settings_page_url,
-                    'registration_url' => self::registration_url,
+                    'registration_url' => self::$registration_url,
                     'wp_version' => $wp_version,
                     'installed_plugins' => Util::zrdn_get_installed_plugins(),
                     'home_url' => home_url(),
@@ -1651,3 +1654,4 @@ class ZipRecipes {
         return $item;
     }
 }
+
