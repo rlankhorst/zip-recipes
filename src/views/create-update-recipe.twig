@@ -130,6 +130,7 @@
             $('#recipe_image').val('');
         }
     </script>
+    {{ header_tags|raw }}
     {% if post_info %}
         <script>window.onload = amdZLRecipeSubmitForm;</script>
     {% endif %}
@@ -180,10 +181,7 @@
                     </label>
                     <textarea name='instructions'>{{ instructions }}</textarea>
                 </p>
-                <p>
-                    <label>Yield</label>
-                    <input type='text' id='yield' name='yield' placeholder="Number of servings" value='{{ yield }}' />
-                </p>
+                {{ yield_section|raw }}
                 <p><a href='#' id='more-options-toggle'>More options</a></p>
                 <div id='more-options'>
                     <p><label>Category</label> <input placeholder="e.g. appetizer, entree, etc." type='text' name='category' value='{{ category }}' /></p>

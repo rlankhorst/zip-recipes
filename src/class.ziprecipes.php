@@ -1164,10 +1164,19 @@ class ZipRecipes {
             }
         }
 
+        $header_tags = apply_filters('zrdn__create_update_header_tags', '');
+
         $author_section = apply_filters('zrdn__authors_recipe_create_update', '', $recipe, $post_info);
         if (!$author_section) {// author plugin doesn't exist
             $author_section = Util::view('author_promo', array(
                         'warning_icon_url' => ZRDN_PLUGIN_URL . "images/warning-icon.png"
+            ));
+        }
+
+        $yield_section = apply_filters('zrdn__automatic_nutrition_recipe_create_update', '', $recipe, $post_info);
+        if (!$yield_section) { // automatic nutrition plugin does not exist
+            $yield_section = Util::view('default_nutrition', array(
+                    'yield' => $yield
             ));
         }
 
@@ -1196,7 +1205,7 @@ class ZipRecipes {
             'total_time_input' => $total_time_input,
             'total_time_hours' => $total_time_hours,
             'total_time_minutes' => $total_time_minutes,
-            'yield' => $yield,
+            'yield_section' => $yield_section,
             'serving_size' => $serving_size,
             'calories' => $calories,
             'carbs' => $carbs,
@@ -1212,7 +1221,8 @@ class ZipRecipes {
             'trans_fat' => $trans_fat,
             'cholesterol' => $cholesterol,
             'category' => $category,
-            'cuisine' => $cuisine
+            'cuisine' => $cuisine,
+            'header_tags' => $header_tags
         ));
     }
 
