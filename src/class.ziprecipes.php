@@ -1366,6 +1366,9 @@ class ZipRecipes {
             $wpdb->update($wpdb->prefix . self::TABLE_NAME, $recipe, array('recipe_id' => $recipe_id));
         }
 
+
+        do_action('zrdn__recipe_post_save', $recipe_id, $post_info);
+
         return $recipe_id;
     }
 
