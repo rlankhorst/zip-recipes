@@ -318,6 +318,7 @@ class ZipRecipes {
             'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', '', $recipe),
             // author is used in other themes
             'author' => apply_filters('zrdn__authors_get_author_for_recipe', '', $recipe),
+            'nutrition_label' => apply_filters('zrdn__automatic_nutrition_get_label', $recipe),
             'amp_on' => $amp_on
         );
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
@@ -1084,10 +1085,7 @@ class ZipRecipes {
                 $sodium = isset($post_info['sodium']) ? $post_info['sodium'] : '';
                 $ingredients = isset($post_info["ingredients"]) ? $post_info["ingredients"] : '';
                 $instructions = isset($post_info["instructions"]) ? $post_info["instructions"] : '';
-                $author = apply_filters('zrdn__authors_get_author_from_post_data', '', $post_info);
-                if ($author) {
-                    $post_info['author'] = $author;
-                }
+                $post_info = apply_filters('zrdn__save_recipe', $post_info);
                 if (isset($recipe_title) && $recipe_title != '' && isset($ingredients) && $ingredients != '') {
                     // Save recipe to database
                     $recipe_id = self::zrdn_insert_db($post_info);
@@ -1320,10 +1318,34 @@ class ZipRecipes {
 
         // Build array to be sent to db query call
         $clean_fields = array(
-            'recipe_title', 'recipe_image', 'summary', 'yield',
-            'serving_size', 'calories', 'fat', 'carbs', 'protein', 'fiber', 'sugar', 'saturated_fat', 'sodium',
-            'ingredients', 'instructions', 'notes', 'author', 'category', 'cuisine', 'trans_fat', 'cholesterol', 'serving_size'
+            'recipe_title',
+            'recipe_image',
+            'summary',
+            'yield',
+            'serving_size',
+            'calories',
+            'fat',
+            'carbs',
+            'protein',
+            'fiber',
+            'sugar',
+            'saturated_fat',
+            'sodium',
+            'ingredients',
+            'instructions',
+            'notes',
+            'author',
+            'category',
+            'cuisine',
+            'trans_fat',
+            'cholesterol',
+            'serving_size',
+            //'nutrition_label'
         );
+
+        // zrdn__recipe_field_names recipe db fields that don't need special processing or formatting
+        $clean_fields = apply_filters('zrdn__recipe_field_names', $clean_fields);
+
         $recipe = array();
         foreach ($post_info as $attr => $value) {
             if (in_array($attr, $clean_fields) && isset($post_info[$attr])) {

@@ -345,6 +345,7 @@
        {{ formatted_notes|raw }}
       </div>
     {% endif %}
+    {{ nutrition_label|raw }}
 
     {# Zip Recipes attribution and version #}
     {% if attribution_hide != 'Hide' %}
@@ -356,7 +357,6 @@
     {% if print_permalink_hide != 'Hide' %}
       <a id="zl-printed-permalink" href="{{ permalink }}" title="Permalink to Recipe">{{ permalink }}</a>
     {% endif %}
-
   </div>
 
   {# Add copyright statement for printed output (outside the dotted print line) #}
