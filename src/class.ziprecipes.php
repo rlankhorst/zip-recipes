@@ -874,7 +874,7 @@ class ZipRecipes {
     public static function zrdn_iframe_content($post_info = null, $get_info = null) {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($_POST['action'] === "zrdn-register") {
+            if (Util::get_array_value('action', $_POST) === "zrdn-register") {
                 // if first, last name and email are provided, we assume that user is registering
                 $registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
                 if ($registered) {
@@ -1233,87 +1233,87 @@ class ZipRecipes {
     public static function zrdn_insert_db($post_info) {
         global $wpdb;
 
-        $recipe_id = $post_info["recipe_id"];
+        $recipe_id = Util::get_array_value("recipe_id", $post_info);
 
-        if ($post_info["prep_time_years"] || $post_info["prep_time_months"] || $post_info["prep_time_days"] || $post_info["prep_time_hours"] || $post_info["prep_time_minutes"] || $post_info["prep_time_seconds"]) {
+        if (Util::get_array_value("prep_time_years", $post_info) || Util::get_array_value("prep_time_months", $post_info) || Util::get_array_value("prep_time_days", $post_info) || Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
             $prep_time = 'P';
-            if ($post_info["prep_time_years"]) {
-                $prep_time .= $post_info["prep_time_years"] . 'Y';
+            if (Util::get_array_value("prep_time_years", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_years", $post_info) . 'Y';
             }
-            if ($post_info["prep_time_months"]) {
-                $prep_time .= $post_info["prep_time_months"] . 'M';
+            if (Util::get_array_value("prep_time_months", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_months", $post_info) . 'M';
             }
-            if ($post_info["prep_time_days"]) {
-                $prep_time .= $post_info["prep_time_days"] . 'D';
+            if (Util::get_array_value("prep_time_days", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_days", $post_info) . 'D';
             }
-            if ($post_info["prep_time_hours"] || $post_info["prep_time_minutes"] || $post_info["prep_time_seconds"]) {
+            if (Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
                 $prep_time .= 'T';
             }
-            if ($post_info["prep_time_hours"]) {
-                $prep_time .= $post_info["prep_time_hours"] . 'H';
+            if (Util::get_array_value("prep_time_hours", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_hours", $post_info) . 'H';
             }
-            if ($post_info["prep_time_minutes"]) {
-                $prep_time .= $post_info["prep_time_minutes"] . 'M';
+            if (Util::get_array_value("prep_time_minutes", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_minutes", $post_info) . 'M';
             }
-            if ($post_info["prep_time_seconds"]) {
-                $prep_time .= $post_info["prep_time_seconds"] . 'S';
+            if (Util::get_array_value("prep_time_seconds", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_seconds", $post_info) . 'S';
             }
         } else {
-            $prep_time = $post_info["prep_time"];
+            $prep_time = Util::get_array_value("prep_time", $post_info);
         }
 
-        if ($post_info["cook_time_years"] || $post_info["cook_time_months"] || $post_info["cook_time_days"] || $post_info["cook_time_hours"] || $post_info["cook_time_minutes"] || $post_info["cook_time_seconds"]) {
+        if (Util::get_array_value("cook_time_years", $post_info) || Util::get_array_value("cook_time_months", $post_info) || Util::get_array_value("cook_time_days", $post_info) || Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info) || Util::get_array_value("cook_time_seconds", $post_info)) {
             $cook_time = 'P';
-            if ($post_info["cook_time_years"]) {
-                $cook_time .= $post_info["cook_time_years"] . 'Y';
+            if (Util::get_array_value("cook_time_years", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_years", $post_info) . 'Y';
             }
-            if ($post_info["cook_time_months"]) {
-                $cook_time .= $post_info["cook_time_months"] . 'M';
+            if (Util::get_array_value("cook_time_months", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_months", $post_info) . 'M';
             }
-            if ($post_info["cook_time_days"]) {
-                $cook_time .= $post_info["cook_time_days"] . 'D';
+            if (Util::get_array_value("cook_time_days", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_days", $post_info) . 'D';
             }
-            if ($post_info["cook_time_hours"] || $post_info["cook_time_minutes"] || $post_info["cook_time_seconds"]) {
+            if (Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info) || Util::get_array_value("cook_time_seconds", $post_info)) {
                 $cook_time .= 'T';
             }
-            if ($post_info["cook_time_hours"]) {
-                $cook_time .= $post_info["cook_time_hours"] . 'H';
+            if (Util::get_array_value("cook_time_hours", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_hours", $post_info) . 'H';
             }
-            if ($post_info["cook_time_minutes"]) {
-                $cook_time .= $post_info["cook_time_minutes"] . 'M';
+            if (Util::get_array_value("cook_time_minutes", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_minutes", $post_info) . 'M';
             }
-            if ($post_info["cook_time_seconds"]) {
-                $cook_time .= $post_info["cook_time_seconds"] . 'S';
+            if (Util::get_array_value("cook_time_seconds", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_seconds", $post_info) . 'S';
             }
         } else {
-            $cook_time = $post_info["cook_time"];
+            $cook_time = Util::get_array_value("cook_time", $post_info);
         }
 
-        if ($post_info["total_time_years"] || $post_info["total_time_months"] || $post_info["total_time_days"] || $post_info["total_time_hours"] || $post_info["total_time_minutes"] || $post_info["total_time_seconds"]) {
+        if (Util::get_array_value("total_time_years", $post_info) || Util::get_array_value("total_time_months", $post_info) || Util::get_array_value("total_time_days", $post_info) || Util::get_array_value("total_time_hours", $post_info) || Util::get_array_value("total_time_minutes", $post_info) || Util::get_array_value("total_time_seconds", $post_info)) {
             $total_time = 'P';
-            if ($post_info["total_time_years"]) {
-                $total_time .= $post_info["total_time_years"] . 'Y';
+            if (Util::get_array_value("total_time_years", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_years", $post_info) . 'Y';
             }
-            if ($post_info["total_time_months"]) {
-                $total_time .= $post_info["total_time_months"] . 'M';
+            if (Util::get_array_value("total_time_months", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_months", $post_info) . 'M';
             }
-            if ($post_info["total_time_days"]) {
-                $total_time .= $post_info["total_time_days"] . 'D';
+            if (Util::get_array_value("total_time_days", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_days", $post_info) . 'D';
             }
-            if ($post_info["total_time_hours"] || $post_info["total_time_minutes"] || $post_info["total_time_seconds"]) {
+            if (Util::get_array_value("total_time_hours", $post_info) || Util::get_array_value("total_time_minutes", $post_info) || Util::get_array_value("total_time_seconds", $post_info)) {
                 $total_time .= 'T';
             }
-            if ($post_info["total_time_hours"]) {
-                $total_time .= $post_info["total_time_hours"] . 'H';
+            if (Util::get_array_value("total_time_hours", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_hours", $post_info) . 'H';
             }
-            if ($post_info["total_time_minutes"]) {
-                $total_time .= $post_info["total_time_minutes"] . 'M';
+            if (Util::get_array_value("total_time_minutes", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_minutes", $post_info) . 'M';
             }
-            if ($post_info["total_time_seconds"]) {
-                $total_time .= $post_info["total_time_seconds"] . 'S';
+            if (Util::get_array_value("total_time_seconds", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_seconds", $post_info) . 'S';
             }
         } else {
-            $total_time = $post_info["total_time"];
+            $total_time = Util::get_array_value("total_time", $post_info);
         }
 
         // Build array to be sent to db query call
@@ -1359,7 +1359,7 @@ class ZipRecipes {
 
 
         if (self::zrdn_select_recipe_db($recipe_id) == null) {
-            $recipe["post_id"] = $post_info["recipe_post_id"]; // set only during record creation
+            $recipe["post_id"] = Util::get_array_value("recipe_post_id", $post_info); // set only during record creation
             $wpdb->insert($wpdb->prefix . self::TABLE_NAME, $recipe);
             $recipe_id = $wpdb->insert_id;
         } else {
