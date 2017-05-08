@@ -43,6 +43,7 @@ define('ZRDN_VERSION_NUM', '4.9.1');
 define('ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
 define('ZRDN_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basename(__FILE__))));
+define('ZRDN_API_URL', "https://api.ziprecipes.net");
 
 // Requires & includes
 require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');

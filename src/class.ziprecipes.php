@@ -9,13 +9,16 @@ class ZipRecipes {
 
     const TABLE_NAME = "amd_zlrecipe_recipes";
     const PLUGIN_OPTION_NAME = "zrdn__plugins";
-    const registration_url = "https://api.ziprecipes.net/installation/register/";
+
+    public static $registration_url;
 
     /**
      * Init function.
      */
     public static function init() {
         Util::log("Core init");
+
+        self::$registration_url = ZRDN_API_URL . "/installation/register/";
 
         // Instantiate plugin classes
         $parentPath = dirname(__FILE__);
@@ -315,6 +318,7 @@ class ZipRecipes {
             'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', '', $recipe),
             // author is used in other themes
             'author' => apply_filters('zrdn__authors_get_author_for_recipe', '', $recipe),
+            'nutrition_label' => apply_filters('zrdn__automatic_nutrition_get_label', $recipe),
             'amp_on' => $amp_on
         );
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
@@ -508,7 +512,7 @@ class ZipRecipes {
 
         $settingsParams = array(
             'settings_url' => $settings_page_url,
-            'registration_url' => self::registration_url,
+            'registration_url' => self::$registration_url,
             'wp_version' => $wp_version,
             'installed_plugins' => Util::zrdn_get_installed_plugins(),
             'home_url' => home_url(),
@@ -741,7 +745,7 @@ class ZipRecipes {
             'ins_p' => $ins_p,
             'ins_div' => $ins_div,
             'other_options' => $other_options,
-            'registration_url' => self::registration_url,
+            'registration_url' => self::$registration_url,
             'wp_version' => $wp_version,
             'installed_plugins' => Util::zrdn_get_installed_plugins(),
             'extensions_settings' => apply_filters('zrdn__extention_settings_section', ''),
@@ -870,7 +874,7 @@ class ZipRecipes {
     public static function zrdn_iframe_content($post_info = null, $get_info = null) {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($_POST['action'] === "zrdn-register") {
+            if (Util::get_array_value('action', $_POST) === "zrdn-register") {
                 // if first, last name and email are provided, we assume that user is registering
                 $registered = $_POST['first_name'] && $_POST['last_name'] && $_POST['email'];
                 if ($registered) {
@@ -1081,10 +1085,7 @@ class ZipRecipes {
                 $sodium = isset($post_info['sodium']) ? $post_info['sodium'] : '';
                 $ingredients = isset($post_info["ingredients"]) ? $post_info["ingredients"] : '';
                 $instructions = isset($post_info["instructions"]) ? $post_info["instructions"] : '';
-                $author = apply_filters('zrdn__authors_get_author_from_post_data', '', $post_info);
-                if ($author) {
-                    $post_info['author'] = $author;
-                }
+                $post_info = apply_filters('zrdn__save_recipe', $post_info);
                 if (isset($recipe_title) && $recipe_title != '' && isset($ingredients) && $ingredients != '') {
                     // Save recipe to database
                     $recipe_id = self::zrdn_insert_db($post_info);
@@ -1147,7 +1148,7 @@ class ZipRecipes {
 	            $url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                 $settingsParams = array(
                     'settings_url' => $settings_page_url,
-                    'registration_url' => self::registration_url,
+                    'registration_url' => self::$registration_url,
                     'wp_version' => $wp_version,
                     'installed_plugins' => Util::zrdn_get_installed_plugins(),
                     'home_url' => home_url(),
@@ -1161,10 +1162,19 @@ class ZipRecipes {
             }
         }
 
+        $header_tags = apply_filters('zrdn__create_update_header_tags', '');
+
         $author_section = apply_filters('zrdn__authors_recipe_create_update', '', $recipe, $post_info);
         if (!$author_section) {// author plugin doesn't exist
             $author_section = Util::view('author_promo', array(
                         'warning_icon_url' => ZRDN_PLUGIN_URL . "images/warning-icon.png"
+            ));
+        }
+
+        $yield_section = apply_filters('zrdn__automatic_nutrition_recipe_create_update', '', $recipe, $post_info);
+        if (!$yield_section) { // automatic nutrition plugin does not exist
+            $yield_section = Util::view('default_nutrition', array(
+                    'yield' => $yield
             ));
         }
 
@@ -1193,7 +1203,7 @@ class ZipRecipes {
             'total_time_input' => $total_time_input,
             'total_time_hours' => $total_time_hours,
             'total_time_minutes' => $total_time_minutes,
-            'yield' => $yield,
+            'yield_section' => $yield_section,
             'serving_size' => $serving_size,
             'calories' => $calories,
             'carbs' => $carbs,
@@ -1209,7 +1219,8 @@ class ZipRecipes {
             'trans_fat' => $trans_fat,
             'cholesterol' => $cholesterol,
             'category' => $category,
-            'cuisine' => $cuisine
+            'cuisine' => $cuisine,
+            'header_tags' => $header_tags
         ));
     }
 
@@ -1222,95 +1233,119 @@ class ZipRecipes {
     public static function zrdn_insert_db($post_info) {
         global $wpdb;
 
-        $recipe_id = $post_info["recipe_id"];
+        $recipe_id = Util::get_array_value("recipe_id", $post_info);
 
-        if ($post_info["prep_time_years"] || $post_info["prep_time_months"] || $post_info["prep_time_days"] || $post_info["prep_time_hours"] || $post_info["prep_time_minutes"] || $post_info["prep_time_seconds"]) {
+        if (Util::get_array_value("prep_time_years", $post_info) || Util::get_array_value("prep_time_months", $post_info) || Util::get_array_value("prep_time_days", $post_info) || Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
             $prep_time = 'P';
-            if ($post_info["prep_time_years"]) {
-                $prep_time .= $post_info["prep_time_years"] . 'Y';
+            if (Util::get_array_value("prep_time_years", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_years", $post_info) . 'Y';
             }
-            if ($post_info["prep_time_months"]) {
-                $prep_time .= $post_info["prep_time_months"] . 'M';
+            if (Util::get_array_value("prep_time_months", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_months", $post_info) . 'M';
             }
-            if ($post_info["prep_time_days"]) {
-                $prep_time .= $post_info["prep_time_days"] . 'D';
+            if (Util::get_array_value("prep_time_days", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_days", $post_info) . 'D';
             }
-            if ($post_info["prep_time_hours"] || $post_info["prep_time_minutes"] || $post_info["prep_time_seconds"]) {
+            if (Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
                 $prep_time .= 'T';
             }
-            if ($post_info["prep_time_hours"]) {
-                $prep_time .= $post_info["prep_time_hours"] . 'H';
+            if (Util::get_array_value("prep_time_hours", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_hours", $post_info) . 'H';
             }
-            if ($post_info["prep_time_minutes"]) {
-                $prep_time .= $post_info["prep_time_minutes"] . 'M';
+            if (Util::get_array_value("prep_time_minutes", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_minutes", $post_info) . 'M';
             }
-            if ($post_info["prep_time_seconds"]) {
-                $prep_time .= $post_info["prep_time_seconds"] . 'S';
+            if (Util::get_array_value("prep_time_seconds", $post_info)) {
+                $prep_time .= Util::get_array_value("prep_time_seconds", $post_info) . 'S';
             }
         } else {
-            $prep_time = $post_info["prep_time"];
+            $prep_time = Util::get_array_value("prep_time", $post_info);
         }
 
-        if ($post_info["cook_time_years"] || $post_info["cook_time_months"] || $post_info["cook_time_days"] || $post_info["cook_time_hours"] || $post_info["cook_time_minutes"] || $post_info["cook_time_seconds"]) {
+        if (Util::get_array_value("cook_time_years", $post_info) || Util::get_array_value("cook_time_months", $post_info) || Util::get_array_value("cook_time_days", $post_info) || Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info) || Util::get_array_value("cook_time_seconds", $post_info)) {
             $cook_time = 'P';
-            if ($post_info["cook_time_years"]) {
-                $cook_time .= $post_info["cook_time_years"] . 'Y';
+            if (Util::get_array_value("cook_time_years", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_years", $post_info) . 'Y';
             }
-            if ($post_info["cook_time_months"]) {
-                $cook_time .= $post_info["cook_time_months"] . 'M';
+            if (Util::get_array_value("cook_time_months", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_months", $post_info) . 'M';
             }
-            if ($post_info["cook_time_days"]) {
-                $cook_time .= $post_info["cook_time_days"] . 'D';
+            if (Util::get_array_value("cook_time_days", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_days", $post_info) . 'D';
             }
-            if ($post_info["cook_time_hours"] || $post_info["cook_time_minutes"] || $post_info["cook_time_seconds"]) {
+            if (Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info) || Util::get_array_value("cook_time_seconds", $post_info)) {
                 $cook_time .= 'T';
             }
-            if ($post_info["cook_time_hours"]) {
-                $cook_time .= $post_info["cook_time_hours"] . 'H';
+            if (Util::get_array_value("cook_time_hours", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_hours", $post_info) . 'H';
             }
-            if ($post_info["cook_time_minutes"]) {
-                $cook_time .= $post_info["cook_time_minutes"] . 'M';
+            if (Util::get_array_value("cook_time_minutes", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_minutes", $post_info) . 'M';
             }
-            if ($post_info["cook_time_seconds"]) {
-                $cook_time .= $post_info["cook_time_seconds"] . 'S';
+            if (Util::get_array_value("cook_time_seconds", $post_info)) {
+                $cook_time .= Util::get_array_value("cook_time_seconds", $post_info) . 'S';
             }
         } else {
-            $cook_time = $post_info["cook_time"];
+            $cook_time = Util::get_array_value("cook_time", $post_info);
         }
 
-        if ($post_info["total_time_years"] || $post_info["total_time_months"] || $post_info["total_time_days"] || $post_info["total_time_hours"] || $post_info["total_time_minutes"] || $post_info["total_time_seconds"]) {
+        if (Util::get_array_value("total_time_years", $post_info) || Util::get_array_value("total_time_months", $post_info) || Util::get_array_value("total_time_days", $post_info) || Util::get_array_value("total_time_hours", $post_info) || Util::get_array_value("total_time_minutes", $post_info) || Util::get_array_value("total_time_seconds", $post_info)) {
             $total_time = 'P';
-            if ($post_info["total_time_years"]) {
-                $total_time .= $post_info["total_time_years"] . 'Y';
+            if (Util::get_array_value("total_time_years", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_years", $post_info) . 'Y';
             }
-            if ($post_info["total_time_months"]) {
-                $total_time .= $post_info["total_time_months"] . 'M';
+            if (Util::get_array_value("total_time_months", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_months", $post_info) . 'M';
             }
-            if ($post_info["total_time_days"]) {
-                $total_time .= $post_info["total_time_days"] . 'D';
+            if (Util::get_array_value("total_time_days", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_days", $post_info) . 'D';
             }
-            if ($post_info["total_time_hours"] || $post_info["total_time_minutes"] || $post_info["total_time_seconds"]) {
+            if (Util::get_array_value("total_time_hours", $post_info) || Util::get_array_value("total_time_minutes", $post_info) || Util::get_array_value("total_time_seconds", $post_info)) {
                 $total_time .= 'T';
             }
-            if ($post_info["total_time_hours"]) {
-                $total_time .= $post_info["total_time_hours"] . 'H';
+            if (Util::get_array_value("total_time_hours", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_hours", $post_info) . 'H';
             }
-            if ($post_info["total_time_minutes"]) {
-                $total_time .= $post_info["total_time_minutes"] . 'M';
+            if (Util::get_array_value("total_time_minutes", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_minutes", $post_info) . 'M';
             }
-            if ($post_info["total_time_seconds"]) {
-                $total_time .= $post_info["total_time_seconds"] . 'S';
+            if (Util::get_array_value("total_time_seconds", $post_info)) {
+                $total_time .= Util::get_array_value("total_time_seconds", $post_info) . 'S';
             }
         } else {
-            $total_time = $post_info["total_time"];
+            $total_time = Util::get_array_value("total_time", $post_info);
         }
 
         // Build array to be sent to db query call
         $clean_fields = array(
-            'recipe_title', 'recipe_image', 'summary', 'yield',
-            'serving_size', 'calories', 'fat', 'carbs', 'protein', 'fiber', 'sugar', 'saturated_fat', 'sodium',
-            'ingredients', 'instructions', 'notes', 'author', 'category', 'cuisine', 'trans_fat', 'cholesterol', 'serving_size'
+            'recipe_title',
+            'recipe_image',
+            'summary',
+            'yield',
+            'serving_size',
+            'calories',
+            'fat',
+            'carbs',
+            'protein',
+            'fiber',
+            'sugar',
+            'saturated_fat',
+            'sodium',
+            'ingredients',
+            'instructions',
+            'notes',
+            'author',
+            'category',
+            'cuisine',
+            'trans_fat',
+            'cholesterol',
+            'serving_size',
+            //'nutrition_label'
         );
+
+        // zrdn__recipe_field_names recipe db fields that don't need special processing or formatting
+        $clean_fields = apply_filters('zrdn__recipe_field_names', $clean_fields);
+
         $recipe = array();
         foreach ($post_info as $attr => $value) {
             if (in_array($attr, $clean_fields) && isset($post_info[$attr])) {
@@ -1324,12 +1359,15 @@ class ZipRecipes {
 
 
         if (self::zrdn_select_recipe_db($recipe_id) == null) {
-            $recipe["post_id"] = $post_info["recipe_post_id"]; // set only during record creation
+            $recipe["post_id"] = Util::get_array_value("recipe_post_id", $post_info); // set only during record creation
             $wpdb->insert($wpdb->prefix . self::TABLE_NAME, $recipe);
             $recipe_id = $wpdb->insert_id;
         } else {
             $wpdb->update($wpdb->prefix . self::TABLE_NAME, $recipe, array('recipe_id' => $recipe_id));
         }
+
+
+        do_action('zrdn__recipe_post_save', $recipe_id, $post_info);
 
         return $recipe_id;
     }
@@ -1651,3 +1689,4 @@ class ZipRecipes {
         return $item;
     }
 }
+

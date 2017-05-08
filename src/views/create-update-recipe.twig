@@ -34,7 +34,15 @@
         $(document).ready(function () {
             $('#more-options').hide();
             $('#more-options-toggle').click(function () {
-                $('#more-options').toggle(400);
+                if ($('#more-options').is(':visible')) {
+                    $('#more-options').hide(400);
+                    $('#more-options-toggle').html('More options');
+                }
+                else {
+                    $('#more-options').show(400);
+                    $('#more-options-toggle').html('Less options');
+                }
+
                 return false;
             });
 
@@ -122,6 +130,7 @@
             $('#recipe_image').val('');
         }
     </script>
+    {{ header_tags|raw }}
     {% if post_info %}
         <script>window.onload = amdZLRecipeSubmitForm;</script>
     {% endif %}
@@ -172,6 +181,7 @@
                     </label>
                     <textarea name='instructions'>{{ instructions }}</textarea>
                 </p>
+                {{ yield_section|raw }}
                 <p><a href='#' id='more-options-toggle'>More options</a></p>
                 <div id='more-options'>
                     <p><label>Category</label> <input placeholder="e.g. appetizer, entree, etc." type='text' name='category' value='{{ category }}' /></p>
@@ -199,7 +209,6 @@
                             <span><input type='number' min="0" max="60" name='total_time_minutes' value='{{ total_time_minutes }}' /><label>minutes</label></span>
                         </span>
                     </p>
-                    <p><label>Yield</label> <input type='text' name='yield' value='{{ yield }}' /></p>
                     <p><label>Serving Size</label> <input type='text' name='serving_size' value='{{ serving_size }}' /></p>
                     <p><label>Calories</label> <input type='text' name='calories' value='{{ calories }}' /></p>
                     <p><label>Carbs</label> <input type='text' name='carbs' value='{{ carbs }}' /></p>
