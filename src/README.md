@@ -154,9 +154,9 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-= 4.10 =
+= 4.10 Greek + bug fixes + automatic nutrition calculator for premium =
 
-- For premium version: Added automatic nutrition calculation!
+- For Zip Recipe Lover plan: Added automatic nutrition calculation!
 - Moved Yields label higher in entry field
 - Added promotion for automatic nutrition
 - Fixed a bunch of warnings that may have appeared for some users
@@ -566,6 +566,10 @@ Added translations back (I broke this in 4.8)
 
 = 4.9.1 =
 Finished adding Arabic, Finnish and German.
+
+= 4.10 = 
+
+Greek + bug fixes + automatic nutrition calculator for premium.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
