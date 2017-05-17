@@ -870,6 +870,39 @@ class ZipRecipes {
         load_plugin_textdomain('zip-recipes', false, $pluginLangDir);
     }
 
+    /**
+     * Get promo text from Zip Recipes server, if possible.
+     * @return string Return html code from Zip Recipes server or empty string if there's an issue.
+     */
+    public static function author_remote_promo() {
+        $api_endpoint = ZRDN_API_URL . "/v2/promos/1?" . http_build_query(array(
+                'blog_url' => get_bloginfo('wpurl')
+            ));
+        $author_promo_response = wp_remote_get($api_endpoint, array());
+
+        if (! is_array($author_promo_response)) {
+            return "";
+        }
+
+        if (! array_key_exists('body', $author_promo_response)) {
+            return "";
+        }
+
+        $json_decoded_body = json_decode($author_promo_response['body']);
+
+        if ($json_decoded_body === NULL) {
+            return "";
+        }
+
+        try {
+            $promo_html = $json_decoded_body->html;
+            return $promo_html;
+        }
+        catch (\Exception $e) {
+            return "";
+        }
+    }
+
     // Content for the popup iframe when creating or editing a recipe
     public static function zrdn_iframe_content($post_info = null, $get_info = null) {
 
@@ -1165,10 +1198,16 @@ class ZipRecipes {
         $header_tags = apply_filters('zrdn__create_update_header_tags', '');
 
         $author_section = apply_filters('zrdn__authors_recipe_create_update', '', $recipe, $post_info);
+
         if (!$author_section) {// author plugin doesn't exist
-            $author_section = Util::view('author_promo', array(
-                        'warning_icon_url' => ZRDN_PLUGIN_URL . "images/warning-icon.png"
-            ));
+
+            // attempt to get remote promo
+            $author_section = self::author_remote_promo();
+            if (!$author_section) { // fallback
+                $author_section = Util::view('author_promo', array(
+                    'warning_icon_url' => ZRDN_PLUGIN_URL . "images/warning-icon.png"
+                ));
+            }
         }
 
         $yield_section = apply_filters('zrdn__automatic_nutrition_recipe_create_update', '', $recipe, $post_info);
