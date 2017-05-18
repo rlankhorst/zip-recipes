@@ -871,24 +871,24 @@ class ZipRecipes {
     }
 
     /**
-     * Get promo text from Zip Recipes server, if possible.
-     * @return string Return html code from Zip Recipes server or empty string if there's an issue.
+     * @param string $promo_id ID of promo. E.g. author promo is 1, nutrition promo 2, etc.
+     * @return string If successfuly, returns HTML for that promo id. Empty string otherwise.
      */
-    public static function author_remote_promo() {
-        $api_endpoint = ZRDN_API_URL . "/v2/promos/1?" . http_build_query(array(
+    public static function get_remote_promo($promo_id) {
+        $api_endpoint = ZRDN_API_URL . "/v2/promos/" . $promo_id . "?" . http_build_query(array(
                 'blog_url' => get_bloginfo('wpurl')
             ));
-        $author_promo_response = wp_remote_get($api_endpoint, array());
+        $promo_response = wp_remote_get($api_endpoint, array());
 
-        if (! is_array($author_promo_response)) {
+        if (! is_array($promo_response)) {
             return "";
         }
 
-        if (! array_key_exists('body', $author_promo_response)) {
+        if (! array_key_exists('body', $promo_response)) {
             return "";
         }
 
-        $json_decoded_body = json_decode($author_promo_response['body']);
+        $json_decoded_body = json_decode($promo_response['body']);
 
         if ($json_decoded_body === NULL) {
             return "";
@@ -901,6 +901,24 @@ class ZipRecipes {
         catch (\Exception $e) {
             return "";
         }
+    }
+
+    /**
+     * Get author promo HTML from Zip Recipes server.
+     * @return string Return html code from Zip Recipes server or empty string if there's an issue.
+     */
+    public static function author_remote_promo() {
+        $AUTHOR_PROMO_ID = 1;
+        return self::get_remote_promo($AUTHOR_PROMO_ID);
+    }
+
+    /**
+     * Get nutrition promo HTML from Zip Recipes server.
+     * @return string Return html code from Zip Recipes server or empty string if there's an issue.
+     */
+    public static function nutrition_remote_promo() {
+        $NUTRITION_PROMO_ID = 2;
+        return self::get_remote_promo($NUTRITION_PROMO_ID);
     }
 
     // Content for the popup iframe when creating or editing a recipe
@@ -1212,8 +1230,10 @@ class ZipRecipes {
 
         $yield_section = apply_filters('zrdn__automatic_nutrition_recipe_create_update', '', $recipe, $post_info);
         if (!$yield_section) { // automatic nutrition plugin does not exist
+            $nutrition_remote_promo = self::nutrition_remote_promo();
             $yield_section = Util::view('default_nutrition', array(
-                    'yield' => $yield
+                'yield' => $yield,
+                'remote_promo' => $nutrition_remote_promo
             ));
         }
 
