@@ -154,12 +154,13 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-= 4.12 Fix for foreign sites =
+= 4.12 For Nicolas: Fix for foreign sites =
 
 * There was a problem for non-Lover packages and Lover packages in non-English
 that prevented a page's text from rendering. This is fixed here.
+* "Your rating:" now translates
 
-= 4.11 Revered changes  =
+= 4.11 For Nicolas: Revered changes  =
 
 * Reverted ratings changes in 4.5.2.16
 * Kept translation and AMP fixes

@@ -362,8 +362,9 @@ gulp.task('update-languages', function(done) {
  */
 gulp.task('generate-mos', function(done) {
   return gulp.src('./src/languages/*.po')
-    .pipe(shell([`msgfmt --output-file='./src/languages/<%= mo(file.path) %>' <%= file.path %>`
-    ], { templateData:
+    // msgfmt uses -f to also take fuzzy matches into account when converting to mo.
+    .pipe(shell([`msgfmt -f --output-file='./src/languages/<%= mo(file.path) %>' <%= file.path %>`
+    ], { verbose: true, templateData:
     {
       mo: function(path) {
         return path.replace(/.+\/([a-zA-Z0-9-_]+)\.po/, '$1.mo');
