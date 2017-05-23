@@ -318,7 +318,9 @@ class ZipRecipes {
             'author_section' => apply_filters('zrdn__authors_render_author_for_recipe', '', $recipe),
             // author is used in other themes
             'author' => apply_filters('zrdn__authors_get_author_for_recipe', '', $recipe),
-            'nutrition_label' => apply_filters('zrdn__automatic_nutrition_get_label', $recipe),
+            // The second argument to apply_filters is what is returned if no one implements this hook.
+            // For `nutrition_label`, we want an empty string, not $recipe object.
+            'nutrition_label' => apply_filters('zrdn__automatic_nutrition_get_label', '', $recipe),
             'amp_on' => $amp_on
         );
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
