@@ -159,6 +159,16 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 * Reverted ratings changes in 4.5.2.16
 * Kept translation and AMP fixes
 
+= 4.10 Greek + bug fixes + automatic nutrition calculator for premium =
+
+- For Zip Recipe Lover plan: Added automatic nutrition calculation!
+- Moved Yields label higher in entry field
+- Added promotion for automatic nutrition
+- Fixed a bunch of warnings that may have appeared for some users
+- Improved collapsing and expanding "More options" section of recipe entry box
+- Renamed Yield to Yields
+- Added Greek translation
+
 = 4.9.1 Finished adding Arabic, Finnish and German =
  
 Thanks to the translators for providing these translations for Finnish, German and Arabic:
@@ -562,8 +572,10 @@ Added translations back (I broke this in 4.8)
 = 4.9.1 =
 Finished adding Arabic, Finnish and German.
 
-= 4.11 =
+= 4.10 = 
+Greek + bug fixes + automatic nutrition calculator for premium.
 
+= 4.11 =
 Change the way visitor ratings are done.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
