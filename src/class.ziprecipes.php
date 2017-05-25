@@ -870,56 +870,53 @@ class ZipRecipes {
         load_plugin_textdomain('zip-recipes', false, $pluginLangDir);
     }
 
+
     /**
-     * @param string $promo_id ID of promo. E.g. author promo is 1, nutrition promo 2, etc.
-     * @return string If successfuly, returns HTML for that promo id. Empty string otherwise.
+     * @return array Returns "promo" => "promo html" array. On failure, it returns empty array.
      */
-    public static function get_remote_promo($promo_id) {
-        $api_endpoint = ZRDN_API_URL . "/v2/promos/" . $promo_id . "?" . http_build_query(array(
+    public static function get_remote_promos() {
+        $promos = array();
+        $promo_id_name_map = array(
+            1 => 'author',
+            2 => 'nutrition'
+        );
+
+        $api_endpoint = ZRDN_API_URL . "/v2/promos/" . "?" . http_build_query(array(
                 'blog_url' => get_bloginfo('wpurl')
             ));
-        $promo_response = wp_remote_get($api_endpoint, array());
+        $promos_response = wp_remote_get($api_endpoint, array());
 
-        if (! is_array($promo_response)) {
-            return "";
+        if (! is_array($promos_response)) {
+            return $promos;
         }
 
-        if (! array_key_exists('body', $promo_response)) {
-            return "";
+
+        if (! array_key_exists('body', $promos_response)) {
+            return $promos;
         }
 
-        $json_decoded_body = json_decode($promo_response['body']);
+        $json_decoded_body = json_decode($promos_response['body']);
 
         if ($json_decoded_body === NULL) {
-            return "";
+            return $promos;
         }
 
         try {
-            $promo_html = $json_decoded_body->html;
-            return $promo_html;
+            $results = $json_decoded_body->results;
+            foreach($results as $result) {
+                if (array_key_exists($result->id, $promo_id_name_map)) {
+                    $name = $promo_id_name_map[$result->id];
+                    $promos[$name] = $result->html;
+                }
+            }
+
+            return $promos;
         }
         catch (\Exception $e) {
-            return "";
+            return $promos;
         }
     }
 
-    /**
-     * Get author promo HTML from Zip Recipes server.
-     * @return string Return html code from Zip Recipes server or empty string if there's an issue.
-     */
-    public static function author_remote_promo() {
-        $AUTHOR_PROMO_ID = 1;
-        return self::get_remote_promo($AUTHOR_PROMO_ID);
-    }
-
-    /**
-     * Get nutrition promo HTML from Zip Recipes server.
-     * @return string Return html code from Zip Recipes server or empty string if there's an issue.
-     */
-    public static function nutrition_remote_promo() {
-        $NUTRITION_PROMO_ID = 2;
-        return self::get_remote_promo($NUTRITION_PROMO_ID);
-    }
 
     // Content for the popup iframe when creating or editing a recipe
     public static function zrdn_iframe_content($post_info = null, $get_info = null) {
@@ -1215,29 +1212,42 @@ class ZipRecipes {
 
         $header_tags = apply_filters('zrdn__create_update_header_tags', '');
 
+        // Get promos
         $author_section = apply_filters('zrdn__authors_recipe_create_update', '', $recipe, $post_info);
+        $yield_section = apply_filters('zrdn__automatic_nutrition_recipe_create_update', '', $recipe, $post_info);
+        if (!$author_section || !$yield_section) {
+            $promos = self::get_remote_promos();
 
-        if (!$author_section) {// author plugin doesn't exist
+            if (!$author_section) {// author plugin doesn't exist
 
-            // attempt to get remote promo
-            $author_section = self::author_remote_promo();
-            if (!$author_section) { // fallback
-                $author_section = Util::view('author_promo', array(
-                    'warning_icon_url' => ZRDN_PLUGIN_URL . "images/warning-icon.png"
+                // attempt to get remote promo
+                $remote_author_promo = array_key_exists('author', $promos);
+                if ($remote_author_promo) {
+                    $author_section = $promos['author'];
+                }
+                else { // fallback
+                    $author_section = Util::view('author_promo', array());
+                }
+            }
+
+            if (!$yield_section) { // automatic nutrition plugin does not exist
+
+
+                $remote_nutrition_promo = array_key_exists('nutrition', $promos);
+                if ($remote_nutrition_promo) {
+                    $nutrition_remote_promo = $promos['nutrition'];
+                }
+                else {
+                    $nutrition_remote_promo = "";
+                }
+                $yield_section = Util::view('default_nutrition', array(
+                    'yield' => $yield,
+                    'remote_promo' => $nutrition_remote_promo
                 ));
             }
         }
 
-        $yield_section = apply_filters('zrdn__automatic_nutrition_recipe_create_update', '', $recipe, $post_info);
-        if (!$yield_section) { // automatic nutrition plugin does not exist
-            $nutrition_remote_promo = self::nutrition_remote_promo();
-            $yield_section = Util::view('default_nutrition', array(
-                'yield' => $yield,
-                'remote_promo' => $nutrition_remote_promo
-            ));
-        }
-
-		$url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         Util::print_view('create-update-recipe', array(
             'pluginurl' => ZRDN_PLUGIN_URL,
             'recipe_id' => $recipe_id,
