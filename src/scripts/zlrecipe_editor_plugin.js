@@ -108,7 +108,7 @@
                 author: 'HappyGezim',
                 authorurl: 'https://www.ziprecipes.net/',
                 infourl: 'https://www.ziprecipes.net/',
-                version: "4.10"
+                version: "4.13"
             };
         }
     });
