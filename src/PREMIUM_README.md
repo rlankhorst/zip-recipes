@@ -529,15 +529,7 @@ Added Serbian, Spanish, French, Brazilian Portuguese, and Polish.
 Finished adding Arabic, Finnish and German.
 
 = 4.13 = 
-
 Greek + bug fixes + automatic nutrition calculator for Lover plan members. Learn more here: https://www.ziprecipes.net/automatic-nutrition-landing-page/
-
-
-= 4.11 = 
-Change the way visitor ratings are done.
-
-= 4.12 = 
-Fixed post rendering for non-English sites and sites that use non-Lover package.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
