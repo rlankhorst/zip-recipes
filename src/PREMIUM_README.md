@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.7
-Stable tag: 4.12
+Stable tag: 4.13
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -117,26 +117,16 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-= 4.12 For Nicolas: Fix for foreign sites =
+= 4.13 Greek + bug fixes + automatic nutrition calculator for premium =
 
-* There was a problem for non-Lover packages and Lover packages in non-English
-that prevented a page's text from rendering. This is fixed here.
-* "Your rating:" now translates
-
-= 4.11 For Nicolas: Revered changes  =
-
-* Reverted ratings changes in 4.5.2.16
-* Kept translation and AMP fixes
-
-= 4.10 = 
-
-- For Zip Recipe Lover plan: Added automatic nutrition calculation!
+- For Zip Recipe Lover plan: Added automatic nutrition calculation! Check it out here: https://www.ziprecipes.net/automatic-nutrition-landing-page/
 - Moved Yields label higher in entry field
-- Added promotion for automatic nutrition
 - Fixed a bunch of warnings that may have appeared for some users
 - Improved collapsing and expanding "More options" section of recipe entry box
 - Renamed Yield to Yields
+- Google Accelerated Mobile Pages (AMP) nutrition labels fix 
 - Added Greek translation
+- Added promotion for automatic nutrition
 
 = 4.9.1 Finished adding Arabic, Finnish and German =
  
@@ -538,8 +528,10 @@ Added Serbian, Spanish, French, Brazilian Portuguese, and Polish.
 = 4.9.1 =
 Finished adding Arabic, Finnish and German.
 
-= 4.10 = 
-Automatic nutrition calculation!
+= 4.13 = 
+
+Greek + bug fixes + automatic nutrition calculator for Lover plan members. Learn more here: https://www.ziprecipes.net/automatic-nutrition-landing-page/
+
 
 = 4.11 = 
 Change the way visitor ratings are done.
