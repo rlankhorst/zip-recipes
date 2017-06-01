@@ -191,14 +191,13 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 #zlrecipe-container #zl-printed-permalink { display:none; font-size: 0.7em; }
 #zlrecipe-container #zl-printed-copyright-statement { display:none; font-size: 0.9em; }
 
-#zlrecipe-container .zrdn__rating_comp {
-    display: inline-block;
-}
-
 #zlrecipe-container p.t-a-c {
     margin-top: 0;
 }
 
+#zlrecipe-container .br-theme-css-stars .br-widget a {
+    font-size: 23px;
+}
 
 /* END SPECIFIC ELEMENT STYLES */
 

@@ -147,4 +147,13 @@ Copyright 2011, 2012 ZipList, Inc.
   height:auto;
   display:block;
 }
+
+#zlrecipe-print-container .br-current-rating {
+    display: none;
+}
+
+#zlrecipe-print-container .zrdn__rating__container {
+    margin-bottom: 15px;
+}
+
 /* END PRINT FORMATTING */
