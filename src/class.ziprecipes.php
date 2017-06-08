@@ -243,6 +243,15 @@ class ZipRecipes {
             $amp_on = is_amp_endpoint();
         }
 
+        $jsonld_attempt = json_encode(self::jsonld($recipe));
+        $jsonld = '';
+        if ($jsonld_attempt !== false) {
+            $jsonld = $jsonld_attempt;
+        }
+        else {
+            error_log("Error encoding recipe to JSON:" . json_last_error());
+        }
+
         $viewParams = array(
             'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
             'permalink' => get_permalink(),
@@ -322,7 +331,7 @@ class ZipRecipes {
             // For `nutrition_label`, we want an empty string, not $recipe object.
             'nutrition_label' => apply_filters('zrdn__automatic_nutrition_get_label', '', $recipe),
             'amp_on' => $amp_on,
-            'jsonld' => json_encode(self::jsonld($recipe)) // TODO: add failure check here
+            'jsonld' => $jsonld
         );
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
         return $custom_template ? : Util::view('recipe', $viewParams);
