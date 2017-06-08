@@ -31,14 +31,16 @@ The video shows:
 If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly note that Zip Recipe plugin is an extension of this plugin and it is 100% compatible with it. The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf) for your recipe blog. 
 
 > #### Zip Recipes Premium
-> Zip Recipes premium has the following features.<br />
+> Zip Recipes premium has the following features:<br />
 >
+> Automatic Nutrition Calculator.<br />
 > 5 Gorgeous Recipe Card Designs.<br />
+> Recipe Picture Gallery Grid.<br />
 > Visitor Recipe Ratings.<br />
-> Priority Email Support.<br />
-> Speed Improvement.<br />
-> Authors feature.<br />
+> Author setting.<br />
 > Recipe index.<br />
+> Speed Improvement.<br />
+> Priority Email Support.<br />
 > And much more....<br />
 >
 > [Learn more about Zip Recipes premium >>](https://www.ziprecipes.net/?utm_campaign=description%25252Bcta&utm_source=https%25253A%25252F%25252Fwordpress.org%25252Fplugins%25252Fzip-recipes%25252F&utm_medium=referral)
