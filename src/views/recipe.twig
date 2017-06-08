@@ -2,9 +2,12 @@
 {% import 'macros.twig' as recipe_props %}
 
 <div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border" {% if border_style %}style="border: {{ border_style|raw }};"{% endif %}>
+    <script type="application/ld+json">
+        {{ jsonld|raw }}
+    </script>
 <div {{ recipe_props.recipe_attr('itemtype', "http://schema.org/Recipe", amp_on) }}
-        {{ recipe_props.recipe_attr('itemscope', false, amp_on) }}
-        id="zlrecipe-container" class="serif zlrecipe">
+    {{ recipe_props.recipe_attr('itemscope', false, amp_on) }} >
+<div id="zlrecipe-container" class="serif zlrecipe">
   <div id="zlrecipe-innerdiv">
     <div class="item b-b">
 
@@ -365,4 +368,5 @@
             {{ recipe_props.recipe_attr('itemprop', "copyrightHolder", amp_on) }}>{{ copyright }}</div>
   {% endif %}
   </div>
+</div>
 </div>
