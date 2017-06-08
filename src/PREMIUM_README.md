@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.7
-Stable tag: 4.13
+Stable tag: 4.14
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -116,6 +116,14 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+= 4.14 JSON-LD support + bug fixes and improvements =
+ 
+- Added support for JSON-LD. The recommended structured data format by Google. We still support the older format for Pinterest.
+- Premium version: Recipe ratings improvement
+- Premium version: Fixed structured data formatting for authors for premium themes.
+- Support for WordPress 4.8
+
 
 = 4.13 Greek + bug fixes + automatic nutrition calculator for premium =
 
@@ -560,6 +568,10 @@ Fixed post rendering for non-English sites and sites that use non-Lover package.
 
 = 4.13 = 
 Greek + bug fixes + automatic nutrition calculator for Lover plan members. Learn more here: https://www.ziprecipes.net/automatic-nutrition-landing-page/
+
+= 4.14 = 
+Support for JSON-LD. Google's recommended way to format your recipes and other bug fixes.
+
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 

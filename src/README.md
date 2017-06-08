@@ -9,8 +9,8 @@ Author: Gezim Hoxha
 Donate link: http://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
-Tested up to: 4.7
-Stable tag: 4.13
+Tested up to: 4.8
+Stable tag: 4.14
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -45,9 +45,11 @@ If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly 
 
 = Features =
 
-Among the new features added by Zip Recipe plugin are:
+Here are just some of our features, free to use right now:
 
-**Schema Recipe Support:** Automatically integrate Schema.org's Recipe mark-up into your recipe posts to make them easier to find by people searching for recipes. 
+**Add Links inside your Ingredients and Instructions and other fields:** Attach affiliate links or links to related recipes from the Ingredients, Instructions or Summary fields with ease. Some other plugins charge for this basic feature!
+
+**Schema Recipe Support:** Automatically integrate Schema.org's Recipe mark-up into your recipe posts to make them easier to find by people searching for recipes. Zip Recipes support's the JSON-LD format which Google recommends. It also supports the older format used by Pinterest.
 
 **Superior Architecture:** No Custom Post Type to mess with. Create your recipes right inside a Post.
 
@@ -58,8 +60,6 @@ Among the new features added by Zip Recipe plugin are:
 **Copy/Paste Recipe Ingredients:** Simply cut a block of recipe ingredients and paste them into one field. No need to add each recipe ingredient one by one into separate recipe ingertient fields.
 
 **Auto-Populate Recipe Name:** The recipe name is automatically replicated inside the plugin, taking the name from the recipe post name, which further enhances SEO.
-
-**Add Links to Recipe Ingredients, Instructions or Other Recipes:** Attach affiliate links or links to related recipes from the Ingredients, Instructions or Summary fields with ease. No other recipe plugin enables you to do this.
 
 **Bold and Italicized Styling for your Recipe:** Add bold or italicized styling to words or phrases within the Recipe Ingredients, Instructions, Summary and Notes sections. 
 
@@ -88,6 +88,7 @@ Currently we have translations for:
  * French
  * Finnish
  * German
+ * Greek
  * Italian
  * Russian
  * Serbian
@@ -96,9 +97,9 @@ Currently we have translations for:
  * Portuguese (Brazilian) 
  * Is your language missing from this list? No problem, [email us and help us translate Zip Recipes!](mailto:hello@ziprecipes.net)
  
-**Easy installation process:** We don't require complex permissions to be set 
+**Easy installation process:** We don't require complex permissions to be set.
 
-**Works with WordPress 4.7:** Updated for full compatibility with WordPress 4.7.
+**Works with WordPress 4.8:** Updated for full compatibility with WordPress 4.8.
 
 **Support for PHP 7:** Fully supports the latest and greatest PHP version!
 
@@ -153,6 +154,13 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+= 4.14 JSON-LD support + bug fixes and improvements =
+ 
+- Added support for JSON-LD. The recommended structured data format by Google. We still support the older format for Pinterest.
+- Premium version: Recipe ratings improvement
+- Premium version: Fixed structured data formatting for authors for premium themes.
+- Support for WordPress 4.8
 
 = 4.13 Greek + bug fixes + automatic nutrition calculator for premium =
 
@@ -596,8 +604,10 @@ Greek + bug fixes + automatic nutrition calculator for premium.
 Fixed post rendering for non-English sites and sites that use non-Lover package.
 
 = 4.13 = 
-
 Greek + bug fixes + automatic nutrition calculator for Lover plan members. Learn more here: https://www.ziprecipes.net/automatic-nutrition-landing-page/
+
+= 4.14 = 
+Support for JSON-LD. Google's recommended way to format your recipes and other bug fixes.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
