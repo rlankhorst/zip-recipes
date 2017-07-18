@@ -195,8 +195,9 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
     margin-top: 0;
 }
 
-#zlrecipe-container .br-theme-css-stars .br-widget a {
-    font-size: 23px;
+#zlrecipe-container .br-theme-css-stars .br-widget {
+    height: 18px;
+    margin-top: 5px;
 }
 
 /* END SPECIFIC ELEMENT STYLES */
