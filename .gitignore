@@ -7,3 +7,4 @@ plugins/
 node_modules/
 build/
 nbproject
+working_files/
