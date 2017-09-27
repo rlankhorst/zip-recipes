@@ -1,14 +1,16 @@
 version: '2'
 services:
   dev:
+    # restart: always
     container_name: dev
-    image: hgezim/wordpress-nginx-nocache-xdebug:1.42
+    image: hgezim/wordpress-nginx-nocache-xdebug:1.88
     ports:
       - "8080:8080"
-      - "21000:21"
-      - "22000:22"
     volumes:
+      - ./working_files:/usr/share/nginx/html
       - ./src:/usr/share/nginx/html/wordpress/wp-content/plugins/zip-recipes
+    environment:
+      XDEBUG_CONFIG: "remote_host=${HOST_IP_ADDR}"
 
   db:
     container_name: db
