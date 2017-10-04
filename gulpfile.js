@@ -386,18 +386,21 @@ gulp.task('i18n', function(done) {
  * CustomTemplates plugin tasks
  */
 
-gulp.task('customTemplatesSaas', function() {
-    var dir_name = "CustomTemplates";
+function sassForPlugin(pluginName) {
+    return function() {
+        var path = ext_location + pluginName + assets_parent;
+        console.log(path + 'assets/sass/*.scss');
+        return gulp.src(path + 'assets/sass/*.scss')
+            .pipe(sass({
+                includePaths: [modules],
+                outputStyle: 'compressed'
+            }).on('error', sass.logError))
+            .pipe(gulp.dest(path + 'styles'));
+    }
+}
 
-    var path = ext_location + dir_name + assets_parent;
-    console.log(path + 'assets/sass/*.scss');
-    return gulp.src(path + 'assets/sass/*.scss')
-        .pipe(sass({
-            includePaths: [modules],
-            outputStyle: 'compressed'
-        }).on('error', sass.logError))
-        .pipe(gulp.dest(path + 'styles'));
-});
+gulp.task('customTemplatesSaas', sassForPlugin('CustomTemplates'));
+gulp.task('recipesgridSaas', sassForPlugin('RecipesGrid'));
 
 gulp.task('customTemplatesJS', function (cb) {
     var dir_name = "CustomTemplates";
