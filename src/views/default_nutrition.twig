@@ -17,8 +17,15 @@
         </div>
     {% endif %}
 </div>
-<p>
-    <label>Yields</label>
-    <input type='text' id='yield' name='yield' placeholder="Number of servings" value='{{ yield }}' />
-    <button type="button" id="get-nutrition">Calculate Nutrition</button>
-</p>
+
+<div class="zrdn-filed">
+    <label class="zrdn-label" for="yield">Yields</label>
+</div>
+<div class="zrdn-field zrdn-has-addons">
+    <p class="zrdn-control">
+        <input class="zrdn-input" type='text' id='yield' name='yield' placeholder="Number of servings" value='{{ yield }}' />
+    </p>
+    <p class="zrdn-control">
+        <button class="zrdn-button" type="button" id="get-nutrition">Calculate Nutrition</button>
+    </p>
+</div>

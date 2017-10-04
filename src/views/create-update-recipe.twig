@@ -2,6 +2,7 @@
 <!--suppress HtmlUnknownTarget -->
 <head>
     <link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ pluginurl }}/styles/bulma-grid.css" type="text/css" media="all" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript">
         var args = top.tinymce.activeEditor.windowManager.getParams();
@@ -9,7 +10,7 @@
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
 
-            if (title == null || title == '') {
+            if (title === null || title === '') {
                 var jQrecipeTitle = $('#recipe-title');
                 jQrecipeTitle.find('input').addClass('input-error');
                 jQrecipeTitle.append('<p class="error-message">You must enter a title for your recipe.</p>');
@@ -20,7 +21,7 @@
             var jQingredients = $('#z_recipe_ingredients');
             var jQingredientsTextarea = jQingredients.find('textarea');
             var ingredients = jQingredientsTextarea.val();
-            if (ingredients == null || ingredients == '' || ingredients == undefined) {
+            if (ingredients === null || ingredients === '' || ingredients === undefined) {
                 jQingredientsTextarea.addClass('input-error');
                 jQingredients.append('<p class="error-message">You must enter at least one ingredient.</p>');
 
@@ -138,89 +139,202 @@
 
 <body id="amd-zlrecipe-uploader">
     {% autoescape false %}
-        <form enctype='multipart/form-data' method='post' action='' name='recipe_form'>
+        <form class="entry-wrapper" enctype='multipart/form-data' method='post' action='' name='recipe_form'>
             {% if registration_required %}
                 <h3 >Please <a href="{{ recipe_url|raw }}&register=1">register</a> ZipRecipes plugin, it is free.</h3>
             {% endif %}
-            <h3 class='amd-zlrecipe-title'>{{ iframe_title }}</h3>
-            <div id='amd-zlrecipe-form-items'>
+            <h3 class="zrdn-is-size-4">{{ iframe_title }}</h3>
+            <div>
                 <input type='hidden' name='recipe_post_id' value='{{ id }}' />
                 <input type='hidden' name='recipe_id' value='{{ recipe_id }}' />
-                <p id='recipe-title'><label for='recipe_title'>Title <span class='required'>*</span></label> <input type='text' id='recipe_title' name='recipe_title' value='{{ recipe_title }}' /></p>
-                <p id='recipe-image'>
-                <div style="float:left; margin-left: 16px;">
-                    <label>Image</label>
-                    <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+
+                <!-- Title and image -->
+                <div class="zrdn-columns zrdn-is-mobile">
+                    <div class="zrdn-column zrdn-is-three-quarters-mobile">
+                        <div class="zrdn-field">
+                            <label for="recipe_title" class="zrdn-label">Title</label>
+                            <div class="zrdn-control">
+                                <input class="zrdn-input zrdn-is-small" type="text" id="recipe_title" name='recipe_title' value='{{ recipe_title }}' placeholder="Recipe title">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="zrdn-column">
+                        <label class="zrdn-label">Image</label>
+                        <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+                        <div id="upload-recipe-image-button-container">
+                            <a id="upload-btn" href="#">Add Image</a>
+                        </div>
+                        <div id="recipe-image-preview-container" style="display: none;">
+                            <img id="recipe-image-preview" src="" style="display: block" />
+                            <a href="javascript:zrdnResetImage()">Remove Image</a>
+                        </div>
+                    </div>
                 </div>
-                <div id="upload-recipe-image-button-container" style="float: left; margin-left: 25px; padding-top: 5px;">
-                    <a id="upload-btn" href="#">Add Image</a>
-                </div>
-                <div id="recipe-image-preview-container" style="display: none; float: left; margin-left: 25px; text-align: center;">
-                    <img id="recipe-image-preview" src="" style="display: block" />
-                    <a href="javascript:zrdnResetImage()">Remove Image</a>
-                </div>
-                </p>
-                <div style="clear: both"></div>
+                <!-- Title and image end -->
+
                 {{ author_section|raw }}
-                <p id='z_recipe_ingredients' class='cls'>
-                    <label>Ingredients
-                        <span class='required'>*</span>
-                        <small>Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.</small>
-                        <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
-                            <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
-                        </small>
-                    </label>
-                    <textarea name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
-                </p>
-                <p id='amd-zlrecipe-instructions' class='cls'>
-                    <label>Instructions
-                        <small>Press return after each instruction. There is no need to number your instructions.</small>
-                        <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
-                            <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
-                        </small>
-                    </label>
-                    <textarea name='instructions'>{{ instructions }}</textarea>
-                </p>
+
+                <div class="zrdn-field">
+                    <label class="zrdn-label" for="ingredients">Ingredients</label>
+                    <p class="zrdn-help">
+                        Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.<br />
+                        You can also create labels, hyperlinks, bold/italic effects and even add images!<br />
+                        <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                    </p>
+                    <div class="zrdn-control">
+                        <textarea class="zrdn-textarea" name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
+                    </div>
+                </div>
+
+                <div class="zrdn-field">
+                    <label class="zrdn-label" for="instructions">Instructions</label>
+                    <p class="zrdn-help">
+                        Press return after each instruction. There is no need to number your instructions.<br />
+                        You can also create labels, hyperlinks, bold/italic effects and even add images!<br />
+                        <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                    </p>
+                    <div class="zrdn-control">
+                        <textarea class="zrdn-textarea" id="instructions" name='instructions'>{{ instructions }}</textarea>
+                    </div>
+                </div>
+
                 {{ yield_section|raw }}
                 <p><a href='#' id='more-options-toggle'>More options</a></p>
                 <div id='more-options'>
-                    <p><label>Category</label> <input placeholder="e.g. appetizer, entree, etc." type='text' name='category' value='{{ category }}' /></p>
-                    <p><label>Cuisine</label> <input placeholder="e.g. French, Ethiopian, etc." type='text' name='cuisine' value='{{ cuisine }}' /></p>
-                    <p class='cls'><label>Summary</label>
-                        <textarea id='summary' name='summary' data-caption="true">{{ summary }}</textarea></p>
-                    <p class="cls"><label>Prep Time</label>
-                        {{ prep_time_input }}
-                        <span class="time">
-                            <span><input type='number' min="0" max="24" name='prep_time_hours' value='{{ prep_time_hours }}' /><label>hours</label></span>
-                            <span><input type='number' min="0" max="60" name='prep_time_minutes' value='{{ prep_time_minutes }}' /><label>minutes</label></span>
-                        </span>
-                    </p>
-                    <p class="cls"><label>Cook Time</label>
-                        {{ cook_time_input }}
-                        <span class="time">
-                            <span><input type='number' min="0" max="24" name='cook_time_hours' value='{{ cook_time_hours }}' /><label>hours</label></span>
-                            <span><input type='number' min="0" max="60" name='cook_time_minutes' value='{{ cook_time_minutes }}' /><label>minutes</label></span>
-                        </span>
-                    </p>
-                    <p class="cls"><label>Total Time</label>
-                        {{ total_time_input }}
-                        <span class="time">
-                            <span><input type='number' min="0" max="24" name='total_time_hours' value='{{ total_time_hours }}' /><label>hours</label></span>
-                            <span><input type='number' min="0" max="60" name='total_time_minutes' value='{{ total_time_minutes }}' /><label>minutes</label></span>
-                        </span>
-                    </p>
-                    <p><label>Serving Size</label> <input type='text' name='serving_size' value='{{ serving_size }}' /></p>
-                    <p><label>Calories</label> <input type='text' name='calories' value='{{ calories }}' /></p>
-                    <p><label>Carbs</label> <input type='text' name='carbs' value='{{ carbs }}' /></p>
-                    <p><label>Protein</label> <input type='text' name='protein' value='{{ protein }}' /></p>
-                    <p><label>Fiber</label> <input type='text' name='fiber' value='{{ fiber }}' /></p>
-                    <p><label>Sugar</label> <input type='text' name='sugar' value='{{ sugar }}' /></p>
-                    <p><label>Sodium</label> <input type='text' name='sodium' value='{{ sodium }}' /></p>
-                    <p><label>Fat</label> <input type='text' name='fat' value='{{ fat }}' /></p>
-                    <p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='{{ saturated_fat }}' /></p>
-                    <p><label>Trans. Fat</label> <input type='text' name='trans_fat' value='{{ trans_fat }}' /></p>
-                    <p><label>Cholesterol</label> <input type='text' name='cholesterol' value='{{ cholesterol }}' /></p>
-                    <p class='cls'><label>Notes</label> <textarea name='notes'>{{ notes }}</textarea></p>
+                    <div class="zrdn-columns zrdn-is-mobile">
+                        <div class="zrdn-column">
+                            <div class="zrdn-field">
+                                <label for="category" class="zrdn-label">Category</label>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input" id="category" placeholder="e.g. appetizer, entree, etc." type='text' name='category' value='{{ category }}' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="zrdn-column">
+                            <div class="zrdn-field">
+                                <label for="cuisine" class="zrdn-label">Cuisine</label>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input" placeholder="e.g. French, Ethiopian, etc." type='text' id="cuisine" name='cuisine' value='{{ cuisine }}' /></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="summary">Description</label>
+                        <div class="zrdn-control">
+                            <textarea class="zrdn-textarea" id='summary' name='summary' data-caption="true">{{ summary }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-columns zrdn-is-mobile">
+                        <div class="zrdn-column">
+                            <label for="prep_hours" class="zrdn-label">Prep Time</label>
+                            <div class="zrdn-field zrdn-is-grouped">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input" type='number' min="0" max="24" id="prep_hours" name='prep_time_hours' value='{{ prep_time_hours }}' />hours
+                                </div>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input" type='number' min="0" max="60" id="prep_minutes" name='prep_time_minutes' value='{{ prep_time_minutes }}' />minutes
+                                </div>
+                            </div>
+                        </div>
+                        <div class="zrdn-column">
+                            <label for="cook_hours" class="zrdn-label">Cook Time</label>
+                            <div class="zrdn-field zrdn-is-grouped">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input" type='number' min="0" max="24" id="cook_hours" name='cook_time_hours' value='{{ cook_time_hours }}' />hours
+                                </div>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input" type='number' min="0" max="60" id="cook_minutes" name='cook_time_minutes' value='{{ cook_time_minutes }}' />minutes
+                                </div>
+                            </div>
+                        </div>
+                        <div class="zrdn-column">
+                            <label for="total_hours" class="zrdn-label">Total time</label>
+                            <div class="zrdn-field zrdn-is-grouped">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input" type='number' min="0" max="24" id="total_hours" name='total_time_hours' value='{{ total_time_hours }}' />hours
+                                </div>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input" type='number' min="0" max="60" id="total_minutes" name='total_time_minutes' value='{{ total_time_minutes }}' />minutes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="serving_size">Serving Size</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" id="serving_size" type='text' name='serving_size' value='{{ serving_size }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="calories">Calories</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="calories" name='calories' value='{{ calories }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="carbs">Carbs</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id='carbs' name='carbs' value='{{ carbs }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="protein">Protein</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="protein" name='protein' value='{{ protein }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="fiber">Fiber</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="fiber" name='fiber' value='{{ fiber }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="sugar">Sugar</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="sugar" name='sugar' value='{{ sugar }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="sodium">Sodium</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="sodium" name='sodium' value='{{ sodium }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="fat">Fat</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="fat" name='fat' value='{{ fat }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="saturated_fat">Saturated fat</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="saturated_fat" name='saturated_fat' value='{{ saturated_fat }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="trans_fat">Trans. Fat</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="trans_fat" name='trans_fat' value='{{ trans_fat }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="cholesterol">Cholesterol</label>
+                        <div class="zrdn-control">
+                            <input class="zrdn-input" type='text' id="cholesterol" name='cholesterol' value='{{ cholesterol }}' />
+                        </div>
+                    </div>
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="notes">Notes</label>
+                        <div class="zrdn-control">
+                            <textarea class="zrdn-textarea" id="notes" name='notes'>{{ notes }}</textarea>
+                        </div>
+                    </div>
                 </div>
                 <input type='submit' value='{{ submit }}' name='add-recipe-button' />
             </div>
