@@ -65,23 +65,40 @@
                     o.content = t._convert_imgs_to_codes(o.content);
             });
 
+            var $body = jQuery('body');
+            var bodyProps = {
+                'overflow': $body.css('overflow'),
+                'position': $body.css('position')
+            };
+
             editor.addButton('zrdn_buttons', {
                 title: 'Zip Recipes',
                 image: url + '/../images/zrecipes-icon.png',
                 onclick: function () {
                     var recipe_id = null;
-                    if (recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0]) {
+                    var recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0];
+                    if (recipe) {
                         editor.selection.select(recipe);
                         recipe_id = /amd-zlrecipe-recipe-([0-9]+)/i.exec(editor.selection.getNode().id);
                     }
                     var iframe_url = baseurl + '/wp-admin/media-upload.php?recipe_post_id=' + ((recipe_id) ? '1-' + recipe_id[1] : post_id) + '&type=z_recipe&tab=amd_zlrecipe&TB_iframe=true&width=640&height=523';
                     editor.windowManager.open({
-                        title: 'Edit Recipe',
+                        title: recipe ? 'Edit Recipe' : 'Add a Recipe' ,
                         url: iframe_url,
-                        width: 700,
-                        height: 600,
-                        scrollbars: "yes",
-                        inline: 1,
+                        // make it full screen if on mobile or set a maximum of 700x600
+                        width: Math.min(700, Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+                            - 20 // width buffer
+                        ),
+                        height: Math.min(600,
+                            Math.max(document.documentElement.clientHeight, window.innerHeight || 0) -
+                            36*3 - // subtract height of title bar. Multiplied by 2 since it does some centering.
+                            jQuery(window.parent.document.getElementById('wpadminbar')).height() // subtract header bar of WP admin
+                        ),
+                        onClose: function(e) {
+                            // restore these props since they're set from the iframe when popup is created
+                            $body.css('overflow', bodyProps.overflow);
+                            $body.css('position', bodyProps.position);
+                        },
                         onsubmit: function (e) {
                             editor.insertContent('<h3>' + e.data.title + '</h3>');
                         }

@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ pluginurl }}/styles/bulma-grid.css" type="text/css" media="all" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    {{ header_tags|raw }}
     <script type="text/javascript">
         var args = top.tinymce.activeEditor.windowManager.getParams();
         var editor = args['editor'];
@@ -64,9 +65,9 @@
                 zrdnRecipeImageSelected({url: recipe_image_url});
             }
 
-            // Set focus to ingredients because in WP4.3 focus remains in the tinyMCE editor
-            $ingredients = $('#ingredients');
-            $ingredients.focus();
+            // Set focus to title because in WP4.3 focus remains in the tinyMCE editor
+            $title = $('#recipe_title');
+            $title.focus();
 
             // Set data-caption attr of summary textarea to false if user types in it or if there's text in it.
             var $recipeSummaryTextarea = $('textarea#summary');
@@ -92,7 +93,7 @@
             if (imageData.url)
             {
                 var $imageContainer = $('#recipe-image-preview-container'),
-                        $uploadImageContainer = $('#upload-recipe-image-button-container');
+                    $uploadImageContainer = $('#upload-recipe-image-button-container');
 
                 // Set UI state
                 $imageContainer.show();
@@ -101,7 +102,7 @@
                 $('#recipe_image').val(imageData.url);
 
                 var $image = $('#recipe-image-preview').
-                        attr('src', imageData.url);
+                attr('src', imageData.url);
 
                 var defaultHeight = 100;
 
@@ -119,11 +120,20 @@
             }
         }
 
+        jQuery(function () {
+            // These are needed to prevent background from scrolling when modal is open
+            // They get reset onClose of the modal.
+            var $parentBody = jQuery(window.parent.document.body);
+            $parentBody.css('overflow','hidden');
+            $parentBody.css('position','fixed');
+
+            jQuery('#amd-zlrecipe-uploader').height(jQuery(window.document).height());
+        });
 
         function zrdnResetImage()
         {
             var $imageContainer = $('#recipe-image-preview-container'),
-                    $uploadImageContainer = $('#upload-recipe-image-button-container');
+                $uploadImageContainer = $('#upload-recipe-image-button-container');
 
             $imageContainer.hide();
             $uploadImageContainer.show();
@@ -131,7 +141,6 @@
             $('#recipe_image').val('');
         }
     </script>
-    {{ header_tags|raw }}
     {% if post_info %}
         <script>window.onload = amdZLRecipeSubmitForm;</script>
     {% endif %}
@@ -143,8 +152,7 @@
             {% if registration_required %}
                 <h3 >Please <a href="{{ recipe_url|raw }}&register=1">register</a> ZipRecipes plugin, it is free.</h3>
             {% endif %}
-            <h3 class="zrdn-is-size-4">{{ iframe_title }}</h3>
-            <div>
+            <div id="recipe-form">
                 <input type='hidden' name='recipe_post_id' value='{{ id }}' />
                 <input type='hidden' name='recipe_id' value='{{ recipe_id }}' />
 
@@ -199,7 +207,7 @@
                 </div>
 
                 {{ yield_section|raw }}
-                <p><a href='#' id='more-options-toggle'>More options</a></p>
+
                 <div id='more-options'>
                     <div class="zrdn-columns zrdn-is-mobile">
                         <div class="zrdn-column">
@@ -227,7 +235,7 @@
                         </div>
                     </div>
 
-                    <div class="zrdn-columns zrdn-is-mobile">
+                    <div class="zrdn-columns zrdn-is-tablet">
                         <div class="zrdn-column">
                             <label for="prep_hours" class="zrdn-label">Prep Time</label>
                             <div class="zrdn-field zrdn-is-grouped">
@@ -336,7 +344,15 @@
                         </div>
                     </div>
                 </div>
-                <input type='submit' value='{{ submit }}' name='add-recipe-button' />
+            </div>
+
+            <div class="bottom-bar">
+                <div class="zrdn-is-pulled-left">
+                    <a href='#' id='more-options-toggle'>More options</a>
+                </div>
+                <div class="zrdn-is-pulled-right ">
+                    <input class="zrdn-button zrdn-is-info" type='submit' value='{{ submit }}' name='add-recipe-button' />
+                </div>
             </div>
         </form>
     {% endautoescape %}
