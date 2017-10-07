@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
     <link rel="stylesheet" href="{{ pluginurl }}/styles/bulma-grid.css" type="text/css" media="all" />
+    <script src="https://use.fontawesome.com/5ada765508.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     {{ header_tags|raw }}
     <script type="text/javascript">
@@ -34,15 +35,21 @@
         }
 
         $(document).ready(function () {
-            $('#more-options').hide();
-            $('#more-options-toggle').click(function () {
-                if ($('#more-options').is(':visible')) {
-                    $('#more-options').hide(400);
-                    $('#more-options-toggle').html('More options');
+            var $moreOptions = $('#more-options');
+            var $moreOptionsToggle = $('#more-options-toggle');
+            $moreOptions.hide();
+            $moreOptionsToggle.click(function () {
+                if ($moreOptions.is(':visible')) {
+                    $moreOptions.hide(400);
+                    $moreOptionsToggle.html('<span class="zrdn-icon"><i class="fa fa-plus"></i></span><span>More options</span>');
                 }
                 else {
-                    $('#more-options').show(400);
-                    $('#more-options-toggle').html('Less options');
+                    $moreOptions.show(400, function () {
+                        jQuery('html, body').animate({
+                            scrollTop: $moreOptions.offset().top
+                        }, 250);
+                    });
+                    $moreOptionsToggle.html('<span class="zrdn-icon"><i class="fa fa-minus"></i></span><span>Fewer options</span>');
                 }
 
                 return false;
@@ -347,11 +354,15 @@
             </div>
 
             <div class="bottom-bar">
+
                 <div class="zrdn-is-pulled-left">
-                    <a href='#' id='more-options-toggle'>More options</a>
+                    <a href='#' id='more-options-toggle' class="zrdn-button zrdn-is-small">
+                        <span class="zrdn-icon"><i class="fa fa-plus"></i></span>
+                        <span>More options</span>
+                    </a>
                 </div>
-                <div class="zrdn-is-pulled-right ">
-                    <input class="zrdn-button zrdn-is-info" type='submit' value='{{ submit }}' name='add-recipe-button' />
+                <div class="zrdn-is-pulled-right">
+                    <input class="zrdn-button zrdn-is-primary" type='submit' value='{{ submit }}' name='add-recipe-button' />
                 </div>
             </div>
         </form>
