@@ -221,7 +221,7 @@
                             <div class="zrdn-field">
                                 <label for="category" class="zrdn-label">Category</label>
                                 <div class="zrdn-control">
-                                    <input class="zrdn-input" id="category" placeholder="e.g. appetizer, entree, etc." type='text' name='category' value='{{ category }}' />
+                                    <input class="zrdn-input zrdn-is-small" id="category" placeholder="e.g. appetizer, entree, etc." type='text' name='category' value='{{ category }}' />
                                 </div>
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                             <div class="zrdn-field">
                                 <label for="cuisine" class="zrdn-label">Cuisine</label>
                                 <div class="zrdn-control">
-                                    <input class="zrdn-input" placeholder="e.g. French, Ethiopian, etc." type='text' id="cuisine" name='cuisine' value='{{ cuisine }}' /></p>
+                                    <input class="zrdn-input zrdn-is-small" placeholder="e.g. French, Ethiopian, etc." type='text' id="cuisine" name='cuisine' value='{{ cuisine }}' /></p>
                                 </div>
                             </div>
                         </div>
@@ -247,10 +247,10 @@
                             <label for="prep_hours" class="zrdn-label">Prep Time</label>
                             <div class="zrdn-field zrdn-is-grouped">
                                 <div class="zrdn-control">
-                                    <input class="zrdn-input" type='number' min="0" max="24" id="prep_hours" name='prep_time_hours' value='{{ prep_time_hours }}' />hours
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="prep_hours" name='prep_time_hours' value='{{ prep_time_hours }}' />hours
                                 </div>
                                 <div class="zrdn-control">
-                                    <input class="zrdn-input" type='number' min="0" max="60" id="prep_minutes" name='prep_time_minutes' value='{{ prep_time_minutes }}' />minutes
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="prep_minutes" name='prep_time_minutes' value='{{ prep_time_minutes }}' />minutes
                                 </div>
                             </div>
                         </div>
@@ -258,10 +258,10 @@
                             <label for="cook_hours" class="zrdn-label">Cook Time</label>
                             <div class="zrdn-field zrdn-is-grouped">
                                 <div class="zrdn-control">
-                                    <input class="zrdn-input" type='number' min="0" max="24" id="cook_hours" name='cook_time_hours' value='{{ cook_time_hours }}' />hours
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="cook_hours" name='cook_time_hours' value='{{ cook_time_hours }}' />hours
                                 </div>
                                 <div class="zrdn-control">
-                                    <input class="zrdn-input" type='number' min="0" max="60" id="cook_minutes" name='cook_time_minutes' value='{{ cook_time_minutes }}' />minutes
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="cook_minutes" name='cook_time_minutes' value='{{ cook_time_minutes }}' />minutes
                                 </div>
                             </div>
                         </div>
@@ -269,10 +269,10 @@
                             <label for="total_hours" class="zrdn-label">Total time</label>
                             <div class="zrdn-field zrdn-is-grouped">
                                 <div class="zrdn-control">
-                                    <input class="zrdn-input" type='number' min="0" max="24" id="total_hours" name='total_time_hours' value='{{ total_time_hours }}' />hours
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="total_hours" name='total_time_hours' value='{{ total_time_hours }}' />hours
                                 </div>
                                 <div class="zrdn-control">
-                                    <input class="zrdn-input" type='number' min="0" max="60" id="total_minutes" name='total_time_minutes' value='{{ total_time_minutes }}' />minutes
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="total_minutes" name='total_time_minutes' value='{{ total_time_minutes }}' />minutes
                                 </div>
                             </div>
                         </div>
@@ -281,67 +281,67 @@
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="serving_size">Serving Size</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" id="serving_size" type='text' name='serving_size' value='{{ serving_size }}' />
+                            <input class="zrdn-input zrdn-is-small" id="serving_size" type='text' name='serving_size' value='{{ serving_size }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="calories">Calories</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="calories" name='calories' value='{{ calories }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="calories" name='calories' value='{{ calories }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="carbs">Carbs</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id='carbs' name='carbs' value='{{ carbs }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id='carbs' name='carbs' value='{{ carbs }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="protein">Protein</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="protein" name='protein' value='{{ protein }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="protein" name='protein' value='{{ protein }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="fiber">Fiber</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="fiber" name='fiber' value='{{ fiber }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="fiber" name='fiber' value='{{ fiber }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="sugar">Sugar</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="sugar" name='sugar' value='{{ sugar }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="sugar" name='sugar' value='{{ sugar }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="sodium">Sodium</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="sodium" name='sodium' value='{{ sodium }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="sodium" name='sodium' value='{{ sodium }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="fat">Fat</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="fat" name='fat' value='{{ fat }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="fat" name='fat' value='{{ fat }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="saturated_fat">Saturated fat</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="saturated_fat" name='saturated_fat' value='{{ saturated_fat }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="saturated_fat" name='saturated_fat' value='{{ saturated_fat }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="trans_fat">Trans. Fat</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="trans_fat" name='trans_fat' value='{{ trans_fat }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="trans_fat" name='trans_fat' value='{{ trans_fat }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">
                         <label class="zrdn-label" for="cholesterol">Cholesterol</label>
                         <div class="zrdn-control">
-                            <input class="zrdn-input" type='text' id="cholesterol" name='cholesterol' value='{{ cholesterol }}' />
+                            <input class="zrdn-input zrdn-is-small" type='text' id="cholesterol" name='cholesterol' value='{{ cholesterol }}' />
                         </div>
                     </div>
                     <div class="zrdn-field">

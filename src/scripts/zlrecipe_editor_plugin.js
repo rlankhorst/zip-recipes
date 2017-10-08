@@ -86,7 +86,7 @@
                         title: recipe ? 'Edit Recipe' : 'Add a Recipe' ,
                         url: iframe_url,
                         // make it full screen if on mobile or set a maximum of 700x600
-                        width: Math.min(700, Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+                        width: Math.min(780, Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
                             - 20 // width buffer
                         ),
                         height: Math.min(600,
