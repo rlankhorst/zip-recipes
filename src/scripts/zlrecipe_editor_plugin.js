@@ -75,11 +75,20 @@
                 title: 'Zip Recipes',
                 image: url + '/../images/zrecipes-icon.png',
                 onclick: function () {
+                    // save selection bookmark so we can restore after we get recipe id
+                    // we need to restore selection because if we don't, the image tooltip (align right, left, etc)
+                    // comes up through the modal window and is disruptive
+                    var prePopupBookmark = editor.selection.getBookmark();
+
                     var recipe_id = null;
+
                     var recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0];
                     if (recipe) {
                         editor.selection.select(recipe);
                         recipe_id = /amd-zlrecipe-recipe-([0-9]+)/i.exec(editor.selection.getNode().id);
+
+                        // restore bookmark selection
+                        editor.selection.moveToBookmark(prePopupBookmark);
                     }
                     var iframe_url = baseurl + '/wp-admin/media-upload.php?recipe_post_id=' + ((recipe_id) ? '1-' + recipe_id[1] : post_id) + '&type=z_recipe&tab=amd_zlrecipe&TB_iframe=true&width=640&height=523';
                     editor.windowManager.open({
@@ -98,9 +107,6 @@
                             // restore these props since they're set from the iframe when popup is created
                             $body.css('overflow', bodyProps.overflow);
                             $body.css('position', bodyProps.position);
-                        },
-                        onsubmit: function (e) {
-                            editor.insertContent('<h3>' + e.data.title + '</h3>');
                         }
                     }, {
                         //	Windows Parameters/Arguments

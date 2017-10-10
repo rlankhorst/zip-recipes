@@ -20,16 +20,23 @@
                 return false;
             }
 
-            var jQingredients = $('#z_recipe_ingredients');
-            var jQingredientsTextarea = jQingredients.find('textarea');
-            var ingredients = jQingredientsTextarea.val();
+            var $ingredientsContainer = $('#ingredients-container');
+            var $ingredientsTextarea = $ingredientsContainer.find('textarea');
+            var ingredients = $ingredientsTextarea.val();
             if (ingredients === null || ingredients === '' || ingredients === undefined) {
-                jQingredientsTextarea.addClass('input-error');
-                jQingredients.append('<p class="error-message">You must enter at least one ingredient.</p>');
+                $ingredientsContainer.append('<p class="zrdn-help zrdn-is-danger">You must enter at least one ingredient.</p>');
 
                 return false;
             }
             var shortcode = '[amd-zlrecipe-recipe:{{ recipe_id }}]';
+
+            // we're required to select the recipe if it exists, otherwise a new one is inserted on
+            // each update
+            var recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0];
+            if (recipe) {
+                editor.selection.select(recipe);
+            }
+
             editor.execCommand('mceInsertContent', false, shortcode);
             top.tinymce.activeEditor.windowManager.close(window);
         }
@@ -165,7 +172,7 @@
 
                 <!-- Title and image -->
                 <div class="zrdn-columns zrdn-is-mobile">
-                    <div class="zrdn-column zrdn-is-three-quarters-mobile">
+                    <div class="zrdn-column zrdn-is-three-quarters zrdn-is-two-thirds-mobile">
                         <div class="zrdn-field">
                             <label for="recipe_title" class="zrdn-label">Title</label>
                             <div class="zrdn-control">
@@ -189,7 +196,7 @@
 
                 {{ author_section|raw }}
 
-                <div class="zrdn-field">
+                <div id="ingredients-container" class="zrdn-field">
                     <label class="zrdn-label" for="ingredients">Ingredients</label>
                     <p class="zrdn-help">
                         Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.<br />
@@ -216,6 +223,7 @@
                 {{ yield_section|raw }}
 
                 <div id='more-options'>
+                    <hr />
                     <div class="zrdn-columns zrdn-is-mobile">
                         <div class="zrdn-column">
                             <div class="zrdn-field">
@@ -279,77 +287,155 @@
                     </div>
 
                     <div class="zrdn-field">
-                        <label class="zrdn-label" for="serving_size">Serving Size</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" id="serving_size" type='text' name='serving_size' value='{{ serving_size }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="calories">Calories</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="calories" name='calories' value='{{ calories }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="carbs">Carbs</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id='carbs' name='carbs' value='{{ carbs }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="protein">Protein</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="protein" name='protein' value='{{ protein }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="fiber">Fiber</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="fiber" name='fiber' value='{{ fiber }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="sugar">Sugar</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="sugar" name='sugar' value='{{ sugar }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="sodium">Sodium</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="sodium" name='sodium' value='{{ sodium }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="fat">Fat</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="fat" name='fat' value='{{ fat }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="saturated_fat">Saturated fat</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="saturated_fat" name='saturated_fat' value='{{ saturated_fat }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="trans_fat">Trans. Fat</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="trans_fat" name='trans_fat' value='{{ trans_fat }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
-                        <label class="zrdn-label" for="cholesterol">Cholesterol</label>
-                        <div class="zrdn-control">
-                            <input class="zrdn-input zrdn-is-small" type='text' id="cholesterol" name='cholesterol' value='{{ cholesterol }}' />
-                        </div>
-                    </div>
-                    <div class="zrdn-field">
                         <label class="zrdn-label" for="notes">Notes</label>
                         <div class="zrdn-control">
                             <textarea class="zrdn-textarea" id="notes" name='notes'>{{ notes }}</textarea>
                         </div>
                     </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="serving_size">Serving Size</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" id="serving_size" type='text' name='serving_size' value='{{ serving_size }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="calories">Calories</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="calories" name='calories' value='{{ calories }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="carbs">Carbs</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id='carbs' name='carbs' value='{{ carbs }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="protein">Protein</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="protein" name='protein' value='{{ protein }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="fiber">Fiber</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="fiber" name='fiber' value='{{ fiber }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="sugar">Sugar</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="sugar" name='sugar' value='{{ sugar }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="sodium">Sodium</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="sodium" name='sodium' value='{{ sodium }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="fat">Fat</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="fat" name='fat' value='{{ fat }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="saturated_fat">Saturated fat</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="saturated_fat" name='saturated_fat' value='{{ saturated_fat }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="trans_fat">Trans. Fat</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="trans_fat" name='trans_fat' value='{{ trans_fat }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="cholesterol">Cholesterol</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="cholesterol" name='cholesterol' value='{{ cholesterol }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
                 </div>
             </div>
 
