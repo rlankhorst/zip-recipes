@@ -75,11 +75,6 @@
                 title: 'Zip Recipes',
                 image: url + '/../images/zrecipes-icon.png',
                 onclick: function () {
-                    // save selection bookmark so we can restore after we get recipe id
-                    // we need to restore selection because if we don't, the image tooltip (align right, left, etc)
-                    // comes up through the modal window and is disruptive
-                    var prePopupBookmark = editor.selection.getBookmark();
-
                     var recipe_id = null;
 
                     var recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0];
@@ -87,30 +82,45 @@
                         editor.selection.select(recipe);
                         recipe_id = /amd-zlrecipe-recipe-([0-9]+)/i.exec(editor.selection.getNode().id);
 
-                        // restore bookmark selection
-                        editor.selection.moveToBookmark(prePopupBookmark);
+                        // If we don't collapse selection, when a recipe is updated, the image placeholder
+                        // get selected and the image toolbar appears even above the modal which can be quite
+                        // confusing as it's tempting to click X and make the recipe disappear altogether.
+                        // I tried to save the bookmark before we select but just calling  editor.selection.getBookmark()
+                        //  breaks recipe insertion (not updates thought).
+                        // So we settle on collapse!
+                        editor.selection.collapse();
                     }
                     var iframe_url = baseurl + '/wp-admin/media-upload.php?recipe_post_id=' + ((recipe_id) ? '1-' + recipe_id[1] : post_id) + '&type=z_recipe&tab=amd_zlrecipe&TB_iframe=true&width=640&height=523';
+                    var modal_width = Math.min(780, Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+                        - 20 // width buffer
+                    );
+                    var modal_height = Math.min(600,
+                        Math.max(document.documentElement.clientHeight, window.innerHeight || 0) -
+                        36*3 - // subtract height of title bar. Multiplied by 2 since it does some centering.
+                        jQuery(window.parent.document.getElementById('wpadminbar')).height() // subtract header bar of WP admin
+                    );
                     editor.windowManager.open({
                         title: recipe ? 'Edit Recipe' : 'Add a Recipe' ,
                         url: iframe_url,
                         // make it full screen if on mobile or set a maximum of 700x600
-                        width: Math.min(780, Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-                            - 20 // width buffer
-                        ),
-                        height: Math.min(600,
-                            Math.max(document.documentElement.clientHeight, window.innerHeight || 0) -
-                            36*3 - // subtract height of title bar. Multiplied by 2 since it does some centering.
-                            jQuery(window.parent.document.getElementById('wpadminbar')).height() // subtract header bar of WP admin
-                        ),
+                        width: modal_width,
+                        height: modal_height,
                         onClose: function(e) {
-                            // restore these props since they're set from the iframe when popup is created
-                            $body.css('overflow', bodyProps.overflow);
-                            $body.css('position', bodyProps.position);
+
+                            // We only change overflow and position props of body
+                            // on screens smaller than 780. So, we don't need to revert this for all screens.
+                            if (modal_width < 780) // is mobile
+                            {
+                                // restore these props since they're set from the iframe when popup is created
+                                $body.css('overflow', bodyProps.overflow);
+                                $body.css('position', bodyProps.position);
+                            }
                         }
                     }, {
                         //	Windows Parameters/Arguments
-                        editor: editor
+                        editor: editor,
+                        width: modal_width,
+                        height: modal_height
                     });
                 }
             });

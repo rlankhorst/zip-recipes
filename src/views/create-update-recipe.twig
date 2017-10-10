@@ -9,6 +9,8 @@
     <script type="text/javascript">
         var args = top.tinymce.activeEditor.windowManager.getParams();
         var editor = args['editor'];
+        var modal_width = args['width'];
+        var modal_height = args['height'];
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
 
@@ -135,11 +137,15 @@
         }
 
         jQuery(function () {
-            // These are needed to prevent background from scrolling when modal is open
+            // These are needed to prevent background from scrolling when modal is open on mobile
             // They get reset onClose of the modal.
             var $parentBody = jQuery(window.parent.document.body);
-            $parentBody.css('overflow','hidden');
-            $parentBody.css('position','fixed');
+
+            if (modal_width < 780) // is mobile
+            {
+                $parentBody.css('overflow', 'hidden');
+                $parentBody.css('position', 'fixed');
+            }
 
             jQuery('#amd-zlrecipe-uploader').height(jQuery(window.document).height());
         });
