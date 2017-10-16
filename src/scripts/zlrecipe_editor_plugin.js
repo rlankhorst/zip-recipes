@@ -65,6 +65,8 @@
                     o.content = t._convert_imgs_to_codes(o.content);
             });
 
+            // We need to restore these properites again in mobile devices
+            // because we change them to stop background scrolling once modal is open.
             var $body = jQuery('body');
             var bodyProps = {
                 'overflow': $body.css('overflow'),
