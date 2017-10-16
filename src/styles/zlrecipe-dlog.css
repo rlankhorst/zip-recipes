@@ -11,7 +11,7 @@ body {
     overflow: scroll;
 }
 
-#recipe-form {
+#recipe-form-elements {
     margin-bottom: 60px; /* 50 + 10 buffer */
 }
 

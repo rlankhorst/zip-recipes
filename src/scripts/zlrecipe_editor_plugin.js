@@ -119,8 +119,7 @@
                     }, {
                         //	Windows Parameters/Arguments
                         editor: editor,
-                        width: modal_width,
-                        height: modal_height
+                        width: modal_width
                     });
                 }
             });

@@ -10,14 +10,13 @@
         var args = top.tinymce.activeEditor.windowManager.getParams();
         var editor = args['editor'];
         var modal_width = args['width'];
-        var modal_height = args['height'];
+
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
 
             if (title === null || title === '') {
-                var jQrecipeTitle = $('#recipe-title');
-                jQrecipeTitle.find('input').addClass('input-error');
-                jQrecipeTitle.append('<p class="error-message">You must enter a title for your recipe.</p>');
+                var $recipeTitleContainer = jQuery('#title-container');
+                $recipeTitleContainer.append('<p class="zrdn-help zrdn-is-danger">You must enter a title for your recipe.</p>');
 
                 return false;
             }
@@ -82,11 +81,14 @@
             }
 
             // Set focus to title because in WP4.3 focus remains in the tinyMCE editor
-            $title = $('#recipe_title');
+            $title = $('#recipe-title');
             $title.focus();
 
             // Set data-caption attr of summary textarea to false if user types in it or if there's text in it.
+            // We keep track of contents of summary (aka description) field to know whether we
+            // should set the description to image caption when an image with a caption is set.
             var $recipeSummaryTextarea = $('textarea#summary');
+            // when data is added to summary, set caption to false or if it has a value
             $recipeSummaryTextarea.keyup(function ()
             {
                 $recipeSummaryTextarea.data('caption', 'false');
@@ -125,8 +127,8 @@
                 // width seems to be set proportionally!
                 $image.height(defaultHeight);
 
-                // Set Recipe Summary to image caption if image caption exists and
-                //  if data-caption attr of summary textarea is true
+                // Set Recipe Summary (aka description) to be the same as image caption if image caption exists and
+                //  if summary hasn't been set by user already (i.e. data-caption attr of summary textarea is true)
                 var $recipeSummaryTextarea = $('textarea#summary');
                 if (imageData.caption && $recipeSummaryTextarea.data('caption') === true)
                 {
@@ -162,17 +164,33 @@
         }
     </script>
     {% if post_info %}
-        <script>window.onload = amdZLRecipeSubmitForm;</script>
+        <script>
+            /**
+             * This form lives in a modal. The way it works is that client-side validation happens
+             * after the form is submitted (after the reload). This is totally backwards but I'm leaving it in
+             * for now since the proper fix requires an AJAX submit to happen.
+             * If we make validation happen on submit, we don't know when to close the popup window and can
+             * kill the submission process if we close too quickly. The way to fix this is do an AJAX request
+             * with form data in which case we know when submit is finished and if it was valid.
+             *
+             * This is only added when the request is POSTed. Meaning, validation only happens upon form submission.
+             * It can go two ways: fail client side validation or it succeeds and closes the modal.
+             *
+             * This is weird as it probably already saves anything you pass as a recipe before client validation stars.
+             * ***********TODO****: change this shit to use AJAX.
+             */
+            window.onload = amdZLRecipeSubmitForm;
+        </script>
     {% endif %}
 </head>
 
 <body id="amd-zlrecipe-uploader">
     {% autoescape false %}
-        <form class="entry-wrapper" enctype='multipart/form-data' method='post' action='' name='recipe_form'>
+        <form id="recipe-form" class="entry-wrapper" enctype='multipart/form-data' method='post' action='' name='recipe_form'>
             {% if registration_required %}
                 <h3 >Please <a href="{{ recipe_url|raw }}&register=1">register</a> ZipRecipes plugin, it is free.</h3>
             {% endif %}
-            <div id="recipe-form">
+            <div id="recipe-form-elements">
                 <input type='hidden' name='recipe_post_id' value='{{ id }}' />
                 <input type='hidden' name='recipe_id' value='{{ recipe_id }}' />
 
@@ -180,9 +198,9 @@
                 <div class="zrdn-columns zrdn-is-mobile">
                     <div class="zrdn-column zrdn-is-three-quarters-tablet zrdn-is-two-thirds-mobile">
                         <div class="zrdn-field">
-                            <label for="recipe_title" class="zrdn-label">Title</label>
-                            <div class="zrdn-control">
-                                <input class="zrdn-input zrdn-is-small" type="text" id="recipe_title" name='recipe_title' value='{{ recipe_title }}' placeholder="Recipe title">
+                            <label for="recipe-title" class="zrdn-label">Title</label>
+                            <div class="zrdn-control" id="title-container">
+                                <input class="zrdn-input zrdn-is-small" type="text" id="recipe-title" name='recipe_title' value='{{ recipe_title }}' placeholder="Recipe title">
                             </div>
                         </div>
                         {{ author_section|raw }}
