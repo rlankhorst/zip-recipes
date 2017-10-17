@@ -303,14 +303,14 @@ gulp.task("premium-sequence-friend", function (cb) {
  * Task to build free and premium versions.
  */
 gulp.task("build", function(cb) {
-  // we need to rename vendor to vendor-dev becaus we don't want to ship vendor dev
+  // we need to rename vendor to vendor-dev because we don't want to ship vendor dev
   return sequence(
     "clean",
     "composer-dev-install",
     // "i18n", // needs vendor to include dev packages
     "vendor-rename-pre",
     "composer-install",
-    ["free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
+    ["sassForMain", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
     "vendor-rename-post",
     cb);
 });
@@ -386,18 +386,21 @@ gulp.task('i18n', function(done) {
  * CustomTemplates plugin tasks
  */
 
-gulp.task('customTemplatesSaas', function() {
-    var dir_name = "CustomTemplates";
+function sassForPlugin(pluginName) {
+    return function() {
+        var path = ext_location + pluginName + assets_parent;
+        console.log(path + 'assets/sass/*.scss');
+        return gulp.src(path + 'assets/sass/*.scss')
+            .pipe(sass({
+                includePaths: [modules],
+                outputStyle: 'compressed'
+            }).on('error', sass.logError))
+            .pipe(gulp.dest(path + 'styles'));
+    }
+}
 
-    var path = ext_location + dir_name + assets_parent;
-    console.log(path + 'assets/sass/*.scss');
-    return gulp.src(path + 'assets/sass/*.scss')
-        .pipe(sass({
-            includePaths: [modules],
-            outputStyle: 'compressed'
-        }).on('error', sass.logError))
-        .pipe(gulp.dest(path + 'styles'));
-});
+gulp.task('customTemplatesSaas', sassForPlugin('CustomTemplates'));
+gulp.task('recipesgridSaas', sassForPlugin('RecipesGrid'));
 
 gulp.task('customTemplatesJS', function (cb) {
     var dir_name = "CustomTemplates";
@@ -424,3 +427,12 @@ gulp.task('customTemplatesImages', function(cb) {
 gulp.task('custom-templates',
     ['customTemplatesSaas', 'customTemplatesJS', 'customTemplatesFonts', 'customTemplatesImages']
 );
+
+gulp.task('sassForMain', function(cb) {
+    return gulp.src('src/styles/*.scss')
+        .pipe(sass({
+            includePaths: [modules],
+            outputStyle: 'compressed'
+        }).on('error', sass.logError))
+        .pipe(gulp.dest('src/styles/'));
+});

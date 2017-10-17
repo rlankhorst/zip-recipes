@@ -2,45 +2,62 @@
 <!--suppress HtmlUnknownTarget -->
 <head>
     <link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ pluginurl }}/styles/bulma.css" type="text/css" media="all" />
+    <script src="https://use.fontawesome.com/5ada765508.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    {{ header_tags|raw }}
     <script type="text/javascript">
         var args = top.tinymce.activeEditor.windowManager.getParams();
         var editor = args['editor'];
+        var modal_width = args['width'];
+
         function amdZLRecipeSubmitForm() {
             var title = document.forms['recipe_form']['recipe_title'].value;
 
-            if (title == null || title == '') {
-                var jQrecipeTitle = $('#recipe-title');
-                jQrecipeTitle.find('input').addClass('input-error');
-                jQrecipeTitle.append('<p class="error-message">You must enter a title for your recipe.</p>');
+            if (title === null || title === '') {
+                var $recipeTitleContainer = jQuery('#title-container');
+                $recipeTitleContainer.append('<p class="zrdn-help zrdn-is-danger">You must enter a title for your recipe.</p>');
 
                 return false;
             }
 
-            var jQingredients = $('#z_recipe_ingredients');
-            var jQingredientsTextarea = jQingredients.find('textarea');
-            var ingredients = jQingredientsTextarea.val();
-            if (ingredients == null || ingredients == '' || ingredients == undefined) {
-                jQingredientsTextarea.addClass('input-error');
-                jQingredients.append('<p class="error-message">You must enter at least one ingredient.</p>');
+            var $ingredientsContainer = $('#ingredients-container');
+            var $ingredientsTextarea = $ingredientsContainer.find('textarea');
+            var ingredients = $ingredientsTextarea.val();
+            if (ingredients === null || ingredients === '' || ingredients === undefined) {
+                $ingredientsContainer.append('<p class="zrdn-help zrdn-is-danger">You must enter at least one ingredient.</p>');
 
                 return false;
             }
             var shortcode = '[amd-zlrecipe-recipe:{{ recipe_id }}]';
+
+            // we're required to select the recipe if it exists, otherwise a new one is inserted on
+            // each update
+            var recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0];
+            if (recipe) {
+                editor.selection.select(recipe);
+            }
+
             editor.execCommand('mceInsertContent', false, shortcode);
             top.tinymce.activeEditor.windowManager.close(window);
         }
 
         $(document).ready(function () {
-            $('#more-options').hide();
-            $('#more-options-toggle').click(function () {
-                if ($('#more-options').is(':visible')) {
-                    $('#more-options').hide(400);
-                    $('#more-options-toggle').html('More options');
+            var $moreOptions = $('#more-options');
+            var $moreOptionsToggle = $('#more-options-toggle');
+            $moreOptions.hide();
+            $moreOptionsToggle.click(function () {
+                if ($moreOptions.is(':visible')) {
+                    $moreOptions.hide(400);
+                    $moreOptionsToggle.html('<span class="zrdn-icon"><i class="fa fa-plus"></i></span><span>More options</span>');
                 }
                 else {
-                    $('#more-options').show(400);
-                    $('#more-options-toggle').html('Less options');
+                    $moreOptions.show(400, function () {
+                        jQuery('html, body').animate({
+                            scrollTop: $moreOptions.offset().top
+                        }, 250);
+                    });
+                    $moreOptionsToggle.html('<span class="zrdn-icon"><i class="fa fa-minus"></i></span><span>Fewer options</span>');
                 }
 
                 return false;
@@ -63,12 +80,15 @@
                 zrdnRecipeImageSelected({url: recipe_image_url});
             }
 
-            // Set focus to ingredients because in WP4.3 focus remains in the tinyMCE editor
-            $ingredients = $('#ingredients');
-            $ingredients.focus();
+            // Set focus to title because in WP4.3 focus remains in the tinyMCE editor
+            $title = $('#recipe-title');
+            $title.focus();
 
             // Set data-caption attr of summary textarea to false if user types in it or if there's text in it.
+            // We keep track of contents of summary (aka description) field to know whether we
+            // should set the description to image caption when an image with a caption is set.
             var $recipeSummaryTextarea = $('textarea#summary');
+            // when data is added to summary, set caption to false or if it has a value
             $recipeSummaryTextarea.keyup(function ()
             {
                 $recipeSummaryTextarea.data('caption', 'false');
@@ -91,7 +111,7 @@
             if (imageData.url)
             {
                 var $imageContainer = $('#recipe-image-preview-container'),
-                        $uploadImageContainer = $('#upload-recipe-image-button-container');
+                    $uploadImageContainer = $('#upload-recipe-image-button-container');
 
                 // Set UI state
                 $imageContainer.show();
@@ -100,15 +120,15 @@
                 $('#recipe_image').val(imageData.url);
 
                 var $image = $('#recipe-image-preview').
-                        attr('src', imageData.url);
+                attr('src', imageData.url);
 
                 var defaultHeight = 100;
 
                 // width seems to be set proportionally!
                 $image.height(defaultHeight);
 
-                // Set Recipe Summary to image caption if image caption exists and
-                //  if data-caption attr of summary textarea is true
+                // Set Recipe Summary (aka description) to be the same as image caption if image caption exists and
+                //  if summary hasn't been set by user already (i.e. data-caption attr of summary textarea is true)
                 var $recipeSummaryTextarea = $('textarea#summary');
                 if (imageData.caption && $recipeSummaryTextarea.data('caption') === true)
                 {
@@ -118,11 +138,24 @@
             }
         }
 
+        jQuery(function () {
+            // These are needed to prevent background from scrolling when modal is open on mobile
+            // They get reset onClose of the modal.
+            var $parentBody = jQuery(window.parent.document.body);
+
+            if (modal_width < 780) // is mobile
+            {
+                $parentBody.css('overflow', 'hidden');
+                $parentBody.css('position', 'fixed');
+            }
+
+            jQuery('#amd-zlrecipe-uploader').height(jQuery(window.document).height());
+        });
 
         function zrdnResetImage()
         {
             var $imageContainer = $('#recipe-image-preview-container'),
-                    $uploadImageContainer = $('#upload-recipe-image-button-container');
+                $uploadImageContainer = $('#upload-recipe-image-button-container');
 
             $imageContainer.hide();
             $uploadImageContainer.show();
@@ -130,99 +163,316 @@
             $('#recipe_image').val('');
         }
     </script>
-    {{ header_tags|raw }}
     {% if post_info %}
-        <script>window.onload = amdZLRecipeSubmitForm;</script>
+        <script>
+            /**
+             * This form lives in a modal. The way it works is that client-side validation happens
+             * after the form is submitted (after the reload). This is totally backwards but I'm leaving it in
+             * for now since the proper fix requires an AJAX submit to happen.
+             * If we make validation happen on submit, we don't know when to close the popup window and can
+             * kill the submission process if we close too quickly. The way to fix this is do an AJAX request
+             * with form data in which case we know when submit is finished and if it was valid.
+             *
+             * This is only added when the request is POSTed. Meaning, validation only happens upon form submission.
+             * It can go two ways: fail client side validation or it succeeds and closes the modal.
+             *
+             * This is weird as it probably already saves anything you pass as a recipe before client validation stars.
+             * ***********TODO****: change this shit to use AJAX.
+             */
+            window.onload = amdZLRecipeSubmitForm;
+        </script>
     {% endif %}
 </head>
 
 <body id="amd-zlrecipe-uploader">
     {% autoescape false %}
-        <form enctype='multipart/form-data' method='post' action='' name='recipe_form'>
+        <form id="recipe-form" class="entry-wrapper" enctype='multipart/form-data' method='post' action='' name='recipe_form'>
             {% if registration_required %}
                 <h3 >Please <a href="{{ recipe_url|raw }}&register=1">register</a> ZipRecipes plugin, it is free.</h3>
             {% endif %}
-            <h3 class='amd-zlrecipe-title'>{{ iframe_title }}</h3>
-            <div id='amd-zlrecipe-form-items'>
+            <div id="recipe-form-elements">
                 <input type='hidden' name='recipe_post_id' value='{{ id }}' />
                 <input type='hidden' name='recipe_id' value='{{ recipe_id }}' />
-                <p id='recipe-title'><label for='recipe_title'>Title <span class='required'>*</span></label> <input type='text' id='recipe_title' name='recipe_title' value='{{ recipe_title }}' /></p>
-                <p id='recipe-image'>
-                <div style="float:left; margin-left: 16px;">
-                    <label>Image</label>
-                    <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+
+                <!-- Title and image -->
+                <div class="zrdn-columns zrdn-is-mobile">
+                    <div class="zrdn-column zrdn-is-three-quarters-tablet zrdn-is-two-thirds-mobile">
+                        <div class="zrdn-field">
+                            <label for="recipe-title" class="zrdn-label">Title</label>
+                            <div class="zrdn-control" id="title-container">
+                                <input class="zrdn-input zrdn-is-small" type="text" id="recipe-title" name='recipe_title' value='{{ recipe_title }}' placeholder="Recipe title">
+                            </div>
+                        </div>
+                        {{ author_section|raw }}
+                    </div>
+                    <div class="zrdn-column">
+                        <label class="zrdn-label">Image</label>
+                        <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+                        <div id="upload-recipe-image-button-container">
+                            <a class="zrdn-button zrdn-is-small" id="upload-btn" href="#">Add Image</a>
+                        </div>
+                        <div id="recipe-image-preview-container" style="display: none;">
+                            <img id="recipe-image-preview" src="" style="display: block" />
+                            <a href="javascript:zrdnResetImage()">Remove Image</a>
+                        </div>
+                    </div>
                 </div>
-                <div id="upload-recipe-image-button-container" style="float: left; margin-left: 25px; padding-top: 5px;">
-                    <a id="upload-btn" href="#">Add Image</a>
+                <!-- Title and image end -->
+
+                <div id="ingredients-container" class="zrdn-field">
+                    <label class="zrdn-label" for="ingredients">Ingredients</label>
+                    <p class="zrdn-help">
+                        Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.<br />
+                        You can also create labels, hyperlinks, bold/italic effects and even add images!<br />
+                        <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                    </p>
+                    <div class="zrdn-control">
+                        <textarea class="zrdn-textarea" name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
+                    </div>
                 </div>
-                <div id="recipe-image-preview-container" style="display: none; float: left; margin-left: 25px; text-align: center;">
-                    <img id="recipe-image-preview" src="" style="display: block" />
-                    <a href="javascript:zrdnResetImage()">Remove Image</a>
+
+                <div class="zrdn-field">
+                    <label class="zrdn-label" for="instructions">Instructions</label>
+                    <p class="zrdn-help">
+                        Press return after each instruction. There is no need to number your instructions.<br />
+                        You can also create labels, hyperlinks, bold/italic effects and even add images!<br />
+                        <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                    </p>
+                    <div class="zrdn-control">
+                        <textarea class="zrdn-textarea" id="instructions" name='instructions'>{{ instructions }}</textarea>
+                    </div>
                 </div>
-                </p>
-                <div style="clear: both"></div>
-                {{ author_section|raw }}
-                <p id='z_recipe_ingredients' class='cls'>
-                    <label>Ingredients
-                        <span class='required'>*</span>
-                        <small>Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.</small>
-                        <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
-                            <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
-                        </small>
-                    </label>
-                    <textarea name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
-                </p>
-                <p id='amd-zlrecipe-instructions' class='cls'>
-                    <label>Instructions
-                        <small>Press return after each instruction. There is no need to number your instructions.</small>
-                        <small>You can also create labels, hyperlinks, bold/italic effects and even add images!
-                            <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
-                        </small>
-                    </label>
-                    <textarea name='instructions'>{{ instructions }}</textarea>
-                </p>
+
                 {{ yield_section|raw }}
-                <p><a href='#' id='more-options-toggle'>More options</a></p>
+
                 <div id='more-options'>
-                    <p><label>Category</label> <input placeholder="e.g. appetizer, entree, etc." type='text' name='category' value='{{ category }}' /></p>
-                    <p><label>Cuisine</label> <input placeholder="e.g. French, Ethiopian, etc." type='text' name='cuisine' value='{{ cuisine }}' /></p>
-                    <p class='cls'><label>Summary</label>
-                        <textarea id='summary' name='summary' data-caption="true">{{ summary }}</textarea></p>
-                    <p class="cls"><label>Prep Time</label>
-                        {{ prep_time_input }}
-                        <span class="time">
-                            <span><input type='number' min="0" max="24" name='prep_time_hours' value='{{ prep_time_hours }}' /><label>hours</label></span>
-                            <span><input type='number' min="0" max="60" name='prep_time_minutes' value='{{ prep_time_minutes }}' /><label>minutes</label></span>
-                        </span>
-                    </p>
-                    <p class="cls"><label>Cook Time</label>
-                        {{ cook_time_input }}
-                        <span class="time">
-                            <span><input type='number' min="0" max="24" name='cook_time_hours' value='{{ cook_time_hours }}' /><label>hours</label></span>
-                            <span><input type='number' min="0" max="60" name='cook_time_minutes' value='{{ cook_time_minutes }}' /><label>minutes</label></span>
-                        </span>
-                    </p>
-                    <p class="cls"><label>Total Time</label>
-                        {{ total_time_input }}
-                        <span class="time">
-                            <span><input type='number' min="0" max="24" name='total_time_hours' value='{{ total_time_hours }}' /><label>hours</label></span>
-                            <span><input type='number' min="0" max="60" name='total_time_minutes' value='{{ total_time_minutes }}' /><label>minutes</label></span>
-                        </span>
-                    </p>
-                    <p><label>Serving Size</label> <input type='text' name='serving_size' value='{{ serving_size }}' /></p>
-                    <p><label>Calories</label> <input type='text' name='calories' value='{{ calories }}' /></p>
-                    <p><label>Carbs</label> <input type='text' name='carbs' value='{{ carbs }}' /></p>
-                    <p><label>Protein</label> <input type='text' name='protein' value='{{ protein }}' /></p>
-                    <p><label>Fiber</label> <input type='text' name='fiber' value='{{ fiber }}' /></p>
-                    <p><label>Sugar</label> <input type='text' name='sugar' value='{{ sugar }}' /></p>
-                    <p><label>Sodium</label> <input type='text' name='sodium' value='{{ sodium }}' /></p>
-                    <p><label>Fat</label> <input type='text' name='fat' value='{{ fat }}' /></p>
-                    <p><label>Saturated fat</label> <input type='text' name='saturated_fat' value='{{ saturated_fat }}' /></p>
-                    <p><label>Trans. Fat</label> <input type='text' name='trans_fat' value='{{ trans_fat }}' /></p>
-                    <p><label>Cholesterol</label> <input type='text' name='cholesterol' value='{{ cholesterol }}' /></p>
-                    <p class='cls'><label>Notes</label> <textarea name='notes'>{{ notes }}</textarea></p>
+                    <hr />
+                    <div class="zrdn-columns zrdn-is-mobile">
+                        <div class="zrdn-column">
+                            <div class="zrdn-field">
+                                <label for="category" class="zrdn-label">Category</label>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" id="category" placeholder="e.g. appetizer, entree, etc." type='text' name='category' value='{{ category }}' />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="zrdn-column">
+                            <div class="zrdn-field">
+                                <label for="cuisine" class="zrdn-label">Cuisine</label>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" placeholder="e.g. French, Ethiopian, etc." type='text' id="cuisine" name='cuisine' value='{{ cuisine }}' /></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="summary">Description</label>
+                        <div class="zrdn-control">
+                            <textarea class="zrdn-textarea" id='summary' name='summary' data-caption="true">{{ summary }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-columns zrdn-is-tablet">
+                        <div class="zrdn-column">
+                            <label for="prep_hours" class="zrdn-label">Prep Time</label>
+                            <div class="zrdn-field zrdn-is-grouped">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="prep_hours" name='prep_time_hours' value='{{ prep_time_hours }}' />hours
+                                </div>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="prep_minutes" name='prep_time_minutes' value='{{ prep_time_minutes }}' />minutes
+                                </div>
+                            </div>
+                        </div>
+                        <div class="zrdn-column">
+                            <label for="cook_hours" class="zrdn-label">Cook Time</label>
+                            <div class="zrdn-field zrdn-is-grouped">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="cook_hours" name='cook_time_hours' value='{{ cook_time_hours }}' />hours
+                                </div>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="cook_minutes" name='cook_time_minutes' value='{{ cook_time_minutes }}' />minutes
+                                </div>
+                            </div>
+                        </div>
+                        <div class="zrdn-column">
+                            <label for="total_hours" class="zrdn-label">Total time</label>
+                            <div class="zrdn-field zrdn-is-grouped">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="total_hours" name='total_time_hours' value='{{ total_time_hours }}' />hours
+                                </div>
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="total_minutes" name='total_time_minutes' value='{{ total_time_minutes }}' />minutes
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field">
+                        <label class="zrdn-label" for="notes">Notes</label>
+                        <div class="zrdn-control">
+                            <textarea class="zrdn-textarea" id="notes" name='notes'>{{ notes }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="serving_size">Serving Size</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" id="serving_size" type='text' name='serving_size' value='{{ serving_size }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="calories">Calories</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="calories" name='calories' value='{{ calories }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="carbs">Carbs</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id='carbs' name='carbs' value='{{ carbs }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="protein">Protein</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="protein" name='protein' value='{{ protein }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="fiber">Fiber</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="fiber" name='fiber' value='{{ fiber }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="sugar">Sugar</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="sugar" name='sugar' value='{{ sugar }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="sodium">Sodium</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="sodium" name='sodium' value='{{ sodium }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="fat">Fat</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="fat" name='fat' value='{{ fat }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="saturated_fat">Saturated fat</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="saturated_fat" name='saturated_fat' value='{{ saturated_fat }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="trans_fat">Trans. Fat</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="trans_fat" name='trans_fat' value='{{ trans_fat }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="zrdn-field zrdn-is-horizontal">
+                        <div class="zrdn-field-label">
+                            <label class="zrdn-label" for="cholesterol">Cholesterol</label>
+                        </div>
+                        <div class="zrdn-field-body">
+                            <div class="zrdn-field zrdn-is-narrow">
+                                <div class="zrdn-control">
+                                    <input class="zrdn-input zrdn-is-small" type='text' id="cholesterol" name='cholesterol' value='{{ cholesterol }}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
                 </div>
-                <input type='submit' value='{{ submit }}' name='add-recipe-button' />
+            </div>
+
+            <div class="bottom-bar">
+
+                <div class="zrdn-is-pulled-left">
+                    <a href='#' id='more-options-toggle' class="zrdn-button zrdn-is-small">
+                        <span class="zrdn-icon"><i class="fa fa-plus"></i></span>
+                        <span>More options</span>
+                    </a>
+                </div>
+                <div class="zrdn-is-pulled-right">
+                    <input class="zrdn-button zrdn-is-primary" type='submit' value='{{ submit }}' name='add-recipe-button' />
+                </div>
             </div>
         </form>
     {% endautoescape %}

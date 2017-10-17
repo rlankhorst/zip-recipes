@@ -65,29 +65,63 @@
                     o.content = t._convert_imgs_to_codes(o.content);
             });
 
+            // We need to restore these properites again in mobile devices
+            // because we change them to stop background scrolling once modal is open.
+            var $body = jQuery('body');
+            var bodyProps = {
+                'overflow': $body.css('overflow'),
+                'position': $body.css('position')
+            };
+
             editor.addButton('zrdn_buttons', {
                 title: 'Zip Recipes',
                 image: url + '/../images/zrecipes-icon.png',
                 onclick: function () {
                     var recipe_id = null;
-                    if (recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0]) {
+
+                    var recipe = editor.dom.select('img.amd-zlrecipe-recipe')[0];
+                    if (recipe) {
                         editor.selection.select(recipe);
                         recipe_id = /amd-zlrecipe-recipe-([0-9]+)/i.exec(editor.selection.getNode().id);
+
+                        // If we don't collapse selection, when a recipe is updated, the image placeholder
+                        // get selected and the image toolbar appears even above the modal which can be quite
+                        // confusing as it's tempting to click X and make the recipe disappear altogether.
+                        // I tried to save the bookmark before we select but just calling  editor.selection.getBookmark()
+                        //  breaks recipe insertion (not updates thought).
+                        // So we settle on collapse!
+                        editor.selection.collapse();
                     }
                     var iframe_url = baseurl + '/wp-admin/media-upload.php?recipe_post_id=' + ((recipe_id) ? '1-' + recipe_id[1] : post_id) + '&type=z_recipe&tab=amd_zlrecipe&TB_iframe=true&width=640&height=523';
+                    var modal_width = Math.min(780, Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+                        - 20 // width buffer
+                    );
+                    var modal_height = Math.min(600,
+                        Math.max(document.documentElement.clientHeight, window.innerHeight || 0) -
+                        36*3 - // subtract height of title bar. Multiplied by 2 since it does some centering.
+                        jQuery(window.parent.document.getElementById('wpadminbar')).height() // subtract header bar of WP admin
+                    );
                     editor.windowManager.open({
-                        title: 'Edit Recipe',
+                        title: recipe ? 'Edit Recipe' : 'Add a Recipe' ,
                         url: iframe_url,
-                        width: 700,
-                        height: 600,
-                        scrollbars: "yes",
-                        inline: 1,
-                        onsubmit: function (e) {
-                            editor.insertContent('<h3>' + e.data.title + '</h3>');
+                        // make it full screen if on mobile or set a maximum of 700x600
+                        width: modal_width,
+                        height: modal_height,
+                        onClose: function(e) {
+
+                            // We only change overflow and position props of body
+                            // on screens smaller than 780. So, we don't need to revert this for all screens.
+                            if (modal_width < 780) // is mobile
+                            {
+                                // restore these props since they're set from the iframe when popup is created
+                                $body.css('overflow', bodyProps.overflow);
+                                $body.css('position', bodyProps.position);
+                            }
                         }
                     }, {
                         //	Windows Parameters/Arguments
-                        editor: editor
+                        editor: editor,
+                        width: modal_width
                     });
                 }
             });
