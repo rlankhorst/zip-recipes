@@ -56,7 +56,7 @@ msgstr "%d muaj"
 
 #, php-format
 msgid "%d second"
-msgstr "%d sekond"
+msgstr "%d sekondë"
 
 #, php-format
 msgid "%d seconds"
@@ -71,140 +71,140 @@ msgid "%d years"
 msgstr "%d vite"
 
 msgid "Author:"
-msgstr ""
+msgstr "Autor:"
 
 msgid "Calories per serving:"
-msgstr "Kalori për shërbim:"
+msgstr "Kalori për racion:"
 
 #, fuzzy
 msgid "Calories:"
-msgstr "Kalori për shërbim:"
+msgstr "Kaloritë:"
 
 msgid "Carbs per serving:"
-msgstr "Karbohidrata për shërbim:"
+msgstr "Karbohidrate për racion:"
 
 msgid "Carbs:"
-msgstr ""
+msgstr "Karbohidrate:"
 
 msgid "Category:"
-msgstr ""
+msgstr "Kategori:"
 
 #, fuzzy
 msgid "Cholesterol per serving:"
-msgstr "Kalori për shërbim:"
+msgstr "Kolesterol për racion:"
 
 msgid "Cholesterol:"
-msgstr ""
+msgstr "Kolesterol:"
 
 msgid "Cook"
-msgstr ""
+msgstr "Gatimi:"
 
 msgid "Cook Time:"
 msgstr "Koha e gatimit:"
 
 msgid "Cuisine:"
-msgstr ""
+msgstr "Kuzhina:"
 
 msgid "Fat per serving:"
-msgstr "Yndyrë për shërbim:"
+msgstr "Yndyrna për racion:"
 
 msgid "Fat:"
-msgstr ""
+msgstr "Yndyrna:"
 
 msgid "Fiber per serving:"
-msgstr "Fibër për shërbim:"
+msgstr "Fibra për racion:"
 
 msgid "Fiber:"
-msgstr ""
+msgstr "Fibra:"
 
 msgid "Ingredients"
-msgstr "Element përbërëse"
+msgstr "Përbërësit"
 
 msgid "Instructions"
 msgstr "Hapat"
 
 msgid "Notes"
-msgstr "Shënimet"
+msgstr "Shënime"
 
 msgid "Prep"
-msgstr ""
+msgstr "Përgatitje"
 
 msgid "Prep Time:"
-msgstr "Koha e përgaditjës:"
+msgstr "Koha e përgatitjes:"
 
 #, fuzzy
 msgid "Prep:"
-msgstr "Koha e përgaditjës:"
+msgstr "Koha e përgatitjes:"
 
 msgid "Print"
 msgstr "Printo"
 
 msgid "Print this recipe"
-msgstr ""
+msgstr "Printo recetën"
 
 msgid "Protein per serving:"
-msgstr "Proteinë për shërbim:"
+msgstr "Proteina për racion:"
 
 msgid "Protein:"
-msgstr ""
+msgstr "Proteina"
 
 msgid "Rate this recipe"
-msgstr ""
+msgstr "Vlerëso këtë recetë"
 
 msgid "Ready in"
-msgstr ""
+msgstr "Gati për"
 
 msgid "Saturated fat per serving:"
-msgstr "Yndyrë e ngopur për shërbim:"
+msgstr "Yndyrna të ngopura për racion:"
 
 #, fuzzy
 msgid "Saturated fat:"
-msgstr "Yndyrë e ngopur për shërbim:"
+msgstr "Yndyrna të ngopura për racion:"
 
 #, fuzzy
 msgid "Serves:"
-msgstr "Madhësia për shërbim:"
+msgstr "Racion:"
 
 msgid "Serving Size:"
-msgstr "Madhësia për shërbim:"
+msgstr "Racioni për:"
 
 msgid "Sodium per serving:"
-msgstr "Sodium për shërbim:"
+msgstr "Sodium për racion:"
 
 msgid "Sodium:"
-msgstr ""
+msgstr "Sodium"
 
 msgid "Sugar per serving:"
-msgstr "Sheqer për shërbim:"
+msgstr "Sheqerna për racion:"
 
 msgid "Sugar:"
-msgstr ""
+msgstr "Sheqerna"
 
 msgid "Total Time:"
 msgstr "Koha totale:"
 
 #, fuzzy
 msgid "Total:"
-msgstr "Koha totale:"
+msgstr "Totali:"
 
 #, fuzzy
 msgid "Trans fat per serving:"
-msgstr "Yndyrë e ngopur për shërbim:"
+msgstr "Yndyrna të  ngopura për racion:"
 
 msgid "Trans fat:"
-msgstr ""
+msgstr "Yndyrna të ngopura"
 
 msgid "Yield:"
-msgstr "Prodhim:"
+msgstr "Sasia:"
 
 msgid "Your rating:"
-msgstr ""
+msgstr "Vlerësimi juaj"
 
 msgid "ratings"
-msgstr ""
+msgstr "Vlerësime"
 
 msgid "stars"
-msgstr ""
+msgstr "Yje"
 
 #, fuzzy
 #~ msgid "Instructions:"
@@ -212,8 +212,8 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Ingredients:"
-#~ msgstr "Element përbërëse"
+#~ msgstr "Përbërësit"
 
 #, fuzzy
 #~ msgid "Ingridients:"
-#~ msgstr "Element përbërëse"
+#~ msgstr "Përbërësit"
