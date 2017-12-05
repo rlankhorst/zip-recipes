@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.7
-Stable tag: 4.20
+Stable tag: 4.21
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
 
@@ -125,6 +125,12 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+= 4.21 Bug fixes + Automatic Nutrition for Spanish recipes =
+
+You should update to get bug fixes and if you're a premium member (Lover package) 
+your Spanish recipe website can now take advantage of our
+auto-magical feature: [Automatic Nutrition](https://www.ziprecipes.net/automatic-nutrition-landing-page)
 
 = 4.20 Create recipes on the go! = 
 
@@ -593,6 +599,10 @@ Support for JSON-LD. Google's recommended way to format your recipes and other b
 
 = 4.20 =
 Updated recipe creation screen to support mobile devices as well as other improvements.
+
+= 4.21 = 
+Misc bug fixes and El español ahora tiene la función de nutrición automática (that means Spanish now has the automatic nutrition feature).
+
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
