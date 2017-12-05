@@ -167,6 +167,9 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 - Updated Albanian translation
 - Fixed spacing issue for star ratings
 - Added translation for Swedish
+- (Premium) Fixed issue where wrong recipe would appear in Recipe Grid
+- (Premium) Fixed issue where premium templates were reporting instructions as ingredients
+
 
 = 4.14 JSON-LD support + bug fixes and improvements =
  
@@ -621,6 +624,10 @@ Greek + bug fixes + automatic nutrition calculator for Lover plan members. Learn
 
 = 4.14 = 
 Support for JSON-LD. Google's recommended way to format your recipes and other bug fixes.
+
+= 4.20 =
+Updated recipe creation screen to support mobile devices as well as other improvements.
+
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 

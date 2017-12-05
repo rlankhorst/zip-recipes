@@ -63,5 +63,10 @@ ZipRecipes::init();
 // Setup query catch for recipe insertion popup.
 if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQUEST_URI'], '&type=z_recipe') && !strpos($_SERVER['REQUEST_URI'], '&wrt='))
 {
-    ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);
+    // current_user_can is defined here so we need to require it
+    require_once(ABSPATH . 'wp-includes/pluggable.php');
+    // user is logged in and can edit posts or pages
+    if (\current_user_can('edit_posts') || \current_user_can('edit_pages')) {
+        ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);
+    }
 }
