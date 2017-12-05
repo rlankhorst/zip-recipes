@@ -307,12 +307,27 @@ gulp.task("build", function(cb) {
   return sequence(
     "clean",
     "composer-dev-install",
-    // "i18n", // needs vendor to include dev packages
+    "i18n", // needs vendor to include dev packages
     "vendor-rename-pre",
     "composer-install",
+    "vendor-cleanup",
     ["sassForMain", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
     "vendor-rename-post",
     cb);
+});
+
+/**
+ * Remove dev file/folder that take too much space (e.g. docs) from vendor folder.
+ * We don't need to ship these.
+ */
+gulp.task("vendor-cleanup", function(done) {
+    del('./src/vendor/twbs/bootstrap/docs')
+        .catch(function() {
+            console.log("Could not clean rm src/vendor/twbs/bootstrap/docs");
+        })
+        .then(function () {
+            done();
+        });
 });
 
 gulp.task("clean", function () {

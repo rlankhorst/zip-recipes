@@ -133,6 +133,8 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 - Updated Albanian translation
 - Fixed spacing issue for star ratings
 - Added translation for Swedish
+- (Premium) Fixed issue where wrong recipe would appear in Recipe Grid
+- (Premium) Fixed issue where premium templates were reporting instructions as ingredients
 
 = 4.14 JSON-LD support + bug fixes and improvements =
  
