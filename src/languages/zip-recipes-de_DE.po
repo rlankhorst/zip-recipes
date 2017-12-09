@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2017-04-18 13:25-0600\n"
+"POT-Creation-Date: 2017-12-08 23:50-0700\n"
 "PO-Revision-Date: 2017-03-14 12:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -153,6 +153,9 @@ msgstr "Grasa saturada:"
 
 msgid "Saturated fat:"
 msgstr "Gesättigte Fettsäuren::"
+
+msgid "Save to BigOven"
+msgstr ""
 
 msgid "Serves:"
 msgstr "Portionen:"

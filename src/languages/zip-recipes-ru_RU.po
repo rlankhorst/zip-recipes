@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2017-04-18 13:25-0600\n"
+"POT-Creation-Date: 2017-12-08 23:50-0700\n"
 "PO-Revision-Date: 2016-06-12 17:20+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -161,6 +161,9 @@ msgstr "Насыщенного жира на порцию:"
 #, fuzzy
 msgid "Saturated fat:"
 msgstr "Насыщенного жира на порцию:"
+
+msgid "Save to BigOven"
+msgstr ""
 
 #, fuzzy
 msgid "Serves:"
