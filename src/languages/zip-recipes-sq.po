@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2017-04-18 13:25-0600\n"
+"POT-Creation-Date: 2017-12-08 23:50-0700\n"
 "PO-Revision-Date: 2016-04-19 01:14-0600\n"
 "Last-Translator: Gezim Hoxha <hello@ziprecipes.net>\n"
 "Language-Team: \n"
@@ -160,6 +160,9 @@ msgstr "Yndyrna të ngopura për racion:"
 #, fuzzy
 msgid "Saturated fat:"
 msgstr "Yndyrna të ngopura për racion:"
+
+msgid "Save to BigOven"
+msgstr ""
 
 #, fuzzy
 msgid "Serves:"

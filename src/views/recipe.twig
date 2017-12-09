@@ -9,6 +9,11 @@
     {{ recipe_props.recipe_attr('itemscope', false, amp_on) }} >
 <div id="zlrecipe-container" class="serif zlrecipe">
   <div id="zlrecipe-innerdiv">
+    {% if recipe_actions %}
+    <div style="text-align: right;">
+        {{ recipe_actions|raw }}
+    </div>
+    {% endif %}
     <div class="item b-b">
 
       {# Add the print button #}

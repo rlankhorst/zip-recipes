@@ -333,7 +333,8 @@ class ZipRecipes {
             // For `nutrition_label`, we want an empty string, not $recipe object.
             'nutrition_label' => apply_filters('zrdn__automatic_nutrition_get_label', '', $recipe),
             'amp_on' => $amp_on,
-            'jsonld' => $jsonld
+            'jsonld' => $jsonld,
+            'recipe_actions' => apply_filters('zrdn__recipe_actions', '')
         );
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
         return $custom_template ? : Util::view('recipe', $viewParams);
