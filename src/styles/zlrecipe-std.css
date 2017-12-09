@@ -146,6 +146,12 @@ footer, #zlrecipe-container header, #zlrecipe-container hgroup, #zlrecipe-contai
 	background-position: 0 -21px;
 }
 
+#zlrecipe-container .zlrecipe-print-link {
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 5px;
+}
+
 #zlrecipe-container .meta, #zlrecipe-container .zlmeta {
   font-size: 0.85em;
   font-weight: bold;
