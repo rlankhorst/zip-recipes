@@ -8,14 +8,15 @@
     "require-dev": {
         "phing/phing": "2.*",
         "phpunit/phpunit": "^5.3",
-        "umpirsky/twig-gettext-extractor": "dev-arg_escape"
+        "umpirsky/twig-gettext-extractor": "dev-arg_escape",
+        "php-mock/php-mock": "^2.0"
     },
     "require": {
         "twig/twig": "~1.0",
         "twbs/bootstrap": "3.*",
         "twig/extensions": "1.3",
         "symfony/dom-crawler": "3.2",
-        "symfony/css-selector": "3.2"
+        "symfony/css-selector": "3.*"
     },
     "autoload": {
         "psr-4": {
