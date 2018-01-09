@@ -188,7 +188,7 @@ gulp.task("plugins-premium-admirer", function () {
 
 gulp.task("plugins-premium-friend", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipesSearch,RecipesSearch/**,Import,Import/**,RecipesGrid,RecipesGrid/**,UsageStats,UsageStats/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_friend));
 });
 
