@@ -70,3 +70,14 @@ if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQU
         ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);
     }
 }
+
+
+function myAutoloader($className)
+{
+	$path =  __DIR__ . '/models/Recipe.php';
+
+	require_once $path;
+	require_once __DIR__ . '/_inc/class.ziprecipes.util.php';
+}
+
+spl_autoload_register(__NAMESPACE__ . '\myAutoloader');
