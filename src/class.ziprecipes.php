@@ -2,11 +2,6 @@
 
 namespace ZRDN;
 
-require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
-require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
-require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
-
-
 class ZipRecipes {
 
     const TABLE_NAME = "amd_zlrecipe_recipes";
