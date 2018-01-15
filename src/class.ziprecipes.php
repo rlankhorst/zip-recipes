@@ -1117,9 +1117,9 @@ class ZipRecipes {
                 $recipe_id = isset($post_info["recipe_id"]) ? $post_info["recipe_id"] : '';
 
                 if (!isset($get_info["add-recipe-button"])) {
-                    $recipe_title = get_the_title($get_info["recipe_post_id"]);
+                    $recipe_title = trim(get_the_title($get_info["recipe_post_id"]));
                 } else {
-                    $recipe_title = $post_info["recipe_title"];
+                    $recipe_title = trim($post_info["recipe_title"]);
                 }
                 $recipe_image = isset($post_info["recipe_image"]) ? $post_info["recipe_image"] : '';
                 $summary = isset($post_info["summary"]) ? $post_info["summary"] : '';
