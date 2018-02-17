@@ -1,0 +1,199 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Zip Recipes Ltd
+# This file is distributed under the same license as the zip-recipes package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: zip-recipes\n"
+"Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
+"POT-Creation-Date: 2018-01-19 22:03-0700\n"
+"PO-Revision-Date: 2018-01-24 19:44+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: sk_SK\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d deň"
+
+#, php-format
+msgid "%d days"
+msgstr "%d dní"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d hodina"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d hodín"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d minúta"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d minúty"
+
+#, php-format
+msgid "%d month"
+msgstr "%d mesiac"
+
+#, php-format
+msgid "%d months"
+msgstr "%d mesiace"
+
+#, php-format
+msgid "%d second"
+msgstr "%d sekunda"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekundy"
+
+#, php-format
+msgid "%d year"
+msgstr "%d rok"
+
+#, php-format
+msgid "%d years"
+msgstr "%d roky"
+
+msgid "Author:"
+msgstr "Autor:"
+
+msgid "Calories per serving:"
+msgstr "Kalórií na porciu:"
+
+msgid "Calories:"
+msgstr "Kalórie:"
+
+msgid "Carbs per serving:"
+msgstr "Sacharidov na porciu:"
+
+msgid "Carbs:"
+msgstr "Sacharidy:"
+
+msgid "Category:"
+msgstr "Kategória:"
+
+msgid "Cholesterol per serving:"
+msgstr "Cholesterol na porciu:"
+
+msgid "Cholesterol:"
+msgstr "Cholesterol"
+
+msgid "Cook"
+msgstr "Variť"
+
+msgid "Cook Time:"
+msgstr "Čas varenia:"
+
+msgid "Cuisine:"
+msgstr "Kuchyňa:"
+
+msgid "Fat per serving:"
+msgstr "Tuky na porciu:"
+
+msgid "Fat:"
+msgstr "Tuky:"
+
+msgid "Fiber per serving:"
+msgstr "Vláknina na porciu:"
+
+msgid "Fiber:"
+msgstr "Vláknina:"
+
+msgid "Ingredients"
+msgstr "Ingrediencie:"
+
+msgid "Instructions"
+msgstr "Inštrukcie:"
+
+msgid "Notes"
+msgstr "Poznámky:"
+
+msgid "Prep"
+msgstr "Príprava"
+
+msgid "Prep Time:"
+msgstr "Čas prípravy:"
+
+msgid "Prep:"
+msgstr "Príprava"
+
+msgid "Print"
+msgstr "Vytlačiť"
+
+msgid "Print this recipe"
+msgstr "Vytlačiť tento recept"
+
+msgid "Protein per serving:"
+msgstr "Proteíny na porciu:"
+
+msgid "Protein:"
+msgstr "Proteíny:"
+
+msgid "Rate this recipe"
+msgstr "Ohodnoťte tento recept:"
+
+msgid "Ready in"
+msgstr "Pripravené za"
+
+msgid "Saturated fat per serving:"
+msgstr "Saturovaný tuk na porciu:"
+
+msgid "Saturated fat:"
+msgstr "Saturovaný tuk:"
+
+msgid "Save to BigOven"
+msgstr "Uložiť do BigOven"
+
+msgid "Serves:"
+msgstr "Porcie:"
+
+msgid "Serving Size:"
+msgstr "Veľkosť porcie:"
+
+msgid "Sodium per serving:"
+msgstr "Sodík na porciu:"
+
+msgid "Sodium:"
+msgstr "Sodík:"
+
+msgid "Sugar per serving:"
+msgstr "Cukor na porciu:"
+
+msgid "Sugar:"
+msgstr "Cukor:"
+
+msgid "Total Time:"
+msgstr "Celkový čas:"
+
+msgid "Total:"
+msgstr "Celkovo:"
+
+msgid "Trans fat per serving:"
+msgstr "Trans tuky na porciu:"
+
+msgid "Trans fat:"
+msgstr "Trans tuky:"
+
+msgid "Yield:"
+msgstr "Výťažok:"
+
+msgid "Your rating:"
+msgstr "Vaše hodnotenie:"
+
+msgid "ratings"
+msgstr "hodnotenia"
+
+msgid "stars"
+msgstr "hviezdičky"
