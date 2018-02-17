@@ -2,9 +2,11 @@
 {% import 'macros.twig' as recipe_props %}
 
 <div id="zlrecipe-container-{{ recipe_id }}" class="zlrecipe-container-border" {% if border_style %}style="border: {{ border_style|raw }};"{% endif %}>
-    <script type="application/ld+json">
-        {{ jsonld|raw }}
-    </script>
+    {% if jsonld %}
+        <script type="application/ld+json">
+            {{ jsonld|raw }}
+        </script>
+    {% endif %}
 <div {{ recipe_props.recipe_attr('itemtype', "http://schema.org/Recipe", amp_on) }}
     {{ recipe_props.recipe_attr('itemscope', false, amp_on) }} >
 <div id="zlrecipe-container" class="serif zlrecipe">
