@@ -7,213 +7,193 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-01-15 21:07-0700\n"
-"PO-Revision-Date: 2016-06-14 14:40-0700\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2018-02-25 20:13+0100\n"
+"PO-Revision-Date: 2018-02-25 20:24+0100\n"
 "Language-Team: \n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.8.4\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: da_DK\n"
 
 #, php-format
 msgid "%d day"
-msgstr "%d dia"
+msgstr "%d dag"
 
 #, php-format
 msgid "%d days"
-msgstr "%d dias"
+msgstr "%d dage"
 
 #, php-format
 msgid "%d hour"
-msgstr "%d hora"
+msgstr "%d time"
 
 #, php-format
 msgid "%d hours"
-msgstr "%d horas"
+msgstr "%d time"
 
 #, php-format
 msgid "%d minute"
-msgstr "%d minuto"
+msgstr "%d minut"
 
 #, php-format
 msgid "%d minutes"
-msgstr "%d minutos"
+msgstr "%d minutter"
 
 #, php-format
 msgid "%d month"
-msgstr "%d mês"
+msgstr "%d måned"
 
 #, php-format
 msgid "%d months"
-msgstr "%d meses"
+msgstr "%d måneder"
 
 #, php-format
 msgid "%d second"
-msgstr "%d segundo"
+msgstr "%d sekund"
 
 #, php-format
 msgid "%d seconds"
-msgstr "%d segundos"
+msgstr "%d sekunder"
 
 #, php-format
 msgid "%d year"
-msgstr "%d ano"
+msgstr "%d år"
 
 #, php-format
 msgid "%d years"
-msgstr "%d anos"
+msgstr "%d år"
 
 msgid "Author:"
-msgstr "Autor:"
+msgstr "Forfatter: %s"
 
 msgid "Calories per serving:"
-msgstr "Calorias por porção:"
+msgstr "Kalorier per portion:"
 
-#, fuzzy
 msgid "Calories:"
-msgstr "Calorias por porção:"
+msgstr "Kalorier:"
 
 msgid "Carbs per serving:"
-msgstr ""
+msgstr "Kulhydrater per portion:"
 
 msgid "Carbs:"
-msgstr ""
+msgstr "Kulhydrater:"
 
 msgid "Category:"
-msgstr ""
+msgstr "Kategori:"
 
-#, fuzzy
 msgid "Cholesterol per serving:"
-msgstr "Calorias por porção:"
+msgstr "Kolesterol per portion:"
 
 msgid "Cholesterol:"
-msgstr ""
+msgstr "Kolesterol: "
 
 msgid "Cook"
-msgstr ""
+msgstr "Kog"
 
 msgid "Cook Time:"
-msgstr "Cozimento:"
+msgstr "Kogetid:"
 
 msgid "Cuisine:"
-msgstr ""
+msgstr "Køkken:"
 
 msgid "Fat per serving:"
-msgstr ""
+msgstr "Fedt per portion:"
 
 msgid "Fat:"
-msgstr ""
+msgstr "Fedt:"
 
 msgid "Fiber per serving:"
-msgstr ""
+msgstr "Fibre per portion:"
 
 msgid "Fiber:"
-msgstr ""
+msgstr "Fibre:"
 
 msgid "Ingredients"
-msgstr "Ingredientes"
+msgstr "Ingredienser"
 
 msgid "Instructions"
-msgstr "Modo de preparo"
+msgstr "Instruktion"
 
 msgid "Notes"
-msgstr "Notas"
+msgstr "Noter"
 
 msgid "Prep"
-msgstr ""
+msgstr "Forberedelse"
 
 msgid "Prep Time:"
-msgstr "Preparo:"
+msgstr "Forberedelsestid:"
 
-#, fuzzy
 msgid "Prep:"
-msgstr "Preparo:"
+msgstr "Forbered:"
 
 msgid "Print"
-msgstr "Imprimir"
+msgstr "Print"
 
-#, fuzzy
 msgid "Print this recipe"
-msgstr "Avalie esta receita"
+msgstr "Print denne opskrift"
 
 msgid "Protein per serving:"
-msgstr ""
+msgstr "Protein per portion:"
 
 msgid "Protein:"
-msgstr ""
+msgstr "Protein:"
 
 msgid "Rate this recipe"
-msgstr "Avalie esta receita"
+msgstr "Bedøm denne opskrift:"
 
 msgid "Ready in"
-msgstr ""
+msgstr "Klar på"
 
 msgid "Saturated fat per serving:"
-msgstr ""
+msgstr "Mættet fedt per portion:"
 
 msgid "Saturated fat:"
-msgstr ""
+msgstr "Mættet fedt:"
 
 msgid "Save to BigOven"
-msgstr ""
+msgstr "Gem til BigOven"
 
-#, fuzzy
 msgid "Serves:"
-msgstr "Porção:"
+msgstr "Nok til:"
 
 msgid "Serving Size:"
-msgstr "Porção:"
+msgstr "Portion størrelse:"
 
 msgid "Sodium per serving:"
-msgstr ""
+msgstr "Natrium per portion:"
 
 msgid "Sodium:"
-msgstr ""
+msgstr "Natrium:"
 
 msgid "Sugar per serving:"
-msgstr ""
+msgstr "Sukker per portion:"
 
 msgid "Sugar:"
-msgstr ""
+msgstr "Sukker:"
 
 msgid "Total Time:"
-msgstr "Pronto em:"
+msgstr "Tid i alt:"
 
-#, fuzzy
 msgid "Total:"
-msgstr "Pronto em:"
+msgstr "I alt:"
 
-#, fuzzy
 msgid "Trans fat per serving:"
-msgstr "Calorias por porção:"
+msgstr "Transfedt per portion:"
 
 msgid "Trans fat:"
-msgstr ""
+msgstr "Transfedt:"
 
 msgid "Yield:"
-msgstr "Rende:"
+msgstr "Udbytte:"
 
-#, fuzzy
 msgid "Your rating:"
-msgstr "voto(s)"
+msgstr "Din vurdering:"
 
 msgid "ratings"
-msgstr "voto(s)"
+msgstr "bedømmelser"
 
 msgid "stars"
-msgstr "estrela(s)"
-
-#, fuzzy
-#~ msgid "Instructions:"
-#~ msgstr "Modo de preparo"
-
-#, fuzzy
-#~ msgid "Ingredients:"
-#~ msgstr "Ingredientes"
-
-#, fuzzy
-#~ msgid "Ingridients:"
-#~ msgstr "Ingredientes"
+msgstr "stjerner"

@@ -1,7 +1,10 @@
 
 @import "../../node_modules/bulma/sass/utilities/all";
 $prefix: 'zrdn-';
-@import "../../node_modules/bulma/sass/base/all";
+// ../../node_modules/bulma/sass/base/all was included but minireset and generics was causing issues with themes
+@import "../../node_modules/bulma/sass/base/helpers.sass";
+
+
 @import "../../node_modules/bulma/sass/elements/button";
 @import "../../node_modules/bulma/sass/elements/form";
 @import "../../node_modules/bulma/sass/grid/columns";

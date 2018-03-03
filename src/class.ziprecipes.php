@@ -328,7 +328,7 @@ class ZipRecipes {
             // For `nutrition_label`, we want an empty string, not $recipe object.
             'nutrition_label' => apply_filters('zrdn__automatic_nutrition_get_label', '', $recipe),
             'amp_on' => $amp_on,
-            'jsonld' => $jsonld,
+            'jsonld' => $amp_on ? '' : $jsonld,
             'recipe_actions' => apply_filters('zrdn__recipe_actions', '')
         );
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
@@ -1112,9 +1112,9 @@ class ZipRecipes {
                 $recipe_id = isset($post_info["recipe_id"]) ? $post_info["recipe_id"] : '';
 
                 if (!isset($get_info["add-recipe-button"])) {
-                    $recipe_title = get_the_title($get_info["recipe_post_id"]);
+                    $recipe_title = trim(get_the_title($get_info["recipe_post_id"]));
                 } else {
-                    $recipe_title = $post_info["recipe_title"];
+                    $recipe_title = trim($post_info["recipe_title"]);
                 }
                 $recipe_image = isset($post_info["recipe_image"]) ? $post_info["recipe_image"] : '';
                 $summary = isset($post_info["summary"]) ? $post_info["summary"] : '';

@@ -2,7 +2,8 @@
 <!--suppress HtmlUnknownTarget -->
 <head>
     <link rel="stylesheet" href="{{ pluginurl }}/styles/zlrecipe-dlog.css?version=2" type="text/css" media="all" />
-    <link rel="stylesheet" href="{{ pluginurl }}/styles/bulma.css?version=2" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ pluginurl }}/styles/bulma-minireset-generic.css?version=1.1" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ pluginurl }}/styles/bulma.css?version=2.1" type="text/css" media="all" />
     <script src="https://use.fontawesome.com/5ada765508.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     {{ header_tags|raw }}
@@ -277,33 +278,33 @@
                         <div class="zrdn-column">
                             <label for="prep_hours" class="zrdn-label">Prep Time</label>
                             <div class="zrdn-field zrdn-is-grouped">
-                                <div class="zrdn-control">
-                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="prep_hours" name='prep_time_hours' value='{{ prep_time_hours }}' />hours
+                                <div>
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" id="prep_hours" name='prep_time_hours' value='{{ prep_time_hours }}' />hours
                                 </div>
-                                <div class="zrdn-control">
-                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="prep_minutes" name='prep_time_minutes' value='{{ prep_time_minutes }}' />minutes
+                                <div>
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" id="prep_minutes" name='prep_time_minutes' value='{{ prep_time_minutes }}' />minutes
                                 </div>
                             </div>
                         </div>
                         <div class="zrdn-column">
                             <label for="cook_hours" class="zrdn-label">Cook Time</label>
                             <div class="zrdn-field zrdn-is-grouped">
-                                <div class="zrdn-control">
-                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="cook_hours" name='cook_time_hours' value='{{ cook_time_hours }}' />hours
+                                <div>
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" id="cook_hours" name='cook_time_hours' value='{{ cook_time_hours }}' />hours
                                 </div>
-                                <div class="zrdn-control">
-                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="cook_minutes" name='cook_time_minutes' value='{{ cook_time_minutes }}' />minutes
+                                <div>
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" id="cook_minutes" name='cook_time_minutes' value='{{ cook_time_minutes }}' />minutes
                                 </div>
                             </div>
                         </div>
                         <div class="zrdn-column">
                             <label for="total_hours" class="zrdn-label">Total time</label>
                             <div class="zrdn-field zrdn-is-grouped">
-                                <div class="zrdn-control">
-                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="24" id="total_hours" name='total_time_hours' value='{{ total_time_hours }}' />hours
+                                <div>
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" id="total_hours" name='total_time_hours' value='{{ total_time_hours }}' />hours
                                 </div>
-                                <div class="zrdn-control">
-                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" max="60" id="total_minutes" name='total_time_minutes' value='{{ total_time_minutes }}' />minutes
+                                <div>
+                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" id="total_minutes" name='total_time_minutes' value='{{ total_time_minutes }}' />minutes
                                 </div>
                             </div>
                         </div>

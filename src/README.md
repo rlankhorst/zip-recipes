@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.9
-Stable tag: 4.21
+Stable tag: 4.26
 Requires PHP: 5.3
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
@@ -40,6 +40,7 @@ If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly 
 > Visitor Recipe Ratings.<br />
 > Author setting.<br />
 > Recipe index.<br />
+> Recipe saving to: Pinterest, Big Oven, and Yummly<br />
 > Speed Improvement.<br />
 > Priority Email Support.<br />
 > And much more....<br />
@@ -97,6 +98,7 @@ Currently we have translations for:
  * Portuguese (Brazilian)
  * Russian
  * Serbian
+ * Slovak
  * Spanish
  * Swedish
  * Is your language missing from this list? No problem, [email us and help us translate Zip Recipes!](mailto:hello@ziprecipes.net)
@@ -159,6 +161,13 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+= 4.26 Bug fixes, Slovak translation + premium feature = 
+- [(Premium only) Recipe saving to Yummly, Pinterest, Big Oven](https://www.ziprecipes.net/)
+- Prep time, cook time, total time are now aligned properly
+- Removed prep time, cook time, total time maximum limits as they're not helpful
+- Fixed: Cleanup recipe titles on save
+- Fixed: some style issues with some themes
 
 = 4.21 Bug fixes + Automatic Nutrition for Spanish recipes =
 
@@ -636,6 +645,9 @@ Updated recipe creation screen to support mobile devices as well as other improv
 
 = 4.21 = 
 Misc bug fixes and El español ahora tiene la función de nutrición automática (that means Spanish now has the automatic nutrition feature).
+
+= 4.26 =
+Slovak translation, bug fixes and new (premium only) feature: saving recipes to Yummly, Pinterest and Big Oven.
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
