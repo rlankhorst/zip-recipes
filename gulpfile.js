@@ -556,3 +556,10 @@ gulp.task('compress-css', function () {
             .on('error', createErrorHandler('gulp.dest'));
     return merge(tasks, root);
 });
+
+/**
+ * Uglify, minify and compress css/jss
+ * 
+ * It Process all main plugin css/jss and extensions css/jss
+ */
+gulp.task('compress-assets', ['compress-js', 'compress-css']);
