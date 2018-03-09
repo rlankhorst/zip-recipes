@@ -538,7 +538,7 @@ class ZipRecipes {
     }
 
     public static function zrdn_tinymce_plugin($plugin_array) {
-        $plugin_array['zrdn_plugin'] = plugins_url('scripts/zlrecipe_editor_plugin.js?sver=' . ZRDN_VERSION_NUM, __FILE__);
+        $plugin_array['zrdn_plugin'] = plugins_url('scripts/zlrecipe_editor_plugin.min.js?sver=' . ZRDN_VERSION_NUM, __FILE__);
         return $plugin_array;
     }
 
@@ -1543,7 +1543,7 @@ class ZipRecipes {
     // Inserts the recipe into the post editor
     public static function zrdn_plugin_footer() {
         wp_enqueue_script(
-                'zrdn-admin-script', plugins_url('/scripts/admin.js', __FILE__), array('jquery'), // deps
+                'zrdn-admin-script', plugins_url('scripts/admin.min.js', __FILE__), array('jquery'), // deps
                 false, // ver
                 true // in_footer
         );
