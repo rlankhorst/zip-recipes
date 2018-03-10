@@ -6,20 +6,20 @@ require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
 require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
 require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
 
-
 class ZipRecipes {
 
     const TABLE_NAME = "amd_zlrecipe_recipes";
     const PLUGIN_OPTION_NAME = "zrdn__plugins";
 
     public static $registration_url;
+    public static $suffix = '';
 
     /**
      * Init function.
      */
     public static function init() {
         Util::log("Core init");
-
+        self::$suffix = ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ? '' : '.min';
         self::$registration_url = ZRDN_API_URL . "/installation/register/";
 
         // Instantiate plugin classes
@@ -249,8 +249,7 @@ class ZipRecipes {
         $jsonld = '';
         if ($jsonld_attempt !== false) {
             $jsonld = $jsonld_attempt;
-        }
-        else {
+        } else {
             error_log("Error encoding recipe to JSON:" . json_last_error());
         }
 
@@ -312,7 +311,6 @@ class ZipRecipes {
             'formatted_notes' => $formatted_notes,
             'notes_label_hide' => get_option('zlrecipe_notes_label_hide'),
             'attribution_hide' => get_option('zrdn_attribution_hide'),
-            
             'trans_fat' => $recipe->trans_fat,
             'trans_fat_label_hide' => get_option('zlrecipe_trans_fat_label_hide'),
             'cholesterol' => $recipe->cholesterol,
@@ -321,7 +319,6 @@ class ZipRecipes {
             'category_label_hide' => get_option('zlrecipe_category_label_hide'),
             'cuisine' => $recipe->cuisine,
             'cuisine_label_hide' => get_option('zlrecipe_cuisine_label_hide'),
-            
             'version' => ZRDN_VERSION_NUM,
             'print_permalink_hide' => get_option('zlrecipe_printed_permalink_hide'),
             'copyright' => get_option('zlrecipe_printed_copyright_statement'),
@@ -337,7 +334,7 @@ class ZipRecipes {
             'recipe_actions' => apply_filters('zrdn__recipe_actions', '')
         );
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
-        return $custom_template ? : Util::view('recipe', $viewParams);
+        return $custom_template ?: Util::view('recipe', $viewParams);
     }
 
     /**
@@ -538,7 +535,7 @@ class ZipRecipes {
     }
 
     public static function zrdn_tinymce_plugin($plugin_array) {
-        $plugin_array['zrdn_plugin'] = plugins_url('scripts/zlrecipe_editor_plugin.min.js?sver=' . ZRDN_VERSION_NUM, __FILE__);
+        $plugin_array['zrdn_plugin'] = plugins_url('scripts/zlrecipe_editor_plugin' . self::$suffix . '.js?sver=' . ZRDN_VERSION_NUM, __FILE__);
         return $plugin_array;
     }
 
@@ -885,7 +882,6 @@ class ZipRecipes {
         load_plugin_textdomain('zip-recipes', false, $pluginLangDir);
     }
 
-
     /**
      * @return array Returns "promo" => "promo html" array. On failure, it returns empty array.
      */
@@ -897,16 +893,16 @@ class ZipRecipes {
         );
 
         $api_endpoint = ZRDN_API_URL . "/v2/promos/" . "?" . http_build_query(array(
-                'blog_url' => get_bloginfo('wpurl')
-            ));
+                    'blog_url' => get_bloginfo('wpurl')
+        ));
         $promos_response = wp_remote_get($api_endpoint, array());
 
-        if (! is_array($promos_response)) {
+        if (!is_array($promos_response)) {
             return $promos;
         }
 
 
-        if (! array_key_exists('body', $promos_response)) {
+        if (!array_key_exists('body', $promos_response)) {
             return $promos;
         }
 
@@ -918,7 +914,7 @@ class ZipRecipes {
 
         try {
             $results = $json_decoded_body->results;
-            foreach($results as $result) {
+            foreach ($results as $result) {
                 if (array_key_exists($result->id, $promo_id_name_map)) {
                     $name = $promo_id_name_map[$result->id];
                     $promos[$name] = $result->html;
@@ -926,12 +922,10 @@ class ZipRecipes {
             }
 
             return $promos;
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $promos;
         }
     }
-
 
     // Content for the popup iframe when creating or editing a recipe
     public static function zrdn_iframe_content($post_info = null, $get_info = null) {
@@ -1208,7 +1202,7 @@ class ZipRecipes {
             if (!$skip_registration || (isset($_GET['register']) && $_GET['register'] == 1)) {
                 global $wp_version;
                 $settings_page_url = admin_url('admin.php?page=' . 'zrdn-register');
-	            $url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                $url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                 $settingsParams = array(
                     'settings_url' => $settings_page_url,
                     'registration_url' => self::$registration_url,
@@ -1234,30 +1228,25 @@ class ZipRecipes {
             $promos = self::get_remote_promos();
 
             if (!$author_section) {// author plugin doesn't exist
-
                 // attempt to get remote promo
                 $remote_author_promo = array_key_exists('author', $promos);
                 if ($remote_author_promo) {
                     $author_section = $promos['author'];
-                }
-                else { // fallback
+                } else { // fallback
                     $author_section = Util::view('author_promo', array());
                 }
             }
 
             if (!$yield_section) { // automatic nutrition plugin does not exist
-
-
                 $remote_nutrition_promo = array_key_exists('nutrition', $promos);
                 if ($remote_nutrition_promo) {
                     $nutrition_remote_promo = $promos['nutrition'];
-                }
-                else {
+                } else {
                     $nutrition_remote_promo = "";
                 }
                 $yield_section = Util::view('default_nutrition', array(
-                    'yield' => $yield,
-                    'remote_promo' => $nutrition_remote_promo
+                            'yield' => $yield,
+                            'remote_promo' => $nutrition_remote_promo
                 ));
             }
         }
@@ -1424,7 +1413,7 @@ class ZipRecipes {
             'trans_fat',
             'cholesterol',
             'serving_size',
-            //'nutrition_label'
+                //'nutrition_label'
         );
 
         // zrdn__recipe_field_names recipe db fields that don't need special processing or formatting
@@ -1470,9 +1459,10 @@ class ZipRecipes {
     public static function zrdn_process_head() {
         $css = get_option('zlrecipe_stylesheet');
         Util::print_view('header', array(
-                'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
-                'css' => $css
-            )
+            'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
+            'css' => $css,
+            'suffix' => self::$suffix,
+                )
         );
     }
 
@@ -1543,7 +1533,7 @@ class ZipRecipes {
     // Inserts the recipe into the post editor
     public static function zrdn_plugin_footer() {
         wp_enqueue_script(
-                'zrdn-admin-script', plugins_url('scripts/admin.min.js', __FILE__), array('jquery'), // deps
+                'zrdn-admin-script', plugins_url('scripts/admin' . self::$suffix . '.js', __FILE__), array('jquery'), // deps
                 false, // ver
                 true // in_footer
         );
@@ -1611,18 +1601,18 @@ class ZipRecipes {
 
         if ($author) {
             $cleaned_recipe_json_ld["author"] = (object) array(
-                "@type" => "Person",
-                "name" => $author
+                        "@type" => "Person",
+                        "name" => $author
             );
         }
 
         $rating_data = apply_filters('zrdn__ratings_format_amp', '', $recipe->recipe_id);
         if ($rating_data) {
             $cleaned_recipe_json_ld["aggregateRating"] = (object) array(
-                "bestRating" => $rating_data['max'],
-                "ratingValue" => $rating_data['rating'],
-                "ratingCount" => $rating_data['count'],
-                "worstRating" => $rating_data['min']
+                        "bestRating" => $rating_data['max'],
+                        "ratingValue" => $rating_data['rating'],
+                        "ratingCount" => $rating_data['count'],
+                        "worstRating" => $rating_data['min']
             );
         }
 
@@ -1724,7 +1714,7 @@ class ZipRecipes {
         .zlrecipe-print-link {float: right;  margin-top: 5px;}
         #zlrecipe-container-178{ padding:10px}
 
-		.zlrecipe-print-link  a { background: url(<?php echo ZRDN_PLUGIN_URL . "images/print-icon.png"; ?> ) no-repeat scroll 0 4px transparent;
+        .zlrecipe-print-link  a { background: url(<?php echo ZRDN_PLUGIN_URL . "images/print-icon.png"; ?> ) no-repeat scroll 0 4px transparent;
         cursor: pointer;
         padding: 0 0 0 20px;
         display: block;
@@ -1785,5 +1775,5 @@ class ZipRecipes {
         }
         return $item;
     }
-}
 
+}
