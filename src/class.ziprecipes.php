@@ -1780,7 +1780,7 @@ class ZipRecipes {
     }
   
     /**
-     * Get Images attributes from URL
+     * Get Responsive Image attributes from URL
      * 
      * It checks image is not external and return images attributes like srcset, sized etc.
      * 
@@ -1788,14 +1788,19 @@ class ZipRecipes {
      * @return type
      */
     public static function zrdn_get_responsive_image_attributes($url) {
+        /**
+         * set up default array values
+         */
         $attributes = [];
         $attributes['url'] = $url;
         $attributes['attachment_id'] = $attachment_id = attachment_url_to_postid($url);
         $attributes['srcset'] = '';
         $attributes['sizes'] = '';
         if ($attachment_id) {
-            // $attachment' = wp_get_attachment_image_url( $attachment_id, 'medium' );
-            $img_srcset = wp_get_attachment_image_srcset($attachment_id, 'full');
+            $attributes['url'] = wp_get_attachment_image_url( $attachment_id, 'full' );
+            $image_meta = wp_get_attachment_metadata( $attachment_id );
+            // $attributes['meta'] = esc_attr($image_meta); // may need in future for alt, meta title
+            $img_srcset = wp_get_attachment_image_srcset($attachment_id, 'full', $image_meta );
             $attributes['srcset'] = esc_attr($img_srcset);
             $img_sizes = wp_get_attachment_image_sizes($attachment_id, 'full');
             $attributes['sizes'] = esc_attr($img_sizes);
