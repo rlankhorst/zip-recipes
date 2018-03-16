@@ -137,7 +137,8 @@ class ZipRecipes {
 
         add_filter('amp_post_template_metadata', __NAMESPACE__ . '\ZipRecipes::amp_format', 10, 2);
         add_action('amp_post_template_css', __NAMESPACE__ . '\ZipRecipes::amp_styles');
-
+        // check GD or imagick support
+        add_action('admin_notices', __NAMESPACE__ . '\ZipRecipes::zrdn_check_image_editing_support');
         self::zrdn_recipe_install();
     }
 
@@ -1778,7 +1779,7 @@ class ZipRecipes {
         }
         return $item;
     }
-  
+
     /**
      * Get Responsive Image attributes from URL
      * 
@@ -1797,15 +1798,28 @@ class ZipRecipes {
         $attributes['srcset'] = '';
         $attributes['sizes'] = '';
         if ($attachment_id) {
-            $attributes['url'] = wp_get_attachment_image_url( $attachment_id, 'full' );
-            $image_meta = wp_get_attachment_metadata( $attachment_id );
+            $attributes['url'] = wp_get_attachment_image_url($attachment_id, 'full');
+            $image_meta = wp_get_attachment_metadata($attachment_id);
             // $attributes['meta'] = esc_attr($image_meta); // may need in future for alt, meta title
-            $img_srcset = wp_get_attachment_image_srcset($attachment_id, 'full', $image_meta );
+            $img_srcset = wp_get_attachment_image_srcset($attachment_id, 'full', $image_meta);
             $attributes['srcset'] = esc_attr($img_srcset);
             $img_sizes = wp_get_attachment_image_sizes($attachment_id, 'full');
             $attributes['sizes'] = esc_attr($img_sizes);
         }
         return $attributes;
+    }
+
+    public static function zrdn_check_image_editing_support() {
+        $is_exist = false;
+        if (extension_loaded('gd') || extension_loaded('imagick')) {
+            $is_exist = true;
+        } else {
+            ?>
+            <div class="notice notice-error"> 
+                <p><?php _e('ImageMagick or GD PHP extensions not installed. it is required for Zip Recipes plugin to work properly!', 'zip-recipes'); ?></p>
+            </div>
+            <?php
+        }
     }
 
     /**
