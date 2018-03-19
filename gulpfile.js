@@ -10,13 +10,11 @@ var path = require("path");
 var fs = require("fs");
 var debug = require("gulp-debug");
 var sort = require('gulp-sort');
-// var path = require('path');
 //custom templates requirements
 var sass = require('gulp-sass');
 var argv = require('yargs').argv;
 
 var minifyCSS = require('gulp-minify-css');
-var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var prefix = require('gulp-autoprefixer');
 var cleanCSS = require('gulp-clean-css');
@@ -474,31 +472,25 @@ function getFolders(dir) {
  * It Process all main plugin js and extensions js
  */
 gulp.task('compress-js', function () {
-    log.info('JS compresss precess started for Extentions...');
+    log.info('JS compress process started for extensions...');
     var folders = getFolders(ext_location);
     log.info('All extensions loaded.');
     var tasks = folders.map(function (folder) {
         log.info('working on ' + folder);
         var dis_path = ext_location + folder + '/';
-        //log.warn('path: '+dis_path);
         return gulp.src([path.join(ext_location, folder, '/**/*.js'), '!' + path.join(ext_location, folder, '/**/*.min.js')])
                 // minify
                 .pipe(uglify())
-                // rename to folder.min.js
-                //.pipe(rename(folder + '.min.js'))
                 .pipe(rename({
                     suffix: '.min'
                 }))
                 // write to output again
                 .pipe(gulp.dest(dis_path));
     });
-    log.info('JS compresss precess started for root...');
-    // process all remaining files in scriptsPath root into main.js and main.min.js files
+    log.info('JS compress process started for root...');
+    // process all remaining files in scriptsPath root into main.js and not main.min.js files
     var root = gulp.src(['src/scripts/*.js', '!src/scripts/*.min.js'])
-            //.pipe(concat('bundle.min.js'))
             .pipe(uglify())
-            //.pipe(rev())
-            // rename to folder.min.js
             .pipe(rename({
                 suffix: '.min'
             }))
@@ -518,7 +510,7 @@ gulp.task('compress-css', function () {
             console.error('Error from ' + name + ' in compress task', err.toString());
         };
     }
-    log.info('CSS compresss precess started for Extentions...');
+    log.info('CSS compress process started for extensions...');
     var folders = getFolders(ext_location);
     log.info('All extensions loaded.');
     var tasks = folders.map(function (folder) {
@@ -526,7 +518,6 @@ gulp.task('compress-css', function () {
         var dis_path = ext_location + folder + '/';
         log.warn('path: ' + dis_path);
         return gulp.src([path.join(ext_location, folder, '/**/**.css'), '!' + path.join(ext_location, folder, '/**/*.min.css')])
-                //.pipe(concat('bundle.min.css'))
                 // clean css
                 .pipe(cleanCSS())
                 // minify css
@@ -540,7 +531,7 @@ gulp.task('compress-css', function () {
                 .on('error', createErrorHandler('gulp.dest'));
 
     });
-    log.info('CSS compresss precess started for root...');
+    log.info('CSS compress process started for root...');
     // process all remaining files in stylesPath root into main.css and main.min.css files
     var root = gulp.src(['src/styles/*.css', '!src/styles/*.min.css'])
             // clean css
