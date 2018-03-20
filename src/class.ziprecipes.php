@@ -49,7 +49,6 @@ class ZipRecipes {
                 $namespace = __NAMESPACE__;
                 $fullPluginName = "$namespace\\$pluginName"; // double \\ is needed because \ is an escape char
                 $pluginInstance = new $fullPluginName;
-
                 // add plugin to options if it's not already there
                 // zrdn__plugins stores whether plugin is enabled or not:
                 //	array("VisitorRating" => array("active" => false, "description" => "Stuff"),
@@ -253,8 +252,6 @@ class ZipRecipes {
             error_log("Error encoding recipe to JSON:" . json_last_error());
         }
         $image_attributes = self::zrdn_get_responsive_image_attributes($recipe->recipe_image);
-        // var_dump($image_attributes);
-        // die('===');
 
         $viewParams = array(
             'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
@@ -300,7 +297,6 @@ class ZipRecipes {
             'recipe_image' => $recipe->recipe_image,
             'summary' => $recipe->summary,
             'summary_rich' => $summary_rich,
-            'image' => $recipe->recipe_image,
             'image_attributes' => $image_attributes,
             'image_width' => get_option('zlrecipe_image_width'),
             'image_hide' => get_option('zlrecipe_image_hide'),
@@ -1792,7 +1788,7 @@ class ZipRecipes {
         /**
          * set up default array values
          */
-        $attributes = [];
+        $attributes = array();
         $attributes['url'] = $url;
         $attributes['attachment_id'] = $attachment_id = attachment_url_to_postid($url);
         $attributes['srcset'] = '';
@@ -1809,42 +1805,18 @@ class ZipRecipes {
         return $attributes;
     }
 
+    /**
+     * Show Notice 
+     * 
+     * If GD or ImageMagick not installed it will show messages 
+     */
     public static function zrdn_check_image_editing_support() {
         $is_exist = false;
         if (extension_loaded('gd') || extension_loaded('imagick')) {
             $is_exist = true;
-            Util::print_view("notice");
         } else {
+            Util::log("Attempting to get responsive image: ImageMagick or GD PHP extensions not installed.");
             Util::print_view("notice");
-        }
-    }
-
-    /**
-     * Add SRCSET to non-content images
-     * Make images uploaded in Customizer or Theme Options,
-     * that don't pass through the WP 4.4 filter responsive
-     *
-     * @package Inti
-     * @since 1.0.0
-     * @license GNU General Public License v2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
-     */
-    public static function zrdn_get_srcset_image($url, $alt) {
-        $attachment_id = attachment_url_to_postid($url);
-        $img_html = '';
-        $img_html .= '<img src="' . $url . '" alt="' . $alt . '">';
-        if ($url == "") {
-            return "";
-        }
-        if ($attachment_id == 0) {
-            // D'oh - Just return the non-responsive URL
-            return $img_html;
-        } else {
-            if (function_exists('wp_image_add_srcset_and_sizes')) {
-                $final_image = wp_image_add_srcset_and_sizes($img_html, wp_get_attachment_metadata($attachment_id, false), $attachment_id);
-                return $final_image;
-            } else {
-                return $img_html;
-            }
         }
     }
 
