@@ -53,18 +53,18 @@ class Util {
         $tempDir = get_temp_dir();
         $cacheDir = "${tempDir}zip-recipes/cache";
 
-		// Prefer to write to views dir, if possible. More people can write to views dir than temp from experience.
-		// If views is not writable, try to give it read/write permission to user and group
+        // Prefer to write to views dir, if possible. More people can write to views dir than temp from experience.
+        // If views is not writable, try to give it read/write permission to user and group
         // Perhaps in the future disable caching if neither is writable?!
-		// Note: chmod returns true on success :D
-		if (is_writable($viewDir) || chmod($viewDir, 0660)) {
+        // Note: chmod returns true on success :D
+        if (is_writable($viewDir) || chmod($viewDir, 0660)) {
             $cacheDir = "${viewDir}cache";
         }
 
         Util::log("Looking for template in dir:" . $viewDir);
         Util::log("Template name:" . $file);
 
-		$loader = new \Twig_Loader_Filesystem(array($viewDir, ZRDN_PLUGIN_DIRECTORY . 'views/'));
+        $loader = new \Twig_Loader_Filesystem(array($viewDir, ZRDN_PLUGIN_DIRECTORY . 'views/'));
         $twig = new \Twig_Environment($loader, array(
             'cache' => $cacheDir,
             'autoescape' => true,
@@ -72,7 +72,6 @@ class Util {
         ));
 
         $twig->addExtension(new TrHelper());
-
         return $twig->render($file, $args);
     }
 
@@ -151,7 +150,7 @@ class Util {
                 $output .= str_repeat("\t", $traceIndex) . " from $file:$lineNumber" . "\n";
             }
 
-            if (array_key_exists( ++$traceIndex, $trace)) {
+            if (array_key_exists(++$traceIndex, $trace)) {
                 $caller = $trace[$traceIndex];
             } else {
                 $caller = null;
@@ -160,4 +159,5 @@ class Util {
 
         //error_log($output);
     }
+
 }
