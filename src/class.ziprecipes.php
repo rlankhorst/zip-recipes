@@ -1813,12 +1813,9 @@ class ZipRecipes {
         $is_exist = false;
         if (extension_loaded('gd') || extension_loaded('imagick')) {
             $is_exist = true;
+            Util::print_view("notice");
         } else {
-            ?>
-            <div class="notice notice-error"> 
-                <p><?php _e('ImageMagick or GD PHP extensions not installed. it is required for Zip Recipes plugin to work properly!', 'zip-recipes'); ?></p>
-            </div>
-            <?php
+            Util::print_view("notice");
         }
     }
 
