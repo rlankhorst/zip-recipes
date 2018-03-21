@@ -10,7 +10,8 @@ class ZipRecipes {
 
     const TABLE_NAME = "amd_zlrecipe_recipes";
     const PLUGIN_OPTION_NAME = "zrdn__plugins";
-
+    const MAIN_CSS_SCRIPT = "zrdn-recipes";
+    const MAIN_PRINT_SCRIPT = "zrdn-print-js";
     public static $registration_url;
     public static $suffix = '';
 
@@ -213,9 +214,19 @@ class ZipRecipes {
 
         return $output;
     }
+    
+    public static function load_assets(){
+        wp_register_style(self::MAIN_CSS_SCRIPT, plugins_url('styles/zlrecipe-std' . self::$suffix . '.css', __FILE__), array(), NULL, 'all');
+        wp_enqueue_style(self::MAIN_CSS_SCRIPT);
+        
+        wp_register_script(self::MAIN_PRINT_SCRIPT, plugins_url('scripts/zlrecipe_print' . self::$suffix . '.js', __FILE__), array('jquery'), '1.0', true);
+        wp_enqueue_script(self::MAIN_PRINT_SCRIPT);
+        
+    }
 
     // Formats the recipe for output
     public static function zrdn_format_recipe($recipe) {
+        self::load_assets();
         $nutritional_info = false;
         if (
                 $recipe->serving_size != null ||
