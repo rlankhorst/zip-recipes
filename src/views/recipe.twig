@@ -253,7 +253,7 @@
         {% if recipe_image %}
           <p class="t-a-c {% if image_hide == 'Hide' %}hide-card{% endif %} {% if image_hide_print == 'Hide' %}hide-print{% endif %}">
             <img class="photo"
-                    {{ recipe_props.recipe_attr('itemprop', "image", amp_on) }} src="{{ image }}" title="{{ recipe_title }}"
+                    {{ recipe_props.recipe_attr('itemprop', "image", amp_on) }} src="{{ image_attributes.url }}" srcset="{{ image_attributes.srcset }}" sizes="{{ image_attributes.sizes }}" title="{{ recipe_title }}"
                  alt="{{ recipe_title }}"
                  {% if image_width %}style="width: {{image_width}}px;"{% endif %} />
           </p>
@@ -290,7 +290,7 @@
       <{{ ingredientsHtmlListElem }} id="zlrecipe-ingredients-list">
         {% for ingredient in ingredient_list %}
           {% if ingredient.type == 'image' %}
-            <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ ingredient.content }}" />
+            <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ ingredient.attributes.url }}" srcset="{{ ingredient.attributes.srcset }}" sizes="{{ ingredient.attributes.sizes }}" alt="" />
           {% elseif ingredient.type == 'subtitle' %}
             {# no itemprop for sub-titles (aka labels) #}
             {# subtitles always use div #}
@@ -328,7 +328,7 @@
         <{{ instructionsHtmlListElem }} id="zlrecipe-instructions-list" class="instructions">
         {% for instruction in instruction_list %}
           {% if instruction.type == 'image' %}
-            <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ instruction.content }}" />
+            <img class="{% if image_hide_print %}hide-print{% endif %} {% if image_hide %}hide-card{% endif %}" src="{{ instruction.attributes.url }}" srcset="{{ instruction.attributes.srcset }}" sizes="{{ instruction.attributes.sizes }}" alt="" />
           {% elseif instruction.type == 'subtitle' %}
             {# no itemprop for sub-titles (aka labels) #}
             {# subtitles always use div #}
