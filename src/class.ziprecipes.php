@@ -51,7 +51,6 @@ class ZipRecipes {
                 $namespace = __NAMESPACE__;
                 $fullPluginName = "$namespace\\$pluginName"; // double \\ is needed because \ is an escape char
                 $pluginInstance = new $fullPluginName;
-
                 // add plugin to options if it's not already there
                 // zrdn__plugins stores whether plugin is enabled or not:
                 //	array("VisitorRating" => array("active" => false, "description" => "Stuff"),
@@ -139,7 +138,8 @@ class ZipRecipes {
 
         add_filter('amp_post_template_metadata', __NAMESPACE__ . '\ZipRecipes::amp_format', 10, 2);
         add_action('amp_post_template_css', __NAMESPACE__ . '\ZipRecipes::amp_styles');
-
+        // check GD or imagick support
+        add_action('admin_notices', __NAMESPACE__ . '\ZipRecipes::zrdn_check_image_editing_support');
         self::zrdn_recipe_install();
     }
 
@@ -263,6 +263,7 @@ class ZipRecipes {
         } else {
             error_log("Error encoding recipe to JSON:" . json_last_error());
         }
+        $image_attributes = self::zrdn_get_responsive_image_attributes($recipe->recipe_image);
 
         $viewParams = array(
             'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
@@ -308,7 +309,7 @@ class ZipRecipes {
             'recipe_image' => $recipe->recipe_image,
             'summary' => $recipe->summary,
             'summary_rich' => $summary_rich,
-            'image' => $recipe->recipe_image,
+            'image_attributes' => $image_attributes,
             'image_width' => get_option('zlrecipe_image_width'),
             'image_hide' => get_option('zlrecipe_image_hide'),
             'image_hide_print' => get_option('zlrecipe_image_hide_print'),
@@ -428,7 +429,8 @@ class ZipRecipes {
         if (preg_match("/^%(\S*)/", $item, $matches)) { // IMAGE Updated to only pull non-whitespace after some blogs were adding additional returns to the output
             // type: image
             // content: $matches[1]
-            return array('type' => 'image', 'content' => $matches[1]); // Images don't also have labels or links so return the line immediately.
+            $attributes = self::zrdn_get_responsive_image_attributes($matches[1]);
+            return array('type' => 'image', 'content' => $matches[1], 'attributes' => $attributes); // Images don't also have labels or links so return the line immediately.
         }
 
         $retArray = array();
@@ -1472,7 +1474,7 @@ class ZipRecipes {
         Util::print_view('header', array(
             'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
             'css' => $css,
-            'suffix' => self::$suffix,
+            'suffix' => self::$suffix
                 )
         );
     }
@@ -1785,6 +1787,50 @@ class ZipRecipes {
             }
         }
         return $item;
+    }
+
+    /**
+     * Get Responsive Image attributes from URL
+     * 
+     * It checks image is not external and return images attributes like srcset, sized etc.
+     * 
+     * @param type $url
+     * @return type
+     */
+    public static function zrdn_get_responsive_image_attributes($url) {
+        /**
+         * set up default array values
+         */
+        $attributes = array();
+        $attributes['url'] = $url;
+        $attributes['attachment_id'] = $attachment_id = attachment_url_to_postid($url);
+        $attributes['srcset'] = '';
+        $attributes['sizes'] = '';
+        if ($attachment_id) {
+            $attributes['url'] = wp_get_attachment_image_url($attachment_id, 'full');
+            $image_meta = wp_get_attachment_metadata($attachment_id);
+            // $attributes['meta'] = esc_attr($image_meta); // may need in future for alt, meta title
+            $img_srcset = wp_get_attachment_image_srcset($attachment_id, 'full', $image_meta);
+            $attributes['srcset'] = esc_attr($img_srcset);
+            $img_sizes = wp_get_attachment_image_sizes($attachment_id, 'full');
+            $attributes['sizes'] = esc_attr($img_sizes);
+        }
+        return $attributes;
+    }
+
+    /**
+     * Show Notice 
+     * 
+     * If GD or ImageMagick not installed it will show messages 
+     */
+    public static function zrdn_check_image_editing_support() {
+        $is_exist = false;
+        if (extension_loaded('gd') || extension_loaded('imagick')) {
+            $is_exist = true;
+        } else {
+            Util::log("Attempting to get responsive image: ImageMagick or GD PHP extensions not installed.");
+            Util::print_view("notice");
+        }
     }
 
 }
