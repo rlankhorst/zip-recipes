@@ -1,4 +1,6 @@
 .idea/
+*.min.js
+*.min.css
 src/views/cache/*
 .vagrant/
 src/vendor/

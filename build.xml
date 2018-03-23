@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="zip-recipes" default="copy_to_git">
+<project name="zip-recipes" default="staging_setup">
     <property name="git-repo" value="/Users/gezimhoxha/projects/ziprecipes.net/zip-recipes/git" />
 
     <target name="staging_setup">
