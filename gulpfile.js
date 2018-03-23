@@ -410,13 +410,14 @@ gulp.task('i18n', function (done) {
 function sassForPlugin(pluginName) {
     return function () {
         var path = ext_location + pluginName + assets_parent;
+        var path_style = ext_location + pluginName + '/';
         console.log(path + 'assets/sass/*.scss');
         return gulp.src(path + 'assets/sass/*.scss')
                 .pipe(sass({
                     includePaths: [modules],
                     outputStyle: 'compressed'
                 }).on('error', sass.logError))
-                .pipe(gulp.dest(path + 'styles'));
+                .pipe(gulp.dest(path_style + 'styles'));
     }
 }
 
