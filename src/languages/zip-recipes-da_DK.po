@@ -7,193 +7,193 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-02-17 15:49-0700\n"
-"PO-Revision-Date: 2018-01-24 19:44+0100\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2018-02-25 20:13+0100\n"
+"PO-Revision-Date: 2018-02-25 20:24+0100\n"
 "Language-Team: \n"
-"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Poedit 1.8.4\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: da_DK\n"
 
 #, php-format
 msgid "%d day"
-msgstr "%d deň"
+msgstr "%d dag"
 
 #, php-format
 msgid "%d days"
-msgstr "%d dní"
+msgstr "%d dage"
 
 #, php-format
 msgid "%d hour"
-msgstr "%d hodina"
+msgstr "%d time"
 
 #, php-format
 msgid "%d hours"
-msgstr "%d hodín"
+msgstr "%d time"
 
 #, php-format
 msgid "%d minute"
-msgstr "%d minúta"
+msgstr "%d minut"
 
 #, php-format
 msgid "%d minutes"
-msgstr "%d minúty"
+msgstr "%d minutter"
 
 #, php-format
 msgid "%d month"
-msgstr "%d mesiac"
+msgstr "%d måned"
 
 #, php-format
 msgid "%d months"
-msgstr "%d mesiace"
+msgstr "%d måneder"
 
 #, php-format
 msgid "%d second"
-msgstr "%d sekunda"
+msgstr "%d sekund"
 
 #, php-format
 msgid "%d seconds"
-msgstr "%d sekundy"
+msgstr "%d sekunder"
 
 #, php-format
 msgid "%d year"
-msgstr "%d rok"
+msgstr "%d år"
 
 #, php-format
 msgid "%d years"
-msgstr "%d roky"
+msgstr "%d år"
 
 msgid "Author:"
-msgstr "Autor:"
+msgstr "Forfatter: %s"
 
 msgid "Calories per serving:"
-msgstr "Kalórií na porciu:"
+msgstr "Kalorier per portion:"
 
 msgid "Calories:"
-msgstr "Kalórie:"
+msgstr "Kalorier:"
 
 msgid "Carbs per serving:"
-msgstr "Sacharidov na porciu:"
+msgstr "Kulhydrater per portion:"
 
 msgid "Carbs:"
-msgstr "Sacharidy:"
+msgstr "Kulhydrater:"
 
 msgid "Category:"
-msgstr "Kategória:"
+msgstr "Kategori:"
 
 msgid "Cholesterol per serving:"
-msgstr "Cholesterol na porciu:"
+msgstr "Kolesterol per portion:"
 
 msgid "Cholesterol:"
-msgstr "Cholesterol"
+msgstr "Kolesterol: "
 
 msgid "Cook"
-msgstr "Variť"
+msgstr "Kog"
 
 msgid "Cook Time:"
-msgstr "Čas varenia:"
+msgstr "Kogetid:"
 
 msgid "Cuisine:"
-msgstr "Kuchyňa:"
+msgstr "Køkken:"
 
 msgid "Fat per serving:"
-msgstr "Tuky na porciu:"
+msgstr "Fedt per portion:"
 
 msgid "Fat:"
-msgstr "Tuky:"
+msgstr "Fedt:"
 
 msgid "Fiber per serving:"
-msgstr "Vláknina na porciu:"
+msgstr "Fibre per portion:"
 
 msgid "Fiber:"
-msgstr "Vláknina:"
+msgstr "Fibre:"
 
 msgid "Ingredients"
-msgstr "Ingrediencie:"
+msgstr "Ingredienser"
 
 msgid "Instructions"
-msgstr "Inštrukcie:"
+msgstr "Instruktion"
 
 msgid "Notes"
-msgstr "Poznámky:"
+msgstr "Noter"
 
 msgid "Prep"
-msgstr "Príprava"
+msgstr "Forberedelse"
 
 msgid "Prep Time:"
-msgstr "Čas prípravy:"
+msgstr "Forberedelsestid:"
 
 msgid "Prep:"
-msgstr "Príprava"
+msgstr "Forbered:"
 
 msgid "Print"
-msgstr "Vytlačiť"
+msgstr "Print"
 
 msgid "Print this recipe"
-msgstr "Vytlačiť tento recept"
+msgstr "Print denne opskrift"
 
 msgid "Protein per serving:"
-msgstr "Proteíny na porciu:"
+msgstr "Protein per portion:"
 
 msgid "Protein:"
-msgstr "Proteíny:"
+msgstr "Protein:"
 
 msgid "Rate this recipe"
-msgstr "Ohodnoťte tento recept:"
+msgstr "Bedøm denne opskrift:"
 
 msgid "Ready in"
-msgstr "Pripravené za"
+msgstr "Klar på"
 
 msgid "Saturated fat per serving:"
-msgstr "Saturovaný tuk na porciu:"
+msgstr "Mættet fedt per portion:"
 
 msgid "Saturated fat:"
-msgstr "Saturovaný tuk:"
+msgstr "Mættet fedt:"
 
 msgid "Save to BigOven"
-msgstr "Uložiť do BigOven"
+msgstr "Gem til BigOven"
 
 msgid "Serves:"
-msgstr "Porcie:"
+msgstr "Nok til:"
 
 msgid "Serving Size:"
-msgstr "Veľkosť porcie:"
+msgstr "Portion størrelse:"
 
 msgid "Sodium per serving:"
-msgstr "Sodík na porciu:"
+msgstr "Natrium per portion:"
 
 msgid "Sodium:"
-msgstr "Sodík:"
+msgstr "Natrium:"
 
 msgid "Sugar per serving:"
-msgstr "Cukor na porciu:"
+msgstr "Sukker per portion:"
 
 msgid "Sugar:"
-msgstr "Cukor:"
+msgstr "Sukker:"
 
 msgid "Total Time:"
-msgstr "Celkový čas:"
+msgstr "Tid i alt:"
 
 msgid "Total:"
-msgstr "Celkovo:"
+msgstr "I alt:"
 
 msgid "Trans fat per serving:"
-msgstr "Trans tuky na porciu:"
+msgstr "Transfedt per portion:"
 
 msgid "Trans fat:"
-msgstr "Trans tuky:"
+msgstr "Transfedt:"
 
 msgid "Yield:"
-msgstr "Výťažok:"
+msgstr "Udbytte:"
 
 msgid "Your rating:"
-msgstr "Vaše hodnotenie:"
+msgstr "Din vurdering:"
 
 msgid "ratings"
-msgstr "hodnotenia"
+msgstr "bedømmelser"
 
 msgid "stars"
-msgstr "hviezdičky"
+msgstr "stjerner"
