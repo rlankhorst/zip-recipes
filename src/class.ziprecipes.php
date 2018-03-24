@@ -12,6 +12,7 @@ class ZipRecipes {
     const PLUGIN_OPTION_NAME = "zrdn__plugins";
     const MAIN_CSS_SCRIPT = "zrdn-recipes";
     const MAIN_PRINT_SCRIPT = "zrdn-print-js";
+
     public static $registration_url;
     public static $suffix = '';
 
@@ -214,14 +215,13 @@ class ZipRecipes {
 
         return $output;
     }
-    
-    public static function load_assets(){
+
+    public static function load_assets() {
         wp_register_style(self::MAIN_CSS_SCRIPT, plugins_url('styles/zlrecipe-std' . self::$suffix . '.css', __FILE__), array(), NULL, 'all');
         wp_enqueue_style(self::MAIN_CSS_SCRIPT);
-        
+
         wp_register_script(self::MAIN_PRINT_SCRIPT, plugins_url('scripts/zlrecipe_print' . self::$suffix . '.js', __FILE__), array('jquery'), '1.0', true);
         wp_enqueue_script(self::MAIN_PRINT_SCRIPT);
-        
     }
 
     // Formats the recipe for output
@@ -1783,7 +1783,17 @@ class ZipRecipes {
         preg_match_all('/(%http|%https):\/\/[^ ]+(\.gif|\.jpg|\.jpeg|\.png)/', $item, $matches);
         if (isset($matches[0]) && !empty($matches[0])) {
             foreach ($matches[0] as $image) {
-                $item = str_replace($image, '<img class=" " src="' . str_replace('%', '', $image) . '">', $item);
+                $attributes = self::zrdn_get_responsive_image_attributes(str_replace('%', '', $image));
+                $html = '<img class="" src="' . $attributes['url'] . '"';
+                if(!empty($attributes['srcset'])){
+                    $html .= ' srcset="'.$attributes['srcset'].'"';
+                }
+                if(!empty($attributes['sizes'])){
+                    $html .= ' sizes="'.$attributes['sizes'].'"';
+                }
+                $html .= (!empty($attributes['title']))? ' alt="'.$attributes['title'].'"': 'alt=""';
+                $html .= '>';
+                $item = str_replace($image, $html, $item);
             }
         }
         return $item;
@@ -1804,11 +1814,11 @@ class ZipRecipes {
         $attributes = array();
         $attributes['url'] = $url;
         $attributes['attachment_id'] = $attachment_id = attachment_url_to_postid($url);
-        $attributes['srcset'] = '';
-        $attributes['sizes'] = '';
+        $attributes['srcset'] = $attributes['sizes'] = $attributes['title'] = '';
         if ($attachment_id) {
             $attributes['url'] = wp_get_attachment_image_url($attachment_id, 'full');
             $image_meta = wp_get_attachment_metadata($attachment_id);
+            $attributes['title'] = isset($image_meta['image_meta']['title']) ? esc_attr($image_meta['image_meta']['title']) : '';
             // $attributes['meta'] = esc_attr($image_meta); // may need in future for alt, meta title
             $img_srcset = wp_get_attachment_image_srcset($attachment_id, 'full', $image_meta);
             $attributes['srcset'] = esc_attr($img_srcset);
