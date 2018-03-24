@@ -1785,13 +1785,15 @@ class ZipRecipes {
             foreach ($matches[0] as $image) {
                 $attributes = self::zrdn_get_responsive_image_attributes(str_replace('%', '', $image));
                 $html = '<img class="" src="' . $attributes['url'] . '"';
-                if(!empty($attributes['srcset'])){
-                    $html .= ' srcset="'.$attributes['srcset'].'"';
+                if (!empty($attributes['srcset'])) {
+                    $html .= ' srcset="' . $attributes['srcset'] . '"';
                 }
-                if(!empty($attributes['sizes'])){
-                    $html .= ' sizes="'.$attributes['sizes'].'"';
+                if (!empty($attributes['sizes'])) {
+                    $html .= ' sizes="' . $attributes['sizes'] . '"';
                 }
-                $html .= (!empty($attributes['title']))? ' alt="'.$attributes['title'].'"': 'alt=""';
+                if (!empty($attributes['title'])) {
+                    $html .= ' alt="' . $attributes['title'] . '"';
+                }
                 $html .= '>';
                 $item = str_replace($image, $html, $item);
             }
