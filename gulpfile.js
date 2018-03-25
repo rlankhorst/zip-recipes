@@ -554,4 +554,9 @@ gulp.task('compress-css', function () {
  * 
  * It Process all main plugin css/jss and extensions css/jss
  */
-gulp.task('compress-assets', ['compress-js', 'compress-css']);
+gulp.task("compress-assets", function (cb) {
+    return sequence(
+        'custom-templates',
+        ['compress-js', 'compress-css'],
+        cb);
+});
