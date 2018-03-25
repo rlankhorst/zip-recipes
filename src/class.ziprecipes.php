@@ -1785,16 +1785,17 @@ class ZipRecipes {
             foreach ($matches[0] as $image) {
                 $attributes = self::zrdn_get_responsive_image_attributes(str_replace('%', '', $image));
                 $html = '<img class="" src="' . $attributes['url'] . '"';
+	            $html = "<img class='' src='{$attributes['url']}";
                 if (!empty($attributes['srcset'])) {
-                    $html .= ' srcset="' . $attributes['srcset'] . '"';
+                    $html .= " srcset='{$attributes['srcset']}";
                 }
                 if (!empty($attributes['sizes'])) {
-                    $html .= ' sizes="' . $attributes['sizes'] . '"';
+                    $html .= " sizes='{$attributes['sizes']}'";
                 }
                 if (!empty($attributes['title'])) {
-                    $html .= ' alt="' . $attributes['title'] . '"';
+                    $html .= " alt='{$attributes['title']}'";
                 }
-                $html .= '>';
+                $html .= ' />';
                 $item = str_replace($image, $html, $item);
             }
         }
@@ -1816,7 +1817,9 @@ class ZipRecipes {
         $attributes = array();
         $attributes['url'] = $url;
         $attributes['attachment_id'] = $attachment_id = attachment_url_to_postid($url);
-        $attributes['srcset'] = $attributes['sizes'] = $attributes['title'] = '';
+        $attributes['srcset'] = '';
+        $attributes['sizes'] = '';
+        $attributes['title'] = '';
         if ($attachment_id) {
             $attributes['url'] = wp_get_attachment_image_url($attachment_id, 'full');
             $image_meta = wp_get_attachment_metadata($attachment_id);
