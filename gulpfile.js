@@ -10,10 +10,16 @@ var path = require("path");
 var fs = require("fs");
 var debug = require("gulp-debug");
 var sort = require('gulp-sort');
-var path = require('path');
 //custom templates requirements
 var sass = require('gulp-sass');
 var argv = require('yargs').argv;
+
+var minifyCSS = require('gulp-minify-css');
+var uglify = require('gulp-uglify');
+var prefix = require('gulp-autoprefixer');
+var cleanCSS = require('gulp-clean-css');
+var merge = require('merge-stream');
+var log = require('fancy-log');
 
 const build_path = "build";
 const dest_free = path.join(build_path, "free");
@@ -188,7 +194,7 @@ gulp.task("plugins-premium-admirer", function () {
 
 gulp.task("plugins-premium-friend", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_friend));
 });
 
@@ -207,7 +213,7 @@ gulp.task("build-free", function () {
     .pipe(gulp.dest(dest_free));
 });
 
-gulp.task("compress-free", function() {
+gulp.task("compress-free", function () {
   return gulp.src(path.join(dest_free, "**"))
     .pipe(zip("zip-recipes.zip"))
     .pipe(gulp.dest("build/"));
@@ -216,8 +222,8 @@ gulp.task("compress-free", function() {
 /**
  * Renames vendor to vendor-dev if if it exists because vendor contains dev packages as well
  */
-gulp.task('vendor-rename-pre', function(done) {
-  fs.rename('src/vendor', 'src/vendor-dev', function(err) {
+gulp.task('vendor-rename-pre', function (done) {
+    fs.rename('src/vendor', 'src/vendor-dev', function (err) {
     if (err) {
       console.log("Can't rename `vendor` to `vendor-dev`.");
     }
@@ -229,16 +235,16 @@ gulp.task('vendor-rename-pre', function(done) {
  * Renames vendor-dev to vendor if if it exists. Removes `vendor` contents
  * This restores vendor name for vendor packages that include dev packages
  */
-gulp.task('vendor-rename-post', function(done) {
+gulp.task('vendor-rename-post', function (done) {
   del('src/vendor/**')
     .then(function () {
-      return fs.rename('src/vendor-dev', 'src/vendor', function(err) {
+                return fs.rename('src/vendor-dev', 'src/vendor', function (err) {
         if (err) {
           console.log("Couldn't rename `vendor-dev` to `vendor`");
         }
       });
     })
-    .catch(function() {
+            .catch(function () {
       console.log("Could not delete `src/vendor/`");
     })
     .then(function () {
@@ -302,7 +308,7 @@ gulp.task("premium-sequence-friend", function (cb) {
 /**
  * Task to build free and premium versions.
  */
-gulp.task("build", function(cb) {
+gulp.task("build", function (cb) {
   // we need to rename vendor to vendor-dev because we don't want to ship vendor dev
   return sequence(
     "clean",
@@ -320,9 +326,9 @@ gulp.task("build", function(cb) {
  * Remove dev file/folder that take too much space (e.g. docs) from vendor folder.
  * We don't need to ship these.
  */
-gulp.task("vendor-cleanup", function(done) {
+gulp.task("vendor-cleanup", function (done) {
     del('./src/vendor/twbs/bootstrap/docs')
-        .catch(function() {
+            .catch(function () {
             console.log("Could not clean rm src/vendor/twbs/bootstrap/docs");
         })
         .then(function () {
@@ -367,7 +373,7 @@ gulp.task("generate-pot", function (done) {
 /**
  * Copy translation template into all languages.
  */
-gulp.task('update-languages', function(done) {
+gulp.task('update-languages', function (done) {
   return gulp.src('./src/languages/*.po')
     .pipe(shell([`msgmerge -U <%= file.path %> ${translationTemplateFilePath}`])); // {verbose: true} to see details
 });
@@ -375,20 +381,20 @@ gulp.task('update-languages', function(done) {
 /**
  * Generate binary translation files (mo)
  */
-gulp.task('generate-mos', function(done) {
+gulp.task('generate-mos', function (done) {
   return gulp.src('./src/languages/*.po')
     // msgfmt uses -f to also take fuzzy matches into account when converting to mo.
     .pipe(shell([`msgfmt -f --output-file='./src/languages/<%= mo(file.path) %>' <%= file.path %>`
-    ], { verbose: true, templateData:
+            ], {verbose: true, templateData:
     {
-      mo: function(path) {
+                            mo: function (path) {
         return path.replace(/.+\/([a-zA-Z0-9-_]+)\.po/, '$1.mo');
       }
     }
     }));
 });
 
-gulp.task('i18n', function(done) {
+gulp.task('i18n', function (done) {
   return sequence(
     "generate-pot",
     "update-languages",
@@ -402,15 +408,16 @@ gulp.task('i18n', function(done) {
  */
 
 function sassForPlugin(pluginName) {
-    return function() {
+    return function () {
         var path = ext_location + pluginName + assets_parent;
+        var path_style = ext_location + pluginName + '/';
         console.log(path + 'assets/sass/*.scss');
         return gulp.src(path + 'assets/sass/*.scss')
             .pipe(sass({
                 includePaths: [modules],
                 outputStyle: 'compressed'
             }).on('error', sass.logError))
-            .pipe(gulp.dest(path + 'styles'));
+                .pipe(gulp.dest(path_style + 'styles'));
     }
 }
 
@@ -421,33 +428,135 @@ gulp.task('customTemplatesJS', function (cb) {
     var dir_name = "CustomTemplates";
     var path = ext_location + dir_name + assets_parent;
 
-    return gulp.src(path+'assets/js/*.js')
-        .pipe(gulp.dest(path+'js'));
+    return gulp.src(path + 'assets/js/*.js')
+            .pipe(gulp.dest(path + 'js'));
 });
 
-gulp.task('customTemplatesFonts', function(cb) {
+gulp.task('customTemplatesFonts', function (cb) {
     var dir_name = "CustomTemplates";
     var path = ext_location + dir_name + assets_parent;
-    return gulp.src(path+'assets/fonts/*')
-        .pipe(gulp.dest(path+'fonts'));
+    return gulp.src(path + 'assets/fonts/*')
+            .pipe(gulp.dest(path + 'fonts'));
 });
 
-gulp.task('customTemplatesImages', function(cb) {
+gulp.task('customTemplatesImages', function (cb) {
     var dir_name = "CustomTemplates";
     var path = ext_location + dir_name + assets_parent;
-    return gulp.src(path+'assets/images/*')
-        .pipe(gulp.dest(path+'images'));
+    return gulp.src(path + 'assets/images/*')
+            .pipe(gulp.dest(path + 'images'));
 });
 
 gulp.task('custom-templates',
     ['customTemplatesSaas', 'customTemplatesJS', 'customTemplatesFonts', 'customTemplatesImages']
 );
 
-gulp.task('sassForMain', function(cb) {
+gulp.task('sassForMain', function (cb) {
     return gulp.src('src/styles/*.scss')
         .pipe(sass({
             includePaths: [modules],
             outputStyle: 'compressed'
         }).on('error', sass.logError))
         .pipe(gulp.dest('src/styles/'));
+});
+
+
+function getFolders(dir) {
+    return fs.readdirSync(dir)
+            .filter(function (file) {
+                return fs.statSync(path.join(dir, file)).isDirectory();
+            });
+}
+
+/**
+ * Uglify, minify and compress js
+ * 
+ * It Process all main plugin js and extensions js
+ */
+gulp.task('compress-js', function () {
+    log.info('JS compress process started for extensions...');
+    var folders = getFolders(ext_location);
+    log.info('All extensions loaded.');
+    var tasks = folders.map(function (folder) {
+        log.info('working on ' + folder);
+        var dis_path = ext_location + folder + '/';
+        return gulp.src([path.join(ext_location, folder, '/**/*.js'), '!' + path.join(ext_location, folder, '/**/*.min.js')])
+                // minify
+                .pipe(uglify())
+                .pipe(rename({
+                    suffix: '.min'
+                }))
+                // write to output again
+                .pipe(gulp.dest(dis_path));
+    });
+    log.info('JS compress process started for root...');
+    // process all remaining files in scriptsPath root into main.js and not main.min.js files
+    var root = gulp.src(['src/scripts/*.js', '!src/scripts/*.min.js'])
+            .pipe(uglify())
+            .pipe(rename({
+                suffix: '.min'
+            }))
+            // write to output again
+            .pipe(gulp.dest('src/scripts/'));
+    return merge(tasks, root);
+});
+
+/**
+ * Uglify, minify and compress css
+ * 
+ * It Process all main plugin css and extensions css
+ */
+gulp.task('compress-css', function () {
+    function createErrorHandler(name) {
+        return function (err) {
+            console.error('Error from ' + name + ' in compress task', err.toString());
+        };
+    }
+    log.info('CSS compress process started for extensions...');
+    var folders = getFolders(ext_location);
+    log.info('All extensions loaded.');
+    var tasks = folders.map(function (folder) {
+        log.info('working on ' + folder);
+        var dis_path = ext_location + folder + '/';
+        log.warn('path: ' + dis_path);
+        return gulp.src([path.join(ext_location, folder, '/**/**.css'), '!' + path.join(ext_location, folder, '/**/*.min.css')])
+                // clean css
+                .pipe(cleanCSS())
+                // minify css
+                .pipe(minifyCSS())
+                .pipe(prefix('last 2 versions'))
+                // rename to .min.css
+                .pipe(rename({
+                    suffix: '.min'
+                }))
+                .pipe(gulp.dest(dis_path))
+                .on('error', createErrorHandler('gulp.dest'));
+
+    });
+    log.info('CSS compress process started for root...');
+    // process all remaining files in stylesPath root into main.css and main.min.css files
+    var root = gulp.src(['src/styles/*.css', '!src/styles/*.min.css'])
+            // clean css
+            .pipe(cleanCSS())
+            // minify css
+            .pipe(minifyCSS())
+            .pipe(prefix('last 2 versions'))
+            // rename to .min.css
+            .pipe(rename({
+                suffix: '.min'
+            }))
+            .pipe(gulp.dest('src/styles/'))
+            .on('error', createErrorHandler('gulp.dest'));
+    return merge(tasks, root);
+});
+
+/**
+ * Uglify, minify and compress css/jss
+ * 
+ * It Process all main plugin css/jss and extensions css/jss
+ */
+gulp.task("compress-assets", function (cb) {
+    return sequence(
+        'custom-templates',
+        ['compress-js', 'compress-css'],
+        cb);
 });
