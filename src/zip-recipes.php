@@ -34,6 +34,7 @@ This code is derived from the 2.6 version build of ZipList Recipe Plugin release
 */
 
 namespace ZRDN;
+spl_autoload_register(__NAMESPACE__ . '\myAutoloader');
 
 // Make sure we don't expose any info if called directly
 defined('ABSPATH') or die("Error! Cannot be called directly.");
@@ -44,11 +45,6 @@ define('ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
 define('ZRDN_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basename(__FILE__))));
 define('ZRDN_API_URL', "https://api.ziprecipes.net");
-
-// Requires & includes
-require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
-require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
-
 
 Util::log("Setting up init hooks.");
 
@@ -70,3 +66,17 @@ if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQU
         ZipRecipes::zrdn_iframe_content($_POST, $_REQUEST);
     }
 }
+
+
+function myAutoloader($className)
+{
+	$path =  __DIR__ . '/models/Recipe.php';
+
+	require_once($path);
+	require_once(__DIR__ . '/_inc/class.ziprecipes.util.php');
+	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
+	require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
+	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
+	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
+}
+

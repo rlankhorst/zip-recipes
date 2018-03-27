@@ -2,10 +2,6 @@
 
 namespace ZRDN;
 
-require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
-require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
-require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
-
 class ZipRecipes {
 
     const TABLE_NAME = "amd_zlrecipe_recipes";
@@ -906,8 +902,8 @@ class ZipRecipes {
         );
 
         $api_endpoint = ZRDN_API_URL . "/v2/promos/" . "?" . http_build_query(array(
-                    'blog_url' => get_bloginfo('wpurl')
-        ));
+                'blog_url' => get_bloginfo('wpurl')
+            ));
         $promos_response = wp_remote_get($api_endpoint, array());
 
         if (!is_array($promos_response)) {
@@ -1215,7 +1211,7 @@ class ZipRecipes {
             if (!$skip_registration || (isset($_GET['register']) && $_GET['register'] == 1)) {
                 global $wp_version;
                 $settings_page_url = admin_url('admin.php?page=' . 'zrdn-register');
-                $url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	            $url = isset($_SERVER['HTTPS']) ? "https" : "http" . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                 $settingsParams = array(
                     'settings_url' => $settings_page_url,
                     'registration_url' => self::$registration_url,
@@ -1258,8 +1254,8 @@ class ZipRecipes {
                     $nutrition_remote_promo = "";
                 }
                 $yield_section = Util::view('default_nutrition', array(
-                            'yield' => $yield,
-                            'remote_promo' => $nutrition_remote_promo
+                    'yield' => $yield,
+                    'remote_promo' => $nutrition_remote_promo
                 ));
             }
         }
@@ -1426,7 +1422,7 @@ class ZipRecipes {
             'trans_fat',
             'cholesterol',
             'serving_size',
-                //'nutrition_label'
+            //'nutrition_label'
         );
 
         // zrdn__recipe_field_names recipe db fields that don't need special processing or formatting
@@ -1472,10 +1468,10 @@ class ZipRecipes {
     public static function zrdn_process_head() {
         $css = get_option('zlrecipe_stylesheet');
         Util::print_view('header', array(
-            'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
+                'ZRDN_PLUGIN_URL' => ZRDN_PLUGIN_URL,
             'css' => $css,
             'suffix' => self::$suffix
-                )
+            )
         );
     }
 
@@ -1614,18 +1610,18 @@ class ZipRecipes {
 
         if ($author) {
             $cleaned_recipe_json_ld["author"] = (object) array(
-                        "@type" => "Person",
-                        "name" => $author
+                "@type" => "Person",
+                "name" => $author
             );
         }
 
         $rating_data = apply_filters('zrdn__ratings_format_amp', '', $recipe->recipe_id);
         if ($rating_data) {
             $cleaned_recipe_json_ld["aggregateRating"] = (object) array(
-                        "bestRating" => $rating_data['max'],
-                        "ratingValue" => $rating_data['rating'],
-                        "ratingCount" => $rating_data['count'],
-                        "worstRating" => $rating_data['min']
+                "bestRating" => $rating_data['max'],
+                "ratingValue" => $rating_data['rating'],
+                "ratingCount" => $rating_data['count'],
+                "worstRating" => $rating_data['min']
             );
         }
 
@@ -1727,7 +1723,7 @@ class ZipRecipes {
         .zlrecipe-print-link {float: right;  margin-top: 5px;}
         #zlrecipe-container-178{ padding:10px}
 
-        .zlrecipe-print-link  a { background: url(<?php echo ZRDN_PLUGIN_URL . "images/print-icon.png"; ?> ) no-repeat scroll 0 4px transparent;
+		.zlrecipe-print-link  a { background: url(<?php echo ZRDN_PLUGIN_URL . "images/print-icon.png"; ?> ) no-repeat scroll 0 4px transparent;
         cursor: pointer;
         padding: 0 0 0 20px;
         display: block;
@@ -1845,7 +1841,7 @@ class ZipRecipes {
         } else {
             Util::log("Attempting to get responsive image: ImageMagick or GD PHP extensions not installed.");
             Util::print_view("notice");
-        }
     }
+}
 
 }

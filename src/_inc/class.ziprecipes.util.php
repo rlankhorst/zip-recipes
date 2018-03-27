@@ -161,3 +161,32 @@ class Util {
     }
 
 }
+
+/**
+ * @param $key
+ * @param $arr
+ * @param bool $keys_are_objects If array keys are objects. Default: false.
+ */
+function array_by_key($key, $arr, $keys_are_objects=false) {
+	return array_reduce(
+		$arr,
+		function ($carry, $recipe) use ($keys_are_objects, $key) {
+			if ($keys_are_objects) {
+				$needle =  $recipe->{ $key };
+			}
+			else {
+				$needle = $recipe[ $key ];
+			}
+
+			if (array_key_exists($needle, $carry)) {
+				$carry[ $needle ][ ] = $recipe;
+			}
+			else {
+				$carry[ $needle ] = array($recipe);
+			}
+
+			return $carry;
+		},
+		array()
+	);
+}
