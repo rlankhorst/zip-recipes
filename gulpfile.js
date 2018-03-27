@@ -317,7 +317,7 @@ gulp.task("build", function (cb) {
     "vendor-rename-pre",
     "composer-install",
     "vendor-cleanup",
-    ["sassForMain", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
+    ["compress-assets", "sassForMain", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
     "vendor-rename-post",
     cb);
 });
