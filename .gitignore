@@ -1,4 +1,5 @@
 .idea/
+*.po~
 *.min.js
 *.min.css
 src/views/cache/*

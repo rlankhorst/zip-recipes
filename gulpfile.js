@@ -188,13 +188,13 @@ gulp.task("plugins-premium-lover", function () {
 
 gulp.task("plugins-premium-admirer", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipesGrid,RecipesGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_admirer));
 });
 
 gulp.task("plugins-premium-friend", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_friend));
 });
 
@@ -280,6 +280,7 @@ gulp.task("free-sequence", function (cb) {
 
 gulp.task("premium-sequence-lover", function (cb) {
   return sequence(
+    "recipegridSaas",
     "custom-templates", // build CustomTemplates plugin
     ["plugins-premium-lover", "build-premium-js-lover"],
     "build-premium-lover",
@@ -289,6 +290,7 @@ gulp.task("premium-sequence-lover", function (cb) {
 
 gulp.task("premium-sequence-admirer", function (cb) {
     return sequence(
+        "recipegridSaas",
         "custom-templates", // build CustomTemplates plugin
         ["plugins-premium-admirer", "build-premium-js-admirer"],
         "build-premium-admirer",
@@ -298,6 +300,7 @@ gulp.task("premium-sequence-admirer", function (cb) {
 
 gulp.task("premium-sequence-friend", function (cb) {
     return sequence(
+        "recipegridSaas",
         "custom-templates", // build CustomTemplates plugin
         ["plugins-premium-friend", "build-premium-js-friend"],
         "build-premium-friend",
@@ -317,7 +320,7 @@ gulp.task("build", function (cb) {
     "vendor-rename-pre",
     "composer-install",
     "vendor-cleanup",
-    ["sassForMain", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
+    ["compress-assets", "sassForMain", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
     "vendor-rename-post",
     cb);
 });
@@ -422,7 +425,7 @@ function sassForPlugin(pluginName) {
 }
 
 gulp.task('customTemplatesSaas', sassForPlugin('CustomTemplates'));
-gulp.task('recipesgridSaas', sassForPlugin('RecipesGrid'));
+gulp.task('recipegridSaas', sassForPlugin('RecipeGrid'));
 
 gulp.task('customTemplatesJS', function (cb) {
     var dir_name = "CustomTemplates";
