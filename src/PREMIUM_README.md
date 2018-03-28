@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.7
-Stable tag: 4.26
+Stable tag: 4.29
 Requires PHP: 5.3
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
@@ -32,7 +32,7 @@ The video shows:
 * How easy it is to create recipes
 * How Google will display your recipes when you use Zip Recipes plugin
 
-If you're familiar with ZipList Recipe plugin, built by ZipList, you'll quickly note that Zip Recipe plugin is an extension of this plugin and it is 100% compatible with it. The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf) for your recipe blog. 
+The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](https://www.ziprecipes.net/docs/installing/) for your recipe blog. 
 
 Among the new features added by Zip Recipe plugin are:
 
@@ -62,6 +62,7 @@ Among the new features added by Zip Recipe plugin are:
  
  * Albanian
  * Arabic
+ * Danish
  * Finnish
  * French
  * German
@@ -77,11 +78,11 @@ Among the new features added by Zip Recipe plugin are:
  * Is your language missing from this list? No problem, [email us and help us translate Zip Recipes!](mailto:hello@ziprecipes.net)
 
 
-The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you're having trouble with Zip Recipes plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:hello@ziprecipes.net)! We'd love to hear from you!
+The Zip Recipes plugin is very easy to use, however, we also provide enhanced [step-by-step instructions](https://www.ziprecipes.net/docs/installing/). If you're having trouble with Zip Recipes plugin or just want to say hello, [please email us at hello@ziprecipes.net](mailto:hello@ziprecipes.net)! We'd love to hear from you!
 
 == Installation ==
 
-You can get the [detailed installation instructions here](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf).
+You can get the [detailed installation instructions here](https://www.ziprecipes.net/docs/installing/).
 
 You can download and install the Zip Recipes plugin using the built-in WordPress plugin installer. If you download the Zip Recipes plugin manually, make sure it is uploaded to "/wp-content/plugins/zip-recipes-plugin/".
 
@@ -89,7 +90,7 @@ Activate the Zip Recipes plugin in the "Plugins" admin panel using the "Activate
 
 To use the plugin, click the little Zip Recipes icon on the "Edit Post" pages, right next to the other editor toolbar buttons at the top of the text editor box. Then enter the details about your recipe into the appropriate boxes, and then click the "Add Recipe" button. This will save your recipe, and insert it into your blog post.
 
-The Zip Recipes plugin is very easy use, however, we also provide enhanced [step-by-step instructions](http://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf). If you have more questions on how to use the plugin, feel free to reach out to us at [hello@ziprecipes.net](mailto:hello@ziprecipes.net).
+The Zip Recipes plugin is very easy use, however, we also provide enhanced [step-by-step instructions](https://www.ziprecipes.net/docs/installing/). If you have more questions on how to use the plugin, feel free to reach out to us at [hello@ziprecipes.net](mailto:hello@ziprecipes.net).
 
 == Frequently Asked Questions ==
 
@@ -127,6 +128,20 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+= 4.29 Vrooom - speed optimizations for better SEO =
+This is a really exciting release for us. Here's a list of the fixes and improvements:
+- New: Image optimizations: we load the appropriate image size for your visitor whether they're on a desktop computer or phone. This ensures optimum speed and better SEO.
+- New: Script/style optimizations: we've compressed our styles so your visitors are not slowed down by anything extra.
+- Better SEO for the [premium recipe card themes](https://www.ziprecipes.net/) by adding H2, H3 tags for recipe title, ingredients, etc.
+- [Automatic Nutrition](https://www.ziprecipes.net/automatic-nutrition-landing-page/): Fixed issue where nutrition labels were not generating on some recipes or only half the label generating.
+- [Automatic Nutrition](https://www.ziprecipes.net/automatic-nutrition-landing-page/): Fixed issue where nutrition labels were sometimes not generating when a recipe is updated.
+- Fixed sorting and other issues for [Recipe Index and Recipe Picture Gallery](https://www.ziprecipes.net/)
+- Fixed an issue where paragraph option for main recipe card theme wasn't working.
+- Fixed issues with [premium recipe card themes](https://www.ziprecipes.net/) for mobile phones 
+- Fixed Google AMP issues for [premium recipe card themes](https://www.ziprecipes.net/) 
+- Added Danish translation
+- Improved Polish translation
 
 = 4.26 Slovak + AMP fix =
 - Added Slovak translation
@@ -633,6 +648,9 @@ Fixed more issues with theme styles (again :\)
 
 = 4.26 = 
 Slovak translation added and AMP error fixed
+
+= 4.29 =
+Vrooom - speed optimizations for better SEO and too many other fixed and improvements to list!
 
 == Features that will be added in upcoming versions of the Zip Recipes plugin ==
 
