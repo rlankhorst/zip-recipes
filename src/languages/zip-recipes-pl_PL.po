@@ -68,7 +68,7 @@ msgid "%d years"
 msgstr "%d lat/a"
 
 msgid "Author:"
-msgstr ""
+msgstr "Autor:"
 
 msgid "Calories per serving:"
 msgstr "Ilość kalorii"
