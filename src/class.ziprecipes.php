@@ -16,6 +16,7 @@ class ZipRecipes {
      * Init function.
      */
     public static function init() {
+        ob_start();
         Util::log("Core init");
         self::$suffix = ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ? '' : '.min';
         self::$registration_url = ZRDN_API_URL . "/installation/register/";
