@@ -1438,7 +1438,7 @@ class ZipRecipes {
         // Add fields that needed format change
         $recipe['prep_time'] = $prep_time;
         $recipe['cook_time'] = $cook_time;
-        $recipe['total_time'] = $total_time;
+        $recipe['total_time'] = self::zrdn_calculate_total_time ($post_info);
 
 
         if (self::zrdn_select_recipe_db($recipe_id) == null) {
@@ -1453,6 +1453,24 @@ class ZipRecipes {
         do_action('zrdn__recipe_post_save', $recipe_id, $post_info);
 
         return $recipe_id;
+    }
+    
+    public static function zrdn_calculate_total_time ($post_info){
+        $total_time = NULL;
+        $prep_time_hours = (!empty(Util::get_array_value("prep_time_hours", $post_info))) ? Util::get_array_value("prep_time_hours", $post_info):NULL;
+        $prep_time_minutes = (!empty(Util::get_array_value("prep_time_minutes", $post_info))) ?  Util::get_array_value("prep_time_minutes", $post_info):NULL;
+        $cook_time_hours = (!empty(Util::get_array_value("cook_time_hours", $post_info))) ? Util::get_array_value("cook_time_hours", $post_info):NULL;
+        $cook_time_minutes = (!empty(Util::get_array_value("cook_time_minutes", $post_info))) ?  Util::get_array_value("cook_time_minutes", $post_info):NULL;
+        if($prep_time_hours || $prep_time_minutes || $cook_time_hours||$cook_time_minutes){
+            $prep_time_total = sprintf("%02d", $prep_time_hours).':'.sprintf("%02d", $prep_time_minutes).':00';
+            $cook_time_total = sprintf("%02d", $cook_time_hours).':'.sprintf("%02d", $cook_time_minutes).':00';
+            $secs = strtotime($cook_time_total)-strtotime("00:00:00");
+            $total_time = date("H:i:s",strtotime($prep_time_total)+$secs);
+            $time =  explode(':', $total_time);
+            return  'PT'.(int)$time[0].'H'.(int)$time[1].'M';
+        }
+        return $total_time;
+        
     }
 
     // Pulls a recipe from the db
