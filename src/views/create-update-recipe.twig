@@ -51,8 +51,7 @@
                 if ($moreOptions.is(':visible')) {
                     $moreOptions.hide(400);
                     $moreOptionsToggle.html('<span class="zrdn-icon"><i class="fa fa-plus"></i></span><span>More options</span>');
-                }
-                else {
+                } else {
                     $moreOptions.show(400, function () {
                         jQuery('html, body').animate({
                             scrollTop: $moreOptions.offset().top
@@ -99,6 +98,22 @@
                 $recipeSummaryTextarea.data('caption', 'false');
             }
 
+            $(".clean-on-paste").bind('paste', function (e) {
+                var elem = $(this);
+                setTimeout(function () {                    
+                    var lines = elem.val().split(/\n/);      
+                    var texts = [];    
+                    for (var i=0; i < lines.length; i++) {    
+                      if (/\S/.test(lines[i])) {    
+                        texts.push($.trim(lines[i]));    
+                      }    
+                    }   
+                    //var n = texts.toString().split(",").join("\n");  // it will break at comma  
+                    var n = texts.join("\n");    
+                    elem.val(n);  
+                }, 100);
+            });
+
         });
 
 
@@ -112,7 +127,7 @@
             if (imageData.url)
             {
                 var $imageContainer = $('#recipe-image-preview-container'),
-                    $uploadImageContainer = $('#upload-recipe-image-button-container');
+                        $uploadImageContainer = $('#upload-recipe-image-button-container');
 
                 // Set UI state
                 $imageContainer.show();
@@ -121,7 +136,7 @@
                 $('#recipe_image').val(imageData.url);
 
                 var $image = $('#recipe-image-preview').
-                attr('src', imageData.url);
+                        attr('src', imageData.url);
 
                 var defaultHeight = 100;
 
@@ -156,7 +171,7 @@
         function zrdnResetImage()
         {
             var $imageContainer = $('#recipe-image-preview-container'),
-                $uploadImageContainer = $('#upload-recipe-image-button-container');
+                    $uploadImageContainer = $('#upload-recipe-image-button-container');
 
             $imageContainer.hide();
             $uploadImageContainer.show();
@@ -228,7 +243,7 @@
                         <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
                     </p>
                     <div class="zrdn-control">
-                        <textarea class="zrdn-textarea" name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
+                        <textarea class="zrdn-textarea clean-on-paste" name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
                     </div>
                 </div>
 
@@ -240,7 +255,7 @@
                         <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
                     </p>
                     <div class="zrdn-control">
-                        <textarea class="zrdn-textarea" id="instructions" name='instructions'>{{ instructions }}</textarea>
+                        <textarea class="zrdn-textarea clean-on-paste" id="instructions" name='instructions'>{{ instructions }}</textarea>
                     </div>
                 </div>
 
