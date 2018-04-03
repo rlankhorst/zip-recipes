@@ -223,7 +223,11 @@
                     </div>
                     <div class="zrdn-column">
                         <label class="zrdn-label">Image</label>
-                        <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+                        {% if feature_post_image %}
+                            <input type='hidden' id="recipe_image" name='recipe_image' value='' />
+                        {% else %}
+                            <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+                        {% endif %}                        
                         <div id="upload-recipe-image-button-container">
                             <a class="zrdn-button zrdn-is-small" id="upload-btn" href="#">Add Image</a>
                         </div>
