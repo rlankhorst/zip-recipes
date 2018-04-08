@@ -78,5 +78,6 @@ function myAutoloader($className)
 	require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
 	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
 	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
+	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/PluginBase.php');
 }
 
