@@ -24,7 +24,7 @@ abstract class PluginBase {
 	private function isDisabled() {
 		$disabled      = false;
 		$pluginOptions = get_option( ZipRecipes::PLUGIN_OPTION_NAME, array() );
-		if ( isset( $pluginOptions[ __CLASS__ ] ) && $pluginOptions[ __CLASS__ ]["active"] ) {
+		if ( isset( $pluginOptions[ get_class($this) ] ) && $pluginOptions[ get_class($this) ]["active"] ) {
 			$disabled = false;
 		} else {
 			$disabled = true;
