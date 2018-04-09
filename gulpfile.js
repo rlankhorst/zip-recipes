@@ -32,27 +32,6 @@ const ext_location = 'src/plugins/';
 const assets_parent = '/views/';
 const modules = 'node_modules/';
 
-
-gulp.task("build-premium-js-lover", function () {
-  return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-    .pipe(gulp.dest(dest_premium_lover));
-});
-
-gulp.task("build-premium-js-admirer", function () {
-    return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-        .pipe(gulp.dest(dest_premium_admirer));
-});
-
-gulp.task("build-premium-js-friend", function () {
-    return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-        .pipe(gulp.dest(dest_premium_friend));
-});
-
-gulp.task("build-free-js", function () {
-  return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-    .pipe(gulp.dest(dest_free));
-});
-
 /**
  *  Task to build premium (lover plan) version of Zip Recipes.
  */
@@ -188,13 +167,13 @@ gulp.task("plugins-premium-lover", function () {
 
 gulp.task("plugins-premium-admirer", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**,ServingAdjustment,ServingAdjustment/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_admirer));
 });
 
 gulp.task("plugins-premium-friend", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**,ServingAdjustment,ServingAdjustment/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_friend));
 });
 
@@ -272,7 +251,7 @@ gulp.task('composer-dev-install', shell.task([
  */
 gulp.task("free-sequence", function (cb) {
   return sequence(
-    ["plugins-free", "build-free-js"],
+    ["plugins-free"],
     "build-free",
     "compress-free",
     cb);
@@ -282,7 +261,7 @@ gulp.task("premium-sequence-lover", function (cb) {
   return sequence(
     "recipegridSaas",
     "custom-templates", // build CustomTemplates plugin
-    ["plugins-premium-lover", "build-premium-js-lover"],
+    ["plugins-premium-lover"],
     "build-premium-lover",
     "compress-premium-lover",
     cb);
@@ -292,7 +271,7 @@ gulp.task("premium-sequence-admirer", function (cb) {
     return sequence(
         "recipegridSaas",
         "custom-templates", // build CustomTemplates plugin
-        ["plugins-premium-admirer", "build-premium-js-admirer"],
+        ["plugins-premium-admirer"],
         "build-premium-admirer",
         "compress-premium-admirer",
         cb);
@@ -302,7 +281,7 @@ gulp.task("premium-sequence-friend", function (cb) {
     return sequence(
         "recipegridSaas",
         "custom-templates", // build CustomTemplates plugin
-        ["plugins-premium-friend", "build-premium-js-friend"],
+        ["plugins-premium-friend"],
         "build-premium-friend",
         "compress-premium-friend",
         cb);
