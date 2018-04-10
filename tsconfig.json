@@ -21,10 +21,9 @@
         "./src/**/*"
     ],
     "exclude": [
-        "./src/vendor-dev/*",
+        "./src/vendor-dev/",
+        "./src/vendor/",
         "node_modules",
-        ".src/vendor-dev/**",
-        ".src/vendor/**",
         "./src/**/__tests__/*"
     ]
 }

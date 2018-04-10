@@ -485,6 +485,7 @@ gulp.task('servingadjustment-webpack-dev', function (cb) {
     return gulp.src('src/plugins/ServingAdjustment/src/index.ts')
         .pipe(gulpWebpack({
             mode: 'development',
+            devtool: 'inline-source-map',
             module: {
                 rules: [
                     {
