@@ -81,3 +81,12 @@ function myAutoloader($className)
 	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/PluginBase.php');
 }
 
+/**
+ * API endpoint
+ */
+add_action('rest_api_init', function(){        
+        require_once(ZRDN_PLUGIN_DIRECTORY."controllers/EndpointController.php");
+        $controller = new ZRDN_API_Endpoint_Controller();
+        $controller->register_routes();
+});
+
