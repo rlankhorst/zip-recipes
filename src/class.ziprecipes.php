@@ -230,6 +230,7 @@ class ZipRecipes {
         self::load_assets();
         $nutritional_info = false;
         if (
+                $recipe->yield != null ||
                 $recipe->serving_size != null ||
                 $recipe->calories != null ||
                 $recipe->fat != null ||
@@ -345,6 +346,9 @@ class ZipRecipes {
             'jsonld' => $amp_on ? '' : $jsonld,
             'recipe_actions' => apply_filters('zrdn__recipe_actions', '')
         );
+
+        do_action('zrdn__view_recipe');
+
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
         return $custom_template ?: Util::view('recipe', $viewParams);
     }

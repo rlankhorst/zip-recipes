@@ -9,10 +9,10 @@ var sequence = require('run-sequence');
 var path = require("path");
 var fs = require("fs");
 var debug = require("gulp-debug");
-var sort = require('gulp-sort');
 //custom templates requirements
 var sass = require('gulp-sass');
-var argv = require('yargs').argv;
+const gulpWebpack = require('webpack-stream');
+const webpack = require('webpack');
 
 var minifyCSS = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
@@ -31,27 +31,6 @@ const translationTemplateFilePath = "./src/languages/zip-recipes.pot";
 const ext_location = 'src/plugins/';
 const assets_parent = '/views/';
 const modules = 'node_modules/';
-
-
-gulp.task("build-premium-js-lover", function () {
-  return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-    .pipe(gulp.dest(dest_premium_lover));
-});
-
-gulp.task("build-premium-js-admirer", function () {
-    return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-        .pipe(gulp.dest(dest_premium_admirer));
-});
-
-gulp.task("build-premium-js-friend", function () {
-    return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-        .pipe(gulp.dest(dest_premium_friend));
-});
-
-gulp.task("build-free-js", function () {
-  return gulp.src(["node_modules/vue/dist/vue.min.js"], {base: "."})
-    .pipe(gulp.dest(dest_free));
-});
 
 /**
  *  Task to build premium (lover plan) version of Zip Recipes.
@@ -188,13 +167,13 @@ gulp.task("plugins-premium-lover", function () {
 
 gulp.task("plugins-premium-admirer", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**,ServingAdjustment,ServingAdjustment/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_admirer));
 });
 
 gulp.task("plugins-premium-friend", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**,ServingAdjustment,ServingAdjustment/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_friend));
 });
 
@@ -272,7 +251,7 @@ gulp.task('composer-dev-install', shell.task([
  */
 gulp.task("free-sequence", function (cb) {
   return sequence(
-    ["plugins-free", "build-free-js"],
+    ["plugins-free"],
     "build-free",
     "compress-free",
     cb);
@@ -282,7 +261,7 @@ gulp.task("premium-sequence-lover", function (cb) {
   return sequence(
     "recipegridSaas",
     "custom-templates", // build CustomTemplates plugin
-    ["plugins-premium-lover", "build-premium-js-lover"],
+    ["plugins-premium-lover"],
     "build-premium-lover",
     "compress-premium-lover",
     cb);
@@ -292,7 +271,7 @@ gulp.task("premium-sequence-admirer", function (cb) {
     return sequence(
         "recipegridSaas",
         "custom-templates", // build CustomTemplates plugin
-        ["plugins-premium-admirer", "build-premium-js-admirer"],
+        ["plugins-premium-admirer"],
         "build-premium-admirer",
         "compress-premium-admirer",
         cb);
@@ -302,7 +281,7 @@ gulp.task("premium-sequence-friend", function (cb) {
     return sequence(
         "recipegridSaas",
         "custom-templates", // build CustomTemplates plugin
-        ["plugins-premium-friend", "build-premium-js-friend"],
+        ["plugins-premium-friend"],
         "build-premium-friend",
         "compress-premium-friend",
         cb);
@@ -470,6 +449,67 @@ function getFolders(dir) {
             });
 }
 
+function createErrorHandler(name) {
+    return function (err) {
+        console.error('Error from ' + name + ' in compress task', err.toString());
+    };
+}
+
+gulp.task('servingadjustment-webpack-prod', function () {
+    return gulp.src('src/plugins/ServingAdjustment/src/index.ts')
+        .pipe(gulpWebpack({
+            mode: 'production',
+            module: {
+                rules: [
+                    {
+                        test: /\.tsx?$/,
+                        use: 'ts-loader',
+                        exclude: /node_modules/
+                    }
+                ]
+            },
+            resolve: {
+                extensions: [ '.tsx', '.ts', '.js' ]
+            },
+            output: {
+                filename: 'index.min.js',
+                path: path.resolve(__dirname, 'build'),
+                libraryTarget: 'var',
+                library: 'ZrdnServingAdjustment'
+            }
+        }, webpack))
+        .pipe(gulp.dest('src/plugins/ServingAdjustment/build/'));
+});
+
+gulp.task('servingadjustment-webpack-dev', function (cb) {
+    return gulp.src('src/plugins/ServingAdjustment/src/index.ts')
+        .pipe(gulpWebpack({
+            mode: 'development',
+            devtool: 'inline-source-map',
+            module: {
+                rules: [
+                    {
+                        test: /\.tsx?$/,
+                        use: 'ts-loader',
+                        exclude: /node_modules/
+                    }
+                ]
+            },
+            resolve: {
+                extensions: [ '.tsx', '.ts', '.js' ]
+            },
+            output: {
+                filename: 'index.js',
+                path: path.resolve(__dirname, 'build'),
+                libraryTarget: 'var',
+                library: 'ZrdnServingAdjustment'
+            }
+        }, webpack))
+        .pipe(gulp.dest('src/plugins/ServingAdjustment/build/'));
+});
+
+gulp.task('servingadjustment-webpack', ['servingadjustment-webpack-dev', 'servingadjustment-webpack-prod']);
+
 /**
  * Uglify, minify and compress js
  * 
@@ -478,28 +518,41 @@ function getFolders(dir) {
 gulp.task('compress-js', function () {
     log.info('JS compress process started for extensions...');
     var folders = getFolders(ext_location);
+
+    // remove ServingAdjustment folder
+    folders = folders.filter(function (fol) { return fol !== 'ServingAdjustment'; });
+
     log.info('All extensions loaded.');
     var tasks = folders.map(function (folder) {
         log.info('working on ' + folder);
         var dis_path = ext_location + folder + '/';
-        return gulp.src([path.join(ext_location, folder, '/**/*.js'), '!' + path.join(ext_location, folder, '/**/*.min.js')])
+        return gulp.src([
+            path.join(ext_location, folder, '/**/*.js'),
+            '!' + path.join(ext_location, folder, '/**/*.min.js')
+        ])
                 // minify
                 .pipe(uglify())
+                .on('error', createErrorHandler('uglify js ' + ext_location))
                 .pipe(rename({
                     suffix: '.min'
                 }))
                 // write to output again
-                .pipe(gulp.dest(dis_path));
-    });
+                .pipe(gulp.dest(dis_path))
+            .on('error', createErrorHandler('dest js ' + ext_location));
+        });
+
     log.info('JS compress process started for root...');
     // process all remaining files in scriptsPath root into main.js and not main.min.js files
     var root = gulp.src(['src/scripts/*.js', '!src/scripts/*.min.js'])
             .pipe(uglify())
+            .on('error', createErrorHandler('uglyify js'))
             .pipe(rename({
                 suffix: '.min'
             }))
             // write to output again
-            .pipe(gulp.dest('src/scripts/'));
+            .pipe(gulp.dest('src/scripts/'))
+            .on('error', createErrorHandler('dest js'));
+
     return merge(tasks, root);
 });
 
@@ -509,11 +562,6 @@ gulp.task('compress-js', function () {
  * It Process all main plugin css and extensions css
  */
 gulp.task('compress-css', function () {
-    function createErrorHandler(name) {
-        return function (err) {
-            console.error('Error from ' + name + ' in compress task', err.toString());
-        };
-    }
     log.info('CSS compress process started for extensions...');
     var folders = getFolders(ext_location);
     log.info('All extensions loaded.');
@@ -532,7 +580,7 @@ gulp.task('compress-css', function () {
                     suffix: '.min'
                 }))
                 .pipe(gulp.dest(dis_path))
-                .on('error', createErrorHandler('gulp.dest'));
+                .on('error', createErrorHandler('css dest ' + folder));
 
     });
     log.info('CSS compress process started for root...');
@@ -548,7 +596,7 @@ gulp.task('compress-css', function () {
                 suffix: '.min'
             }))
             .pipe(gulp.dest('src/styles/'))
-            .on('error', createErrorHandler('gulp.dest'));
+        .on('error', createErrorHandler('css dest'));
     return merge(tasks, root);
 });
 
@@ -560,6 +608,6 @@ gulp.task('compress-css', function () {
 gulp.task("compress-assets", function (cb) {
     return sequence(
         'custom-templates',
-        ['compress-js', 'compress-css'],
+        ['servingadjustment-webpack', 'compress-js', 'compress-css'],
         cb);
 });

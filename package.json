@@ -4,9 +4,25 @@
   "description": "=== Zip Recipes === Contributors: hgezim, codeswan Plugin Name: Zip Recipes Plugin URI: http://www.ziprecipes.net Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin License: GPLv3 or later Author URI: http://www.ziprecipes.net Author: Gezim Hoxha Donate link: http://www.ziprecipes.net/donate Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition Requires at least: 3.1 Tested up to: 4.4 Stable tag: 4.4.2.1",
   "main": "zip-recipes.php",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage --coverageReporters=text",
     "build": "gulp build",
     "clean": "gulp clean"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/jest-setup.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "testMatch": [
+      "**/__tests__/*.+(ts|tsx|js)"
+    ]
   },
   "repository": {
     "type": "git",
@@ -22,14 +38,12 @@
   "dependencies": {
     "bootstrap": "4.0.0-alpha.3",
     "bulma": "github:hgezim/bulma",
-    "fancy-log": "^1.3.2",
-    "gulp-autoprefixer": "^5.0.0",
-    "gulp-uglify": "^3.0.0",
-    "merge-stream": "^1.0.1"
+    "fancy-log": "^1.3.2"
   },
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^5.0.0",
     "gulp-clean-css": "^3.9.3",
     "gulp-debug": "^2.1.2",
     "gulp-filter": "^3.0.1",
@@ -39,9 +53,21 @@
     "gulp-sass": "^2.3.2",
     "gulp-shell": "^0.5.2",
     "gulp-sort": "^2.0.0",
+    "gulp-uglify": "^3.0.0",
     "gulp-zip": "^3.1.0",
+    "merge-stream": "^1.0.1",
     "run-sequence": "^1.1.5",
+    "ts-loader": "^4.2.0",
+    "typescript": "^2.8.1",
     "vue": "1.0.16",
-    "yargs": "^5.0.0"
+    "webpack": "^4.5.0",
+    "webpack-stream": "^4.0.3",
+    "yargs": "^5.0.0",
+    "@types/jest": "^22.2.2",
+    "@types/jquery": "^1.10.31",
+    "@types/node": "^9.6.1",
+    "jest": "^22.4.3",
+    "tslint": "^5.9.1",
+    "webpack-cli": "^2.0.13"
   }
 }
