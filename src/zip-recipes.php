@@ -82,11 +82,8 @@ function myAutoloader($className)
 }
 
 /**
- * API endpoint
+ * API endpoint & Basic Auth
  */
-add_action('rest_api_init', function(){        
-        require_once(ZRDN_PLUGIN_DIRECTORY."controllers/EndpointController.php");
-        $controller = new ZRDN_API_Endpoint_Controller();
-        $controller->register_routes();
-});
+require_once(ZRDN_PLUGIN_DIRECTORY."controllers/AuthController.php");
+require_once(ZRDN_PLUGIN_DIRECTORY."controllers/EndpointController.php");
 
