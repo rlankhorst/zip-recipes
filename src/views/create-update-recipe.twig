@@ -98,20 +98,23 @@
                 $recipeSummaryTextarea.data('caption', 'false');
             }
 
-            $(".clean-on-paste").bind('paste', function (e) {
+            /**
+             * Auto Clean extra spaces
+             *
+             * On paste in textarea removes extra spaces and lines
+             */
+            $(".clean-on-paste").on('paste', function (e) {
                 var elem = $(this);
-                setTimeout(function () {                    
-                    var lines = elem.val().split(/\n/);      
-                    var texts = [];    
-                    for (var i=0; i < lines.length; i++) {    
-                      if (/\S/.test(lines[i])) {    
-                        texts.push($.trim(lines[i]));    
-                      }    
-                    }   
-                    //var n = texts.toString().split(",").join("\n");  // it will break at comma  
-                    var n = texts.join("\n");    
-                    elem.val(n);  
-                }, 100);
+                var lines = elem.val().split(/\n/);
+                var texts = [];
+                for (var i=0; i < lines.length; i++) {
+                  if (/\S/.test(lines[i])) {
+                    texts.push($.trim(lines[i]));
+                  }
+                }
+                var n = texts.join("\n");
+                elem.val(n);
+
             });
 
         });
