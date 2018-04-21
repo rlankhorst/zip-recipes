@@ -3,7 +3,7 @@ services:
   dev:
     # restart: always
     container_name: dev
-    image: hgezim/wordpress-nginx-nocache-xdebug:1.89
+    image: hgezim/wordpress-nginx-nocache-xdebug:2
     ports:
       - "8080:8080"
     volumes:
