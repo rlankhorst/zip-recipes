@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-03-27 13:47-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2018-01-24 19:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -150,8 +150,21 @@ msgstr "Proteíny:"
 msgid "Rate this recipe"
 msgstr "Ohodnoťte tento recept:"
 
+#, fuzzy
+msgid "Rating"
+msgstr "hodnotenia"
+
 msgid "Ready in"
 msgstr "Pripravené za"
+
+msgid "Recipe Reviews"
+msgstr ""
+
+msgid ""
+"Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
+"href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
+"\">Learn more</a>"
+msgstr ""
 
 msgid "Saturated fat per serving:"
 msgstr "Saturovaný tuk na porciu:"
@@ -191,6 +204,12 @@ msgstr "Trans tuky na porciu:"
 
 msgid "Trans fat:"
 msgstr "Trans tuky:"
+
+msgid ""
+"VisitorRating and RecipeReviews cannot be active at the same time. If you "
+"want to allow anonymous ratings, activate VisitorRating. If you want to "
+"require comments with ratings activate RecipeReviews."
+msgstr ""
 
 msgid "Yield:"
 msgstr "Výťažok:"
