@@ -57,7 +57,12 @@ class ZipRecipes
                 //				"RecipeIndex" => array("active" => true, "description" => "Stuff"))
                 $pluginOptions = get_option(self::PLUGIN_OPTION_NAME, array());
                 if (!array_key_exists($fullPluginName, $pluginOptions)) {
-                    $pluginOptions[$fullPluginName] = array("active" => true, "description" => $pluginInstance::DESCRIPTION);
+                    /**
+                     * We don't want Recipe Reviews to activated by default
+                     * Because Visitor rating activated by default
+                     */
+                    $default_activated  = ($fullPluginName === 'ZRDN\RecipeReviews') ? false: true;
+                    $pluginOptions[$fullPluginName] = array("active" => $default_activated, "description" => $pluginInstance::DESCRIPTION);
                 }
                 update_option(self::PLUGIN_OPTION_NAME, $pluginOptions);
             }
@@ -243,6 +248,7 @@ class ZipRecipes
         self::load_assets();
         $nutritional_info = false;
         if (
+            $recipe->yield != null ||
             $recipe->serving_size != null ||
             $recipe->calories != null ||
             $recipe->fat != null ||
@@ -269,7 +275,6 @@ class ZipRecipes
         if (function_exists('is_amp_endpoint')) {
             $amp_on = is_amp_endpoint();
         }
-
         $jsonld_attempt = json_encode(self::jsonld($recipe));
         $jsonld = '';
         if ($jsonld_attempt !== false) {
@@ -289,7 +294,7 @@ class ZipRecipes
             'title_hide' => get_option('recipe_title_hide'),
             'recipe_title' => $recipe->recipe_title,
             'ajax_url' => admin_url('admin-ajax.php'),
-            'recipe_rating' => apply_filters('zrdn__ratings', '', $recipe->recipe_id),
+            'recipe_rating' => apply_filters('zrdn__ratings', '', $recipe->recipe_id, $recipe->post_id),
             'prep_time' => self::zrdn_format_duration($recipe->prep_time),
             'prep_time_raw' => $recipe->prep_time,
             'prep_time_label_hide' => get_option('zlrecipe_prep_time_label_hide'),
@@ -360,6 +365,9 @@ class ZipRecipes
             'jsonld' => $amp_on ? '' : $jsonld,
             'recipe_actions' => apply_filters('zrdn__recipe_actions', '')
         );
+
+        do_action('zrdn__view_recipe');
+
         $custom_template = apply_filters('zrdn__custom_templates_get_formatted_recipe', false, $viewParams);
         return $custom_template ?: Util::view('recipe', $viewParams);
     }
@@ -1637,17 +1645,16 @@ class ZipRecipes
         );
 
         $cleaned_recipe_json_ld = clean_jsonld($recipe_json_ld);
-
+        
         $author = apply_filters('zrdn__authors_get_author_for_recipe', false, $recipe);
-
+        
         if ($author) {
             $cleaned_recipe_json_ld["author"] = (object)array(
                 "@type" => "Person",
                 "name" => $author
             );
         }
-
-        $rating_data = apply_filters('zrdn__ratings_format_amp', '', $recipe->recipe_id);
+        $rating_data = apply_filters('zrdn__ratings_format_amp', '',$recipe->recipe_id, $recipe->post_id);
         if ($rating_data) {
             $cleaned_recipe_json_ld["aggregateRating"] = (object)array(
                 "bestRating" => $rating_data['max'],

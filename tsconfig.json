@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "outDir": "./src/plugins/ServingAdjustment/build",
+        "allowJs": true,
+        "target": "ES5",
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "allowUnusedLabels": false,
+        "allowUnreachableCode": false,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "jsx": "react",
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictNullChecks": true,
+        "sourceMap": true
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "./src/vendor-dev/",
+        "./src/vendor/",
+        "node_modules",
+        "./src/**/__tests__/*"
+    ]
+}
