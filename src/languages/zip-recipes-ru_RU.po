@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:11-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2016-06-12 17:20+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -22,6 +22,54 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d день"
+
+#, php-format
+msgid "%d days"
+msgstr "%d дней"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d часы"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d часы"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d минута"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d минут"
+
+#, php-format
+msgid "%d month"
+msgstr "%d  месяц"
+
+#, php-format
+msgid "%d months"
+msgstr "%d месяцев"
+
+#, php-format
+msgid "%d second"
+msgstr "%d секунда"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d секунды"
+
+#, php-format
+msgid "%d year"
+msgstr "%d год"
+
+#, php-format
+msgid "%d years"
+msgstr "%d года"
 
 msgid "Author:"
 msgstr ""
@@ -116,6 +164,9 @@ msgstr ""
 msgid "Ready in"
 msgstr ""
 
+msgid "Recipe Reviews"
+msgstr ""
+
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
@@ -182,42 +233,6 @@ msgstr ""
 
 msgid "stars"
 msgstr ""
-
-#~ msgid "%d day"
-#~ msgstr "%d день"
-
-#~ msgid "%d days"
-#~ msgstr "%d дней"
-
-#~ msgid "%d hour"
-#~ msgstr "%d часы"
-
-#~ msgid "%d hours"
-#~ msgstr "%d часы"
-
-#~ msgid "%d minute"
-#~ msgstr "%d минута"
-
-#~ msgid "%d minutes"
-#~ msgstr "%d минут"
-
-#~ msgid "%d month"
-#~ msgstr "%d  месяц"
-
-#~ msgid "%d months"
-#~ msgstr "%d месяцев"
-
-#~ msgid "%d second"
-#~ msgstr "%d секунда"
-
-#~ msgid "%d seconds"
-#~ msgstr "%d секунды"
-
-#~ msgid "%d year"
-#~ msgstr "%d год"
-
-#~ msgid "%d years"
-#~ msgstr "%d года"
 
 #, fuzzy
 #~ msgid "Instructions:"

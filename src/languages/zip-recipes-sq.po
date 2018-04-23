@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:11-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2016-04-19 01:14-0600\n"
 "Last-Translator: Gezim Hoxha <hello@ziprecipes.net>\n"
 "Language-Team: \n"
@@ -21,6 +21,54 @@ msgstr ""
 "X-Generator: Poedit 1.8.7\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d ditë"
+
+#, php-format
+msgid "%d days"
+msgstr "%d ditë"
+
+#, fuzzy, php-format
+msgid "%d hour"
+msgstr "%d orë"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d orë"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d minutë"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d minuta"
+
+#, php-format
+msgid "%d month"
+msgstr "%d muaj"
+
+#, php-format
+msgid "%d months"
+msgstr "%d muaj"
+
+#, php-format
+msgid "%d second"
+msgstr "%d sekondë"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekonda"
+
+#, php-format
+msgid "%d year"
+msgstr "%d vit"
+
+#, php-format
+msgid "%d years"
+msgstr "%d vite"
 
 msgid "Author:"
 msgstr "Autor:"
@@ -116,6 +164,9 @@ msgstr "Vlerësime"
 msgid "Ready in"
 msgstr "Gati për"
 
+msgid "Recipe Reviews"
+msgstr ""
+
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
@@ -182,43 +233,6 @@ msgstr "Vlerësime"
 
 msgid "stars"
 msgstr "Yje"
-
-#~ msgid "%d day"
-#~ msgstr "%d ditë"
-
-#~ msgid "%d days"
-#~ msgstr "%d ditë"
-
-#, fuzzy
-#~ msgid "%d hour"
-#~ msgstr "%d orë"
-
-#~ msgid "%d hours"
-#~ msgstr "%d orë"
-
-#~ msgid "%d minute"
-#~ msgstr "%d minutë"
-
-#~ msgid "%d minutes"
-#~ msgstr "%d minuta"
-
-#~ msgid "%d month"
-#~ msgstr "%d muaj"
-
-#~ msgid "%d months"
-#~ msgstr "%d muaj"
-
-#~ msgid "%d second"
-#~ msgstr "%d sekondë"
-
-#~ msgid "%d seconds"
-#~ msgstr "%d sekonda"
-
-#~ msgid "%d year"
-#~ msgstr "%d vit"
-
-#~ msgid "%d years"
-#~ msgstr "%d vite"
 
 #, fuzzy
 #~ msgid "Instructions:"

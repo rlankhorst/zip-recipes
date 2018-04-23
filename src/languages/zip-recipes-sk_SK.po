@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:11-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2018-01-24 19:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,6 +17,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d deň"
+
+#, php-format
+msgid "%d days"
+msgstr "%d dní"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d hodina"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d hodín"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d minúta"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d minúty"
+
+#, php-format
+msgid "%d month"
+msgstr "%d mesiac"
+
+#, php-format
+msgid "%d months"
+msgstr "%d mesiace"
+
+#, php-format
+msgid "%d second"
+msgstr "%d sekunda"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekundy"
+
+#, php-format
+msgid "%d year"
+msgstr "%d rok"
+
+#, php-format
+msgid "%d years"
+msgstr "%d roky"
 
 msgid "Author:"
 msgstr "Autor:"
@@ -109,6 +157,9 @@ msgstr "hodnotenia"
 msgid "Ready in"
 msgstr "Pripravené za"
 
+msgid "Recipe Reviews"
+msgstr ""
+
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
@@ -171,39 +222,3 @@ msgstr "hodnotenia"
 
 msgid "stars"
 msgstr "hviezdičky"
-
-#~ msgid "%d day"
-#~ msgstr "%d deň"
-
-#~ msgid "%d days"
-#~ msgstr "%d dní"
-
-#~ msgid "%d hour"
-#~ msgstr "%d hodina"
-
-#~ msgid "%d hours"
-#~ msgstr "%d hodín"
-
-#~ msgid "%d minute"
-#~ msgstr "%d minúta"
-
-#~ msgid "%d minutes"
-#~ msgstr "%d minúty"
-
-#~ msgid "%d month"
-#~ msgstr "%d mesiac"
-
-#~ msgid "%d months"
-#~ msgstr "%d mesiace"
-
-#~ msgid "%d second"
-#~ msgstr "%d sekunda"
-
-#~ msgid "%d seconds"
-#~ msgstr "%d sekundy"
-
-#~ msgid "%d year"
-#~ msgstr "%d rok"
-
-#~ msgid "%d years"
-#~ msgstr "%d roky"

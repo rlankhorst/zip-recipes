@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:11-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2017-03-01 21:27+0200\n"
 "Last-Translator: Kirsi Jaakkola <jaakkola.kirsi@gmail.com>\n"
 "Language-Team: \n"
@@ -17,6 +17,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d päivä"
+
+#, php-format
+msgid "%d days"
+msgstr "%d päivää"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d tunti"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d tuntia"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d minuutti"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d minuuttia"
+
+#, php-format
+msgid "%d month"
+msgstr "%d kuukausi"
+
+#, php-format
+msgid "%d months"
+msgstr "%d kuukautta"
+
+#, php-format
+msgid "%d second"
+msgstr "%d sekuntti"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekunttia"
+
+#, php-format
+msgid "%d year"
+msgstr "%d vuosi"
+
+#, php-format
+msgid "%d years"
+msgstr "%d vuotta"
 
 msgid "Author:"
 msgstr "Tekijä"
@@ -110,6 +158,9 @@ msgstr "arvioita"
 msgid "Ready in"
 msgstr "Valmista:"
 
+msgid "Recipe Reviews"
+msgstr ""
+
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
@@ -174,42 +225,6 @@ msgstr "arvioita"
 
 msgid "stars"
 msgstr "tähdet"
-
-#~ msgid "%d day"
-#~ msgstr "%d päivä"
-
-#~ msgid "%d days"
-#~ msgstr "%d päivää"
-
-#~ msgid "%d hour"
-#~ msgstr "%d tunti"
-
-#~ msgid "%d hours"
-#~ msgstr "%d tuntia"
-
-#~ msgid "%d minute"
-#~ msgstr "%d minuutti"
-
-#~ msgid "%d minutes"
-#~ msgstr "%d minuuttia"
-
-#~ msgid "%d month"
-#~ msgstr "%d kuukausi"
-
-#~ msgid "%d months"
-#~ msgstr "%d kuukautta"
-
-#~ msgid "%d second"
-#~ msgstr "%d sekuntti"
-
-#~ msgid "%d seconds"
-#~ msgstr "%d sekunttia"
-
-#~ msgid "%d year"
-#~ msgstr "%d vuosi"
-
-#~ msgid "%d years"
-#~ msgstr "%d vuotta"
 
 #~ msgid "Instructions:"
 #~ msgstr "Ohjeet:"

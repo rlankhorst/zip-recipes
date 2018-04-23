@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:11-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2017-04-22 08:28+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,6 +17,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d ημέρα"
+
+#, php-format
+msgid "%d days"
+msgstr "%d ημέρες"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d ώρα"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d ώρες"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d λεπτό"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d λεπτά"
+
+#, php-format
+msgid "%d month"
+msgstr "%d μήνα"
+
+#, php-format
+msgid "%d months"
+msgstr "%d μήνες"
+
+#, php-format
+msgid "%d second"
+msgstr "%d δευτερόλεπτο"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d δευτερόλεπτα"
+
+#, php-format
+msgid "%d year"
+msgstr "%d χρόνο"
+
+#, php-format
+msgid "%d years"
+msgstr "%d χρόνια"
 
 msgid "Author:"
 msgstr "Συγγραφέας:"
@@ -109,6 +157,9 @@ msgstr "βαθμολογίες"
 msgid "Ready in"
 msgstr "Έτοιμο σε"
 
+msgid "Recipe Reviews"
+msgstr ""
+
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
@@ -171,39 +222,3 @@ msgstr "βαθμολογίες"
 
 msgid "stars"
 msgstr "αστέρια"
-
-#~ msgid "%d day"
-#~ msgstr "%d ημέρα"
-
-#~ msgid "%d days"
-#~ msgstr "%d ημέρες"
-
-#~ msgid "%d hour"
-#~ msgstr "%d ώρα"
-
-#~ msgid "%d hours"
-#~ msgstr "%d ώρες"
-
-#~ msgid "%d minute"
-#~ msgstr "%d λεπτό"
-
-#~ msgid "%d minutes"
-#~ msgstr "%d λεπτά"
-
-#~ msgid "%d month"
-#~ msgstr "%d μήνα"
-
-#~ msgid "%d months"
-#~ msgstr "%d μήνες"
-
-#~ msgid "%d second"
-#~ msgstr "%d δευτερόλεπτο"
-
-#~ msgid "%d seconds"
-#~ msgstr "%d δευτερόλεπτα"
-
-#~ msgid "%d year"
-#~ msgstr "%d χρόνο"
-
-#~ msgid "%d years"
-#~ msgstr "%d χρόνια"

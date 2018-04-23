@@ -335,6 +335,7 @@ gulp.task("generate-pot", function (done) {
   // Extract twig strings
   return gulp.src(["src/**/*.php", "src/**/*.twig", "!src/vendor/**", "!src/vendor-dev/**"], {read: false})
     .pipe(twigFileFilter)
+      .pipe(debug())
     .pipe(shell([
       `./src/vendor/bin/twig-gettext-extractor --sort-output --join-existing --output='${translationTemplateFilePath}' -L PHP --from-code='UTF-8' --default-domain='zip-recipes' --package-name="zip-recipes" --msgid-bugs-address="hello@ziprecipes.net" --copyright-holder="Zip Recipes Ltd" --keyword='__' --no-location --files <%= relativePath(file.path) %>`
     ], {templateData: {
@@ -346,6 +347,7 @@ gulp.task("generate-pot", function (done) {
     }}, done))
     .pipe(twigFileFilter.restore)
     .pipe(phpFileFilter)
+      .pipe(debug())
     .pipe(shell([
       `xgettext --sort-output --join-existing --output='${translationTemplateFilePath}' --from-code='UTF-8' --default-domain='zip-recipes' --keyword='__' --no-location --package-name="zip-recipes" --msgid-bugs-address="hello@ziprecipes.net" --copyright-holder="Zip Recipes Ltd" <%= file.path %>`
     ]))

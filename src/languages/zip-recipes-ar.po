@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:11-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2017-04-10 20:00+0400\n"
 "Last-Translator: \n"
 "Language-Team: Dr. Alaa Qashllan <doctor3ala2@gmail.com>\n"
@@ -18,6 +18,54 @@ msgstr ""
 "X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d يوم"
+
+#, php-format
+msgid "%d days"
+msgstr "%d ايام"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d ساعة"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d ساعات"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d دقيقة"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d دقائق"
+
+#, php-format
+msgid "%d month"
+msgstr "%d شهر"
+
+#, php-format
+msgid "%d months"
+msgstr "%d شهراً"
+
+#, php-format
+msgid "%d second"
+msgstr "%d ثانية"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d ثواني"
+
+#, php-format
+msgid "%d year"
+msgstr "%d سنة"
+
+#, php-format
+msgid "%d years"
+msgstr "%d سنوات"
 
 msgid "Author:"
 msgstr "المؤلف: "
@@ -111,6 +159,9 @@ msgstr "تقييمات"
 msgid "Ready in"
 msgstr "جاهزة في"
 
+msgid "Recipe Reviews"
+msgstr ""
+
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
@@ -175,42 +226,6 @@ msgstr "تقييمات"
 
 msgid "stars"
 msgstr "نجوم"
-
-#~ msgid "%d day"
-#~ msgstr "%d يوم"
-
-#~ msgid "%d days"
-#~ msgstr "%d ايام"
-
-#~ msgid "%d hour"
-#~ msgstr "%d ساعة"
-
-#~ msgid "%d hours"
-#~ msgstr "%d ساعات"
-
-#~ msgid "%d minute"
-#~ msgstr "%d دقيقة"
-
-#~ msgid "%d minutes"
-#~ msgstr "%d دقائق"
-
-#~ msgid "%d month"
-#~ msgstr "%d شهر"
-
-#~ msgid "%d months"
-#~ msgstr "%d شهراً"
-
-#~ msgid "%d second"
-#~ msgstr "%d ثانية"
-
-#~ msgid "%d seconds"
-#~ msgstr "%d ثواني"
-
-#~ msgid "%d year"
-#~ msgstr "%d سنة"
-
-#~ msgid "%d years"
-#~ msgstr "%d سنوات"
 
 #~ msgid "Instructions:"
 #~ msgstr "خطوات التحضير: "

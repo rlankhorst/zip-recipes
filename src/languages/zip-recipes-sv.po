@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:11-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2017-07-03 08:01+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,6 +17,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d dag"
+
+#, php-format
+msgid "%d days"
+msgstr "%d dagar"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d timme"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d timmar"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d minut"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d minuter"
+
+#, php-format
+msgid "%d month"
+msgstr "%d månad"
+
+#, php-format
+msgid "%d months"
+msgstr "%d månader"
+
+#, php-format
+msgid "%d second"
+msgstr "%d sekund"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekunder"
+
+#, php-format
+msgid "%d year"
+msgstr "%d år"
+
+#, php-format
+msgid "%d years"
+msgstr "%d år"
 
 msgid "Author:"
 msgstr "Författare:"
@@ -109,6 +157,9 @@ msgstr "betyg"
 msgid "Ready in"
 msgstr "Färdigt om"
 
+msgid "Recipe Reviews"
+msgstr ""
+
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
@@ -171,39 +222,3 @@ msgstr "betyg"
 
 msgid "stars"
 msgstr "stjärnor"
-
-#~ msgid "%d day"
-#~ msgstr "%d dag"
-
-#~ msgid "%d days"
-#~ msgstr "%d dagar"
-
-#~ msgid "%d hour"
-#~ msgstr "%d timme"
-
-#~ msgid "%d hours"
-#~ msgstr "%d timmar"
-
-#~ msgid "%d minute"
-#~ msgstr "%d minut"
-
-#~ msgid "%d minutes"
-#~ msgstr "%d minuter"
-
-#~ msgid "%d month"
-#~ msgstr "%d månad"
-
-#~ msgid "%d months"
-#~ msgstr "%d månader"
-
-#~ msgid "%d second"
-#~ msgstr "%d sekund"
-
-#~ msgid "%d seconds"
-#~ msgstr "%d sekunder"
-
-#~ msgid "%d year"
-#~ msgstr "%d år"
-
-#~ msgid "%d years"
-#~ msgstr "%d år"

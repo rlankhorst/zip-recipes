@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:11-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2016-06-14 13:25-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,6 +17,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, php-format
+msgid "%d day"
+msgstr "%d día"
+
+#, php-format
+msgid "%d days"
+msgstr "%d días"
+
+#, php-format
+msgid "%d hour"
+msgstr "%d hora"
+
+#, php-format
+msgid "%d hours"
+msgstr "%d horas"
+
+#, php-format
+msgid "%d minute"
+msgstr "%d minuto"
+
+#, php-format
+msgid "%d minutes"
+msgstr "%d minutos"
+
+#, php-format
+msgid "%d month"
+msgstr "%d mes"
+
+#, php-format
+msgid "%d months"
+msgstr "%d meses"
+
+#, php-format
+msgid "%d second"
+msgstr "%d segundo"
+
+#, php-format
+msgid "%d seconds"
+msgstr "%d segundos"
+
+#, php-format
+msgid "%d year"
+msgstr "%d año"
+
+#, php-format
+msgid "%d years"
+msgstr "%d años"
 
 msgid "Author:"
 msgstr "Autor"
@@ -113,6 +161,9 @@ msgstr "calificación(s)"
 msgid "Ready in"
 msgstr ""
 
+msgid "Recipe Reviews"
+msgstr ""
+
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
@@ -180,42 +231,6 @@ msgstr "calificación(s)"
 
 msgid "stars"
 msgstr "estrella(s)"
-
-#~ msgid "%d day"
-#~ msgstr "%d día"
-
-#~ msgid "%d days"
-#~ msgstr "%d días"
-
-#~ msgid "%d hour"
-#~ msgstr "%d hora"
-
-#~ msgid "%d hours"
-#~ msgstr "%d horas"
-
-#~ msgid "%d minute"
-#~ msgstr "%d minuto"
-
-#~ msgid "%d minutes"
-#~ msgstr "%d minutos"
-
-#~ msgid "%d month"
-#~ msgstr "%d mes"
-
-#~ msgid "%d months"
-#~ msgstr "%d meses"
-
-#~ msgid "%d second"
-#~ msgstr "%d segundo"
-
-#~ msgid "%d seconds"
-#~ msgstr "%d segundos"
-
-#~ msgid "%d year"
-#~ msgstr "%d año"
-
-#~ msgid "%d years"
-#~ msgstr "%d años"
 
 #, fuzzy
 #~ msgid "Instructions:"
