@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-03-27 13:47-0600\n"
+"POT-Creation-Date: 2018-04-23 12:11-0600\n"
 "PO-Revision-Date: 2017-03-14 12:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,54 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#, php-format
-msgid "%d day"
-msgstr "%d Tag"
-
-#, php-format
-msgid "%d days"
-msgstr "%d Tage"
-
-#, php-format
-msgid "%d hour"
-msgstr "%d Stunde"
-
-#, php-format
-msgid "%d hours"
-msgstr "%d Stunden"
-
-#, php-format
-msgid "%d minute"
-msgstr "%d Minute"
-
-#, php-format
-msgid "%d minutes"
-msgstr "%d Minuten"
-
-#, php-format
-msgid "%d month"
-msgstr "%d Monat"
-
-#, php-format
-msgid "%d months"
-msgstr "%d Monate"
-
-#, php-format
-msgid "%d second"
-msgstr "%d Sekunde"
-
-#, php-format
-msgid "%d seconds"
-msgstr "%d Sekunden"
-
-#, php-format
-msgid "%d year"
-msgstr "%d Jahr"
-
-#, php-format
-msgid "%d years"
-msgstr "%d Jahre"
 
 msgid "Author:"
 msgstr "Autor"
@@ -151,8 +103,18 @@ msgstr "Protein:"
 msgid "Rate this recipe"
 msgstr "Rezept Bewerten"
 
+#, fuzzy
+msgid "Rating"
+msgstr "Bewertungen"
+
 msgid "Ready in"
 msgstr "Fertig in"
+
+msgid ""
+"Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
+"href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
+"\">Learn more</a>"
+msgstr ""
 
 msgid "Saturated fat per serving:"
 msgstr "Grasa saturada:"
@@ -194,6 +156,12 @@ msgstr "Grasa saturada:"
 msgid "Trans fat:"
 msgstr ""
 
+msgid ""
+"VisitorRating and RecipeReviews cannot be active at the same time. If you "
+"want to allow anonymous ratings, activate VisitorRating. If you want to "
+"require comments with ratings activate RecipeReviews."
+msgstr ""
+
 msgid "Yield:"
 msgstr "Menge:"
 
@@ -206,6 +174,42 @@ msgstr "Bewertungen"
 
 msgid "stars"
 msgstr "Sterne"
+
+#~ msgid "%d day"
+#~ msgstr "%d Tag"
+
+#~ msgid "%d days"
+#~ msgstr "%d Tage"
+
+#~ msgid "%d hour"
+#~ msgstr "%d Stunde"
+
+#~ msgid "%d hours"
+#~ msgstr "%d Stunden"
+
+#~ msgid "%d minute"
+#~ msgstr "%d Minute"
+
+#~ msgid "%d minutes"
+#~ msgstr "%d Minuten"
+
+#~ msgid "%d month"
+#~ msgstr "%d Monat"
+
+#~ msgid "%d months"
+#~ msgstr "%d Monate"
+
+#~ msgid "%d second"
+#~ msgstr "%d Sekunde"
+
+#~ msgid "%d seconds"
+#~ msgstr "%d Sekunden"
+
+#~ msgid "%d year"
+#~ msgstr "%d Jahr"
+
+#~ msgid "%d years"
+#~ msgstr "%d Jahre"
 
 #~ msgid "Instructions:"
 #~ msgstr "Zubereitung:"

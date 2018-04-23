@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-03-27 13:47-0600\n"
+"POT-Creation-Date: 2018-04-23 12:11-0600\n"
 "PO-Revision-Date: 2016-06-14 11:54+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,54 +18,6 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-#, php-format
-msgid "%d day"
-msgstr "%d дан"
-
-#, php-format
-msgid "%d days"
-msgstr "%d дана"
-
-#, php-format
-msgid "%d hour"
-msgstr "%d сат"
-
-#, php-format
-msgid "%d hours"
-msgstr "%d сати"
-
-#, php-format
-msgid "%d minute"
-msgstr "%d минут"
-
-#, php-format
-msgid "%d minutes"
-msgstr "%d минута"
-
-#, php-format
-msgid "%d month"
-msgstr "%d месец"
-
-#, php-format
-msgid "%d months"
-msgstr "%d месеци"
-
-#, php-format
-msgid "%d second"
-msgstr "%d секунда"
-
-#, php-format
-msgid "%d seconds"
-msgstr "%d секунди"
-
-#, php-format
-msgid "%d year"
-msgstr "%d година"
-
-#, php-format
-msgid "%d years"
-msgstr "%d година"
 
 msgid "Author:"
 msgstr ""
@@ -154,7 +106,16 @@ msgstr ""
 msgid "Rate this recipe"
 msgstr ""
 
+msgid "Rating"
+msgstr ""
+
 msgid "Ready in"
+msgstr ""
+
+msgid ""
+"Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
+"href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
+"\">Learn more</a>"
 msgstr ""
 
 msgid "Saturated fat per serving:"
@@ -200,6 +161,12 @@ msgstr "Засићених масти по порцији:"
 msgid "Trans fat:"
 msgstr ""
 
+msgid ""
+"VisitorRating and RecipeReviews cannot be active at the same time. If you "
+"want to allow anonymous ratings, activate VisitorRating. If you want to "
+"require comments with ratings activate RecipeReviews."
+msgstr ""
+
 msgid "Yield:"
 msgstr "Количина:"
 
@@ -211,6 +178,42 @@ msgstr ""
 
 msgid "stars"
 msgstr ""
+
+#~ msgid "%d day"
+#~ msgstr "%d дан"
+
+#~ msgid "%d days"
+#~ msgstr "%d дана"
+
+#~ msgid "%d hour"
+#~ msgstr "%d сат"
+
+#~ msgid "%d hours"
+#~ msgstr "%d сати"
+
+#~ msgid "%d minute"
+#~ msgstr "%d минут"
+
+#~ msgid "%d minutes"
+#~ msgstr "%d минута"
+
+#~ msgid "%d month"
+#~ msgstr "%d месец"
+
+#~ msgid "%d months"
+#~ msgstr "%d месеци"
+
+#~ msgid "%d second"
+#~ msgstr "%d секунда"
+
+#~ msgid "%d seconds"
+#~ msgstr "%d секунди"
+
+#~ msgid "%d year"
+#~ msgstr "%d година"
+
+#~ msgid "%d years"
+#~ msgstr "%d година"
 
 #, fuzzy
 #~ msgid "Instructions:"

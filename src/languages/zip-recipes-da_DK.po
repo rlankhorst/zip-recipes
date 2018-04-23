@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-03-27 13:47-0600\n"
+"POT-Creation-Date: 2018-04-23 12:11-0600\n"
 "PO-Revision-Date: 2018-02-25 20:24+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,54 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#, php-format
-msgid "%d day"
-msgstr "%d dag"
-
-#, php-format
-msgid "%d days"
-msgstr "%d dage"
-
-#, php-format
-msgid "%d hour"
-msgstr "%d time"
-
-#, php-format
-msgid "%d hours"
-msgstr "%d time"
-
-#, php-format
-msgid "%d minute"
-msgstr "%d minut"
-
-#, php-format
-msgid "%d minutes"
-msgstr "%d minutter"
-
-#, php-format
-msgid "%d month"
-msgstr "%d måned"
-
-#, php-format
-msgid "%d months"
-msgstr "%d måneder"
-
-#, php-format
-msgid "%d second"
-msgstr "%d sekund"
-
-#, php-format
-msgid "%d seconds"
-msgstr "%d sekunder"
-
-#, php-format
-msgid "%d year"
-msgstr "%d år"
-
-#, php-format
-msgid "%d years"
-msgstr "%d år"
 
 msgid "Author:"
 msgstr "Forfatter: %s"
@@ -150,8 +102,18 @@ msgstr "Protein:"
 msgid "Rate this recipe"
 msgstr "Bedøm denne opskrift:"
 
+#, fuzzy
+msgid "Rating"
+msgstr "bedømmelser"
+
 msgid "Ready in"
 msgstr "Klar på"
+
+msgid ""
+"Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
+"href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
+"\">Learn more</a>"
+msgstr ""
 
 msgid "Saturated fat per serving:"
 msgstr "Mættet fedt per portion:"
@@ -192,6 +154,12 @@ msgstr "Transfedt per portion:"
 msgid "Trans fat:"
 msgstr "Transfedt:"
 
+msgid ""
+"VisitorRating and RecipeReviews cannot be active at the same time. If you "
+"want to allow anonymous ratings, activate VisitorRating. If you want to "
+"require comments with ratings activate RecipeReviews."
+msgstr ""
+
 msgid "Yield:"
 msgstr "Udbytte:"
 
@@ -203,3 +171,39 @@ msgstr "bedømmelser"
 
 msgid "stars"
 msgstr "stjerner"
+
+#~ msgid "%d day"
+#~ msgstr "%d dag"
+
+#~ msgid "%d days"
+#~ msgstr "%d dage"
+
+#~ msgid "%d hour"
+#~ msgstr "%d time"
+
+#~ msgid "%d hours"
+#~ msgstr "%d time"
+
+#~ msgid "%d minute"
+#~ msgstr "%d minut"
+
+#~ msgid "%d minutes"
+#~ msgstr "%d minutter"
+
+#~ msgid "%d month"
+#~ msgstr "%d måned"
+
+#~ msgid "%d months"
+#~ msgstr "%d måneder"
+
+#~ msgid "%d second"
+#~ msgstr "%d sekund"
+
+#~ msgid "%d seconds"
+#~ msgstr "%d sekunder"
+
+#~ msgid "%d year"
+#~ msgstr "%d år"
+
+#~ msgid "%d years"
+#~ msgstr "%d år"

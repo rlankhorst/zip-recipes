@@ -167,13 +167,13 @@ gulp.task("plugins-premium-lover", function () {
 
 gulp.task("plugins-premium-admirer", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**,ServingAdjustment,ServingAdjustment/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**,ServingAdjustment,ServingAdjustment/**,RecipeReviews,RecipeReviews/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_admirer));
 });
 
 gulp.task("plugins-premium-friend", function () {
     // Don't ship UsageStats plugin with premium version
-    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**,ServingAdjustment,ServingAdjustment/**}"], {base: "src"})
+    return gulp.src(["src/plugins/**", "!src/plugins/{RecipeSearch,RecipeSearch/**,Import,Import/**,RecipeGrid,RecipeGrid/**,UsageStats,UsageStats/**,RecipeActions,RecipeActions/**,AutomaticNutrition,AutomaticNutrition/**,ServingAdjustment,ServingAdjustment/**,RecipeReviews,RecipeReviews/**}"], {base: "src"})
         .pipe(gulp.dest(dest_premium_friend));
 });
 
