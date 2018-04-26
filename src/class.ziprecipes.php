@@ -18,7 +18,6 @@ class ZipRecipes
      */
     public static function init()
     {
-        ob_start();
         Util::log("Core init");
         self::$suffix = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
         self::$registration_url = ZRDN_API_URL . "/installation/register/";
@@ -134,11 +133,6 @@ class ZipRecipes
 
         add_filter('wp_head', __NAMESPACE__ . '\ZipRecipes::zrdn_process_head');
 
-        // Deleting option that was added for WooCommerce conflict.
-        // This can be removed a few releases after 4.1.0.18
-        delete_option('zrdn_woocommerce_active');
-
-
         add_action('admin_init', __NAMESPACE__ . '\ZipRecipes::preload_check_registered');
         add_action('admin_footer', __NAMESPACE__ . '\ZipRecipes::zrdn_plugin_footer');
 
@@ -147,7 +141,7 @@ class ZipRecipes
         // check GD or imagick support
         add_action('admin_notices', __NAMESPACE__ . '\ZipRecipes::zrdn_check_image_editing_support');
         // post save hook
-        add_action('post_updated', __NAMESPACE__ . '\ZipRecipes::zrdn_post_featured_image', 10, 3);
+        add_action('post_updated', __NAMESPACE__ . '\ZipRecipes::zrdn_post_featured_image');
         self::zrdn_recipe_install();
     }
 
@@ -329,7 +323,7 @@ class ZipRecipes
             'summary' => $recipe->summary,
             'summary_rich' => $summary_rich,
             'image_attributes' => $image_attributes,
-            'image_css' => ($recipe->feature_post_image === true) ? '' : 'display:none;',
+            'image_css' => ($recipe->featured_post_image === true) ? '' : 'display:none;',
             'image_width' => get_option('zlrecipe_image_width'),
             'image_hide' => get_option('zlrecipe_image_hide'),
             'image_hide_print' => get_option('zlrecipe_image_hide_print'),
@@ -898,7 +892,7 @@ class ZipRecipes
             'cuisine varchar(50)',
             'trans_fat varchar(50)',
             'cholesterol varchar(50)',
-            'feature_post_image tinyint(1) NOT NULL DEFAULT 0',
+            'featured_post_image tinyint(1) NOT NULL DEFAULT 0',
             'created_at timestamp DEFAULT NOW()'
         );
 
@@ -1027,7 +1021,7 @@ class ZipRecipes
         $ss = array();
         $iframe_title = '';
         $recipe = null;
-        $feature_post_image = false;
+        $featured_post_image = false;
 
 
         if ($post_info || $get_info) {
@@ -1048,68 +1042,34 @@ class ZipRecipes
                 $recipe = self::zrdn_select_recipe_db($recipe_id);
                 $recipe_title = $recipe->recipe_title;
                 $recipe_image = $recipe->recipe_image;
-                $feature_post_image = $recipe->feature_post_image;
+                $featured_post_image = $recipe->featured_post_image;
                 $summary = $recipe->summary;
                 $notes = $recipe->notes;
                 $ss = array();
                 $prep_time_input = '';
                 $cook_time_input = '';
-                if (class_exists('DateInterval')) {
-                    try {
-                        if ($recipe->prep_time) {
-                            $prep_time = new \DateInterval($recipe->prep_time);
-                            $prep_time_minutes = $prep_time->i;
-                            $prep_time_hours = $prep_time->h;
-                        }
-                    } catch (Exception $e) {
-                        if ($recipe->prep_time != null) {
-                            $prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
-                        }
+                try {
+                    if ($recipe->prep_time) {
+                        $prep_time = new \DateInterval($recipe->prep_time);
+                        $prep_time_minutes = $prep_time->i;
+                        $prep_time_hours = $prep_time->h;
                     }
-
-                    try {
-                        if ($recipe->cook_time) {
-                            $cook_time = new \DateInterval($recipe->cook_time);
-                            $cook_time_minutes = $cook_time->i;
-                            $cook_time_hours = $cook_time->h;
-                        }
-                    } catch (Exception $e) {
-                        if ($recipe->cook_time != null) {
-                            $cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
-                        }
+                } catch (\Exception $e) {
+                    if ($recipe->prep_time != null) {
+                        $prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
                     }
+                }
 
-                } else {
-                    if (preg_match('(^[A-Z0-9]*$)', $recipe->prep_time) == 1) {
-                        preg_match('(\d*S)', $recipe->prep_time, $pts);
-                        preg_match('(\d*M)', $recipe->prep_time, $ptm, PREG_OFFSET_CAPTURE, strpos($recipe->prep_time, 'T'));
-                        $prep_time_minutes = str_replace('M', '', $ptm[0][0]);
-                        preg_match('(\d*H)', $recipe->prep_time, $pth);
-                        $prep_time_hours = str_replace('H', '', $pth[0]);
-                        preg_match('(\d*D)', $recipe->prep_time, $ptd);
-                        preg_match('(\d*M)', $recipe->prep_time, $ptmm);
-                        preg_match('(\d*Y)', $recipe->prep_time, $pty);
-                    } else {
-                        if ($recipe->prep_time != null) {
-                            $prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
-                        }
+                try {
+                    if ($recipe->cook_time) {
+                        $cook_time = new \DateInterval($recipe->cook_time);
+                        $cook_time_minutes = $cook_time->i;
+                        $cook_time_hours = $cook_time->h;
                     }
-
-                    if (preg_match('(^[A-Z0-9]*$)', $recipe->cook_time) == 1) {
-                        preg_match('(\d*S)', $recipe->cook_time, $cts);
-                        preg_match('(\d*M)', $recipe->cook_time, $ctm, PREG_OFFSET_CAPTURE, strpos($recipe->cook_time, 'T'));
-                        $cook_time_minutes = str_replace('M', '', $ctm[0][0]);
-                        preg_match('(\d*H)', $recipe->cook_time, $cth);
-                        $cook_time_hours = str_replace('H', '', $cth[0]);
-                        preg_match('(\d*D)', $recipe->cook_time, $ctd);
-                        preg_match('(\d*M)', $recipe->cook_time, $ctmm);
-                        preg_match('(\d*Y)', $recipe->cook_time, $cty);
-                    } else {
-                        if ($recipe->cook_time != null) {
-                            $cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
-                        }
+                } catch (\Exception $e) {
+                    if ($recipe->cook_time != null) {
+                        $cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
                     }
-
                 }
 
                 $yield = $recipe->yield;
@@ -1175,7 +1135,7 @@ class ZipRecipes
 
         $recipe_title = esc_attr($recipe_title);
         $recipe_image = esc_attr($recipe_image);
-        $feature_post_image = esc_attr($feature_post_image);
+        $featured_post_image = esc_attr($featured_post_image);
         $prep_time_hours = esc_attr($prep_time_hours);
         $prep_time_minutes = esc_attr($prep_time_minutes);
         $cook_time_hours = esc_attr($cook_time_hours);
@@ -1286,7 +1246,7 @@ class ZipRecipes
             'id' => $id,
             'recipe_title' => $recipe_title,
             'recipe_image' => $recipe_image,
-            'feature_post_image' => $feature_post_image,
+            'featured_post_image' => $featured_post_image,
             'ingredients' => $ingredients,
             'instructions' => $instructions,
             'summary' => $summary,
@@ -1897,7 +1857,7 @@ class ZipRecipes
      * @param $post
      * @param $update
      */
-    public static function zrdn_post_featured_image($post_id, $post_after, $post_before)
+    public static function zrdn_post_featured_image($post_id)
     {
         $recipes = self::zrdn_get_all_recipes_by_post_db($post_id);
         if (!empty($recipes)) {
@@ -1908,7 +1868,7 @@ class ZipRecipes
     }
 
     /**
-     * Update Recipe feature_post_image flag
+     * Update Recipe featured_post_image flag
      *
      * @param $recipe
      * @param $post_id
@@ -1921,7 +1881,7 @@ class ZipRecipes
         $featured_img = wp_get_attachment_url(get_post_thumbnail_id($post_id));
         if (empty($recipe->recipe_image) && $featured_img) {
             $update['recipe_image'] = $featured_img;
-            $update['feature_post_image'] = true;
+            $update['featured_post_image'] = true;
             $wpdb->update($table, $update, array('recipe_id' => $recipe->recipe_id));
         }
     }
