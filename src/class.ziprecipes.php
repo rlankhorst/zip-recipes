@@ -44,6 +44,9 @@ class ZipRecipes
                 $pluginName = $fileOrFolder;
                 $pluginPath = "$fileOrFolder/$pluginName.php";
                 Util::log("Attempting to load plugin:" . $pluginsPath);
+                if (! is_readable($pluginPath)) {
+                    continue;
+                }
                 require_once($pluginPath);
 
                 // instantiate class
