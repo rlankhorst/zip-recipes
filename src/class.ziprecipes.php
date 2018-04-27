@@ -44,7 +44,9 @@ class ZipRecipes
                 $pluginName = $fileOrFolder;
                 $pluginPath = "$fileOrFolder/$pluginName.php";
                 Util::log("Attempting to load plugin:" . $pluginsPath);
+                // Sometimes plugin folders end up non-empty and then a hard crash happens when the file is required
                 if (! is_readable($pluginPath)) {
+                    Util::log("Plugin couldn't be loaded. Main plugin file is missing.");
                     continue;
                 }
                 require_once($pluginPath);
