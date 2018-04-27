@@ -1015,8 +1015,6 @@ class ZipRecipes
         $instructions = "";
         $summary = "";
         $notes = "";
-        $prep_time_input = '';
-        $cook_time_input = '';
         $submit = '';
         $ss = array();
         $iframe_title = '';
@@ -1046,8 +1044,6 @@ class ZipRecipes
                 $summary = $recipe->summary;
                 $notes = $recipe->notes;
                 $ss = array();
-                $prep_time_input = '';
-                $cook_time_input = '';
                 try {
                     if ($recipe->prep_time) {
                         $prep_time = new \DateInterval($recipe->prep_time);
@@ -1055,9 +1051,6 @@ class ZipRecipes
                         $prep_time_hours = $prep_time->h;
                     }
                 } catch (\Exception $e) {
-                    if ($recipe->prep_time != null) {
-                        $prep_time_input = '<input type="text" name="prep_time" value="' . $recipe->prep_time . '"/>';
-                    }
                 }
 
                 try {
@@ -1067,9 +1060,6 @@ class ZipRecipes
                         $cook_time_hours = $cook_time->h;
                     }
                 } catch (\Exception $e) {
-                    if ($recipe->cook_time != null) {
-                        $cook_time_input = '<input type="text" name="cook_time" value="' . $recipe->cook_time . '"/>';
-                    }
                 }
 
                 $yield = $recipe->yield;
@@ -1161,8 +1151,6 @@ class ZipRecipes
 
         $id = (int)$_REQUEST["recipe_post_id"];
 
-        $registration_required = !get_option('zrdn_registered');
-
         require_once(ABSPATH . 'wp-admin/includes/plugin.php');
         $settings_page_url = admin_url('admin.php?page=' . 'zrdn-settings');
 
@@ -1250,10 +1238,8 @@ class ZipRecipes
             'ingredients' => $ingredients,
             'instructions' => $instructions,
             'summary' => $summary,
-            'prep_time_input' => $prep_time_input,
             'prep_time_hours' => $prep_time_hours,
             'prep_time_minutes' => $prep_time_minutes,
-            'cook_time_input' => $cook_time_input,
             'cook_time_hours' => $cook_time_hours,
             'cook_time_minutes' => $cook_time_minutes,
             'yield_section' => $yield_section,
@@ -1289,18 +1275,10 @@ class ZipRecipes
         global $wpdb;
         $recipe_id = Util::get_array_value("recipe_id", $post_info);
 
-        if (Util::get_array_value("prep_time_years", $post_info) || Util::get_array_value("prep_time_months", $post_info) || Util::get_array_value("prep_time_days", $post_info) || Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
+	    $prep_time = '';
+        if (Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
             $prep_time = 'P';
-            if (Util::get_array_value("prep_time_years", $post_info)) {
-                $prep_time .= Util::get_array_value("prep_time_years", $post_info) . 'Y';
-            }
-            if (Util::get_array_value("prep_time_months", $post_info)) {
-                $prep_time .= Util::get_array_value("prep_time_months", $post_info) . 'M';
-            }
-            if (Util::get_array_value("prep_time_days", $post_info)) {
-                $prep_time .= Util::get_array_value("prep_time_days", $post_info) . 'D';
-            }
-            if (Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
+            if (Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info)) {
                 $prep_time .= 'T';
             }
             if (Util::get_array_value("prep_time_hours", $post_info)) {
@@ -1309,25 +1287,12 @@ class ZipRecipes
             if (Util::get_array_value("prep_time_minutes", $post_info)) {
                 $prep_time .= Util::get_array_value("prep_time_minutes", $post_info) . 'M';
             }
-            if (Util::get_array_value("prep_time_seconds", $post_info)) {
-                $prep_time .= Util::get_array_value("prep_time_seconds", $post_info) . 'S';
-            }
-        } else {
-            $prep_time = Util::get_array_value("prep_time", $post_info);
         }
 
-        if (Util::get_array_value("cook_time_years", $post_info) || Util::get_array_value("cook_time_months", $post_info) || Util::get_array_value("cook_time_days", $post_info) || Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info) || Util::get_array_value("cook_time_seconds", $post_info)) {
+	    $cook_time = '';
+        if (Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info)) {
             $cook_time = 'P';
-            if (Util::get_array_value("cook_time_years", $post_info)) {
-                $cook_time .= Util::get_array_value("cook_time_years", $post_info) . 'Y';
-            }
-            if (Util::get_array_value("cook_time_months", $post_info)) {
-                $cook_time .= Util::get_array_value("cook_time_months", $post_info) . 'M';
-            }
-            if (Util::get_array_value("cook_time_days", $post_info)) {
-                $cook_time .= Util::get_array_value("cook_time_days", $post_info) . 'D';
-            }
-            if (Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info) || Util::get_array_value("cook_time_seconds", $post_info)) {
+            if (Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info)) {
                 $cook_time .= 'T';
             }
             if (Util::get_array_value("cook_time_hours", $post_info)) {
@@ -1336,13 +1301,7 @@ class ZipRecipes
             if (Util::get_array_value("cook_time_minutes", $post_info)) {
                 $cook_time .= Util::get_array_value("cook_time_minutes", $post_info) . 'M';
             }
-            if (Util::get_array_value("cook_time_seconds", $post_info)) {
-                $cook_time .= Util::get_array_value("cook_time_seconds", $post_info) . 'S';
-            }
-        } else {
-            $cook_time = Util::get_array_value("cook_time", $post_info);
         }
-
 
         // Build array to be sent to db query call
         $clean_fields = array(
@@ -1401,22 +1360,17 @@ class ZipRecipes
     /**
      * Extract Time from Raw time
      *
-     * @param $formated_time
+     * @param $formatted_time
+     *
      * @return array
      */
-    public static function zrdn_extract_time($formated_time)
+    public static function zrdn_extract_time( $formatted_time)
     {
-        $time_hours =  $time_minutes = null;
-        if (preg_match('(^[A-Z0-9]*$)', $formated_time) == 1) {
-            preg_match('(\d*S)', $formated_time, $pts);
-            preg_match('(\d*M)', $formated_time, $ptm, PREG_OFFSET_CAPTURE, strpos($formated_time, 'T'));
-            $time_minutes = str_replace('M', '', $ptm[0][0]);
-            preg_match('(\d*H)', $formated_time, $pth);
-            $time_hours = str_replace('H', '', $pth[0]);
-        }
+        $dateInterval = new \DateInterval( $formatted_time);
+
         return array(
-            'time_hours'=>$time_hours,
-            'time_minutes'=>$time_minutes,
+            'time_hours'=>$dateInterval->h,
+            'time_minutes'=>$dateInterval->i
         );
     }
 
@@ -1498,39 +1452,22 @@ class ZipRecipes
 
         $results_array = array();
 
-        if (class_exists('DateInterval')) {
-            try {
-                $result_object = new \DateInterval($duration);
-                foreach ($date_abbr as $abbr => $name_data) {
-                    $current_part = '';
-                    if ($result_object->$abbr > 0) {
-                        $current_part = sprintf($name_data['singular'], $result_object->$abbr);
-                        if ($result_object->$abbr > 1) {
-                            $current_part = sprintf($name_data['plural'], $result_object->$abbr);
-                        }
-                    }
-
-                    if ($current_part) {
-                        array_push($results_array, $current_part);
+        try {
+            $result_object = new \DateInterval($duration);
+            foreach ($date_abbr as $abbr => $name_data) {
+                $current_part = '';
+                if ($result_object->$abbr > 0) {
+                    $current_part = sprintf($name_data['singular'], $result_object->$abbr);
+                    if ($result_object->$abbr > 1) {
+                        $current_part = sprintf($name_data['plural'], $result_object->$abbr);
                     }
                 }
-            } catch (Exception $e) {
-                $result = $duration;
-            }
-        } else { // else we have to do the work ourselves so the output is pretty
-            $arr = explode('T', $duration);
-            $arr[1] = str_replace('M', 'I', $arr[1]); // This mimics the DateInterval property name
-            $duration = implode('T', $arr);
 
-            foreach ($date_abbr as $abbr => $name_data) {
-                if (preg_match('/(\d+)' . $abbr . '/i', $duration, $val)) {
-                    $current_part = sprintf($name_data['singular'], $val[1]);
-                    if ($val[1] > 1) {
-                        $current_part = sprintf($name_data['plural'], $val[1]);
-                    }
+                if ($current_part) {
                     array_push($results_array, $current_part);
                 }
             }
+        } catch (\Exception $e) {
         }
 
         return join(", ", $results_array);
