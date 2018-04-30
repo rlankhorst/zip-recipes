@@ -22,6 +22,8 @@ use WP_REST_Controller;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
+use WP_Http;
+use ZRDN\ZRDN_REST_Response;
 
 class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
 
@@ -44,7 +46,10 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
     public function boot_rest_server() {
         add_action('rest_api_init', array($this, 'register_routes'));
     }
-    
+
+    /**
+     * Register routs
+     */
     public function register_routes() {
         register_rest_route($this->namespace, '/' . $this->rest_base, array(
             array(
@@ -100,15 +105,8 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_Error|WP_REST_Response
      */
-    public function get_recipes($request) {
-        $items = array(); //do a query, call another class, etc
-        $data = array();
-        foreach ($items as $item) {
-            $itemdata = $this->prepare_item_for_response($item, $request);
-            $data[] = $this->prepare_response_for_collection($itemdata);
-        }
-
-        return ZRDN_REST_Response::success($data);
+    public function get_recipes(WP_REST_Request $request) {
+        return ZRDN_REST_Response::error(__('Not Implemented Yet.', 'zip-recipes'),WP_Http::NOT_IMPLEMENTED);
     }
 
     /**
@@ -143,7 +141,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         $recipe = $this->prepare_item_for_database($request);
         $insert_id = $this->db_insert_recipe($recipe);
         if($insert_id) {
-            return ZRDN_REST_Response::success($insert_id, 201);
+            return ZRDN_REST_Response::success($insert_id, WP_Http::CREATED);
         }else{
             return ZRDN_REST_Response::error(__('Can\'t create recipe', 'zip-recipes'));
         }
@@ -163,7 +161,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         if($is_updated) {
             return ZRDN_REST_Response::success(true);
         }else{
-            return ZRDN_REST_Response::error(__('Can\'t update recipe', 'zip-recipes'),500);
+            return ZRDN_REST_Response::error(__('Can\'t update recipe', 'zip-recipes'),WP_Http::NOT_IMPLEMENTED);
         }
     }
 
@@ -175,8 +173,6 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      */
     public function delete_recipe(WP_REST_Request $request) {
         $recipe_id = (int) $request['id'];
-        // $recipe = $this->db_select_recipe($recipe_id);
-        // $response = $this->prepare_item_for_response($recipe, $request);
 
         $result = $this->db_delete_recipe(['recipe_id' => $recipe_id]);
         if (!$result) {
@@ -257,6 +253,9 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         if(Util::get_array_value('proteinContent', $nutrition)) {
             $sanitize['protein'] = Util::get_array_value('proteinContent', $nutrition);
         }
+        if(Util::get_array_value('fatContent', $nutrition)) {
+            $sanitize['fat'] = Util::get_array_value('fatContent', $nutrition);
+        }
         if(Util::get_array_value('saturatedFatContent', $nutrition)) {
             $sanitize['saturated_fat'] = Util::get_array_value('saturatedFatContent', $nutrition);
         }
@@ -266,8 +265,8 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         if(Util::get_array_value('sugarContent', $nutrition)) {
             $sanitize['sugar'] = Util::get_array_value('sugarContent', $nutrition);
         }
-        if(Util::get_array_value('unsaturatedFatContent', $nutrition)) {
-            $sanitize['fat'] = Util::get_array_value('unsaturatedFatContent', $nutrition);
+        if(Util::get_array_value('transFatContent', $nutrition)) {
+            $sanitize['trans_fat'] = Util::get_array_value('transFatContent', $nutrition);
         }
 
         return $sanitize;
@@ -284,17 +283,14 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      * @return WP_Error|WP_REST_Response Response object on success, or WP_Error object on failure.
      */
     public function prepare_item_for_response($item, $request) {
-
         $formated = [
             'id' => $item->recipe_id,
             'post_id' => $item->post_id,
             'title' => $item->recipe_title,
             'image_url' => $item->recipe_image,
-            //'summary'=> $item->summary,
             'description' => $item->summary,
             'prep_time' => $item->prep_time,
             'cook_time' => $item->cook_time,
-            //'total_time'=> $item->total_time,
             'yield' => $item->yield,
             'serving_size' => $item->serving_size,
             'category' => $item->category,
@@ -317,15 +313,14 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'calories' => 'calories',
             'carbohydrateContent' => 'carbs',
             'cholesterolContent' => 'cholesterol',
-            'fatContent' => 'fat', // fat
+            'fatContent' => 'fat',
             'fiberContent' => 'fiber',
             'proteinContent' => 'protein',
-            'saturatedFatContent' => 'saturated_fat', // fat
+            'saturatedFatContent' => 'saturated_fat',
             // 'servingSize' => 'serving_size', // serving size
             'sodiumContent' => 'sodium',
             'sugarContent' => 'sugar',
-            'transFatContent' => 'trans_fat', // fat
-           // 'unsaturatedFatContent' => 'fat', // fat
+            'transFatContent' => 'trans_fat',
         ];
     }
 
@@ -337,7 +332,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      */
     public function format_nutrition_schema($item) {
         $nutritionList = $this->get_nutrition_schema_map_list();
-        $map = [];
+        $map = array();
         foreach ($nutritionList as $key => $nutrition) {
             $map[$key] = $item->{$nutrition};
         }
@@ -374,7 +369,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      * Delete review row from table
      * 
      * @global \ZRDN\Array $wpdb
-     * @param type $delete
+     * @param array $delete
      * @return boolean
      */
     public function db_delete_recipe($delete = array()) {
@@ -456,24 +451,3 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
 
 $server = new ZRDN_API_Endpoint_Controller();
 $server->boot_rest_server();
-
-class ZRDN_REST_Response {
-
-    public static function response($code, $response) {
-        return new WP_REST_Response($response, $code);
-    }
-
-    public static function error($response, $code = 404) {
-        // return  new WP_Error('err', __('no id passed', 'zip-recipes'), array('status' => 500));
-        return self::response($code, array(
-                    'code' => $code,
-                    'message' => $response,
-                    'data' => null
-        ));
-    }
-
-    public static function success($response, $code = 200) {
-        return self::response($code, $response);
-    }
-
-}

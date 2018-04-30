@@ -84,6 +84,7 @@ function myAutoloader($className)
 /**
  * API endpoint & Basic Auth
  */
+require_once(ZRDN_PLUGIN_DIRECTORY."controllers/Response.php");
 require_once(ZRDN_PLUGIN_DIRECTORY."controllers/AuthController.php");
 require_once(ZRDN_PLUGIN_DIRECTORY."controllers/EndpointController.php");
 
