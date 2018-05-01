@@ -34,7 +34,7 @@ This code is derived from the 2.6 version build of ZipList Recipe Plugin release
 */
 
 namespace ZRDN;
-spl_autoload_register(__NAMESPACE__ . '\myAutoloader');
+spl_autoload_register(__NAMESPACE__ . '\zrdn_autoload');
 
 // Make sure we don't expose any info if called directly
 defined('ABSPATH') or die("Error! Cannot be called directly.");
@@ -68,7 +68,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQU
 }
 
 
-function myAutoloader($className)
+function zrdn_autoload($className)
 {
 	$path =  __DIR__ . '/models/Recipe.php';
 
