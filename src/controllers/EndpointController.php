@@ -140,8 +140,10 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         }
         $recipe = $this->prepare_item_for_database($request);
         $insert_id = RecipeModel::db_insert($recipe);
-        if($insert_id) {
-            return ZRDN_REST_Response::success($insert_id, WP_Http::CREATED);
+        if($insert_id){
+            $recipe = RecipeModel::db_select($insert_id);
+            $data = $this->prepare_item_for_response($recipe, $request);
+            return ZRDN_REST_Response::success($data, WP_Http::CREATED);
         }else{
             return ZRDN_REST_Response::error(__('Can\'t create recipe', 'zip-recipes'));
         }
@@ -158,8 +160,10 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         $where = array('recipe_id' => $recipe_id);
         $recipe = $this->prepare_item_for_database($request);
         $is_updated = RecipeModel::db_update($recipe, $where);
-        if($is_updated) {
-            return ZRDN_REST_Response::success(true);
+        $recipe = RecipeModel::db_select($recipe_id);
+        if($recipe) {
+            $data = $this->prepare_item_for_response($recipe, $request);
+            return ZRDN_REST_Response::success($data);
         }else{
             return ZRDN_REST_Response::error(__('Can\'t update recipe', 'zip-recipes'),WP_Http::NOT_IMPLEMENTED);
         }
