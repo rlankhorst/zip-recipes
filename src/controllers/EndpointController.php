@@ -70,8 +70,8 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         register_rest_route($this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
             array(
                 'methods' => WP_REST_Server::READABLE,
-                'callback' => [$this, 'get_recipe'],
-                'permission_callback' => [$this, 'is_logged_in_check'],
+                'callback' => array($this, 'get_recipe'),
+                'permission_callback' => array($this, 'is_logged_in_check'),
                 'args' => array(
                     'id' => array(
                         'validate_callback' => array($this, 'validate_numeric')
@@ -178,7 +178,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
     public function delete_recipe(WP_REST_Request $request) {
         $recipe_id = (int) $request['id'];
 
-        $result = RecipeModel::db_delete(['recipe_id' => $recipe_id]);
+        $result = RecipeModel::db_delete(array('recipe_id' => $recipe_id));
         if (!$result) {
             return ZRDN_REST_Response::error(__('The resource cannot be deleted.', 'zip-recipes'));
         }
@@ -287,7 +287,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      * @return WP_Error|WP_REST_Response Response object on success, or WP_Error object on failure.
      */
     public function prepare_item_for_response($item, $request) {
-        $formated = [
+        $formatted = array(
             'id' => $item->recipe_id,
             'post_id' => $item->post_id,
             'title' => $item->recipe_title,
@@ -301,8 +301,8 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'ingredients' => $this->format_text_to_array($item->ingredients),
             'instructions' => $this->format_text_to_array($item->instructions),
             'nutrition' => $this->format_nutrition_schema($item),
-        ];
-        return $formated;
+        );
+        return $formatted;
     }
 
     /**
@@ -312,7 +312,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      * @return array
      */
     public function get_nutrition_schema_map_list() {
-        return [
+        return array(
             'calories' => 'calories',
             'carbohydrateContent' => 'carbs',
             'cholesterolContent' => 'cholesterol',
@@ -324,7 +324,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'sodiumContent' => 'sodium',
             'sugarContent' => 'sugar',
             'transFatContent' => 'trans_fat',
-        ];
+        );
     }
 
     /**
