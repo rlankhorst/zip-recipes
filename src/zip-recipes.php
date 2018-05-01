@@ -79,12 +79,12 @@ function myAutoloader($className)
 	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
 	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
 	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/PluginBase.php');
-}
 
-/**
- * API endpoint & Basic Auth
- */
-require_once(ZRDN_PLUGIN_DIRECTORY."controllers/Response.php");
-require_once(ZRDN_PLUGIN_DIRECTORY."controllers/AuthController.php");
-require_once(ZRDN_PLUGIN_DIRECTORY."controllers/EndpointController.php");
+    /**
+     * API endpoint & Basic Auth
+     */
+    require_once(ZRDN_PLUGIN_DIRECTORY."controllers/Response.php");
+    require_once(ZRDN_PLUGIN_DIRECTORY."controllers/AuthController.php");
+    require_once(ZRDN_PLUGIN_DIRECTORY."controllers/EndpointController.php");
+}
 
