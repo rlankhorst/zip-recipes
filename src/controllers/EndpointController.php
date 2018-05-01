@@ -24,13 +24,13 @@ use WP_REST_Response;
 use WP_Error;
 use WP_Http;
 use ZRDN\ZRDN_REST_Response;
+use ZRDN\Recipe as RecipeModel;
 
 class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
 
     /**
      *  constant
      */
-    const TABLE_NAME = 'amd_zlrecipe_recipes';
 
     protected $version = 1;
     protected $namespace = 'zip-recipes/v';
@@ -117,7 +117,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      */
     public function get_recipe(WP_REST_Request $request) {
         $recipe_id = (int) $request['id'];
-        $recipe = $this->db_select_recipe($recipe_id);
+        $recipe = RecipeModel::db_select($recipe_id);
         if (empty($recipe_id) || !isset($recipe->recipe_id)) {
             return ZRDN_REST_Response::error(__('Invalid recipe ID or recipe not found', 'zip-recipes'));
         }
@@ -139,7 +139,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             return ZRDN_REST_Response::error(__('Invalid recipe fields', 'zip-recipes'));
         }
         $recipe = $this->prepare_item_for_database($request);
-        $insert_id = $this->db_insert_recipe($recipe);
+        $insert_id = RecipeModel::db_insert($recipe);
         if($insert_id) {
             return ZRDN_REST_Response::success($insert_id, WP_Http::CREATED);
         }else{
@@ -157,7 +157,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         $recipe_id = (int) $request['id'];
         $where = array('recipe_id' => $recipe_id);
         $recipe = $this->prepare_item_for_database($request);
-        $is_updated = $this->db_update_recipe($recipe, $where);
+        $is_updated = RecipeModel::db_update($recipe, $where);
         if($is_updated) {
             return ZRDN_REST_Response::success(true);
         }else{
@@ -174,7 +174,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
     public function delete_recipe(WP_REST_Request $request) {
         $recipe_id = (int) $request['id'];
 
-        $result = $this->db_delete_recipe(['recipe_id' => $recipe_id]);
+        $result = RecipeModel::db_delete(['recipe_id' => $recipe_id]);
         if (!$result) {
             return ZRDN_REST_Response::error(__('The resource cannot be deleted.', 'zip-recipes'));
         }
@@ -223,9 +223,6 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         if(Util::get_array_value('yield', $parameters)) {
             $sanitize['yield'] = Util::get_array_value('yield', $parameters);
         }
-        if(Util::get_array_value('serving_size', $parameters)) {
-            $sanitize['serving_size'] = Util::get_array_value('serving_size', $parameters);
-        }
         if(Util::get_array_value('category', $parameters)) {
             $sanitize['category'] = Util::get_array_value('category', $parameters);
         }
@@ -258,6 +255,9 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         }
         if(Util::get_array_value('saturatedFatContent', $nutrition)) {
             $sanitize['saturated_fat'] = Util::get_array_value('saturatedFatContent', $nutrition);
+        }
+        if(Util::get_array_value('servingSize', $nutrition)) {
+            $sanitize['serving_size'] = Util::get_array_value('servingSize', $nutrition);
         }
         if(Util::get_array_value('sodiumContent', $nutrition)) {
             $sanitize['sodium'] = Util::get_array_value('sodiumContent', $nutrition);
@@ -292,7 +292,6 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'prep_time' => $item->prep_time,
             'cook_time' => $item->cook_time,
             'yield' => $item->yield,
-            'serving_size' => $item->serving_size,
             'category' => $item->category,
             'cuisine' => $item->cuisine,
             'ingredients' => $this->format_text_to_array($item->ingredients),
@@ -317,7 +316,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'fiberContent' => 'fiber',
             'proteinContent' => 'protein',
             'saturatedFatContent' => 'saturated_fat',
-            // 'servingSize' => 'serving_size', // serving size
+            'servingSize' => 'serving_size',
             'sodiumContent' => 'sodium',
             'sugarContent' => 'sugar',
             'transFatContent' => 'trans_fat',
@@ -337,77 +336,6 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             $map[$key] = $item->{$nutrition};
         }
         return $map;
-    }
-
-
-    /**
-     * Get Table Name method
-     * 
-     * @global \ZRDN\Array $wpdb
-     * @return type
-     */
-    private function getTableName() {
-        global $wpdb;
-        return $wpdb->prefix . self::TABLE_NAME;
-    }
-
-    /**
-     * Get a recipe from the db
-     * 
-     * @global \ZRDN\Array $wpdb
-     * @param type $recipe_id
-     * @return type
-     */
-    public function db_select_recipe($recipe_id) {
-        global $wpdb;
-        $table = $this->getTableName();
-        $selectStatement = sprintf("SELECT * FROM `%s` WHERE recipe_id=%d", $table, $recipe_id);
-        return $wpdb->get_row($selectStatement);
-    }
-
-    /**
-     * Delete review row from table
-     * 
-     * @global \ZRDN\Array $wpdb
-     * @param array $delete
-     * @return boolean
-     */
-    public function db_delete_recipe($delete = array()) {
-        if (!empty($delete)) {
-            global $wpdb;
-            return $wpdb->delete($this->getTableName(), $delete);
-        }
-        return FALSE;
-    }
-
-    /**
-     * Insert Recipe in db
-     *
-     * @param $recipe
-     * @return bool|int
-     */
-    public function db_insert_recipe($recipe){
-        if(empty($recipe)){
-            return FALSE;
-        }
-        global $wpdb;
-        $wpdb->insert($this->getTableName(), $recipe);
-        return $wpdb->insert_id;
-    }
-
-    /**
-     * Recipe update db
-     *
-     * @param $recipe
-     * @param $where
-     * @return bool|false|int
-     */
-    public function db_update_recipe($recipe,$where=null){
-        if(empty($recipe) || empty($where)){
-            return FALSE;
-        }
-        global $wpdb;
-        return $wpdb->update($this->getTableName(), $recipe, $where);
     }
 
 
