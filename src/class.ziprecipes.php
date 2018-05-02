@@ -2,6 +2,7 @@
 
 namespace ZRDN;
 
+use ZRDN\Recipe as RecipeModel;
 class ZipRecipes {
 
     const TABLE_NAME = "amd_zlrecipe_recipes";
@@ -192,7 +193,7 @@ class ZipRecipes {
             foreach ($matches[0] as $match) {
                 $recipe_id = str_replace('id="amd-zlrecipe-recipe-', '', $match);
                 $recipe_id = str_replace('"', '', $recipe_id);
-                $recipe = self::zrdn_select_recipe_db($recipe_id);
+                $recipe = RecipeModel::db_select($recipe_id);
                 $formatted_recipe = self::zrdn_format_recipe($recipe);
                 $output = str_replace('<img id="amd-zlrecipe-recipe-' . $recipe_id . '" class="amd-zlrecipe-recipe" src="' . plugins_url() . '/' . dirname(plugin_basename(__FILE__)) . '/images/zrecipe-placeholder.png?ver=1.0" alt="" />', $formatted_recipe, $output);
             }
@@ -203,7 +204,7 @@ class ZipRecipes {
             foreach ($matches[0] as $match) {
                 $recipe_id = str_replace('[amd-zlrecipe-recipe:', '', $match);
                 $recipe_id = str_replace(']', '', $recipe_id);
-                $recipe = self::zrdn_select_recipe_db($recipe_id);
+                $recipe = RecipeModel::db_select($recipe_id);
                 $formatted_recipe = self::zrdn_format_recipe($recipe);
                 $output = str_replace('[amd-zlrecipe-recipe:' . $recipe_id . ']', $formatted_recipe, $output);
             }
@@ -831,7 +832,7 @@ class ZipRecipes {
 
         Util::log("In zrdn_recipe_install");
 
-        $recipes_table = $wpdb->prefix . self::TABLE_NAME;
+        $recipes_table = $wpdb->prefix . RecipeModel::TABLE_NAME;
 
         $charset_collate = Util::get_charset_collate();
 
@@ -1008,7 +1009,7 @@ class ZipRecipes {
                     strpos($get_info["recipe_post_id"], '-') !== false
             ) { // EDIT recipe
                 $recipe_id = preg_replace('/[0-9]*?\-/i', '', $get_info["recipe_post_id"]);
-                $recipe = self::zrdn_select_recipe_db($recipe_id);
+                $recipe = RecipeModel::db_select($recipe_id);
                 $recipe_title = $recipe->recipe_title;
                 $recipe_image = $recipe->recipe_image;
                 $summary = $recipe->summary;
@@ -1317,8 +1318,6 @@ class ZipRecipes {
      * @return mixed
      */
     public static function zrdn_insert_db($post_info) {
-        global $wpdb;
-
         $recipe_id = Util::get_array_value("recipe_id", $post_info);
 
         if (Util::get_array_value("prep_time_years", $post_info) || Util::get_array_value("prep_time_months", $post_info) || Util::get_array_value("prep_time_days", $post_info) || Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
@@ -1444,28 +1443,17 @@ class ZipRecipes {
         $recipe['total_time'] = $total_time;
 
 
-        if (self::zrdn_select_recipe_db($recipe_id) == null) {
+        if (RecipeModel::db_select($recipe_id) == null) {
             $recipe["post_id"] = Util::get_array_value("recipe_post_id", $post_info); // set only during record creation
-            $wpdb->insert($wpdb->prefix . self::TABLE_NAME, $recipe);
-            $recipe_id = $wpdb->insert_id;
+            $recipe_id = RecipeModel::db_insert($recipe);
         } else {
-            $wpdb->update($wpdb->prefix . self::TABLE_NAME, $recipe, array('recipe_id' => $recipe_id));
+            RecipeModel::db_update($recipe, array('recipe_id' => $recipe_id));
         }
 
 
         do_action('zrdn__recipe_post_save', $recipe_id, $post_info);
 
         return $recipe_id;
-    }
-
-    // Pulls a recipe from the db
-    public static function zrdn_select_recipe_db($recipe_id) {
-        global $wpdb;
-
-        $selectStatement = sprintf("SELECT * FROM `%s%s` WHERE recipe_id=%d", $wpdb->prefix, self::TABLE_NAME, $recipe_id);
-        $recipe = $wpdb->get_row($selectStatement);
-
-        return $recipe;
     }
 
     // function to include the javascript for the Add Recipe button
@@ -1649,7 +1637,7 @@ class ZipRecipes {
         if (isset($matches[1])) {
             // Find recipe
             $recipe_id = $matches[1];
-            $recipe = self::zrdn_select_recipe_db($recipe_id);
+            $recipe = RecipeModel::db_select($recipe_id);
             $recipe_json_ld = self::jsonld($recipe);
         }
 
