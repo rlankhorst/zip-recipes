@@ -5,7 +5,6 @@ namespace ZRDN;
 use ZRDN\Recipe as RecipeModel;
 class ZipRecipes {
 
-    const TABLE_NAME = "amd_zlrecipe_recipes";
     const PLUGIN_OPTION_NAME = "zrdn__plugins";
     const MAIN_CSS_SCRIPT = "zrdn-recipes";
     const MAIN_PRINT_SCRIPT = "zrdn-print-js";
@@ -883,7 +882,7 @@ class ZipRecipes {
 
         Util::log("Calling db_setup() action");
 
-        do_action("zrdn__db_setup", self::TABLE_NAME);
+        do_action("zrdn__db_setup", RecipeModel::TABLE_NAME);
 
         /**
          * Loading translations
