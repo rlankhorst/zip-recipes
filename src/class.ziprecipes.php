@@ -1547,10 +1547,14 @@ class ZipRecipes
             ),
             "cookTime" => $recipe->cook_time,
             "prepTime" => $recipe->prep_time,
-            "totalTime" => self::zrdn_calculate_total_time_raw($recipe->prep_time, $recipe->cook_time),
             "recipeInstructions" => $formattedInstructionsArray,
             "recipeYield" => $recipe->yield
         );
+
+	    $total_time = self::zrdn_calculate_total_time_raw($recipe->prep_time, $recipe->cook_time);
+	    if ($total_time) {
+	        $recipe_json_ld["totalTime"] = $total_time;
+        }
 
         $cleaned_recipe_json_ld = clean_jsonld($recipe_json_ld);
         
