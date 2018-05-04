@@ -1095,6 +1095,11 @@ class ZipRecipes
                     $recipe_title = trim($post_info["recipe_title"]);
                 }
                 $recipe_image = isset($post_info["recipe_image"]) ? $post_info["recipe_image"] : '';
+                // if recipe image is set, we don't use featured image
+                if ($recipe_image) {
+	                $is_featured_post_image = false;
+	                $post_info["is_featured_post_image"] = false;
+                }
                 $summary = isset($post_info["summary"]) ? $post_info["summary"] : '';
                 $notes = isset($post_info["notes"]) ? $post_info["notes"] : '';
                 $prep_time_minutes = isset($post_info["prep_time_minutes"]) ? $post_info["prep_time_minutes"] : '';
@@ -1331,6 +1336,7 @@ class ZipRecipes
             'trans_fat',
             'cholesterol',
             'serving_size',
+            'is_featured_post_image'
             //'nutrition_label'
         );
 
@@ -1831,10 +1837,22 @@ class ZipRecipes
         $table = $wpdb->prefix . self::TABLE_NAME;
         $featured_img = NULL;
         $featured_img = wp_get_attachment_url(get_post_thumbnail_id($post_id));
-        if (empty($recipe->recipe_image) && $featured_img) {
-            $update['recipe_image'] = $featured_img;
-            $update['is_featured_post_image'] = true;
-            $wpdb->update($table, $update, array('recipe_id' => $recipe->recipe_id));
+	    $update = array();
+
+        if ($featured_img) {
+	        // only set featured post image to recipe image if it's currently a featured image or empty
+            if ($recipe->is_featured_post_image || empty($recipe->recipe_image)) {
+	            $update['recipe_image'] = $featured_img;
+	            $update['is_featured_post_image'] = true;
+            }
+        } else if ($recipe->is_featured_post_image) { // post has no featured image so clean up
+	        $update['is_featured_post_image'] = false;
+	        $update['recipe_image'] = null;
+        }
+
+        // run update if need be
+        if ($update) {
+	        $wpdb->update( $table, $update, array( 'recipe_id' => $recipe->recipe_id ) );
         }
     }
 
