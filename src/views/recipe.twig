@@ -248,23 +248,27 @@
     </div>
 
     {# !! create image and summary container #}
-    {% if recipe_image or summary %}
+    {% if image_attributes.url or summary %}
       <div class="img-desc-wrap">
-        {% if recipe_image %}
-          <p class="t-a-c {% if image_hide == 'Hide' %}hide-card{% endif %} {% if image_hide_print == 'Hide' %}hide-print{% endif %}">
-            <img class="photo"
-                    {{ recipe_props.recipe_attr('itemprop', "image", amp_on) }} src="{{ image_attributes.url }}" {% if image_attributes.srcset %}srcset="{{ image_attributes.srcset }}"{% endif %} {% if image_attributes.sizes %}sizes="{{ image_attributes.sizes }}"{% endif %} title="{{ recipe_title }}"
-                {% if recipe_title %} alt="{{ recipe_title }}" {% endif %}
-                 {% if image_width or image_css %}style="{% if image_width %}width: {{image_width}}px;{% endif %} {{image_css}}"{% endif %} />
-          </p>
-        {% endif %}
+          {# don't show if amp is on and images is featured post image (amp doesn't allow inline CSS) #}
+          {% if amp_on and is_featured_post_image %}
+          {%  elseif image_attributes.url %}
+              <p class="t-a-c {% if image_hide == 'Hide' %}hide-card{% endif %} {% if image_hide_print == 'Hide' %}hide-print{% endif %}">
+                  <img class="photo"
+                          {{ recipe_props.recipe_attr('itemprop', "image", amp_on) }} src="{{ image_attributes.url }}" {% if image_attributes.srcset %}srcset="{{ image_attributes.srcset }}"{% endif %} {% if image_attributes.sizes %}sizes="{{ image_attributes.sizes }}"{% endif %} title="{{ recipe_title }}"
+                          {% if recipe_title %} alt="{{ recipe_title }}" {% endif %}
+                          {% if image_width or is_featured_post_image %}
+                              style="{% if image_width %}width: {{image_width}}px;{% endif %} {% if is_featured_post_image %}display: none;{% endif %}"
+                          {% endif %} />
+              </p>
+          {% endif %}
 
-        {% if summary %}
-          <div id="zlrecipe-summary"
-                {{ recipe_props.recipe_attr('itemprop', "description", amp_on) }}>
-            {{ summary_rich|raw }}
-          </div>
-        {% endif %}
+          {% if summary %}
+              <div id="zlrecipe-summary"
+                      {{ recipe_props.recipe_attr('itemprop', "description", amp_on) }}>
+                  {{ summary_rich|raw }}
+              </div>
+          {% endif %}
       </div>
     {% endif %}
 

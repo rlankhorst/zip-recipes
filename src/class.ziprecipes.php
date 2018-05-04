@@ -324,11 +324,10 @@ class ZipRecipes
             'sugar_label_hide' => get_option('zlrecipe_sugar_label_hide'),
             'sodium' => $recipe->sodium,
             'sodium_label_hide' => get_option('zlrecipe_sodium_label_hide'),
-            'recipe_image' => $recipe->recipe_image,
             'summary' => $recipe->summary,
             'summary_rich' => $summary_rich,
             'image_attributes' => $image_attributes,
-            'image_css' => ($recipe->featured_post_image === true) ? '' : 'display:none;',
+            'is_featured_post_image' => $recipe->is_featured_post_image,
             'image_width' => get_option('zlrecipe_image_width'),
             'image_hide' => get_option('zlrecipe_image_hide'),
             'image_hide_print' => get_option('zlrecipe_image_hide_print'),
@@ -897,7 +896,7 @@ class ZipRecipes
             'cuisine varchar(50)',
             'trans_fat varchar(50)',
             'cholesterol varchar(50)',
-            'featured_post_image tinyint(1) NOT NULL DEFAULT 0',
+            'is_featured_post_image tinyint(1) NOT NULL DEFAULT 0',
             'created_at timestamp DEFAULT NOW()'
         );
 
@@ -1024,7 +1023,7 @@ class ZipRecipes
         $ss = array();
         $iframe_title = '';
         $recipe = null;
-        $featured_post_image = false;
+        $is_featured_post_image = false;
 
 
         if ($post_info || $get_info) {
@@ -1045,7 +1044,7 @@ class ZipRecipes
                 $recipe = self::zrdn_select_recipe_db($recipe_id);
                 $recipe_title = $recipe->recipe_title;
                 $recipe_image = $recipe->recipe_image;
-                $featured_post_image = $recipe->featured_post_image;
+                $is_featured_post_image = $recipe->is_featured_post_image;
                 $summary = $recipe->summary;
                 $notes = $recipe->notes;
                 $ss = array();
@@ -1130,7 +1129,7 @@ class ZipRecipes
 
         $recipe_title = esc_attr($recipe_title);
         $recipe_image = esc_attr($recipe_image);
-        $featured_post_image = esc_attr($featured_post_image);
+        $is_featured_post_image = esc_attr($is_featured_post_image);
         $prep_time_hours = esc_attr($prep_time_hours);
         $prep_time_minutes = esc_attr($prep_time_minutes);
         $cook_time_hours = esc_attr($cook_time_hours);
@@ -1239,7 +1238,7 @@ class ZipRecipes
             'id' => $id,
             'recipe_title' => $recipe_title,
             'recipe_image' => $recipe_image,
-            'featured_post_image' => $featured_post_image,
+            'is_featured_post_image' => $is_featured_post_image,
             'ingredients' => $ingredients,
             'instructions' => $instructions,
             'summary' => $summary,
@@ -1371,6 +1370,13 @@ class ZipRecipes
      */
     public static function zrdn_extract_time( $formatted_time)
     {
+        if (! $formatted_time) {
+	        return array(
+		        'time_hours'=> false,
+		        'time_minutes'=> false
+	        );
+        }
+
         $dateInterval = new \DateInterval( $formatted_time);
 
         return array(
@@ -1810,7 +1816,7 @@ class ZipRecipes
     }
 
     /**
-     * Update Recipe featured_post_image flag
+     * Update Recipe is_featured_post_image flag
      *
      * @param $recipe
      * @param $post_id
@@ -1823,7 +1829,7 @@ class ZipRecipes
         $featured_img = wp_get_attachment_url(get_post_thumbnail_id($post_id));
         if (empty($recipe->recipe_image) && $featured_img) {
             $update['recipe_image'] = $featured_img;
-            $update['featured_post_image'] = true;
+            $update['is_featured_post_image'] = true;
             $wpdb->update($table, $update, array('recipe_id' => $recipe->recipe_id));
         }
     }
