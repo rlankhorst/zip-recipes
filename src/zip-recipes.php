@@ -42,6 +42,7 @@ defined('ABSPATH') or die("Error! Cannot be called directly.");
 // Define constants
 define('ZRDN_VERSION_NUM', '4.31');
 define('ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
+define('ZRDN_PLUGIN_DIRECTORY_URL', plugin_dir_url( __FILE__ ));
 define('ZRDN_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basename(__FILE__))));
 define('ZRDN_API_URL', "https://api.ziprecipes.net");
@@ -86,5 +87,10 @@ function zrdn_autoload($className)
     require_once(ZRDN_PLUGIN_DIRECTORY."controllers/Response.php");
     require_once(ZRDN_PLUGIN_DIRECTORY."controllers/AuthController.php");
     require_once(ZRDN_PLUGIN_DIRECTORY."controllers/EndpointController.php");
+
+    /**
+     * Gutenberg
+     */
+    require_once(ZRDN_PLUGIN_DIRECTORY."gutenberg/RecipeBlock.php");
 }
 
