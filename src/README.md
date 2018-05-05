@@ -1,16 +1,16 @@
 === Zip Recipes ===
 Contributors: hgezim, codeswan
 Plugin Name: Zip Recipes
-Plugin URI: http://www.ziprecipes.net
+Plugin URI: https://www.ziprecipes.net
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 License: GPLv3 or later
-Author URI: http://www.ziprecipes.net
+Author URI: https://www.ziprecipes.net
 Author: Gezim Hoxha
-Donate link: http://www.ziprecipes.net/
-Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
+Donate link: https://www.ziprecipes.net/
+Tags: recipe, recipes, recipe card, recipe box, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.9
-Stable tag: 4.32
+Stable tag: 4.33
 Requires PHP: 5.3
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
@@ -38,10 +38,10 @@ The Zip Recipes plugin is very easy to use, however, we also provide enhanced [s
 > 5 Gorgeous Recipe Card Designs.<br />
 > Recipe Picture Gallery Grid.<br />
 > Visitor Recipe Ratings.<br />
+> Recipe Reviews: Engage your readers.<br />
 > Author setting.<br />
 > Recipe index.<br />
 > Recipe saving to: Pinterest, Big Oven, and Yummly<br />
-> Speed Improvement.<br />
 > Priority Email Support.<br />
 > And much more....<br />
 >
@@ -162,6 +162,16 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+= 4.33 Time savers and much more =
+- New: Total time is automatically calculated (one less field to fill out!)
+- New: The [Featured Image](https://en.support.wordpress.com/featured-images/) of a post will automatically be used in the structured data to tell search engines that the featured images is also the recipe image. You no longer have to set a recipe image if you set a featured image! #TimeSaver
+- New: Pasting ingredients and instructions just got easier. We now remove blank lines and extra leading and trailing spaces from ingredients. #SoMuchFreeTimeNow 
+- (New Lover plan feature:) [Recipe Reviews](https://www.ziprecipes.net/#recipe-reviews). With Recipe reviews, you can engage with your readers and allow them to rate your recipes by adding a comment along their rating and explain why they LOVE your recipes!
+- (New Lover plan feature:) [Serving adjustments](https://www.ziprecipes.net/#serving-adjustment) feature. Your readers have bigger families (or littler ones) than you do but now they can adjust the number of servings in your recipe with ease.
+- Fixed issue with yield (or servings) field not appearing in some premium themes (Cozy Orange and Canada)
+- Fixed: warning appearing for some users in create/edit recipe screen
+
 
 = 4.30 =
 - Fixed a bug for AMP that some users using the default recipe theme may encounter
