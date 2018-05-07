@@ -134,6 +134,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 - New: The [Featured Image](https://en.support.wordpress.com/featured-images/) of a post will automatically be used in the structured data to tell search engines that the featured images is also the recipe image. You no longer have to set a recipe image if you set a featured image! #TimeSaver
 - New: Pasting ingredients and instructions just got easier. We now remove blank lines and extra leading and trailing spaces from ingredients. #SoMuchFreeTimeNow 
 - Fixed: warning appearing for some users in create/edit recipe screen
+- Fixed: RecipeSearch could not be disabled
 
 = 4.32 Recipe Reviews =
 

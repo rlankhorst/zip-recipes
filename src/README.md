@@ -171,6 +171,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 - (New Lover plan feature:) [Serving adjustments](https://www.ziprecipes.net/#serving-adjustment) feature. Your readers have bigger families (or littler ones) than you do but now they can adjust the number of servings in your recipe with ease.
 - Fixed issue with yield (or servings) field not appearing in some premium themes (Cozy Orange and Canada)
 - Fixed: warning appearing for some users in create/edit recipe screen
+- Fixed: RecipeSearch could not be disabled
 
 
 = 4.30 =
