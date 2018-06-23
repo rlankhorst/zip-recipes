@@ -71,26 +71,33 @@ if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQU
 
 function zrdn_autoload($className)
 {
-	$path =  __DIR__ . '/models/Recipe.php';
+    global $wp_version;
+    $path = __DIR__ . '/models/Recipe.php';
 
-	require_once($path);
-	require_once(__DIR__ . '/_inc/class.ziprecipes.util.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/PluginBase.php');
+    require_once($path);
+    require_once(__DIR__ . '/_inc/class.ziprecipes.util.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/PluginBase.php');
 
     /**
      * API endpoint & Basic Auth
      */
-    require_once(ZRDN_PLUGIN_DIRECTORY."controllers/Response.php");
-    require_once(ZRDN_PLUGIN_DIRECTORY."controllers/AuthController.php");
-    require_once(ZRDN_PLUGIN_DIRECTORY."controllers/EndpointController.php");
+    require_once(ZRDN_PLUGIN_DIRECTORY . "controllers/Response.php");
+    require_once(ZRDN_PLUGIN_DIRECTORY . "controllers/AuthController.php");
+    require_once(ZRDN_PLUGIN_DIRECTORY . "controllers/EndpointController.php");
 
     /**
      * Gutenberg
      */
-    require_once(ZRDN_PLUGIN_DIRECTORY."gutenberg/RecipeBlock.php");
+    if (!function_exists('is_plugin_active'))
+        require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+
+
+    if (\is_plugin_active('gutenberg/gutenberg.php') || version_compare( $wp_version, '5.0', '>=' ) ) {
+        require_once(ZRDN_PLUGIN_DIRECTORY."gutenberg/RecipeBlock.php");
+    }
 }
 

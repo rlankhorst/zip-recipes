@@ -10,10 +10,11 @@
 
 ( function(blocks, components, i18n, element, _ ) {
 
-    var __ = wp.i18n.__; // The __() function for internationalization.
+    var __ = wp.i18n.__;
 
-    var el = element.createElement; // The wp.element.createElement() function to create elements.
-    var registerBlockType = blocks.registerBlockType; // The registerBlo
+    var el = element.createElement;
+    var registerBlockType = blocks.registerBlockType;
+    var Components = wp.components;
 
     /**
      * Gutenberg components
@@ -24,164 +25,86 @@
     var InspectorControls = wp.blocks.InspectorControls;
     var TextControl = wp.blocks.InspectorControls.TextControl;
 
-    /**
-     * Register Recipe Block.
-     *
-     * Registers a new block provided a unique name and an object defining its
-     * behavior. Once registered, the block is made available as an option to any
-     * editor interface where blocks are implemented.
-     *
-     * @param  {string}   name     Block name.
-     * @param  {Object}   settings Block settings.
-     * @return {?WPBlock}          The block, if it has been successfully
-     *                             registered; otherwise `undefined`.
-     */
-    registerBlockType( 'zip-recipes/recipe-block', { // The name of our block. Must be a string with prefix. Example: my-plugin/my-custom-block.
-        title: __( 'Zip Recipes' ), // Block title. __() function allows for internationalization.
-        icon: 'carrot', // Dashicon icon for our block. Custom icons can be added using inline SVGs.
-        category: 'common', // The category of the block.  (common, formatting, layout widgets, embed).
-        keywords: [ __( 'Zip Recipes' ), __( 'Recipe' ),  __( 'Recipe Notes' )], // Make it easier to discover a block with keyword aliases
-        /**
-         * Attribute matchers!
-         *
-         * Attribute matchers are used to define the strategy by which block
-         * attribute values are extracted from saved post content. They provide
-         * a mechanism to map from the saved markup to a JavaScript representation
-         * of a block.
-         *
-         * children() — Use children to extract child nodes of the matched element,
-         * returned as an array of virtual elements. This is most commonly used in
-         * combination with the Editable component.
-         *
-         * Example: Extract child nodes from a paragraph of rich text.
-         */
+
+    registerBlockType( 'zip-recipes/recipe-block', {
+        title: __( 'Zip Recipes' ),
+        icon: 'carrot',
+        category: 'common',
+        keywords: [
+            __( 'Zip Recipes' ),
+            __( 'Recipe' ),
+            __( 'Recipe Notes' )
+        ],
+
         attributes: {
-            title: {
-                type: 'array',
-                source: 'children',
-                selector: 'h2',
-            },
-            mediaID: {
-                type: 'number',
-            },
-            mediaURL: {
+            url: {
                 type: 'string',
-                source: 'attribute',
-                selector: 'img',
-                attribute: 'src',
-            },
-            ingredients: {
-                type: 'array',
-                source: 'children',
-                selector: '.ingredients',
-            },
-            instructions: {
-                type: 'array',
-                source: 'children',
-                selector: '.steps',
-            },
+            }
         },
 
-        /**
-         *  The "edit" property must be a valid function.
-         *
-         * @param props
-         */
+
         edit: function( props ) {
-            var focusedEditable = props.focus ? props.focus.editable || 'title' : null;
-            var attributes = props.attributes;
-
-            var onSelectImage = function( media ) {
-                return props.setAttributes( {
-                    mediaURL: media.url,
-                    mediaID: media.id
-                } );
-            };
-
-            return (
-                el( 'div', { className: props.className },
-                    el( blocks.PlainText, {
-                        tagName: 'h2',
-                        inline: true,
-                        placeholder: __( 'Write Recipe title…' ),
-                        value: attributes.title,
-                        onChange: function( value ) {
-                            props.setAttributes( { title: value } );
-                        },
-                        focus: focusedEditable === 'title' ? focus : null,
-                        onFocus: function( focus ) {
-                            props.setFocus( _.extend( {}, focus, { editable: 'title' } ) );
+            var url = props.attributes.url || '',
+                focus = props.focus;
+            console.log(url,'======', props.attributes);
+            // retval is our return value for the callback.
+            var retval = [];
+            // When the block is focus or there's no URL value,
+            // show the text input control so the user can enter a URL.
+            if ( !! focus || ! url.length ) {
+                // Instantiate a TextControl element
+                var controlOptions = {
+                    // Existing 'url' value for the block.
+                    value: url,
+                    // When the text input value is changed, we need to
+                    // update the 'url' attribute to propagate the change.
+                    onChange: function( newVal ) {
+                        props.setAttributes({
+                            url: newVal
+                        });
+                    },
+                    placeholder: __( 'Enter a GitHub Gist URL' ),
+                };
+                retval.push(
+                    // el() is a function to instantiate a new element.
+                    el( Components.TextControl, controlOptions )
+                );
+            }
+            // Only add preview UI when there's a URL entered.
+            if ( url.length ) {
+                var id = 'gist-' + props.id;
+                // setTimeout is used to delay the GitHub JSON API request
+                // until after the block is initially rendered. From the response,
+                // we update the rendered div.
+                setTimeout(function(){
+                    jQuery.getJSON( url.trim(/\/$/) + '.json?callback=?',
+                        function(data){
+                            var div = jQuery('#'+id);
+                            div.html('');
+                            var stylesheet = jQuery('<link />');
+                            stylesheet.attr('ref', 'stylesheet');
+                            stylesheet.attr('href', data.stylesheet);
+                            stylesheet.attr('type', 'text/css');
+                            div.append(stylesheet);
+                            div.append(data.div);
                         }
-                    } ),
-                    el( 'div', { className: 'recipe-image' },
-                        el( blocks.MediaUpload, {
-                            onSelect: onSelectImage,
-                            type: 'image',
-                            value: attributes.mediaID,
-                            render: function( obj ) {
-                                return el( components.Button, {
-                                        className: attributes.mediaID ? 'image-button' : 'button button-large',
-                                        onClick: obj.open
-                                    },
-                                    ! attributes.mediaID ? __( 'Upload Image' ) : el( 'img', { src: attributes.mediaURL } )
-                                );
-                            }
-                        } )
-                    ),
-                    el( 'h3', {}, i18n.__( 'Ingredients' ) ),
-                    el( blocks.RichText, {
-                        tagName: 'ul',
-                        multiline: 'li',
-                        placeholder: __( 'Write a list of ingredients…' ),
-                        value: attributes.ingredients,
-                        onChange: function( value ) {
-                            props.setAttributes( { ingredients: value } );
-                        },
-                        focus: focusedEditable === 'ingredients' ? focus : null,
-                        onFocus: function( focus ) {
-                            props.setFocus( _.extend( {}, focus, { editable: 'ingredients' } ) );
-                        },
-                        className: 'ingredients',
-                    } ),
-                    el( 'h3', {}, i18n.__( 'Instructions' ) ),
-                    el( blocks.RichText, {
-                        tagName: 'div',
-                        inline: false,
-                        placeholder: __( 'Write instructions…' ),
-                        value: attributes.instructions,
-                        onChange: function( value ) {
-                            props.setAttributes( { instructions: value } );
-                        },
-                        focus: focusedEditable === 'instructions' ? focus : null,
-                        onFocus: function( focus ) {
-                            props.setFocus( _.extend( {}, focus, { editable: 'instructions' } ) );
-                        }
-                    } )
-                )
-            );
+                    );
+                }, 10 );
+                retval.push( el( 'div', { id: id } ) );
+            }
+            return retval;
         },
 
-        /**
-         *  Save
-         *
-         * @param props
-         */
-        save: function( props ) {
-            var attributes = props.attributes;
 
-            return (
-                el( 'div', { className: props.className },
-                    el( 'h2', {}, attributes.title ),
-                    attributes.mediaURL &&
-                    el( 'div', { className: 'recipe-image' },
-                        el( 'img', { src: attributes.mediaURL } )
-                    ),
-                    el( 'h3', {}, __( 'Ingredients' ) ),
-                    el( 'ul', { className: 'ingredients' }, attributes.ingredients ),
-                    el( 'h3', {}, __( 'Instructions' ) ),
-                    el( 'div', { className: 'steps' }, attributes.instructions )
-                )
-            );
+        save: function( props ) {
+            var url = props.attributes.url || '';
+            // If there's no URL, don't save any inline HTML.
+            if ( ! url.length ) {
+                return null;
+            }
+            // Include a fallback link for non-JS contexts
+            // and for when the plugin is not activated.
+            //  return el( 'a', { href: url }, __( 'View Gist on GitHub' ) );
         }
     } );
 
