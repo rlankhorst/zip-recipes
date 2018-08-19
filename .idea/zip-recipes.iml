@@ -12,27 +12,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHARS">
-        <CLASSES>
-          <root url="phar://$MODULE_DIR$/composer.phar/" />
-        </CLASSES>
-        <SOURCES>
-          <root url="phar://$MODULE_DIR$/composer.phar/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="PHP">
-        <CLASSES>
-          <root url="file:///Applications/MAMP/htdocs/wordpress" />
-          <root url="file://$APPLICATION_HOME_DIR$/bin" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file:///Applications/MAMP/htdocs/wordpress" />
-          <root url="file://$APPLICATION_HOME_DIR$/bin" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>
