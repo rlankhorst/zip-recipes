@@ -10,7 +10,7 @@ Donate link: https://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 4.9
-Stable tag: 4.33
+Stable tag: 4.33.2
 Requires PHP: 5.3
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
@@ -152,14 +152,11 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Screenshots ==
 
-1. The Zip Recipes plugin icon appears as a fork and spoon on the visual editor toolbar.
-2. It's easy to enter the basic information for your recipes: the title, the ingredients and the instructions for preparing the recipe.
-3. There is no limit to the number of ingredients you can add.
-4. And if you want to add even more information about your recipe, such as your rating of the recipe, or the serving size, all you have to do is click the "More Options" link, and you can!
-5. You can fill out as many or as few additional options as you would like.
-6. Once you click the "Add Recipe" button, a placeholder image will be inserted into your post where your recipe will go. If you need to edit your recipe, simply click on the spoon and fork icon in the visual editor toolbar.
-7. Once you preview or publish the post, your recipe will be there with all your microformats (hrecipe)... without any extra work from you!
-8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
+1. Create recipes on any device: phone, tablet, laptop or desktop
+2. Clean, elegant, recipe cards
+3. Your visitors can read your recipes on paper, phones, and even Google Home
+4. Optimized to get your recipes higher on Google
+5. Copy your recipes directly from Microsoft Word, Adobe PDF, etc.
 
 == Changelog ==
 

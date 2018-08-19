@@ -147,7 +147,13 @@ class ZipRecipes
         add_action('admin_notices', __NAMESPACE__ . '\ZipRecipes::zrdn_check_image_editing_support');
         // post save hook
         add_action('post_updated', __NAMESPACE__ . '\ZipRecipes::zrdn_post_featured_image');
-        self::zrdn_recipe_install();
+
+        // This shouldn't be called directly because it can cause issues with WP not having loaded properly yet.
+        // One issue we were seeing was a client was getting an error caused by
+        //  `require_once( ABSPATH . 'wp-admin/includes/upgrade.php' )` in zrdn_recipe_install()
+        // This was the issue:
+        // PHP Fatal error: Call to undefined function get_user_by() in wp/wp-includes/meta.php on line 1308
+        add_action('init', __NAMESPACE__ . '\ZipRecipes::zrdn_recipe_install');
     }
 
     /**
@@ -912,7 +918,9 @@ class ZipRecipes
          *  version checks.
          * Also, dbDelta will not drop columns from a table, it only adds new ones.
          */
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        if (! function_exists('dbDelta')) {
+	        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        }
         dbDelta($sql_command); // run SQL script
 
         Util::log("Calling db_setup() action");
