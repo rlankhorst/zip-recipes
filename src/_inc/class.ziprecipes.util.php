@@ -74,7 +74,9 @@ class Util {
         $twig->addExtension(new TrHelper());
         // This is a total hack. For some reason Twig rendering generates a warning if Twig template file is too large.
 	    // Reported bug here: https://github.com/twigphp/Twig/issues/2673
-	    ob_start();
+
+	    // `ob_start()` call here  was messing up theme rendering. It's shit.
+//	    ob_start();
         return $twig->render($file, $args);
     }
 
