@@ -1,6 +1,6 @@
 === Zip Recipes ===
 Contributors: hgezim, codeswan
-Plugin Name: Zip Recipes
+Plugin Name: Zip Recipes - For Food Blogs
 Plugin URI: https://www.ziprecipes.net
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 License: GPLv3 or later
