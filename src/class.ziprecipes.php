@@ -97,7 +97,7 @@ class ZipRecipes
         add_action('admin_init', __NAMESPACE__ . '\ZipRecipes::zrdn_add_recipe_button');
 
         // `the_post` has no action/filter added on purpose. It doesn't work as well as `the_content`.
-        add_filter('the_content', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_full_recipe', 10);
+        add_filter('the_content', __NAMESPACE__ . '\ZipRecipes::zrdn_convert_to_full_recipe', 11);
 
         add_action('admin_menu', __NAMESPACE__ . '\ZipRecipes::zrdn_menu_pages');
 
