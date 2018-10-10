@@ -7,112 +7,109 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:24-0600\n"
-"PO-Revision-Date: 2016-06-16 20:11+0200\n"
+"POT-Creation-Date: 2018-09-03 13:55-0600\n"
+"PO-Revision-Date: 2018-05-06 14:28-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: pl_PL\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 2.0.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #, php-format
 msgid "%d day"
-msgstr "%d dzień"
+msgstr "%d 日"
 
 #, php-format
 msgid "%d days"
-msgstr "%d dni"
+msgstr "%d 日"
 
 #, php-format
 msgid "%d hour"
-msgstr "%d godzina"
+msgstr "%d 小时"
 
 #, php-format
 msgid "%d hours"
-msgstr "%d godzin/y"
+msgstr "%d 小时"
 
 #, php-format
 msgid "%d minute"
-msgstr "%d minuta"
+msgstr "%d 分钟"
 
 #, php-format
 msgid "%d minutes"
-msgstr "%d minut/y"
+msgstr "%d 分钟"
 
 #, php-format
 msgid "%d month"
-msgstr "%d miesiąc"
+msgstr "%d 月"
 
 #, php-format
 msgid "%d months"
-msgstr "%d miesięce/y"
+msgstr "%d 月"
 
 #, php-format
 msgid "%d second"
-msgstr "%d sekunda"
+msgstr "%d 秒"
 
 #, php-format
 msgid "%d seconds"
-msgstr "%d sekund/y"
+msgstr "%d 秒"
 
 #, php-format
 msgid "%d year"
-msgstr "%d rok"
+msgstr "%d 年"
 
 #, php-format
 msgid "%d years"
-msgstr "%d lat/a"
+msgstr "%d 年"
 
 msgid "Author:"
-msgstr "Autor:"
+msgstr "作者："
 
 msgid "Calories per serving:"
-msgstr "Ilość kalorii"
+msgstr "每份卡路里："
 
-#, fuzzy
 msgid "Calories:"
-msgstr "Ilość kalorii"
+msgstr "卡路里："
 
 msgid "Carbs per serving:"
-msgstr "Ilość węglowodanów w porcji"
+msgstr "每份碳水化合物："
 
 msgid "Carbs:"
-msgstr ""
+msgstr "碳水化合物："
 
 msgid "Category:"
-msgstr ""
+msgstr "类别："
 
-#, fuzzy
 msgid "Cholesterol per serving:"
-msgstr "Ilość kalorii"
+msgstr "每份胆固醇："
 
 msgid "Cholesterol:"
-msgstr ""
+msgstr "胆固醇："
 
 msgid "Cook"
-msgstr ""
+msgstr "烹饪"
 
 msgid "Cook Time:"
-msgstr "Czas gotowania"
+msgstr "烹饪时间："
 
 msgid "Cuisine:"
-msgstr ""
+msgstr "烹饪法："
 
 msgid "Fat per serving:"
-msgstr "Ilośc tłuszczu w porcji"
+msgstr "每份脂肪："
 
 msgid "Fat:"
-msgstr ""
+msgstr "脂肪："
 
 msgid "Fiber per serving:"
-msgstr ""
+msgstr "每份纤维："
 
 msgid "Fiber:"
-msgstr ""
+msgstr "纤维："
 
 msgid ""
 "For the best performance, Zip Recipes recommends ImageMagick or GD PHP "
@@ -121,123 +118,111 @@ msgid ""
 msgstr ""
 
 msgid "Ingredients"
-msgstr "Składniki"
+msgstr "食材"
 
 msgid "Instructions"
-msgstr "Sposób przygotowania"
+msgstr "说明"
 
 msgid "Notes"
-msgstr "Notatki"
+msgstr "笔记"
 
 msgid "Prep"
-msgstr ""
+msgstr "准备"
 
 msgid "Prep Time:"
-msgstr "Czas przygotowania"
+msgstr "准备时间:"
 
-#, fuzzy
 msgid "Prep:"
-msgstr "Czas przygotowania"
+msgstr "准备："
 
 msgid "Print"
-msgstr "Drukuj"
+msgstr "打印"
 
 msgid "Print this recipe"
-msgstr ""
+msgstr "打印食谱"
 
 msgid "Protein per serving:"
-msgstr "Ilość białka w porcji"
+msgstr "每份蛋白质："
 
 msgid "Protein:"
-msgstr ""
+msgstr "蛋白质："
 
 msgid "Rate this recipe"
-msgstr ""
+msgstr "为此食谱评分"
 
 msgid "Rating"
-msgstr ""
+msgstr "评分"
 
 msgid "Ready in"
-msgstr ""
+msgstr "准备好了"
 
+#, fuzzy
 msgid "Recipe Reviews"
-msgstr ""
+msgstr "食谱评论评级"
 
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
 "\">Learn more</a>"
 msgstr ""
+"食谱评论只适用于WordPress评论或Jetpack评论。 <a href=\"https://www."
+"ziprecipes.net/docs/recipe-reviews/\" target=\"_blank\">Learn more</a>"
 
 msgid "Saturated fat per serving:"
-msgstr "Ilość tłuszczów nasyconych w porcji"
+msgstr "每份饱和脂肪："
 
-#, fuzzy
 msgid "Saturated fat:"
-msgstr "Ilość tłuszczów nasyconych w porcji"
+msgstr "饱和脂肪："
 
 msgid "Save to BigOven"
-msgstr ""
+msgstr "保存到BigOven"
 
-#, fuzzy
 msgid "Serves:"
-msgstr "Wielkość porcji"
+msgstr "供应："
 
 msgid "Serving Size:"
-msgstr "Wielkość porcji"
+msgstr "供应份量："
 
 msgid "Sodium per serving:"
-msgstr "Ilość sodu w porcji"
+msgstr "每份钠："
 
 msgid "Sodium:"
-msgstr ""
+msgstr "钠："
 
 msgid "Sugar per serving:"
-msgstr "Ilość cukru w porcji"
+msgstr "每份糖："
 
 msgid "Sugar:"
-msgstr ""
+msgstr "糖："
 
 msgid "Total Time:"
-msgstr "Czas całkowity"
+msgstr "总时间："
 
-#, fuzzy
 msgid "Total:"
-msgstr "Czas całkowity"
+msgstr "总共："
 
-#, fuzzy
 msgid "Trans fat per serving:"
-msgstr "Ilość tłuszczów nasyconych w porcji"
+msgstr ""
 
 msgid "Trans fat:"
-msgstr ""
+msgstr "反式脂肪："
 
 msgid ""
 "VisitorRating and RecipeReviews cannot be active at the same time. If you "
 "want to allow anonymous ratings, activate VisitorRating. If you want to "
 "require comments with ratings activate RecipeReviews."
 msgstr ""
+"《访客评级》和《食谱评论》不能同时处于活动状态。如果您想以匿名评分，请激活"
+"《访客评级》。如果您想要评分，请激活《食谱评论》。"
 
 msgid "Yield:"
-msgstr "Ilość:"
+msgstr "产量："
 
 msgid "Your rating:"
-msgstr ""
+msgstr "您的评分："
 
 msgid "ratings"
-msgstr ""
+msgstr "评分"
 
 msgid "stars"
-msgstr ""
-
-#, fuzzy
-#~ msgid "Instructions:"
-#~ msgstr "Sposób przygotowania"
-
-#, fuzzy
-#~ msgid "Ingredients:"
-#~ msgstr "Składniki"
-
-#, fuzzy
-#~ msgid "Ingridients:"
-#~ msgstr "Składniki"
+msgstr "星"
