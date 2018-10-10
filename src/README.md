@@ -9,7 +9,7 @@ Donate link: https://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, save recipe, print recipe, schema.org, seo, recipe seo, cooking, food, nutrition
 Requires at least: 3.1
 Tested up to: 4.9
-Stable tag: 4.33.2
+Stable tag: 4.34
 Requires PHP: 5.3
 
 Your goal is to build a food blog that earns money by serving loyal fans with your amazing recipes. We're just here to help you do that. Read on to learn about our 4-step success formula for your blog.
@@ -123,6 +123,32 @@ The Zip Recipes plugin is very easy use, however, we also provide enhanced [step
 
 == Frequently Asked Questions ==
 
+= Which languages are supported? =
+
+Currently we have translations for:
+
+ * Albanian
+ * Arabic
+ * Chinese
+ * Danish
+ * Finnish
+ * French
+ * German
+ * Greek
+ * Italian
+ * Polish
+ * Portuguese (Brazilian)
+ * Russian
+ * Serbian
+ * Slovak
+ * Spanish
+ * Swedish
+ * Is your language missing from this list? No problem, [email us and help us translate Zip Recipes!](mailto:hello@ziprecipes.net)
+
+= Do you have a premium version? =
+
+Yes, we do! You can learn about our premium features here: [https://www.ziprecipes.net](https://www.ziprecipes.net)
+
 = How do I edit a recipe with the Zip Recipes plugin? =
 
 To edit or create a recipe, click the spoon and fork icon on the visual editor toolbar.
@@ -149,12 +175,16 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 
 == Changelog ==
 
-= 4.33 Time savers and much more =
+= 4.34 Time savers and much more =
 - New: Total time is automatically calculated (one less field to fill out!)
 - New: The [Featured Image](https://en.support.wordpress.com/featured-images/) of a post will automatically be used in the structured data to tell search engines that the featured images is also the recipe image. You no longer have to set a recipe image if you set a featured image! #TimeSaver
 - New: Pasting ingredients and instructions just got easier. We now remove blank lines and extra leading and trailing spaces from ingredients. #SoMuchFreeTimeNow 
-- (New Lover plan feature:) [Recipe Reviews](https://www.ziprecipes.net/#recipe-reviews). With Recipe reviews, you can engage with your readers and allow them to rate your recipes by adding a comment along their rating and explain why they LOVE your recipes!
-- (New Lover plan feature:) [Serving adjustments](https://www.ziprecipes.net/#serving-adjustment) feature. Your readers have bigger families (or littler ones) than you do but now they can adjust the number of servings in your recipe with ease.
+- (New premium feature:) [Recipe Reviews](https://www.ziprecipes.net/landing/reviews/). With Recipe reviews, you can engage with your readers and allow them to rate your recipes by adding a comment along their rating and explain why they LOVE your recipes!
+- (New premium feature:) [Serving adjustments](https://www.ziprecipes.net/#serving-adjustment) feature. Your readers have bigger families (or littler ones) than you do but now they can adjust the number of servings in your recipe with ease.
+- New: Chinese translation
+- Fixed: Added a Polish term
 - Fixed issue with yield (or servings) field not appearing in some premium themes (Cozy Orange and Canada)
 - Fixed: warning appearing for some users in create/edit recipe screen
-- Fixed: RecipeSearch could not be disabled
+- Fixed: Recipe Search could not be disabled
+- Fixed: Some people saw crashes due to a conflict
+- Fixed: a conflict with VisualComposer plugin
