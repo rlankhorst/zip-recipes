@@ -1,6 +1,6 @@
-=== Zip Recipes ===
+=== Recipe Cards For Your Food Blog — Zip Recipes ===
 Contributors: hgezim
-Plugin Name: Recipe Cards For Your Food Blog — Zip Recipes
+Plugin Name: Zip Recipes
 Plugin URI: https://www.ziprecipes.net
 License: GPLv3 or later
 Author URI: https://www.ziprecipes.net
@@ -188,3 +188,10 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 - Fixed: Recipe Search could not be disabled
 - Fixed: Some people saw crashes due to a conflict
 - Fixed: a conflict with VisualComposer plugin
+
+
+== Upgrade Notice ==
+
+= 4.34 =
+
+Bug fixes, image selection improvements, pasting improvements...awesome update!
