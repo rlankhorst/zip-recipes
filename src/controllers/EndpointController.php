@@ -371,11 +371,12 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      * @return bool
      */
     public function is_logged_in_check(WP_REST_Request $request) {
-        $is_user_logged_in = false;
-        if (is_user_logged_in() == true) {
-            $is_user_logged_in = true;
-        }
-        return $is_user_logged_in;
+        return true;
+//        $is_user_logged_in = false;
+//        if (is_user_logged_in() == true) {
+//            $is_user_logged_in = true;
+//        }
+//        return $is_user_logged_in;
     }
 
 
