@@ -1,6 +1,6 @@
-=== Recipe Cards For Your Food Blog — Zip Recipes ===
+=== Recipe Cards For Your Food Blog from Zip Recipes ===
 Contributors: hgezim
-Plugin Name: Zip Recipes
+Plugin Name: Recipe Cards For Your Food Blog from Zip Recipes
 Plugin URI: https://www.ziprecipes.net
 License: GPLv3 or later
 Author URI: https://www.ziprecipes.net
@@ -9,7 +9,7 @@ Donate link: https://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, save recipe, print recipe, schema.org, seo, recipe seo, cooking, food, nutrition
 Requires at least: 3.1
 Tested up to: 4.9
-Stable tag: 4.34
+Stable tag: 4.36
 Requires PHP: 5.3
 
 Your goal is to build a food blog that earns money by serving loyal fans with your amazing recipes. We're just here to help you do that. Read on to learn about our 4-step success formula for your blog.
@@ -175,7 +175,8 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 
 == Changelog ==
 
-= 4.34 Time savers and much more =
+= 4.36 Time savers and much more =
+
 - New: Total time is automatically calculated (one less field to fill out!)
 - New: The [Featured Image](https://en.support.wordpress.com/featured-images/) of a post will automatically be used in the structured data to tell search engines that the featured images is also the recipe image. You no longer have to set a recipe image if you set a featured image! #TimeSaver
 - New: Pasting ingredients and instructions just got easier. We now remove blank lines and extra leading and trailing spaces from ingredients. #SoMuchFreeTimeNow 
@@ -184,7 +185,6 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 - New: Chinese translation
 - Fixed: Added a Polish term
 - Fixed issue with yield (or servings) field not appearing in some premium themes (Cozy Orange and Canada)
-- Fixed: warning appearing for some users in create/edit recipe screen
 - Fixed: Recipe Search could not be disabled
 - Fixed: Some people saw crashes due to a conflict
 - Fixed: a conflict with VisualComposer plugin
@@ -192,6 +192,6 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 
 == Upgrade Notice ==
 
-= 4.34 =
+= 4.36 =
 
 Bug fixes, image selection improvements, pasting improvements...awesome update!
