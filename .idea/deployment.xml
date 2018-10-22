@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="zrdn">
+    <serverData>
+      <paths name="zrdn">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/usr/share/nginx/html/wordpress/wp-content/plugins/zip-recipes" local="$PROJECT_DIR$/src" web="/wp-content/plugins/zip-recipes" />
+            <mapping local="" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

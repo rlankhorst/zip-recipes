@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="93bcdbc3-6995-4c4e-b05f-7cd4cc1307df" name="zrdn" url="http://192.168.99.100:8080">
+        <fileTransfer anonymous="true" host="127.0.0.1" port="21000" username="root" password="dfeedfc5dfc9dfc1dfcfdfd8dfd0dfd8dfcedfc4df8b">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21000" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

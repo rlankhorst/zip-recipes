@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-03-27 13:47-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2018-02-25 20:24+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -150,8 +150,21 @@ msgstr "Protein:"
 msgid "Rate this recipe"
 msgstr "Bedøm denne opskrift:"
 
+#, fuzzy
+msgid "Rating"
+msgstr "bedømmelser"
+
 msgid "Ready in"
 msgstr "Klar på"
+
+msgid "Recipe Reviews"
+msgstr ""
+
+msgid ""
+"Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
+"href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
+"\">Learn more</a>"
+msgstr ""
 
 msgid "Saturated fat per serving:"
 msgstr "Mættet fedt per portion:"
@@ -191,6 +204,12 @@ msgstr "Transfedt per portion:"
 
 msgid "Trans fat:"
 msgstr "Transfedt:"
+
+msgid ""
+"VisitorRating and RecipeReviews cannot be active at the same time. If you "
+"want to allow anonymous ratings, activate VisitorRating. If you want to "
+"require comments with ratings activate RecipeReviews."
+msgstr ""
 
 msgid "Yield:"
 msgstr "Udbytte:"

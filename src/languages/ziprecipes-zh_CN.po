@@ -7,110 +7,109 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:24-0600\n"
-"PO-Revision-Date: 2017-03-01 21:27+0200\n"
-"Last-Translator: Kirsi Jaakkola <jaakkola.kirsi@gmail.com>\n"
+"POT-Creation-Date: 2018-09-03 13:55-0600\n"
+"PO-Revision-Date: 2018-05-06 14:28-0700\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: fi_FI\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #, php-format
 msgid "%d day"
-msgstr "%d päivä"
+msgstr "%d 日"
 
 #, php-format
 msgid "%d days"
-msgstr "%d päivää"
+msgstr "%d 日"
 
 #, php-format
 msgid "%d hour"
-msgstr "%d tunti"
+msgstr "%d 小时"
 
 #, php-format
 msgid "%d hours"
-msgstr "%d tuntia"
+msgstr "%d 小时"
 
 #, php-format
 msgid "%d minute"
-msgstr "%d minuutti"
+msgstr "%d 分钟"
 
 #, php-format
 msgid "%d minutes"
-msgstr "%d minuuttia"
+msgstr "%d 分钟"
 
 #, php-format
 msgid "%d month"
-msgstr "%d kuukausi"
+msgstr "%d 月"
 
 #, php-format
 msgid "%d months"
-msgstr "%d kuukautta"
+msgstr "%d 月"
 
 #, php-format
 msgid "%d second"
-msgstr "%d sekuntti"
+msgstr "%d 秒"
 
 #, php-format
 msgid "%d seconds"
-msgstr "%d sekunttia"
+msgstr "%d 秒"
 
 #, php-format
 msgid "%d year"
-msgstr "%d vuosi"
+msgstr "%d 年"
 
 #, php-format
 msgid "%d years"
-msgstr "%d vuotta"
+msgstr "%d 年"
 
 msgid "Author:"
-msgstr "Tekijä"
+msgstr "作者："
 
 msgid "Calories per serving:"
-msgstr "Kaloria annosta kohden:"
+msgstr "每份卡路里："
 
 msgid "Calories:"
-msgstr "Kalorit:"
+msgstr "卡路里："
 
 msgid "Carbs per serving:"
-msgstr "Hiilihydraatit annosta kohden:"
+msgstr "每份碳水化合物："
 
 msgid "Carbs:"
-msgstr "Hiilihydraatit:"
+msgstr "碳水化合物："
 
 msgid "Category:"
-msgstr ""
+msgstr "类别："
 
-#, fuzzy
 msgid "Cholesterol per serving:"
-msgstr "Kaloria annosta kohden:"
+msgstr "每份胆固醇："
 
 msgid "Cholesterol:"
-msgstr ""
+msgstr "胆固醇："
 
 msgid "Cook"
-msgstr "Paisto"
+msgstr "烹饪"
 
 msgid "Cook Time:"
-msgstr "Paisto aika:"
+msgstr "烹饪时间："
 
 msgid "Cuisine:"
-msgstr ""
+msgstr "烹饪法："
 
 msgid "Fat per serving:"
-msgstr "Rasvaa annosta kohden:"
+msgstr "每份脂肪："
 
 msgid "Fat:"
-msgstr "Rasva:"
+msgstr "脂肪："
 
 msgid "Fiber per serving:"
-msgstr "Kuitu annosta kohden:"
+msgstr "每份纤维："
 
 msgid "Fiber:"
-msgstr "Kuitu:"
+msgstr "纤维："
 
 msgid ""
 "For the best performance, Zip Recipes recommends ImageMagick or GD PHP "
@@ -119,119 +118,111 @@ msgid ""
 msgstr ""
 
 msgid "Ingredients"
-msgstr "Ainesosat"
+msgstr "食材"
 
 msgid "Instructions"
-msgstr "Ohje"
+msgstr "说明"
 
 msgid "Notes"
-msgstr "Muistiinpanot"
+msgstr "笔记"
 
 msgid "Prep"
-msgstr "Valmistelu"
+msgstr "准备"
 
 msgid "Prep Time:"
-msgstr "Valmistelu aika:"
+msgstr "准备时间:"
 
 msgid "Prep:"
-msgstr "Valmistelu:"
+msgstr "准备："
 
 msgid "Print"
-msgstr "Tulosta"
+msgstr "打印"
 
 msgid "Print this recipe"
-msgstr "Tulosta resepti"
+msgstr "打印食谱"
 
 msgid "Protein per serving:"
-msgstr "Proteiini annosta kohden:"
+msgstr "每份蛋白质："
 
 msgid "Protein:"
-msgstr "Proteiini:"
+msgstr "蛋白质："
 
 msgid "Rate this recipe"
-msgstr "Arvostele resepti"
+msgstr "为此食谱评分"
 
-#, fuzzy
 msgid "Rating"
-msgstr "arvioita"
+msgstr "评分"
 
 msgid "Ready in"
-msgstr "Valmista:"
+msgstr "准备好了"
 
+#, fuzzy
 msgid "Recipe Reviews"
-msgstr ""
+msgstr "食谱评论评级"
 
 msgid ""
 "Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
 "href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
 "\">Learn more</a>"
 msgstr ""
+"食谱评论只适用于WordPress评论或Jetpack评论。 <a href=\"https://www."
+"ziprecipes.net/docs/recipe-reviews/\" target=\"_blank\">Learn more</a>"
 
 msgid "Saturated fat per serving:"
-msgstr "Tyydyttynyt rasva annosta kohden:"
+msgstr "每份饱和脂肪："
 
 msgid "Saturated fat:"
-msgstr "Tyydyttynyt rasva:"
+msgstr "饱和脂肪："
 
 msgid "Save to BigOven"
-msgstr ""
+msgstr "保存到BigOven"
 
 msgid "Serves:"
-msgstr "Hlö:"
+msgstr "供应："
 
 msgid "Serving Size:"
-msgstr "Annoksien määrä:"
+msgstr "供应份量："
 
 msgid "Sodium per serving:"
-msgstr "Natrium annosta kohden:"
+msgstr "每份钠："
 
 msgid "Sodium:"
-msgstr "Natrium:"
+msgstr "钠："
 
 msgid "Sugar per serving:"
-msgstr "Sokeri annosta kohden:"
+msgstr "每份糖："
 
 msgid "Sugar:"
-msgstr "Sokeri:"
+msgstr "糖："
 
 msgid "Total Time:"
-msgstr "Aika yhteensä:"
+msgstr "总时间："
 
 msgid "Total:"
-msgstr "Yhteensä:"
+msgstr "总共："
 
-#, fuzzy
 msgid "Trans fat per serving:"
-msgstr "Tyydyttynyt rasva annosta kohden:"
+msgstr ""
 
 msgid "Trans fat:"
-msgstr ""
+msgstr "反式脂肪："
 
 msgid ""
 "VisitorRating and RecipeReviews cannot be active at the same time. If you "
 "want to allow anonymous ratings, activate VisitorRating. If you want to "
 "require comments with ratings activate RecipeReviews."
 msgstr ""
+"《访客评级》和《食谱评论》不能同时处于活动状态。如果您想以匿名评分，请激活"
+"《访客评级》。如果您想要评分，请激活《食谱评论》。"
 
 msgid "Yield:"
-msgstr "Koko:"
+msgstr "产量："
 
-#, fuzzy
 msgid "Your rating:"
-msgstr "arvioita"
+msgstr "您的评分："
 
 msgid "ratings"
-msgstr "arvioita"
+msgstr "评分"
 
 msgid "stars"
-msgstr "tähdet"
-
-#~ msgid "Instructions:"
-#~ msgstr "Ohjeet:"
-
-#, fuzzy
-#~ msgid "Ingredients:"
-#~ msgstr "Ainesosat"
-
-#~ msgid "Ingridients:"
-#~ msgstr "Aineet:"
+msgstr "星"

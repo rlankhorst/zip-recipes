@@ -248,23 +248,29 @@
     </div>
 
     {# !! create image and summary container #}
-    {% if recipe_image or summary %}
+    {% if image_attributes.url or summary %}
       <div class="img-desc-wrap">
-        {% if recipe_image %}
-          <p class="t-a-c {% if image_hide == 'Hide' %}hide-card{% endif %} {% if image_hide_print == 'Hide' %}hide-print{% endif %}">
-            <img class="photo"
-                    {{ recipe_props.recipe_attr('itemprop', "image", amp_on) }} src="{{ image_attributes.url }}" {% if image_attributes.srcset %}srcset="{{ image_attributes.srcset }}"{% endif %} {% if image_attributes.sizes %}sizes="{{ image_attributes.sizes }}"{% endif %} title="{{ recipe_title }}"
-                {% if recipe_title %} alt="{{ recipe_title }}" {% endif %}
-                 {% if image_width %}style="width: {{image_width}}px;"{% endif %} />
-          </p>
-        {% endif %}
+          {%  if image_attributes.url %}
+              <p class="t-a-c
+                    {% if image_hide == 'Hide' or is_featured_post_image %}hide-card{% endif %}
+                    {% if image_hide_print == 'Hide' %}hide-print{% endif %}
+                    "
+              >
+                  <img class="photo"
+                          {{ recipe_props.recipe_attr('itemprop', "image", amp_on) }} src="{{ image_attributes.url }}" {% if image_attributes.srcset %}srcset="{{ image_attributes.srcset }}"{% endif %} {% if image_attributes.sizes %}sizes="{{ image_attributes.sizes }}"{% endif %} title="{{ recipe_title }}"
+                          {% if recipe_title %} alt="{{ recipe_title }}" {% endif %}
+                          {% if image_width %}
+                              style="{% if image_width %}width: {{image_width}}px;{% endif %}"
+                          {% endif %} />
+              </p>
+          {% endif %}
 
-        {% if summary %}
-          <div id="zlrecipe-summary"
-                {{ recipe_props.recipe_attr('itemprop', "description", amp_on) }}>
-            {{ summary_rich|raw }}
-          </div>
-        {% endif %}
+          {% if summary %}
+              <div id="zlrecipe-summary"
+                      {{ recipe_props.recipe_attr('itemprop', "description", amp_on) }}>
+                  {{ summary_rich|raw }}
+              </div>
+          {% endif %}
       </div>
     {% endif %}
 
@@ -359,7 +365,7 @@
 
     {# Zip Recipes attribution and version #}
     {% if attribution_hide != 'Hide' %}
-      <div class="zl-linkback">Recipe Management Powered by <a title="Zip Recipes Plugin" href="https://www.ziprecipes.net" target="_blank">Zip Recipes Plugin</a></div>
+      <div class="zl-linkback">Recipe Management Powered by <a title="Zip Recipes Plugin" href="https://www.ziprecipes.net" rel="nofollow" target="_blank">Zip Recipes Plugin</a></div>
     {% endif %}
     <div class="ziprecipes-plugin" style="display: none;">{{version}}</div>
 

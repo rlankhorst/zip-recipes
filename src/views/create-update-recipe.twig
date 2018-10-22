@@ -51,8 +51,7 @@
                 if ($moreOptions.is(':visible')) {
                     $moreOptions.hide(400);
                     $moreOptionsToggle.html('<span class="zrdn-icon"><i class="fa fa-plus"></i></span><span>More options</span>');
-                }
-                else {
+                } else {
                     $moreOptions.show(400, function () {
                         jQuery('html, body').animate({
                             scrollTop: $moreOptions.offset().top
@@ -99,6 +98,28 @@
                 $recipeSummaryTextarea.data('caption', 'false');
             }
 
+            /**
+             * Auto Clean extra spaces
+             *
+             * On paste in textarea removes extra spaces and lines
+             */
+            $(".clean-on-paste").on('paste', function (e) {
+                var $elem = $(this);
+                // setTimeout is required here because paste event is triggered before content is pasted
+                //  in element.
+                window.setTimeout(function () {
+                    var lines = $elem.val().split(/\n/);
+                    var texts = [];
+                    for (var i=0; i < lines.length; i++) {
+                        if (/\S/.test(lines[i])) {
+                            texts.push($.trim(lines[i]));
+                        }
+                    }
+                    var n = texts.join("\n");
+                    $elem.val(n);
+                }, 500);
+            });
+
         });
 
 
@@ -112,7 +133,7 @@
             if (imageData.url)
             {
                 var $imageContainer = $('#recipe-image-preview-container'),
-                    $uploadImageContainer = $('#upload-recipe-image-button-container');
+                        $uploadImageContainer = $('#upload-recipe-image-button-container');
 
                 // Set UI state
                 $imageContainer.show();
@@ -121,7 +142,7 @@
                 $('#recipe_image').val(imageData.url);
 
                 var $image = $('#recipe-image-preview').
-                attr('src', imageData.url);
+                        attr('src', imageData.url);
 
                 var defaultHeight = 100;
 
@@ -156,7 +177,7 @@
         function zrdnResetImage()
         {
             var $imageContainer = $('#recipe-image-preview-container'),
-                $uploadImageContainer = $('#upload-recipe-image-button-container');
+                    $uploadImageContainer = $('#upload-recipe-image-button-container');
 
             $imageContainer.hide();
             $uploadImageContainer.show();
@@ -208,7 +229,11 @@
                     </div>
                     <div class="zrdn-column">
                         <label class="zrdn-label">Image</label>
-                        <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+                        {% if is_featured_post_image %}
+                            <input type='hidden' id="recipe_image" name='recipe_image' value='' />
+                        {% else %}
+                            <input type='hidden' id="recipe_image" name='recipe_image' value='{{ recipe_image }}' />
+                        {% endif %}                        
                         <div id="upload-recipe-image-button-container">
                             <a class="zrdn-button zrdn-is-small" id="upload-btn" href="#">Add Image</a>
                         </div>
@@ -225,10 +250,10 @@
                     <p class="zrdn-help">
                         Put each ingredient on a separate line.  There is no need to use bullets for your ingredients.<br />
                         You can also create labels, hyperlinks, bold/italic effects and even add images!<br />
-                        <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                        <a href="https://www.ziprecipes.net/docs/installing/" target="_blank">Learn how here</a>
                     </p>
                     <div class="zrdn-control">
-                        <textarea class="zrdn-textarea" name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
+                        <textarea class="zrdn-textarea clean-on-paste" name='ingredients' id='ingredients'>{{ ingredients }}</textarea>
                     </div>
                 </div>
 
@@ -237,10 +262,10 @@
                     <p class="zrdn-help">
                         Press return after each instruction. There is no need to number your instructions.<br />
                         You can also create labels, hyperlinks, bold/italic effects and even add images!<br />
-                        <a href="https://www.ziprecipes.net/wp-content/uploads/2014/12/plugin-instructions-4.0.0.9.pdf" target="_blank">Learn how here</a>
+                        <a href="https://www.ziprecipes.net/docs/installing/" target="_blank">Learn how here</a>
                     </p>
                     <div class="zrdn-control">
-                        <textarea class="zrdn-textarea" id="instructions" name='instructions'>{{ instructions }}</textarea>
+                        <textarea class="zrdn-textarea clean-on-paste" id="instructions" name='instructions'>{{ instructions }}</textarea>
                     </div>
                 </div>
 
@@ -294,17 +319,6 @@
                                 </div>
                                 <div>
                                     <input class="zrdn-input zrdn-is-small" type='number' min="0" id="cook_minutes" name='cook_time_minutes' value='{{ cook_time_minutes }}' />minutes
-                                </div>
-                            </div>
-                        </div>
-                        <div class="zrdn-column">
-                            <label for="total_hours" class="zrdn-label">Total time</label>
-                            <div class="zrdn-field zrdn-is-grouped">
-                                <div>
-                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" id="total_hours" name='total_time_hours' value='{{ total_time_hours }}' />hours
-                                </div>
-                                <div>
-                                    <input class="zrdn-input zrdn-is-small" type='number' min="0" id="total_minutes" name='total_time_minutes' value='{{ total_time_minutes }}' />minutes
                                 </div>
                             </div>
                         </div>

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-03-27 13:47-0600\n"
+"POT-Creation-Date: 2018-04-23 12:24-0600\n"
 "PO-Revision-Date: 2016-04-19 01:14-0600\n"
 "Last-Translator: Gezim Hoxha <hello@ziprecipes.net>\n"
 "Language-Team: \n"
@@ -157,8 +157,21 @@ msgstr "Proteina"
 msgid "Rate this recipe"
 msgstr "Vlerëso këtë recetë"
 
+#, fuzzy
+msgid "Rating"
+msgstr "Vlerësime"
+
 msgid "Ready in"
 msgstr "Gati për"
+
+msgid "Recipe Reviews"
+msgstr ""
+
+msgid ""
+"Recipe Reviews only works with WordPress comments or Jetpack Comments. <a "
+"href=\"https://www.ziprecipes.net/docs/recipe-reviews/\" target=\"_blank"
+"\">Learn more</a>"
+msgstr ""
 
 msgid "Saturated fat per serving:"
 msgstr "Yndyrna të ngopura për racion:"
@@ -202,6 +215,12 @@ msgstr "Yndyrna të  ngopura për racion:"
 
 msgid "Trans fat:"
 msgstr "Yndyrna të ngopura"
+
+msgid ""
+"VisitorRating and RecipeReviews cannot be active at the same time. If you "
+"want to allow anonymous ratings, activate VisitorRating. If you want to "
+"require comments with ratings activate RecipeReviews."
+msgstr ""
 
 msgid "Yield:"
 msgstr "Sasia:"
