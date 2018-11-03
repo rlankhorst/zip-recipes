@@ -512,9 +512,16 @@ registerBlockType('zip-recipes/recipe-block', {
     //     return <a className={className} href={post.link}>{post.title.rendered}</a>;
     // } ),
 
-    save: function () {
+    save: function (attributes) {
         // Rendering in PHP
-        return null;
+        console.log('saving...recipe with args:', arguments);
+        return new Promise((resolve, reject) => {
+            setTimeout(function () {
+                console.log('acceping');
+                resolve('hello');
+            }, 10000);
+            // reject('hello');
+        });
     },
 
     //
