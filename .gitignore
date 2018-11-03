@@ -9,5 +9,5 @@ src/vendor-dev/
 plugins/
 node_modules/
 build/
-nbproject
 working_files/
+.idea/workspace.xml
