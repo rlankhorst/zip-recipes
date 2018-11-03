@@ -20,6 +20,7 @@ var prefix = require('gulp-autoprefixer');
 var cleanCSS = require('gulp-clean-css');
 var merge = require('merge-stream');
 var log = require('fancy-log');
+var watch = require('gulp-watch');
 
 const build_path = "build";
 const dest_free = path.join(build_path, "free");
@@ -299,7 +300,7 @@ gulp.task("build", function (cb) {
     "vendor-rename-pre",
     "composer-install",
     "vendor-cleanup",
-    ["compress-assets", "sassForMain", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
+    ["compress-assets", "sassForMain", "sassForGutenberg", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
     "vendor-rename-post",
     cb);
 });
@@ -444,6 +445,16 @@ gulp.task('sassForMain', function (cb) {
 });
 
 
+gulp.task('sassForGutenberg', function (cb) {
+    return gulp.src('src/gutenberg/assets/styles/*.scss')
+        .pipe(sass({
+            includePaths: [modules],
+            outputStyle: 'compressed'
+        }).on('error', sass.logError))
+        .pipe(gulp.dest('src/gutenberg/assets/styles/'));
+});
+
+
 function getFolders(dir) {
     return fs.readdirSync(dir)
             .filter(function (file) {
@@ -456,6 +467,57 @@ function createErrorHandler(name) {
         console.error('Error from ' + name + ' in compress task', err.toString());
     };
 }
+
+gulp.task('gutenberg-webpack-dev', function () {
+    return gulp.src('src/gutenberg/blocks/recipe.jsx')
+            .pipe(gulpWebpack({
+                mode: 'development',
+                watch: true,
+                module: {
+                    rules: [
+                        {
+                            test: /\.(js|jsx)$/,
+                            use: 'babel-loader'
+                        }
+                    ]
+                },
+                resolve: {
+                    extensions: ['.jsx', '.js']
+                },
+                output: {
+                    filename: 'recipe.min.js',
+                    path: path.resolve(__dirname, 'build')
+                    // libraryTarget: 'var',
+                    // library: 'ZrdnServingAdjustment'
+                }
+            }, webpack))
+            .pipe(gulp.dest('src/gutenberg/build/'));
+});
+
+gulp.task('gutenberg-webpack-prod', function () {
+    return gulp.src('src/gutenberg/blocks/recipe.jsx')
+        .pipe(gulpWebpack({
+            mode: 'production',
+            module: {
+                rules: [
+                    {
+                        test: /\.(js|jsx)$/,
+                        use: 'babel-loader'
+                    }
+                ]
+            },
+            resolve: {
+                extensions: [ '.jsx', '.js' ]
+            },
+            output: {
+                filename: 'recipe.min.js',
+                path: path.resolve(__dirname, 'build')
+                // libraryTarget: 'var',
+                // library: 'ZrdnServingAdjustment'
+            }
+        }, webpack))
+        .pipe(gulp.dest('src/gutenberg/build/'));
+});
 
 gulp.task('servingadjustment-webpack-prod', function () {
     return gulp.src('src/plugins/ServingAdjustment/src/index.ts')

@@ -873,6 +873,11 @@ class ZipRecipes {
 
         Util::log("In zrdn_recipe_install");
 
+        // Setup gutenberg
+	    if (\is_plugin_active('gutenberg/gutenberg.php') || version_compare( $wp_version, '5.0', '>=' ) ) {
+		    require_once(ZRDN_PLUGIN_DIRECTORY . "gutenberg/RecipeBlock.php");
+	    }
+
         $recipes_table = $wpdb->prefix . RecipeModel::TABLE_NAME;
 
         $charset_collate = Util::get_charset_collate();

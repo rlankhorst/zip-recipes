@@ -94,10 +94,5 @@ function zrdn_autoload($className)
      */
     if (!function_exists('is_plugin_active'))
         require_once(ABSPATH . '/wp-admin/includes/plugin.php');
-
-
-    if (\is_plugin_active('gutenberg/gutenberg.php') || version_compare( $wp_version, '5.0', '>=' ) ) {
-        require_once(ZRDN_PLUGIN_DIRECTORY."gutenberg/RecipeBlock.php");
-    }
 }
 
