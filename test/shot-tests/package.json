@@ -1,0 +1,17 @@
+{
+  "name": "shot-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^1.2.0",
+    "url-to-screenshot": "^2.0.1",
+    "webshot": "^0.18.0",
+    "yargs": "^11.0.0"
+  }
+}
