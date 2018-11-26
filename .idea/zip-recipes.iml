@@ -13,5 +13,139 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="PHP" type="php">
+        <CLASSES>
+          <root url="file:///Applications/MAMP/htdocs/wordpress" />
+          <root url="file://$APPLICATION_HOME_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/src/vendor/composer" />
+          <root url="file://$MODULE_DIR$/src/vendor/doctrine/instantiator" />
+          <root url="file://$MODULE_DIR$/src/vendor/hamcrest/hamcrest-php" />
+          <root url="file://$MODULE_DIR$/src/vendor/mockery/mockery" />
+          <root url="file://$MODULE_DIR$/src/vendor/myclabs/deep-copy" />
+          <root url="file://$MODULE_DIR$/src/vendor/phar-io/manifest" />
+          <root url="file://$MODULE_DIR$/src/vendor/phar-io/version" />
+          <root url="file://$MODULE_DIR$/src/vendor/phing/phing" />
+          <root url="file://$MODULE_DIR$/src/vendor/php-mock/php-mock" />
+          <root url="file://$MODULE_DIR$/src/vendor/php-mock/php-mock-integration" />
+          <root url="file://$MODULE_DIR$/src/vendor/php-mock/php-mock-mockery" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpdocumentor/reflection-common" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpdocumentor/reflection-docblock" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpdocumentor/type-resolver" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpspec/prophecy" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-code-coverage" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-file-iterator" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-text-template" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-timer" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-token-stream" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/phpunit" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/phpunit-mock-objects" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/code-unit-reverse-lookup" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/comparator" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/diff" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/environment" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/exporter" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/global-state" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/object-enumerator" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/object-reflector" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/recursion-context" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/resource-operations" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/version" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/css-selector" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/dom-crawler" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/event-dispatcher" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/filesystem" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/form" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/intl" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/options-resolver" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-intl-icu" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-mbstring" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/property-access" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/routing" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/translation" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/twig-bridge" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/yaml" />
+          <root url="file://$MODULE_DIR$/src/vendor/theseer/tokenizer" />
+          <root url="file://$MODULE_DIR$/src/vendor/twbs/bootstrap" />
+          <root url="file://$MODULE_DIR$/src/vendor/twig/extensions" />
+          <root url="file://$MODULE_DIR$/src/vendor/twig/twig" />
+          <root url="file://$MODULE_DIR$/src/vendor/umpirsky/twig-gettext-extractor" />
+          <root url="file://$MODULE_DIR$/src/vendor/webmozart/assert" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///Applications/MAMP/htdocs/wordpress" />
+          <root url="file://$APPLICATION_HOME_DIR$/bin" />
+          <root url="file://$MODULE_DIR$/src/vendor/composer" />
+          <root url="file://$MODULE_DIR$/src/vendor/doctrine/instantiator" />
+          <root url="file://$MODULE_DIR$/src/vendor/hamcrest/hamcrest-php" />
+          <root url="file://$MODULE_DIR$/src/vendor/mockery/mockery" />
+          <root url="file://$MODULE_DIR$/src/vendor/myclabs/deep-copy" />
+          <root url="file://$MODULE_DIR$/src/vendor/phar-io/manifest" />
+          <root url="file://$MODULE_DIR$/src/vendor/phar-io/version" />
+          <root url="file://$MODULE_DIR$/src/vendor/phing/phing" />
+          <root url="file://$MODULE_DIR$/src/vendor/php-mock/php-mock" />
+          <root url="file://$MODULE_DIR$/src/vendor/php-mock/php-mock-integration" />
+          <root url="file://$MODULE_DIR$/src/vendor/php-mock/php-mock-mockery" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpdocumentor/reflection-common" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpdocumentor/reflection-docblock" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpdocumentor/type-resolver" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpspec/prophecy" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-code-coverage" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-file-iterator" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-text-template" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-timer" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/php-token-stream" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/phpunit" />
+          <root url="file://$MODULE_DIR$/src/vendor/phpunit/phpunit-mock-objects" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/code-unit-reverse-lookup" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/comparator" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/diff" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/environment" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/exporter" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/global-state" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/object-enumerator" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/object-reflector" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/recursion-context" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/resource-operations" />
+          <root url="file://$MODULE_DIR$/src/vendor/sebastian/version" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/css-selector" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/dom-crawler" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/event-dispatcher" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/filesystem" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/form" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/intl" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/options-resolver" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-intl-icu" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/polyfill-mbstring" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/property-access" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/routing" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/translation" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/twig-bridge" />
+          <root url="file://$MODULE_DIR$/src/vendor/symfony/yaml" />
+          <root url="file://$MODULE_DIR$/src/vendor/theseer/tokenizer" />
+          <root url="file://$MODULE_DIR$/src/vendor/twbs/bootstrap" />
+          <root url="file://$MODULE_DIR$/src/vendor/twig/extensions" />
+          <root url="file://$MODULE_DIR$/src/vendor/twig/twig" />
+          <root url="file://$MODULE_DIR$/src/vendor/umpirsky/twig-gettext-extractor" />
+          <root url="file://$MODULE_DIR$/src/vendor/webmozart/assert" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHARS">
+        <CLASSES>
+          <root url="phar://$MODULE_DIR$/composer.phar/" />
+          <root url="phar://$MODULE_DIR$/src/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar/" />
+          <root url="phar://$MODULE_DIR$/src/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar/" />
+          <root url="phar://$MODULE_DIR$/src/vendor/phar-io/manifest/tests/_fixture/test.phar/" />
+        </CLASSES>
+        <SOURCES>
+          <root url="phar://$MODULE_DIR$/composer.phar/" />
+          <root url="phar://$MODULE_DIR$/src/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar/" />
+          <root url="phar://$MODULE_DIR$/src/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar/" />
+          <root url="phar://$MODULE_DIR$/src/vendor/phar-io/manifest/tests/_fixture/test.phar/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
