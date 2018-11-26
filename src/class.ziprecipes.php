@@ -869,9 +869,10 @@ class ZipRecipes {
      */
     public static function zrdn_recipe_install()
     {
-        global $wpdb;
+        global $wpdb, $wp_version;
 
         Util::log("In zrdn_recipe_install");
+
 
         // Setup gutenberg
 	    if (\is_plugin_active('gutenberg/gutenberg.php') || version_compare( $wp_version, '5.0', '>=' ) ) {
