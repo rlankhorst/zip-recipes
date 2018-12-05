@@ -301,6 +301,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'ingredients' => $this->format_text_to_array($item->ingredients),
             'instructions' => $this->format_text_to_array($item->instructions),
             'nutrition' => $this->format_nutrition_schema($item),
+	        'notes' => $this->notes
         );
         return $formatted;
     }
