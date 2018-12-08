@@ -28,7 +28,7 @@ class RecipeBlock {
 	    wp_register_script(
 		    'recipe-block',
 		    ZRDN_PLUGIN_DIRECTORY_URL . $relativeScriptPath, // File.
-		    array( 'wp-components','wp-blocks', 'wp-i18n', 'wp-element', 'underscore' ), // Dependencies.
+		    array( 'wp-components','wp-blocks', 'wp-i18n', 'wp-compose', 'wp-editor', 'wp-data','wp-element', 'underscore' ), // Dependencies.
 		    filemtime( ZRDN_PLUGIN_DIRECTORY . $relativeScriptPath ) // filemtime — Gets file modification time.
 	    );
 
