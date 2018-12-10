@@ -119,18 +119,32 @@ const actions = {
         }
         ,
 
-        setPrepTime(prepTime) {
+        setPrepTimeHours(prepTimeHours) {
             return {
-                type: SET_PREP_TIME,
-                prepTime
+                type: SET_PREP_TIME_HOURS,
+                prepTimeHours
+            }
+        }
+        ,
+        setPrepTimeMinutes(prepTimeMinutes) {
+            return {
+                type: SET_PREP_TIME_MINUTES,
+                prepTimeMinutes
             }
         }
         ,
 
-        setCookTime(cookTime) {
+        setCookTimeHours(cookTimeHours) {
             return {
-                type: SET_COOK_TIME,
-                cookTime
+                type: SET_COOK_TIME_HOURS,
+                cookTimeHours
+            }
+        }
+        ,
+        setCookTimeMinutes(cookTimeMinutes) {
+            return {
+                type: SET_COOK_TIME_MINUTES,
+                cookTimeMinutes
             }
         }
         ,
@@ -286,14 +300,14 @@ registerStore('zip-recipes-store', {
                 }
                     ;
             case
-            SET_PREP_TIME:
+            SET_PREP_TIME_HOURS:
                 return {
                     ...state,
                     recipe:
                         {
                             ...
                                 state.recipe, prepTime:
-                            action.prepTime
+                            action.prepTimeHours
                         }
                 }
                     ;
