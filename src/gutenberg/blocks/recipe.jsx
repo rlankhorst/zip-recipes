@@ -88,6 +88,8 @@ const actions = {
             post_id
         };
 
+        actions.setTitle(title);
+
         return recipe;
     },
 
@@ -301,7 +303,7 @@ registerStore('zip-recipes-store', {
             const {id} = state.recipe;
             return id;
         },
-        getTitle(state) {
+        getTitle(state, id) {
             const {title} = state.recipe;
             return title;
         },
@@ -350,12 +352,12 @@ registerStore('zip-recipes-store', {
     },
 
     resolvers: {
-        * getTitle(state, id) {
+        * getTitle(id) {
             if (id) {
                 const path = `/zip-recipes/v1/recipe/${id}`;
                 const recipe = yield actions.fetchFromAPI(path);
                 if (recipe) {
-                    actions.setTitle(recipe.title)
+                    return actions.setTitle(recipe.title); // this must return
                 }
             }
         }
@@ -375,23 +377,10 @@ registerBlockType('zip-recipes/recipe-block', {
         __('Recipe'),
         __('Recipe Card'),
     ],
-    //
-    // attributes: {
-    //     multiples: false,
-    //     url: {
-    //         type: 'string',
-    //     }
-    // },
-
 
     attributes: {
         id: {
             type: 'string'
-        },
-        // Only purpose of lastUpdatedAt is to mark our state dirty. This happens when you update a property
-        // in your component in Gutenberg.
-        lastUpdatedAt: {
-            type: 'integer'
         }
     },
     reusable: false,
@@ -399,14 +388,25 @@ registerBlockType('zip-recipes/recipe-block', {
     edit: withDispatch((dispatch, ownProps) => {
         const {setRecipeSaving, setTitle, setId, saveRecipe} = dispatch('zip-recipes-store');
         const {getCurrentPost} = select('core/editor');
-        const {getTitle} = select('zip-recipes-store');
+        const {getTitle, getid} = select('zip-recipes-store');
 
         return {
             onTitleChange({target: {value}}) {
                 setTitle(value);
             },
-            async onSave(setAttributes, setState, {newRecipe=true, id}) {
-                if (newRecipe) {
+            async onSave(setAttributes, setState, id) {
+                if (id) {
+                    // update recipe
+                    try {
+                        await saveRecipe({id: id, title: getTitle()});
+                        setState({isOpen: false})
+                    }
+                    catch {
+                        // TODO: show this as an error somewhere
+                        console.log("Failed to update recipe id:", attributes.id);
+                    }
+                }
+                else {
                     // create new recipe
                     try {
                         let recipe = await saveRecipe({
@@ -414,7 +414,6 @@ registerBlockType('zip-recipes/recipe-block', {
                             title: getTitle(),
                             create: true
                         });
-                        console.log('recipe: L481: ', recipe);
                         setAttributes({
                             id: recipe.id
                         });
@@ -424,16 +423,6 @@ registerBlockType('zip-recipes/recipe-block', {
                     catch(e) {
                         // TODO: show this as an error somewhere
                         console.log("Failed to create new recipe:", e);
-                    }
-                }
-                else {
-                    // update recipe
-                    try {
-                        await saveRecipe({id: attributes.id, title: getTitle()});
-                    }
-                    catch {
-                        // TODO: show this as an error somewhere
-                        console.log("Failed to update recipe id:", attributes.id);
                     }
                 }
             }
@@ -454,12 +443,6 @@ registerBlockType('zip-recipes/recipe-block', {
             </components.Button>;
         };
 
-        const bindToSets = (func) => {
-            return function() {
-                func.call(null, setAttributes, setState, ...arguments);
-            }
-        };
-
         return (
             <div>
                 {attributes.id ?
@@ -469,6 +452,7 @@ registerBlockType('zip-recipes/recipe-block', {
                     <Button isDefault onClick={() => setState({isOpen: true})}>
                         Create Recipe
                     </Button>}
+
                 {isOpen ?
                     <Modal style={{width: '100%', height: '100%'}}
                            title="Create Recipe" // TODO: make this dynamic for "Edit bla bhalh recipe" and "Create Recipe"
@@ -507,9 +491,13 @@ registerBlockType('zip-recipes/recipe-block', {
                             </div>
                             {/* Title and image end --> */}
                         </div>
-                        <Button isPrimary isLarge onClick={bindToSets(onSave)}>Save Recipe</Button>
+                        <Button isPrimary isLarge onClick={onSave.bind(null, setAttributes, setState, attributes.id)}>
+                            {attributes.id ? "Update Recipe" : "Save Recipe"}
+                        </Button>
                     </Modal>
-                    : null}
+                    :
+                    <div>Title: {title}</div>
+                }
             </div>
         );
     }))),

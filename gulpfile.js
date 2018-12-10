@@ -473,6 +473,7 @@ gulp.task('gutenberg-webpack-dev', function () {
             .pipe(gulpWebpack({
                 mode: 'development',
                 watch: true,
+                devtool: 'source-map',
                 module: {
                     rules: [
                         {
