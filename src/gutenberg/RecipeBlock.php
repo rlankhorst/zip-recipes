@@ -25,12 +25,12 @@ class RecipeBlock {
 
 	    $relativeScriptPath = 'gutenberg/build/recipe.min.js';
 
-	    wp_register_script(
-		    'recipe-block',
-		    ZRDN_PLUGIN_DIRECTORY_URL . $relativeScriptPath, // File.
-		    array( 'wp-components','wp-blocks', 'wp-i18n', 'wp-compose', 'wp-editor', 'wp-data','wp-element', 'underscore' ), // Dependencies.
-		    filemtime( ZRDN_PLUGIN_DIRECTORY . $relativeScriptPath ) // filemtime — Gets file modification time.
-	    );
+    wp_register_script(
+	    'recipe-block',
+	    ZRDN_PLUGIN_DIRECTORY_URL . $relativeScriptPath, // File.
+	    array( 'wp-components','wp-blocks', 'wp-i18n', 'wp-compose', 'wp-editor', 'wp-data','wp-element', 'underscore' ), // Dependencies.
+	    filemtime( ZRDN_PLUGIN_DIRECTORY . $relativeScriptPath ) // filemtime — Gets file modification time.
+    );
 
 	    $relativeStylePath = 'gutenberg/assets/styles/bulma.css';
 	    wp_register_style(

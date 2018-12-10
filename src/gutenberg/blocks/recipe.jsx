@@ -12,18 +12,16 @@ let element = window.wp.element;
 let components = window.wp.components;
 let _ = window._;
 
-let el = element.createElement;
+const {RichText, PlainText, MediaUpload, InspectorControls, BlockControls, AlignmentToolbar} = editor;
 
-let RichText = editor.RichText;
-let PlainText = editor.PlainText;
-var MediaUpload = editor.MediaUpload;
-var Modal = editor.Modal;
-var Button = editor.Button;
-var InspectorControls = editor.InspectorControls;
+const {Button, Modal} = wp.components;
 
+var el = wp.element.createElement,
+    Fragment = wp.element.Fragment;
 
 const {data, apiFetch} = wp;
-const {registerStore, withSelect, withDispatch} = data;
+const {registerStore, withSelect, withDispatch, select} = data;
+
 
 const DEFAULT_STATE = {
     isDirty: false,
@@ -52,6 +50,7 @@ const RECIPE_REQUEST_SUCCESS = 'RECIPE_REQUEST_SUCCESS';
 const RECIPE_SAVE_REQUEST = 'RECIPE_SAVE_REQUEST';
 const RECIPE_SAVING = 'RECIPE_SAVING';
 const RECIPE_SAVE_SUCCESS = 'RECIPE_SAVE_SUCCESS';
+const SET_ID = 'SET_ID';
 const SET_TITLE = 'SET_TITLE';
 const SET_IMAGE_URL = 'SET_IMAGE_URL';
 const SET_DESCRIPTION = 'SET_DESCRIPTION';
@@ -80,12 +79,15 @@ const actions = {
         }
     },
 
-    * saveRecipe(id, title) {
+    * saveRecipe({id, post_id, title, create = false}) {
         const recipe = yield {
             type: RECIPE_SAVE_REQUEST,
             id,
-            title
+            title,
+            create,
+            post_id
         };
+
         return recipe;
     },
 
@@ -99,6 +101,13 @@ const actions = {
         return {
             type: RECIPE_SAVE_SUCCESS,
             recipe
+        };
+    },
+
+    setId(id) {
+        return {
+            type: SET_ID,
+            id
         };
     },
 
@@ -219,6 +228,11 @@ registerStore('zip-recipes-store', {
                     lastSavedAt: Date.now(),
                     isSaving: false
                 };
+            case SET_ID:
+                return {
+                    ...state,
+                    id: action.id
+                };
             case SET_TITLE:
                 return {
                     ...state,
@@ -283,11 +297,10 @@ registerStore('zip-recipes-store', {
     actions,
 
     selectors: {
-        getTitle(state) {
-            const {recipe} = state;
-            return recipe;
+        getId(state) {
+            const {id} = state.recipe;
+            return id;
         },
-
         getTitle(state) {
             const {title} = state.recipe;
             return title;
@@ -300,13 +313,25 @@ registerStore('zip-recipes-store', {
 
     controls: {
         RECIPE_SAVE_REQUEST(action) {
-            let recipe = apiFetch({
-                path: `/zip-recipes/v1/recipe/${action.id}`, method: 'POST', data: {
-                    title: action.title
-                }
-            });
+            let recipe = {};
+            if (action.create && action.title && action.post_id) {
+                recipe = apiFetch({
+                    path: `/zip-recipes/v1/recipe`, method: 'POST', data: {
+                        title: action.title,
+                        post_id: action.post_id
+                    }
+                });
+            }
+            else if (action.id) {
+                recipe = apiFetch({
+                    path: `/zip-recipes/v1/recipe/${action.id}`, method: 'POST', data: {
+                        title: action.title
+                    }
+                });
+            }
 
             return recipe;
+
         },
 
         POST_TO_API(action) {
@@ -326,9 +351,13 @@ registerStore('zip-recipes-store', {
 
     resolvers: {
         * getTitle(state, id) {
-            const path = '/zip-recipes/v1/recipe/2';
-            const recipe = yield actions.fetchFromAPI(path);
-            return actions.setTitle(recipe.title)
+            if (id) {
+                const path = `/zip-recipes/v1/recipe/${id}`;
+                const recipe = yield actions.fetchFromAPI(path);
+                if (recipe) {
+                    actions.setTitle(recipe.title)
+                }
+            }
         }
     }
 });
@@ -368,76 +397,122 @@ registerBlockType('zip-recipes/recipe-block', {
     reusable: false,
     multiple: false,
     edit: withDispatch((dispatch, ownProps) => {
-        const {saveRecipe, saveRecipeSuccess, setRecipeSaving, setTitle} = dispatch('zip-recipes-store');
+        const {setRecipeSaving, setTitle, setId, saveRecipe} = dispatch('zip-recipes-store');
+        const {getCurrentPost} = select('core/editor');
+        const {getTitle} = select('zip-recipes-store');
 
         return {
-            onTitleChange(setAttributes, {target: {value}}) {
+            onTitleChange({target: {value}}) {
                 setTitle(value);
-                setAttributes({lastUpdatedAt: Date.now()});
-                // setRecipeSaving();
-                // const recipe = await saveRecipe(2, value);
-                // saveRecipeSuccess(recipe);
+            },
+            async onSave(setAttributes, setState, {newRecipe=true, id}) {
+                if (newRecipe) {
+                    // create new recipe
+                    try {
+                        let recipe = await saveRecipe({
+                            post_id: getCurrentPost().id,
+                            title: getTitle(),
+                            create: true
+                        });
+                        console.log('recipe: L481: ', recipe);
+                        setAttributes({
+                            id: recipe.id
+                        });
+                        setState({isOpen: false})
+
+                    }
+                    catch(e) {
+                        // TODO: show this as an error somewhere
+                        console.log("Failed to create new recipe:", e);
+                    }
+                }
+                else {
+                    // update recipe
+                    try {
+                        await saveRecipe({id: attributes.id, title: getTitle()});
+                    }
+                    catch {
+                        // TODO: show this as an error somewhere
+                        console.log("Failed to update recipe id:", attributes.id);
+                    }
+                }
             }
         };
-    })(withSelect((select, ownProps) => {
-        const {getTitle, getIsSaving} = select('zip-recipes-store');
+    })(withSelect((select, props) => {
+        const {getTitle, getId} = select('zip-recipes-store');
 
         return {
-            title: getTitle(),
-            isSaving: getIsSaving()
+            id: getId(),
+            title: getTitle(props.attributes.id)
         };
-    })(({attributes, setAttributes, onTitleChange, isSaving, title, setState, className}) => {
+    })(withState({
+        isOpen: false
+    })(({attributes, setAttributes, onTitleChange, isOpen, onSave, title, setState, className}) => {
         let uploadButton = (obj) => {
             return <components.Button>
                 Hello
             </components.Button>;
         };
 
-
-        const markDirtyAndPass = (handler) => {
-            // for some reason this cannot be a function of () => {}
-            // handler doesn't get executed properly, it seems. For example, for title change, title doesn't change
-            // at all if you make this change.
+        const bindToSets = (func) => {
             return function() {
-                handler.call(null, setAttributes, ...arguments);
+                func.call(null, setAttributes, setState, ...arguments);
             }
         };
 
-        const saving = isSaving ? "Saving..." : '';
-
-        return (<div className={className}>
-            {/* Title and image start --> */}
-            <div className="zrdn-columns zrdn-is-mobile">
-                {saving}
-                <div className="zrdn-column zrdn-is-three-quarters-tablet zrdn-is-two-thirds-mobile">
-                    <div className="zrdn-field">
-                        <div className="zrdn-control" id="title-container">
-                            <input id="recipe-title" name='recipe_title' className="zrdn-input zrdn-is-size-3"
-                                   type="text" value={title} onChange={markDirtyAndPass(onTitleChange)}
-                                   placeholder={i18n.__('Recipe Title…', 'gutenberg-examples')}/>
+        return (
+            <div>
+                {attributes.id ?
+                    <Button isDefault onClick={() => setState({isOpen: true})}>
+                        Edit Recipe
+                    </Button> :
+                    <Button isDefault onClick={() => setState({isOpen: true})}>
+                        Create Recipe
+                    </Button>}
+                {isOpen ?
+                    <Modal style={{width: '100%', height: '100%'}}
+                           title="Create Recipe" // TODO: make this dynamic for "Edit bla bhalh recipe" and "Create Recipe"
+                           onRequestClose={() => setState({isOpen: false})}>
+                        <div className={className}>
+                            {/* Title and image start --> */}
+                            <div className="zrdn-columns zrdn-is-mobile">
+                                <div
+                                    className="zrdn-column zrdn-is-three-quarters-tablet zrdn-is-two-thirds-mobile">
+                                    <div className="zrdn-field">
+                                        <div className="zrdn-control" id="title-container">
+                                            <input id="recipe-title" name='recipe_title'
+                                                   className="zrdn-input zrdn-is-size-3"
+                                                   type="text" value={title}
+                                                   onChange={onTitleChange}
+                                                   placeholder={i18n.__('Recipe Title…', 'gutenberg-examples')}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="zrdn-column">
+                                    <label className="zrdn-label">Image</label>
+                                    {uploadButton}
+                                    {/*/!* {% if is_featured_post_image %} TODO: fix this *!/*/}
+                                    {/*<input type='hidden' id="recipe_image" name='recipe_image' value=''/>*/}
+                                    {/*/!*{% else %} *!/*/}
+                                    {/*/!*<input type='hidden' id="recipe_image" name='recipe_image' value=''/>*!/*/}
+                                    {/*/!*{% endif %}*!/*/}
+                                    {/*<div id="upload-recipe-image-button-container">*/}
+                                    {/*<a className="zrdn-button zrdn-is-small" id="upload-btn" href="#">Add Image</a>*/}
+                                    {/*</div>*/}
+                                    {/*<div id="recipe-image-preview-container" style={{"display": "none"}}>*/}
+                                    {/*<img id="recipe-image-preview" src="" style={{"display": "block"}}/>*/}
+                                    {/*<a href="">Remove Image</a>*/}
+                                    {/*</div>*/}
+                                </div>
+                            </div>
+                            {/* Title and image end --> */}
                         </div>
-                    </div>
-                </div>
-                <div className="zrdn-column">
-                    <label className="zrdn-label">Image</label>
-                    {uploadButton}
-                    {/*/!* {% if is_featured_post_image %} TODO: fix this *!/*/}
-                    {/*<input type='hidden' id="recipe_image" name='recipe_image' value=''/>*/}
-                    {/*/!*{% else %} *!/*/}
-                    {/*/!*<input type='hidden' id="recipe_image" name='recipe_image' value=''/>*!/*/}
-                    {/*/!*{% endif %}*!/*/}
-                    {/*<div id="upload-recipe-image-button-container">*/}
-                    {/*<a className="zrdn-button zrdn-is-small" id="upload-btn" href="#">Add Image</a>*/}
-                    {/*</div>*/}
-                    {/*<div id="recipe-image-preview-container" style={{"display": "none"}}>*/}
-                    {/*<img id="recipe-image-preview" src="" style={{"display": "block"}}/>*/}
-                    {/*<a href="">Remove Image</a>*/}
-                    {/*</div>*/}
-                </div>
+                        <Button isPrimary isLarge onClick={bindToSets(onSave)}>Save Recipe</Button>
+                    </Modal>
+                    : null}
             </div>
-            {/* Title and image end --> */}
-        </div>);
-    })),
+        );
+    }))),
     // edit: withState({
     //     title: '',
     //     loading: false
@@ -959,11 +1034,8 @@ registerBlockType('zip-recipes/recipe-block', {
     //     return <a className={className} href={post.link}>{post.title.rendered}</a>;
     // } ),
 
-    save: async function (attributes) {
-        console.log("in Save L 941");
-        const { getTitle }  = wp.data.select('zip-recipes-store');
-        let actions = wp.data.dispatch('zip-recipes-store');
-        await actions.saveRecipe(2, getTitle());
+    save: function (props) {
+        return null;
     },
 
     //
