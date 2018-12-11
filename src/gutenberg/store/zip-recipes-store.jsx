@@ -15,6 +15,7 @@ const DEFAULT_STATE = {
     cuisine: '',
     ingredients: '',
     instructions: '',
+    notes: '',
     nutrition: {
       calories: '',
       carbs: '',
@@ -27,7 +28,6 @@ const DEFAULT_STATE = {
       trans_fat: '',
       cholesterol: '',
     },
-    notes: '',
   },
   isFetching: false,
   isSaving: false,
@@ -81,11 +81,10 @@ const actions = {
   },
 
   *saveRecipe({create = false, recipe}) {
-    console.log("save recipe action L84 recipe:", recipe);
     const newRecipe = yield {
       type: RECIPE_SAVE_REQUEST,
       create,
-      recipe: {...recipe}
+      recipe: {...recipe},
     };
 
     // IS this even needed?
@@ -93,7 +92,7 @@ const actions = {
     //     actions.setTitle (newRecipe.title);
     // }
 
-    return recipe;
+    return newRecipe;
   },
 
   setRecipeSaving () {
@@ -502,6 +501,15 @@ registerStore ('zip-recipes-store', {
       const {category} = state.recipe;
       return category;
     },
+    getCuisine (state) {
+      const {cuisine} = state.recipe;
+      return cuisine;
+    },
+    getDescription (state) {
+      const {description} = state.recipe;
+      return description;
+    },
+
     getId (state) {
       const {id} = state.recipe;
       return id;
@@ -509,6 +517,10 @@ registerStore ('zip-recipes-store', {
     getTitle (state) {
       const {title} = state.recipe;
       return title;
+    },
+    getNotes(state) {
+      const {notes} = state.recipe;
+      return notes;
     },
     getIsSaving (state) {
       const {isSaving} = state;

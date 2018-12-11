@@ -71,7 +71,7 @@
 
             return el(
                 'div',
-                { className: className, href: post.link }, ,
+                { className: className, href: post.link },
                 post.title.rendered
             );
         } ),
