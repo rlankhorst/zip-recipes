@@ -55,12 +55,12 @@ registerBlockType ('zip-recipes/recipe-block', {
       setCategory,
       setCuisine,
       setDescription,
-      setPrepTimeHours,
-      setPrepTimeMinutes,
-      setCookTimeHours,
-      setCookTimeMinutes,
+      //   setPrepTimeHours,
+      //   setPrepTimeMinutes,
+      //   setCookTimeHours,
+      //   setCookTimeMinutes,
       setNotes,
-      setServingSize,
+      setServings,
       setCalories,
       setCarbs,
       setProtein,
@@ -74,7 +74,7 @@ registerBlockType ('zip-recipes/recipe-block', {
       saveRecipe,
     } = dispatch ('zip-recipes-store');
     const {getCurrentPost} = select ('core/editor');
-    const {getTitle, getid} = select ('zip-recipes-store');
+    const {getTitle, getCategory} = select ('zip-recipes-store');
 
     return {
       onTitleChange({target: {value}}) {
@@ -95,9 +95,6 @@ registerBlockType ('zip-recipes/recipe-block', {
       onDescriptionChange({target: {value}}) {
         setDescription (value);
       },
-      onCuisineChange({target: {value}}) {
-        setCuisine (value);
-      },
       onPrepTimeHoursChange({target: {value}}) {
         setPrepTimeHours (value);
       },
@@ -113,8 +110,8 @@ registerBlockType ('zip-recipes/recipe-block', {
       onNotesChange({target: {value}}) {
         setNotes (value);
       },
-      onServingSizeChange({target: {value}}) {
-        setServingSize (value);
+      onServingsChange({target: {value}}) {
+        setServings (value);
       },
       onCaloriesChange({target: {value}}) {
         setCalories (value);
@@ -148,26 +145,37 @@ registerBlockType ('zip-recipes/recipe-block', {
       },
 
       async onSave (setAttributes, setState, id) {
+        const recipe = {
+          post_id: getCurrentPost ().id,
+          title: getTitle (),
+          category: getCategory(),
+        };
         if (id) {
           // update recipe
           try {
-            await saveRecipe ({id: id, title: getTitle ()});
+              console.log("updating recipe L 156");
+            await saveRecipe ({
+              recipe: {...recipe, id: id},
+            });
+
+            // close modal
             setState ({isOpen: false});
           } catch (e) {
             // TODO: show this as an error somewhere
-            console.log ('Failed to update recipe id:', attributes.id);
+            console.log ('Failed to update recipe id:', id, ". Error:", e);
           }
         } else {
           // create new recipe
           try {
             let recipe = await saveRecipe ({
-              post_id: getCurrentPost ().id,
-              title: getTitle (),
+                recipe: {...recipe, id: id},
               create: true,
             });
             setAttributes ({
               id: recipe.id,
             });
+
+            // close modal
             setState ({isOpen: false});
           } catch (e) {
             // TODO: show this as an error somewhere
@@ -178,657 +186,568 @@ registerBlockType ('zip-recipes/recipe-block', {
     };
   }) (
     withSelect ((select, props) => {
-      const {getTitle, getId} = select ('zip-recipes-store');
+      const {getRecipe, getTitle, getCategory, getId} = select (
+        'zip-recipes-store'
+      );
 
       return {
         id: getId (),
-        title: getTitle (props.attributes.id),
+        recipe: getRecipe (props.attributes.id),
+        title: getTitle (),
+        category: getCategory (),
       };
     }) (
       withState ({
         isOpen: false,
-      }) (
-        ({
-          attributes,
-          setAttributes,
-          onTitleChange,
-          isOpen,
-          onSave,
-          title,
-          setState,
-          className,
-        }) => {
-          let uploadButton = obj => {
-            return <components.Button>Hello</components.Button>;
-          };
+      }) (({attributes, setAttributes,
+        //actions
+        onTitleChange, onIngredientsChange, onInstructionsChange, onCategoryChange, onCuisineChange, onDescriptionChange, onPrepTimeHoursChange, onPrepTimeMinutesChange, onCookTimeHoursChange, onCookTimeMinutesChange, onNotesChange, onServingsChange, onCaloriesChange, onCarbsChange, onProteinChange, onFiberChange, onSugarChange, onSodiumChange, onFatChange, onSaturatedFatChange, onTransFatChange, onCholesterolChange,
+        // variables
+        isOpen, onSave, category, title, setState, className}) => {
+        let uploadButton = obj => {
+          return <components.Button>Hello</components.Button>;
+        };
 
-          return (
-            <div>
-              {attributes.id
-                ? <Button isDefault onClick={() => setState ({isOpen: true})}>
-                    Edit Recipe
-                  </Button>
-                : <Button isDefault onClick={() => setState ({isOpen: true})}>
-                    Create Recipe
-                  </Button>}
+        return (
+          <div>
+            {attributes.id
+              ? <Button isDefault onClick={() => setState ({isOpen: true})}>
+                  Edit Recipe
+                </Button>
+              : <Button isDefault onClick={() => setState ({isOpen: true})}>
+                  Create Recipe
+                </Button>}
 
-              {isOpen
-                ? <Modal
-                    style={{width: '100%', height: '100%'}}
-                    title={attributes.id ? `Edit ${title}` : 'Create Recipe'}
-                    onRequestClose={() => setState ({isOpen: false})}
-                  >
-                    <div className={className}>
-                      {/* Title and image start --> */}
-                      <div className="zrdn-columns zrdn-is-mobile">
-                        <div className="zrdn-column zrdn-is-three-quarters-tablet zrdn-is-two-thirds-mobile">
-                          <div className="zrdn-field">
-                            <div className="zrdn-control" id="title-container">
-                              <input
-                                id="recipe-title"
-                                name="recipe_title"
-                                className="zrdn-input zrdn-is-size-3"
-                                type="text"
-                                value={title}
-                                onChange={onTitleChange}
-                                placeholder={i18n.__ (
-                                  'Recipe Title…',
-                                  'gutenberg-examples'
-                                )}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="zrdn-column">
-                          <label className="zrdn-label">Image</label>
-                          {uploadButton}
-                          {/*/!* {% if is_featured_post_image %} TODO: fix this *!/*/}
-                          {/*<input type='hidden' id="recipe_image" name='recipe_image' value=''/>*/}
-                          {/*/!*{% else %} *!/*/}
-                          {/*/!*<input type='hidden' id="recipe_image" name='recipe_image' value=''/>*!/*/}
-                          {/*/!*{% endif %}*!/*/}
-                          {/*<div id="upload-recipe-image-button-container">*/}
-                          {/*<a className="zrdn-button zrdn-is-small" id="upload-btn" href="#">Add Image</a>*/}
-                          {/*</div>*/}
-                          {/*<div id="recipe-image-preview-container" style={{"display": "none"}}>*/}
-                          {/*<img id="recipe-image-preview" src="" style={{"display": "block"}}/>*/}
-                          {/*<a href="">Remove Image</a>*/}
-                          {/*</div>*/}
-                        </div>
-                      </div>
-                      {/* Title and image end --> */}
-                    </div>
-                    <div id="ingredients-container" className="zrdn-field">
-                      <label className="zrdn-label" htmlFor="ingredients">
-                        Ingredients
-                      </label>
-                      <p className="zrdn-help">
-                        Put each ingredient on a separate line. There is no need
-                        to use bullets for your ingredients.
-                        <br />
-                        You can also create labels, hyperlinks, bold/italic
-                        effects and even add images!
-                        <br />
-                        <a
-                          href="https://www.ziprecipes.net/docs/installing/"
-                          target="_blank"
-                        >
-                          Learn how here
-                        </a>
-                      </p>
-                      <div className="zrdn-control">
-                        <textarea
-                          className="zrdn-textarea clean-on-paste"
-                          name="ingredients"
-                          onChange={function (event) {
-                            props.setAttributes ({
-                              ingredients: event.target.value,
-                            });
-                          }}
-                          id="ingredients"
-                        >
-                          {attributes.ingredients}
-                        </textarea>
-                      </div>
-                    </div>
-
-                    <div className="zrdn-field">
-                      <label className="zrdn-label" htmlFor="instructions">
-                        Instructions
-                      </label>
-                      <p className="zrdn-help">
-                        Press return after each instruction. There is no need to
-                        number your instructions.
-                        <br />
-                        You can also create labels, hyperlinks, bold/italic
-                        effects and even add images!
-                        <br />
-                        <a
-                          href="https://www.ziprecipes.net/docs/installing/"
-                          target="_blank"
-                        >
-                          Learn how here
-                        </a>
-                      </p>
-                      <div className="zrdn-control">
-                        <textarea
-                          className="zrdn-textarea clean-on-paste"
-                          id="instructions"
-                          onChange={function (event) {
-                            props.setAttributes ({
-                              instructions: event.target.value,
-                            });
-                          }}
-                          name="instructions"
-                        >
-                          {attributes.instructions}
-                        </textarea>
-                      </div>
-                    </div>
-
+            {isOpen
+              ? <Modal
+                  style={{width: '100%', height: '100%'}}
+                  title={attributes.id ? `Edit ${title}` : 'Create Recipe'}
+                  onRequestClose={() => setState ({isOpen: false})}
+                >
+                  <div className={className}>
+                    {/* Title and image start --> */}
                     <div className="zrdn-columns zrdn-is-mobile">
-                      <div className="zrdn-column">
+                      <div className="zrdn-column zrdn-is-three-quarters-tablet zrdn-is-two-thirds-mobile">
                         <div className="zrdn-field">
-                          <label htmlFor="category" className="zrdn-label">
-                            Category
-                          </label>
+                          <div className="zrdn-control" id="title-container">
+                            <input
+                              id="recipe-title"
+                              name="recipe_title"
+                              className="zrdn-input zrdn-is-size-3"
+                              type="text"
+                              value={title}
+                              onChange={onTitleChange}
+                              placeholder={i18n.__ (
+                                'Recipe Title…',
+                                'gutenberg-examples'
+                              )}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="zrdn-column">
+                        <label className="zrdn-label">Image</label>
+                        {uploadButton}
+                        {/*/!* {% if is_featured_post_image %} TODO: fix this *!/*/}
+                        {/*<input type='hidden' id="recipe_image" name='recipe_image' value=''/>*/}
+                        {/*/!*{% else %} *!/*/}
+                        {/*/!*<input type='hidden' id="recipe_image" name='recipe_image' value=''/>*!/*/}
+                        {/*/!*{% endif %}*!/*/}
+                        {/*<div id="upload-recipe-image-button-container">*/}
+                        {/*<a className="zrdn-button zrdn-is-small" id="upload-btn" href="#">Add Image</a>*/}
+                        {/*</div>*/}
+                        {/*<div id="recipe-image-preview-container" style={{"display": "none"}}>*/}
+                        {/*<img id="recipe-image-preview" src="" style={{"display": "block"}}/>*/}
+                        {/*<a href="">Remove Image</a>*/}
+                        {/*</div>*/}
+                      </div>
+                    </div>
+                    {/* Title and image end --> */}
+                  </div>
+                  <div id="ingredients-container" className="zrdn-field">
+                    <label className="zrdn-label" htmlFor="ingredients">
+                      Ingredients
+                    </label>
+                    <p className="zrdn-help">
+                      Put each ingredient on a separate line. There is no need
+                      to use bullets for your ingredients.
+                      <br />
+                      You can also create labels, hyperlinks, bold/italic
+                      effects and even add images!
+                      <br />
+                      <a
+                        href="https://www.ziprecipes.net/docs/installing/"
+                        target="_blank"
+                      >
+                        Learn how here
+                      </a>
+                    </p>
+                    <div className="zrdn-control">
+                      <textarea
+                        className="zrdn-textarea clean-on-paste"
+                        name="ingredients"
+                        onChange={onIngredientsChange}
+                        id="ingredients"
+                      >
+                        {attributes.ingredients}
+                      </textarea>
+                    </div>
+                  </div>
+
+                  <div className="zrdn-field">
+                    <label className="zrdn-label" htmlFor="instructions">
+                      Instructions
+                    </label>
+                    <p className="zrdn-help">
+                      Press return after each instruction. There is no need to
+                      number your instructions.
+                      <br />
+                      You can also create labels, hyperlinks, bold/italic
+                      effects and even add images!
+                      <br />
+                      <a
+                        href="https://www.ziprecipes.net/docs/installing/"
+                        target="_blank"
+                      >
+                        Learn how here
+                      </a>
+                    </p>
+                    <div className="zrdn-control">
+                      <textarea
+                        className="zrdn-textarea clean-on-paste"
+                        id="instructions"
+                        onChange={onInstructionsChange}
+                        name="instructions"
+                      >
+                        {attributes.instructions}
+                      </textarea>
+                    </div>
+                  </div>
+
+                  <div className="zrdn-columns zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field">
+                        <label htmlFor="category" className="zrdn-label">
+                          Category
+                        </label>
+                        <div className="zrdn-control">
+                          <input
+                            className="zrdn-input zrdn-is-small"
+                            id="category"
+                            onChange={onCategoryChange}
+                            placeholder="e.g. appetizer, entree, etc."
+                            type="text"
+                            name="category"
+                            value={category}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field">
+                        <label htmlFor="cuisine" className="zrdn-label">
+                          Cuisine
+                        </label>
+                        <div className="zrdn-control">
+                          <input
+                            className="zrdn-input zrdn-is-small"
+                            placeholder="e.g. French, Ethiopian, etc."
+                            onChange={onCuisineChange}
+                            type="text"
+                            id="cuisine"
+                            name="cuisine"
+                            value={attributes.cuisine}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="zrdn-field">
+                    <label className="zrdn-label" htmlFor="summary">
+                      Description
+                    </label>
+                    <div className="zrdn-control">
+                      <textarea
+                        className="zrdn-textarea"
+                        id="summary"
+                        name="summary"
+                        onChange={onDescriptionChange}
+                        data-caption="true"
+                      >
+                        {attributes.description}
+                      </textarea>
+                    </div>
+                  </div>
+
+                  <div className="zrdn-columns zrdn-is-tablet">
+                    <div className="zrdn-column">
+                      <label htmlFor="prep_hours" className="zrdn-label">
+                        Prep Time
+                      </label>
+                      <div className="zrdn-field zrdn-is-grouped">
+                        <div>
+                          <input
+                            className="zrdn-input zrdn-is-small"
+                            type="number"
+                            min="0"
+                            id="prep_hours"
+                            name="prep_time_hours"
+                            value={attributes.prepTimeHours}
+                          />
+                          hours
+                        </div>
+                        <div>
+                          <input
+                            className="zrdn-input zrdn-is-small"
+                            type="number"
+                            min="0"
+                            id="prep_minutes"
+                            name="prep_time_minutes"
+                            value={attributes.prepTimeMinutes}
+                          />
+                          minutes
+                        </div>
+                      </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <label htmlFor="cook_hours" className="zrdn-label">
+                        Cook Time
+                      </label>
+                      <div className="zrdn-field zrdn-is-grouped">
+                        <div>
+                          <input
+                            className="zrdn-input zrdn-is-small"
+                            type="number"
+                            min="0"
+                            id="cook_hours"
+                            name="cook_time_hours"
+                            value={attributes.cookTimeHours}
+                          />
+                          hours
+                        </div>
+                        <div>
+                          <input
+                            className="zrdn-input zrdn-is-small"
+                            type="number"
+                            min="0"
+                            id="cook_minutes"
+                            name="cook_time_minutes"
+                            value={attributes.cookTimeMinutes}
+                          />
+                          minutes
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="zrdn-field">
+                    <label className="zrdn-label" htmlFor="notes">
+                      Notes
+                    </label>
+                    <div className="zrdn-control">
+                      <textarea
+                        className="zrdn-textarea"
+                        id="notes"
+                        name="notes"
+                        onChange={onNotesChange}
+                      >
+                        {attributes.notes}
+                      </textarea>
+                    </div>
+                  </div>
+                  <div className="zrdn-field">
+                    <label className="zrdn-label" htmlFor="serving_size">
+                      Serving Size
+                    </label>
+                    <div className="zrdn-control">
+                      <input
+                        className="zrdn-input zrdn-is-small"
+                        id="serving_size"
+                        type="text"
+                        onChange={onServingsChange}
+                        name="serving_size"
+                        value={attributes.servingSize}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label">
+                        <label className="zrdn-label" htmlFor="calories">
+                          Calories
+                        </label>
+                      </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
                           <div className="zrdn-control">
                             <input
                               className="zrdn-input zrdn-is-small"
-                              id="category"
-                              onChange={function (event) {
-                                props.setAttributes ({
-                                  category: event.target.value,
-                                });
-                              }}
-                              placeholder="e.g. appetizer, entree, etc."
                               type="text"
-                              name="category"
-                              value={attributes.category}
+                              id="calories"
+                              name="calories"
+                              onChange={onCaloriesChange}
+                              value={attributes.calories}
                             />
                           </div>
                         </div>
                       </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field">
-                          <label htmlFor="cuisine" className="zrdn-label">
-                            Cuisine
-                          </label>
+                    </div>
+                  </div>
+
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label">
+                        <label className="zrdn-label" htmlFor="carbs">
+                          Carbs
+                        </label>
+                      </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
                           <div className="zrdn-control">
                             <input
                               className="zrdn-input zrdn-is-small"
-                              placeholder="e.g. French, Ethiopian, etc."
-                              onChange={function (event) {
-                                props.setAttributes ({
-                                  cuisine: event.target.value,
-                                });
-                              }}
                               type="text"
-                              id="cuisine"
-                              name="cuisine"
-                              value={attributes.cuisine}
+                              id="carbs"
+                              name="carbs"
+                              onChange={onCarbsChange}
+                              value={attributes.carbs}
                             />
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="zrdn-field">
-                      <label className="zrdn-label" htmlFor="summary">
-                        Description
-                      </label>
-                      <div className="zrdn-control">
-                        <textarea
-                          className="zrdn-textarea"
-                          id="summary"
-                          name="summary"
-                          onChange={function (event) {
-                            props.setAttributes ({
-                              description: event.target.value,
-                            });
-                          }}
-                          data-caption="true"
-                        >
-                          {attributes.description}
-                        </textarea>
-                      </div>
-                    </div>
-
-                    <div className="zrdn-columns zrdn-is-tablet">
-                      <div className="zrdn-column">
-                        <label htmlFor="prep_hours" className="zrdn-label">
-                          Prep Time
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label">
+                        <label className="zrdn-label" htmlFor="protein">
+                          Protein
                         </label>
-                        <div className="zrdn-field zrdn-is-grouped">
-                          <div>
+                      </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
+                          <div className="zrdn-control">
                             <input
                               className="zrdn-input zrdn-is-small"
-                              type="number"
-                              min="0"
-                              id="prep_hours"
-                              onChange={function (event) {
-                                props.setAttributes ({
-                                  prepTimeHours: event.target.value,
-                                });
-                              }}
-                              name="prep_time_hours"
-                              value={attributes.prepTimeHours}
+                              type="text"
+                              id="protein"
+                              name="protein"
+                              onChange={onProteinChange}
+                              value={attributes.protein}
                             />
-                            hours
-                          </div>
-                          <div>
-                            <input
-                              className="zrdn-input zrdn-is-small"
-                              type="number"
-                              min="0"
-                              id="prep_minutes"
-                              onChange={function (event) {
-                                props.setAttributes ({
-                                  prepTimeMinutes: event.target.value,
-                                });
-                              }}
-                              name="prep_time_minutes"
-                              value={attributes.prepTimeMinutes}
-                            />
-                            minutes
                           </div>
                         </div>
                       </div>
-                      <div className="zrdn-column">
-                        <label htmlFor="cook_hours" className="zrdn-label">
-                          Cook Time
+                    </div>
+                  </div>
+
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label">
+                        <label className="zrdn-label" htmlFor="fiber">
+                          Fiber
                         </label>
-                        <div className="zrdn-field zrdn-is-grouped">
-                          <div>
+                      </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
+                          <div className="zrdn-control">
                             <input
                               className="zrdn-input zrdn-is-small"
-                              type="number"
-                              min="0"
-                              id="cook_hours"
-                              onChange={function (event) {
-                                props.setAttributes ({
-                                  cookTimeHours: event.target.value,
-                                });
-                              }}
-                              name="cook_time_hours"
-                              value={attributes.cookTimeHours}
+                              type="text"
+                              id="fiber"
+                              name="fiber"
+                              onChange={onFiberChange}
+                              value={attributes.fiber}
                             />
-                            hours
                           </div>
-                          <div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label">
+                        <label className="zrdn-label" htmlFor="sugar">
+                          Sugar
+                        </label>
+                      </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
+                          <div className="zrdn-control">
                             <input
                               className="zrdn-input zrdn-is-small"
-                              type="number"
-                              min="0"
-                              id="cook_minutes"
-                              onChange={function (event) {
-                                props.setAttributes ({
-                                  cookTimeMinutes: event.target.value,
-                                });
-                              }}
-                              name="cook_time_minutes"
-                              value={attributes.cookTimeMinutes}
+                              type="text"
+                              id="sugar"
+                              name="sugar"
+                              onChange={onSugarChange}
+                              value={attributes.sugar}
                             />
-                            minutes
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="zrdn-field">
-                      <label className="zrdn-label" htmlFor="notes">
-                        Notes
-                      </label>
-                      <div className="zrdn-control">
-                        <textarea
-                          className="zrdn-textarea"
-                          id="notes"
-                          name="notes"
-                          onChange={function (event) {
-                            props.setAttributes ({notes: event.target.value});
-                          }}
-                        >
-                          {attributes.notes}
-                        </textarea>
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label">
+                        <label className="zrdn-label" htmlFor="sodium">
+                          Sodium
+                        </label>
                       </div>
                     </div>
-                    <div className="zrdn-field">
-                      <label className="zrdn-label" htmlFor="serving_size">
-                        Serving Size
-                      </label>
-                      <div className="zrdn-control">
-                        <input
-                          className="zrdn-input zrdn-is-small"
-                          id="serving_size"
-                          type="text"
-                          onChange={function (event) {
-                            props.setAttributes ({
-                              servingSize: event.target.value,
-                            });
-                          }}
-                          name="serving_size"
-                          value={attributes.servingSize}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label">
-                          <label className="zrdn-label" htmlFor="calories">
-                            Calories
-                          </label>
-                        </div>
-                      </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="calories"
-                                name="calories"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    calories: event.target.value,
-                                  });
-                                }}
-                                value={attributes.calories}
-                              />
-                            </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
+                          <div className="zrdn-control">
+                            <input
+                              className="zrdn-input zrdn-is-small"
+                              type="text"
+                              id="sodium"
+                              name="sodium"
+                              onChange={onSodiumChange}
+                              value={attributes.sodium}
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label">
-                          <label className="zrdn-label" htmlFor="carbs">
-                            Carbs
-                          </label>
-                        </div>
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label">
+                        <label className="zrdn-label" htmlFor="fat">
+                          Fat
+                        </label>
                       </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="carbs"
-                                name="carbs"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    carbs: event.target.value,
-                                  });
-                                }}
-                                value={attributes.carbs}
-                              />
-                            </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
+                          <div className="zrdn-control">
+                            <input
+                              className="zrdn-input zrdn-is-small"
+                              type="text"
+                              id="fat"
+                              name="fat"
+                              onChange={onFatChange}
+                              value={attributes.fat}
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label">
-                          <label className="zrdn-label" htmlFor="protein">
-                            Protein
-                          </label>
-                        </div>
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label zrdn-is-left">
+                        <label className="zrdn-label" htmlFor="saturated_fat">
+                          Saturated Fat
+                        </label>
                       </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="protein"
-                                name="protein"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    protein: event.target.value,
-                                  });
-                                }}
-                                value={attributes.protein}
-                              />
-                            </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
+                          <div className="zrdn-control">
+                            <input
+                              className="zrdn-input zrdn-is-small"
+                              type="text"
+                              id="saturated_fat"
+                              onChange={onSaturatedFatChange}
+                              name="saturated_fat"
+                              value={attributes.saturatedFat}
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label">
-                          <label className="zrdn-label" htmlFor="fiber">
-                            Fiber
-                          </label>
-                        </div>
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label zrdn-is-left">
+                        <label className="zrdn-label" htmlFor="trans_fat">
+                          Trans. Fat
+                        </label>
                       </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="fiber"
-                                name="fiber"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    fiber: event.target.value,
-                                  });
-                                }}
-                                value={attributes.fiber}
-                              />
-                            </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
+                          <div className="zrdn-control">
+                            <input
+                              className="zrdn-input zrdn-is-small"
+                              type="text"
+                              id="trans_fat"
+                              onChange={onTransFatChange}
+                              name="trans_fat"
+                              value={attributes.transFat}
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label">
-                          <label className="zrdn-label" htmlFor="sugar">
-                            Sugar
-                          </label>
-                        </div>
+                  <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-label zrdn-is-left">
+                        <label className="zrdn-label" htmlFor="cholesterol">
+                          Cholesterol
+                        </label>
                       </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="sugar"
-                                name="sugar"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    sugar: event.target.value,
-                                  });
-                                }}
-                                value={attributes.sugar}
-                              />
-                            </div>
+                    </div>
+                    <div className="zrdn-column">
+                      <div className="zrdn-field-body">
+                        <div className="zrdn-field zrdn-is-narrow">
+                          <div className="zrdn-control">
+                            <input
+                              className="zrdn-input zrdn-is-small"
+                              type="text"
+                              id="cholesterol"
+                              onChange={onCholesterolChange}
+                              name="cholesterol"
+                              value={attributes.cholesterol}
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
-
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label">
-                          <label className="zrdn-label" htmlFor="sodium">
-                            Sodium
-                          </label>
-                        </div>
-                      </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="sodium"
-                                name="sodium"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    sodium: event.target.value,
-                                  });
-                                }}
-                                value={attributes.sodium}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label">
-                          <label className="zrdn-label" htmlFor="fat">
-                            Fat
-                          </label>
-                        </div>
-                      </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="fat"
-                                name="fat"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    fat: event.target.value,
-                                  });
-                                }}
-                                value={attributes.fat}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label zrdn-is-left">
-                          <label className="zrdn-label" htmlFor="saturated_fat">
-                            Saturated Fat
-                          </label>
-                        </div>
-                      </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="saturated_fat"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    saturatedFat: event.target.value,
-                                  });
-                                }}
-                                name="saturated_fat"
-                                value={attributes.saturatedFat}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label zrdn-is-left">
-                          <label className="zrdn-label" htmlFor="trans_fat">
-                            Trans. Fat
-                          </label>
-                        </div>
-                      </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="trans_fat"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    transFat: event.target.value,
-                                  });
-                                }}
-                                name="trans_fat"
-                                value={attributes.transFat}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="zrdn-columns zrdn-is-gapless zrdn-is-mobile">
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-label zrdn-is-left">
-                          <label className="zrdn-label" htmlFor="cholesterol">
-                            Cholesterol
-                          </label>
-                        </div>
-                      </div>
-                      <div className="zrdn-column">
-                        <div className="zrdn-field-body">
-                          <div className="zrdn-field zrdn-is-narrow">
-                            <div className="zrdn-control">
-                              <input
-                                className="zrdn-input zrdn-is-small"
-                                type="text"
-                                id="cholesterol"
-                                onChange={function (event) {
-                                  props.setAttributes ({
-                                    cholesterol: event.target.value,
-                                  });
-                                }}
-                                name="cholesterol"
-                                value={attributes.cholesterol}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <Button
-                      isPrimary
-                      isLarge
-                      onClick={onSave.bind (
-                        null,
-                        setAttributes,
-                        setState,
-                        attributes.id
-                      )}
-                    >
-                      {attributes.id ? 'Update Recipe' : 'Save Recipe'}
-                    </Button>
-                  </Modal>
-                : <div>Title: {title}</div>}
-            </div>
-          );
-        }
-      )
+                  </div>
+                  <Button
+                    isPrimary
+                    isLarge
+                    onClick={onSave.bind (
+                      null,
+                      setAttributes,
+                      setState,
+                      attributes.id
+                    )}
+                  >
+                    {attributes.id ? 'Update Recipe' : 'Save Recipe'}
+                  </Button>
+                </Modal>
+              : <div>Title: {title}</div>}
+          </div>
+        );
+      })
     )
   ),
   // edit: function (props) {

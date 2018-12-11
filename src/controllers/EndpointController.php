@@ -301,7 +301,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'ingredients' => $this->format_text_to_array($item->ingredients),
             'instructions' => $this->format_text_to_array($item->instructions),
             'nutrition' => $this->format_nutrition_schema($item),
-	        'notes' => $this->notes
+	        'notes' => $item->notes
         );
         return $formatted;
     }
@@ -315,16 +315,16 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
     public function get_nutrition_schema_map_list() {
         return array(
             'calories' => 'calories',
-            'carbohydrateContent' => 'carbs',
-            'cholesterolContent' => 'cholesterol',
-            'fatContent' => 'fat',
-            'fiberContent' => 'fiber',
-            'proteinContent' => 'protein',
-            'saturatedFatContent' => 'saturated_fat',
+            'carbs' => 'carbs',
+            'cholesterol' => 'cholesterol',
+            'fat' => 'fat',
+            'fiber' => 'fiber',
+            'protein' => 'protein',
+            'saturated_fat' => 'saturated_fat',
             'servingSize' => 'serving_size',
-            'sodiumContent' => 'sodium',
-            'sugarContent' => 'sugar',
-            'transFatContent' => 'trans_fat',
+            'sodium' => 'sodium',
+            'sugar' => 'sugar',
+            'trans_fat' => 'trans_fat',
         );
     }
 
