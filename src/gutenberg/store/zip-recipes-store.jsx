@@ -35,6 +35,13 @@ const DEFAULT_STATE = {
   },
   isFetching: false,
   isSaving: false,
+  settings: {
+    wp_version: null,
+    blog_url: null,
+    registered: true,
+    registration_endpoint: '',
+  },
+  isRegistering: false,
 };
 
 const RECIPE_REQUEST = 'RECIPE_REQUEST';
@@ -70,21 +77,48 @@ const SET_FAT = 'SET_FAT';
 const SET_SATURATED_FAT = 'SET_SATURATED_FAT';
 const SET_TRANS_FAT = 'SET_TRANS_FAT';
 const SET_CHOLESTEROL = 'SET_CHOLESTEROL';
+const FETCH_SETTINGS = 'FETCH_SETTINGS';
+const FETCH_FROM_API = 'FETCH_FROM_API';
+const SET_SETTINGS = 'SET_SETTINGS';
+const REGISTER_REQUEST = 'REGISTER_REQUEST';
+const REGISTER_REQUEST_SUCCESS = 'REGISTER_REQUEST_SUCCESS';
+const REGISTER_SEND = 'REGISTER_SEND';
+const REGISTER_SEND_BACKEND = 'REGISTER_SEND_BACKEND';
 
 // These are action creators, actually
 const actions = {
   requestRecipe () {
     return {
-      type: RECIPE_REQUEST
+      type: RECIPE_REQUEST,
     };
   },
 
   requestRecipeSuccess (recipe) {
     return {
-      type: RECIPE_REQUEST_SUCCESS
+      type: RECIPE_REQUEST_SUCCESS,
     };
   },
 
+  *setRegisteredBackend (firstName, lastName, email) {
+    yield {
+      type: REGISTER_SEND_BACKEND,
+      firstName,
+      lastName,
+      email,
+    };
+  },
+
+  *register (endpoint, firstName, lastName, email,wpVersion, blogUrl) {
+    yield {
+      type: REGISTER_SEND,
+      endpoint,
+      firstName,
+      lastName,
+      email,
+      wpVersion,
+      blogUrl
+    };
+  },
   *saveRecipe({create = false, recipe}) {
     const newRecipe = yield {
       type: SEND_RECIPE,
@@ -129,7 +163,7 @@ const actions = {
       title,
     };
   },
-  setTitleFromPostTitle(postTitle) {
+  setTitleFromPostTitle (postTitle) {
     return {
       type: SET_TITLE,
       title: postTitle,
@@ -281,8 +315,30 @@ const actions = {
   },
   fetchFromAPI (path) {
     return {
-      type: 'FETCH_FROM_API',
+      type: FETCH_FROM_API,
       path,
+    };
+  },
+  fetchSettings (path) {
+    return {
+      type: FETCH_SETTINGS,
+      path,
+    };
+  },
+  setSettings (settings) {
+    return {
+      type: SET_SETTINGS,
+      settings,
+    };
+  },
+  setIsRegistering () {
+    return {
+      type: REGISTER_REQUEST,
+    };
+  },
+  setIsRegisteringSuccess () {
+    return {
+      type: REGISTER_REQUEST_SUCCESS,
     };
   },
 };
@@ -290,6 +346,20 @@ const actions = {
 registerStore ('zip-recipes-store', {
   reducer (state = DEFAULT_STATE, action) {
     switch (action.type) {
+      case REGISTER_REQUEST:
+        return {
+          ...state,
+          isRegistering: true,
+        };
+      case REGISTER_REQUEST_SUCCESS:
+        return {
+          ...state,
+          isRegistering: false,
+          settings: {
+            ...state.settings,
+            registered: true,
+          },
+        };
       case RECIPE_REQUEST:
         return {
           ...state,
@@ -298,7 +368,7 @@ registerStore ('zip-recipes-store', {
       case RECIPE_REQUEST_SUCCESS:
         return {
           ...state,
-          isFetching: false
+          isFetching: false,
         };
       case RECIPE_SAVING:
         return {
@@ -564,6 +634,11 @@ registerStore ('zip-recipes-store', {
             },
           },
         };
+      case SET_SETTINGS:
+        return {
+          ...state,
+          settings: action.settings,
+        };
     }
 
     return state;
@@ -685,13 +760,55 @@ registerStore ('zip-recipes-store', {
       const {isSaving} = state;
       return isSaving;
     },
-    getIsFetching(state) {
+    getIsFetching (state) {
       const {isFetching} = state;
       return isFetching;
-    }
+    },
+    getSettings (state) {
+      const {settings} = state;
+      return settings;
+    },
+    getIsRegistering (state) {
+      const {isRegistering} = state;
+      return isRegistering;
+    },
   },
 
   controls: {
+    REGISTER_SEND_BACKEND (action) {
+      return apiFetch ({
+        path: '/zip-recipes/v1/register',
+        method: 'POST',
+        data: {
+          first_name: action.firstName,
+          last_name: action.lastName,
+          email: action.email
+        },
+      });
+    },
+
+    REGISTER_SEND (action) {
+      const params = {
+        first_name: action.firstName,
+        last_name: action.lastName,
+        email: action.email,
+        wp_version: action.wpVersion,
+        blog_url: action.blogUrl
+      };
+      const formBody = Object.keys(params).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key])).join('&');
+
+      return window.fetch (action.endpoint, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          // 'Content-Type': 'application/json',
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        body: formBody, // body data type must match "Content-Type" header
+      });
+    },
     SEND_RECIPE (action) {
       let newRecipe = null;
       if (action.create && action.recipe.title && action.recipe.post_id) {
@@ -732,18 +849,27 @@ registerStore ('zip-recipes-store', {
 
     FETCH_FROM_API (action) {
       let recipe = apiFetch ({path: action.path});
-      recipe.title += Date.now ();
       return recipe;
+    },
+    FETCH_SETTINGS (action) {
+      let settings = apiFetch ({path: action.path});
+      return settings;
     },
   },
 
   resolvers: {
+    *getSettings () {
+      const path = '/zip-recipes/v1/settings';
+      const settings = yield actions.fetchSettings (path);
+      yield actions.setSettings (settings);
+    },
+
     *getRecipe (id) {
       if (id) {
         const path = `/zip-recipes/v1/recipe/${id}`;
-        yield actions.requestRecipe();
+        yield actions.requestRecipe ();
         const recipe = yield actions.fetchFromAPI (path);
-        yield actions.requestRecipeSuccess();
+        yield actions.requestRecipeSuccess ();
         yield actions.setTitle (recipe.title);
         yield actions.setImageUrl (recipe.image_url);
         yield actions.setIsFeaturedPostImage (recipe.is_featured_post_image);

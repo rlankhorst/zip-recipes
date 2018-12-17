@@ -96,6 +96,25 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             ),
         ));
 
+	    register_rest_route($this->namespace, '/settings', array(
+		    array(
+			    'methods' => WP_REST_Server::READABLE,
+			    'callback' => array($this, 'get_settings'),
+			    'permission_callback' => array($this, 'is_logged_in_check'),
+			    'args' => array(),
+		    ),
+	    ));
+
+	    register_rest_route($this->namespace, '/register', array(
+		    array(
+			    'methods' => WP_REST_Server::CREATABLE,
+			    'callback' => array($this, 'create_registration'),
+			    'permission_callback' => array($this, 'is_logged_in_check'),
+			    'args' => $this->get_endpoint_args_for_item_schema(true),
+			    'accept_json' => true,
+		    ),
+	    ));
+
         // end routes functions    
     }
 
@@ -107,6 +126,27 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      */
     public function get_recipes(WP_REST_Request $request) {
         return ZRDN_REST_Response::error(__('Not Implemented Yet.', 'zip-recipes'),WP_Http::NOT_IMPLEMENTED);
+    }
+
+    public function get_settings(WP_REST_Request $request) {
+	    global $wp_version;
+	    return ZRDN_REST_Response::success(array(
+	    	'wp_version' => $wp_version,
+		    'blog_url' => get_bloginfo('wpurl'),
+	    	'registered' => !!get_option('zrdn_registered', false),
+		    'registration_endpoint' => ZRDN_API_URL . "/installation/register/"
+	    ));
+    }
+
+    public function create_registration(WP_REST_Request $request) {
+	    $parameters = $request->get_params();
+	    $first_name = Util::get_array_value('first_name', $parameters);
+	    $last_name = Util::get_array_value('last_name', $parameters);
+	    $email = Util::get_array_value('email', $parameters);
+
+	    if ($first_name && $last_name && $email) {
+		    update_option('zrdn_registered', true);
+	    }
     }
 
     /**

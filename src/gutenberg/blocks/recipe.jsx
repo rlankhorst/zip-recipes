@@ -55,6 +55,12 @@ registerBlockType ('zip-recipes/recipe-block', {
     const noticeActions = dispatch ('core/notices');
 
     return {
+      async onRegister (endpoint, firstName, lastName, email, wpVersion, blogUrl) {
+        creators.setIsRegistering ();
+        await creators.register(endpoint, firstName, lastName, email, wpVersion, blogUrl)
+        await creators.setRegisteredBackend(firstName, lastName, email)
+        creators.setIsRegisteringSuccess();
+      },
       setInitialTitle () {
         creators.setTitleFromPostTitle (getCurrentPost ().title);
       },
@@ -296,12 +302,17 @@ registerBlockType ('zip-recipes/recipe-block', {
         cholesterol: store.getCholesterol (),
         isSaving: store.getIsSaving (),
         isFetching: store.getIsFetching (),
+        settings: store.getSettings (),
+        isRegistering: store.getIsRegistering (),
       };
     }) (
       withState ({
         isOpen: false,
+        firstName: '',
+        lastName: '',
+        email: '',
       }) (props => {
-        const renderImageAndTitle = (editable = false) => {
+        const renderTitleAndImage = (editable = false) => {
           return (
             <div className={props.className}>
               {/* Title and image start --> */}
@@ -326,7 +337,7 @@ registerBlockType ('zip-recipes/recipe-block', {
                             onChange={props.onTitleChange}
                             placeholder={i18n.__ (
                               'Recipe Title…',
-                              'gutenberg-examples'
+                              'zip-recipes'
                             )}
                           />
                         : <h2>{props.title}</h2>}
@@ -932,13 +943,109 @@ registerBlockType ('zip-recipes/recipe-block', {
           </div>
         );
 
+        const renderRegister = () => (
+          <div
+            style={{
+              backgroundColor: 'rgb(246, 243, 251)',
+              padding: '20px',
+              marginBo: '20px',
+            }}
+          >
+            <h2>Register Zip Recipes Free</h2>
+            <small>
+              Please register your plugin so we can email you news about updates to Zip Recipes, including tips and tricks on how to use it.
+              Registering also helps us troubleshoot any problems you may encounter. When you register, we will
+              automatically receive your blog's web address, WordPress version, and names of installed plugins.
+            </small>
+            <div className="zrdn-columns zrdn-is-mobile">
+              <div className="zrdn-column">
+                <div className="zrdn-field">
+                  <label htmlFor="first-name" className="zrdn-label">
+                    First name
+                  </label>
+                  <div className="zrdn-control">
+                    <input
+                      className="zrdn-input zrdn-is-small"
+                      id="first-name"
+                      onChange={({target: {value}}) =>
+                        props.setState ({firstName: value})}
+                      type="text"
+                      name="first-name"
+                      value={props.firstName}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="zrdn-column">
+                <div className="zrdn-field">
+                  <label htmlFor="last-name" className="zrdn-label">
+                    Last name
+                  </label>
+                  <div className="zrdn-control">
+                    <input
+                      className="zrdn-input zrdn-is-small"
+                      onChange={({target: {value}}) =>
+                        props.setState ({lastName: value})}
+                      type="text"
+                      id="last-name"
+                      name="last-name"
+                      value={props.lastName}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="zrdn-columns zrdn-is-mobile">
+
+              <div className="zrdn-column">
+                <div className="zrdn-field">
+                  <label htmlFor="recipe-title" class="zrdn-label">
+                    Email
+                  </label>
+                  <div className="zrdn-control" id="title-container">
+                    <input
+                      id="recipe-title"
+                      name="recipe-title"
+                      className="zrdn-input"
+                      type="email"
+                      value={props.email}
+                      onChange={({target: {value}}) =>
+                        props.setState ({email: value})}
+                    />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div className="zrdn-columns zrdn-is-mobile zrdn-is-pulled-right zrdn-is-clearfix">
+              <Button
+                isPrimary
+                isBusy={props.isRegistering}
+                onClick={props.onRegister.bind (
+                  null,
+                  props.settings.registration_endpoint,
+                  props.firstName,
+                  props.lastName,
+                  props.email,
+                  props.settings.wp_version,
+                  props.settings.blog_url
+                )}
+              >
+                Register
+              </Button>
+            </div>
+          </div>
+        );
+
         return (
           <div>
+            {props.settings.registered ? '' : renderRegister ()}
             {props.attributes.id
               ? <Button
                   isPrimary
                   isLarge
                   isBusy={props.isFetching}
+                  disabled={props.isFetching}
                   onClick={
                     props.isFetching
                       ? () => {}
@@ -958,7 +1065,7 @@ registerBlockType ('zip-recipes/recipe-block', {
                 </Button>}
             {!props.isFetching && props.attributes.id
               ? <div>
-                  {renderImageAndTitle ()}
+                  {renderTitleAndImage ()}
                   {renderIngredients ()}
                   {renderInstructions ()}
                   {renderCategoryAndCuisine ()}
@@ -994,7 +1101,7 @@ registerBlockType ('zip-recipes/recipe-block', {
                   isDismissable={false}
                   onRequestClose={() => props.setState ({isOpen: false})}
                 >
-                  {renderImageAndTitle (true)}
+                  {renderTitleAndImage (true)}
                   {renderIngredients (true)}
                   {renderInstructions (true)}
                   {renderCategoryAndCuisine (true)}
