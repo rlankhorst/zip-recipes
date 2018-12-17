@@ -22,7 +22,7 @@ const {
   AlignmentToolbar,
 } = editor;
 
-const {Button, Modal, Spinner} = wp.components;
+const {Button, Modal} = wp.components;
 
 var el = wp.element.createElement, Fragment = wp.element.Fragment;
 
@@ -52,6 +52,7 @@ registerBlockType ('zip-recipes/recipe-block', {
     const creators = dispatch ('zip-recipes-store');
     const {getCurrentPost} = select ('core/editor');
     const store = select ('zip-recipes-store');
+    const noticeActions = dispatch ('core/notices');
 
     return {
       setInitialTitle () {
@@ -68,7 +69,10 @@ registerBlockType ('zip-recipes/recipe-block', {
           try {
             await creators.saveImage (id, url);
           } catch (e) {
-            // TODO: show this as an error somewhere
+            noticeActions.createErrorNotice (
+              `Failed to set image on recipe recipe id: ${id}`
+            );
+
             console.log (
               'Failed to set image on recipe recipe id:',
               id,
@@ -77,7 +81,11 @@ registerBlockType ('zip-recipes/recipe-block', {
             );
           }
         } else {
-          // TODO: raise an exception and/or notification here
+          noticeActions.createErrorNotice (
+            `No recipe id present. Did you save the recipe?`
+          );
+
+          console.log ('Image saved on a recipe that has no id yet.');
         }
       },
       onIngredientsChange({target: {value}}) {
@@ -224,7 +232,9 @@ registerBlockType ('zip-recipes/recipe-block', {
             // close modal
             setState ({isOpen: false});
           } catch (e) {
-            // TODO: show this as an error somewhere
+            noticeActions.createErrorNotice (
+              `Failed to update recipe id: ${id}`
+            );
             console.log ('Failed to update recipe id:', id, '. Error:', e);
           }
         } else {
@@ -244,7 +254,7 @@ registerBlockType ('zip-recipes/recipe-block', {
             // close modal
             setState ({isOpen: false});
           } catch (e) {
-            // TODO: show this as an error somewhere
+            noticeActions.createErrorNotice (`Failed to create recipe`);
             console.log ('Failed to create new recipe:', e);
           }
         }
@@ -513,16 +523,17 @@ registerBlockType ('zip-recipes/recipe-block', {
               Description
             </label>
             <div className="zrdn-control">
-            {editable ?
-              <textarea
-                className="zrdn-textarea"
-                id="summary"
-                name="summary"
-                disabled={!editable}
-                onChange={props.onDescriptionChange}
-                data-caption="true"
-                value={props.description}
-              /> : props.description }
+              {editable
+                ? <textarea
+                    className="zrdn-textarea"
+                    id="summary"
+                    name="summary"
+                    disabled={!editable}
+                    onChange={props.onDescriptionChange}
+                    data-caption="true"
+                    value={props.description}
+                  />
+                : props.description}
             </div>
           </div>
         );
@@ -532,69 +543,75 @@ registerBlockType ('zip-recipes/recipe-block', {
               <label htmlFor="prep_hours" className="zrdn-label">
                 Prep Time
               </label>
-              {editable ?
-              <div className="zrdn-field zrdn-is-grouped">
-                <div>
-                  <input
-                    className="zrdn-input zrdn-is-small"
-                    type="number"
-                    min="0"
-                    disabled={!editable}
-                    id="prep_hours"
-                    onChange={props.onPrepTimeHoursChange}
-                    name="prep_time_hours"
-                    value={props.prepTimeHours}
-                  />
-                  hours
-                </div>
-                <div>
-                  <input
-                    className="zrdn-input zrdn-is-small"
-                    type="number"
-                    min="0"
-                    disabled={!editable}
-                    id="prep_minutes"
-                    onChange={props.onPrepTimeMinutesChange}
-                    name="prep_time_minutes"
-                    value={props.prepTimeMinutes}
-                  />
-                  minutes
-                </div>
-              </div> : <div className="zrdn-control">{props.prepTimeHours}:{props.prepTimeMinutes}</div> }
-            </div> 
+              {editable
+                ? <div className="zrdn-field zrdn-is-grouped">
+                    <div>
+                      <input
+                        className="zrdn-input zrdn-is-small"
+                        type="number"
+                        min="0"
+                        disabled={!editable}
+                        id="prep_hours"
+                        onChange={props.onPrepTimeHoursChange}
+                        name="prep_time_hours"
+                        value={props.prepTimeHours}
+                      />
+                      hours
+                    </div>
+                    <div>
+                      <input
+                        className="zrdn-input zrdn-is-small"
+                        type="number"
+                        min="0"
+                        disabled={!editable}
+                        id="prep_minutes"
+                        onChange={props.onPrepTimeMinutesChange}
+                        name="prep_time_minutes"
+                        value={props.prepTimeMinutes}
+                      />
+                      minutes
+                    </div>
+                  </div>
+                : <div className="zrdn-control">
+                    {props.prepTimeHours}:{props.prepTimeMinutes}
+                  </div>}
+            </div>
             <div className="zrdn-column">
               <label htmlFor="cook_hours" className="zrdn-label">
                 Cook Time
               </label>
-              {editable ?
-              <div className="zrdn-field zrdn-is-grouped">
-                <div>
-                  <input
-                    className="zrdn-input zrdn-is-small"
-                    type="number"
-                    min="0"
-                    disabled={!editable}
-                    onChange={props.onCookTimeHoursChange}
-                    id="cook_hours"
-                    name="cook_time_hours"
-                    value={props.cookTimeHours}
-                  />
-                  hours
-                </div>
-                <div>
-                  <input
-                    className="zrdn-input zrdn-is-small"
-                    type="number"
-                    min="0"
-                    disabled={!editable}
-                    id="cook_minutes"
-                    onChange={props.onCookTimeMinutesChange}
-                    name="cook_time_minutes"
-                    value={props.cookTimeMinutes}
-                  />
-                  minutes
-                </div>
-              </div> : <div className="zrdn-control">{props.cookTimeHours}:{props.cookTimeMinutes}</div>}
+              {editable
+                ? <div className="zrdn-field zrdn-is-grouped">
+                    <div>
+                      <input
+                        className="zrdn-input zrdn-is-small"
+                        type="number"
+                        min="0"
+                        disabled={!editable}
+                        onChange={props.onCookTimeHoursChange}
+                        id="cook_hours"
+                        name="cook_time_hours"
+                        value={props.cookTimeHours}
+                      />
+                      hours
+                    </div>
+                    <div>
+                      <input
+                        className="zrdn-input zrdn-is-small"
+                        type="number"
+                        min="0"
+                        disabled={!editable}
+                        id="cook_minutes"
+                        onChange={props.onCookTimeMinutesChange}
+                        name="cook_time_minutes"
+                        value={props.cookTimeMinutes}
+                      />
+                      minutes
+                    </div>
+                  </div>
+                : <div className="zrdn-control">
+                    {props.cookTimeHours}:{props.cookTimeMinutes}
+                  </div>}
             </div>
           </div>
         );
@@ -604,15 +621,16 @@ registerBlockType ('zip-recipes/recipe-block', {
               Notes
             </label>
             <div className="zrdn-control">
-            {editable ?
-              <textarea
-                className="zrdn-textarea"
-                id="notes"
-                disabled={!editable}
-                name="notes"
-                onChange={props.onNotesChange}
-                value={props.notes}
-              /> : props.notes }
+              {editable
+                ? <textarea
+                    className="zrdn-textarea"
+                    id="notes"
+                    disabled={!editable}
+                    name="notes"
+                    onChange={props.onNotesChange}
+                    value={props.notes}
+                  />
+                : props.notes}
             </div>
           </div>
         );
@@ -626,16 +644,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    id="servings"
-                    disabled={!editable}
-                    type="text"
-                    onChange={props.onServingsChange}
-                    value={props.servings}
-                    name="servings"
-                  /> : props.servings }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        id="servings"
+                        disabled={!editable}
+                        type="text"
+                        onChange={props.onServingsChange}
+                        value={props.servings}
+                        name="servings"
+                      />
+                    : props.servings}
                 </div>
               </div>
             </div>
@@ -651,15 +670,16 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    id="serving_size"
-                    type="text"
-                    onChange={props.onServingSizeChange}
-                    value={props.servingSize}
-                    name="serving_size"
-                  /> : props.servingSize }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        id="serving_size"
+                        type="text"
+                        onChange={props.onServingSizeChange}
+                        value={props.servingSize}
+                        name="serving_size"
+                      />
+                    : props.servingSize}
                 </div>
               </div>
             </div>
@@ -673,16 +693,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    disabled={!editable}
-                    id="calories"
-                    name="calories"
-                    onChange={props.onCaloriesChange}
-                    value={props.calories}
-                  /> : props.calories }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        disabled={!editable}
+                        id="calories"
+                        name="calories"
+                        onChange={props.onCaloriesChange}
+                        value={props.calories}
+                      />
+                    : props.calories}
                 </div>
               </div>
             </div>
@@ -696,16 +717,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    id="carbs"
-                    disabled={!editable}
-                    name="carbs"
-                    onChange={props.onCarbsChange}
-                    value={props.carbs}
-                  /> : props.carbs }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        id="carbs"
+                        disabled={!editable}
+                        name="carbs"
+                        onChange={props.onCarbsChange}
+                        value={props.carbs}
+                      />
+                    : props.carbs}
                 </div>
               </div>
             </div>
@@ -719,16 +741,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    id="protein"
-                    name="protein"
-                    disabled={!editable}
-                    onChange={props.onProteinChange}
-                    value={props.protein}
-                  /> : props.protein }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        id="protein"
+                        name="protein"
+                        disabled={!editable}
+                        onChange={props.onProteinChange}
+                        value={props.protein}
+                      />
+                    : props.protein}
                 </div>
               </div>
             </div>
@@ -742,16 +765,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    id="fiber"
-                    disabled={!editable}
-                    name="fiber"
-                    onChange={props.onFiberChange}
-                    value={props.fiber}
-                  /> : props.fiber }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        id="fiber"
+                        disabled={!editable}
+                        name="fiber"
+                        onChange={props.onFiberChange}
+                        value={props.fiber}
+                      />
+                    : props.fiber}
                 </div>
               </div>
             </div>
@@ -765,15 +789,16 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    id="sugar"
-                    name="sugar"
-                    onChange={props.onSugarChange}
-                    value={props.sugar}
-                  /> : props.sugar }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        id="sugar"
+                        name="sugar"
+                        onChange={props.onSugarChange}
+                        value={props.sugar}
+                      />
+                    : props.sugar}
                 </div>
               </div>
             </div>
@@ -787,16 +812,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    id="sodium"
-                    disabled={!editable}
-                    name="sodium"
-                    onChange={props.onSodiumChange}
-                    value={props.sodium}
-                  />: props.sodium }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        id="sodium"
+                        disabled={!editable}
+                        name="sodium"
+                        onChange={props.onSodiumChange}
+                        value={props.sodium}
+                      />
+                    : props.sodium}
                 </div>
               </div>
             </div>
@@ -810,16 +836,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    id="fat"
-                    name="fat"
-                    disabled={!editable}
-                    onChange={props.onFatChange}
-                    value={props.fat}
-                  /> : props.fat}
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        id="fat"
+                        name="fat"
+                        disabled={!editable}
+                        onChange={props.onFatChange}
+                        value={props.fat}
+                      />
+                    : props.fat}
                 </div>
               </div>
             </div>
@@ -835,16 +862,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    id="saturated_fat"
-                    disabled={!editable}
-                    name="saturated_fat"
-                    onChange={props.onSaturatedFatChange}
-                    value={props.saturatedFat}
-                  /> : props.saturatedFat }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        id="saturated_fat"
+                        disabled={!editable}
+                        name="saturated_fat"
+                        onChange={props.onSaturatedFatChange}
+                        value={props.saturatedFat}
+                      />
+                    : props.saturatedFat}
                 </div>
               </div>
             </div>
@@ -861,16 +889,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    disabled={!editable}
-                    id="trans_fat"
-                    name="trans_fat"
-                    onChange={props.onTransFatChange}
-                    value={props.transFat}
-                  /> : props.transFat }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        disabled={!editable}
+                        id="trans_fat"
+                        name="trans_fat"
+                        onChange={props.onTransFatChange}
+                        value={props.transFat}
+                      />
+                    : props.transFat}
                 </div>
               </div>
             </div>
@@ -886,16 +915,17 @@ registerBlockType ('zip-recipes/recipe-block', {
             <div class="zrdn-field-body">
               <div class="zrdn-field zrdn-is-narrow">
                 <div class="zrdn-control">
-                {editable ? 
-                  <input
-                    class="zrdn-input zrdn-is-small"
-                    type="text"
-                    id="cholesterol"
-                    disabled={!editable}
-                    name="cholesterol"
-                    onChange={props.onCholesterolChange}
-                    value={props.cholesterol}
-                  /> : props.cholesterol }
+                  {editable
+                    ? <input
+                        class="zrdn-input zrdn-is-small"
+                        type="text"
+                        id="cholesterol"
+                        disabled={!editable}
+                        name="cholesterol"
+                        onChange={props.onCholesterolChange}
+                        value={props.cholesterol}
+                      />
+                    : props.cholesterol}
                 </div>
               </div>
             </div>
