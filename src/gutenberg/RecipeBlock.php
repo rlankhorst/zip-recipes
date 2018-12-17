@@ -68,10 +68,14 @@ class RecipeBlock {
 	}
 
 	function block_renderer( $atts ) {
-		$id = $atts['id'];
-
-		$recipe = RecipeModel::db_select($id);
-		return ZipRecipes::zrdn_format_recipe($recipe);
+		if (key_exists('id', $atts)) {
+			$id = $atts['id'];
+			$recipe = RecipeModel::db_select($id);
+			return ZipRecipes::zrdn_format_recipe($recipe);
+		}
+		else {
+			return "Issue with recipe creation. Please contact Zip Recipes support";
+		}
 	}
 
 }

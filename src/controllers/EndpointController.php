@@ -218,15 +218,19 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         if(Util::get_array_value('description', $parameters)) {
             $sanitize['summary'] = Util::get_array_value('description', $parameters);
         }
-        if(Util::get_array_value('prep_time', $parameters)) {
-            $sanitize['prep_time'] = Util::get_array_value('prep_time', $parameters);
+	    if(Util::get_array_value('notes', $parameters)) {
+		    $sanitize['notes'] = Util::get_array_value('notes', $parameters);
+	    }
+	    $sanitize['prep_time'] = Util::timeToISO8601(Util::get_array_value('prep_time_hours', $parameters),
+		    Util::get_array_value('prep_time_minutes', $parameters));
+	    $sanitize['cook_time'] = Util::timeToISO8601(Util::get_array_value('cook_time_hours', $parameters),
+		    Util::get_array_value('cook_time_minutes', $parameters));
+        if(Util::get_array_value('servings', $parameters)) {
+            $sanitize['yield'] = Util::get_array_value('servings', $parameters);
         }
-        if(Util::get_array_value('cook_time', $parameters)) {
-            $sanitize['cook_time'] = Util::get_array_value('cook_time', $parameters);
-        }
-        if(Util::get_array_value('yield', $parameters)) {
-            $sanitize['yield'] = Util::get_array_value('yield', $parameters);
-        }
+	    if(Util::get_array_value('serving_size', $parameters)) {
+		    $sanitize['serving_size'] = Util::get_array_value('serving_size', $parameters);
+	    }
         if(Util::get_array_value('category', $parameters)) {
             $sanitize['category'] = Util::get_array_value('category', $parameters);
         }
@@ -242,35 +246,32 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         if(Util::get_array_value('calories', $nutrition)) {
             $sanitize['calories'] = Util::get_array_value('calories', $nutrition);
         }
-        if(Util::get_array_value('carbohydrateContent', $nutrition)) {
-            $sanitize['carbs'] = Util::get_array_value('carbohydrateContent', $nutrition);
+        if(Util::get_array_value('carbs', $nutrition)) {
+            $sanitize['carbs'] = Util::get_array_value('carbs', $nutrition);
         }
-        if(Util::get_array_value('cholesterolContent', $nutrition)) {
-            $sanitize['cholesterol'] = Util::get_array_value('cholesterolContent', $nutrition);
+        if(Util::get_array_value('cholesterol', $nutrition)) {
+            $sanitize['cholesterol'] = Util::get_array_value('cholesterol', $nutrition);
         }
-        if(Util::get_array_value('fiberContent', $nutrition)) {
-            $sanitize['fiber'] = Util::get_array_value('fiberContent', $nutrition);
+        if(Util::get_array_value('fiber', $nutrition)) {
+            $sanitize['fiber'] = Util::get_array_value('fiber', $nutrition);
         }
-        if(Util::get_array_value('proteinContent', $nutrition)) {
-            $sanitize['protein'] = Util::get_array_value('proteinContent', $nutrition);
+        if(Util::get_array_value('protein', $nutrition)) {
+            $sanitize['protein'] = Util::get_array_value('protein', $nutrition);
         }
-        if(Util::get_array_value('fatContent', $nutrition)) {
-            $sanitize['fat'] = Util::get_array_value('fatContent', $nutrition);
+        if(Util::get_array_value('fat', $nutrition)) {
+            $sanitize['fat'] = Util::get_array_value('fat', $nutrition);
         }
-        if(Util::get_array_value('saturatedFatContent', $nutrition)) {
-            $sanitize['saturated_fat'] = Util::get_array_value('saturatedFatContent', $nutrition);
+        if(Util::get_array_value('saturated_fat', $nutrition)) {
+            $sanitize['saturated_fat'] = Util::get_array_value('saturated_fat', $nutrition);
         }
-        if(Util::get_array_value('servingSize', $nutrition)) {
-            $sanitize['serving_size'] = Util::get_array_value('servingSize', $nutrition);
+        if(Util::get_array_value('sodium', $nutrition)) {
+            $sanitize['sodium'] = Util::get_array_value('sodium', $nutrition);
         }
-        if(Util::get_array_value('sodiumContent', $nutrition)) {
-            $sanitize['sodium'] = Util::get_array_value('sodiumContent', $nutrition);
+        if(Util::get_array_value('sugar', $nutrition)) {
+            $sanitize['sugar'] = Util::get_array_value('sugar', $nutrition);
         }
-        if(Util::get_array_value('sugarContent', $nutrition)) {
-            $sanitize['sugar'] = Util::get_array_value('sugarContent', $nutrition);
-        }
-        if(Util::get_array_value('transFatContent', $nutrition)) {
-            $sanitize['trans_fat'] = Util::get_array_value('transFatContent', $nutrition);
+        if(Util::get_array_value('trans_fat', $nutrition)) {
+            $sanitize['trans_fat'] = Util::get_array_value('trans_fat', $nutrition);
         }
 
         return $sanitize;
@@ -292,17 +293,36 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'post_id' => $item->post_id,
             'title' => $item->recipe_title,
             'image_url' => $item->recipe_image,
+            'is_featured_post_image' => $item->is_featured_post_image,
             'description' => $item->summary,
-            'prep_time' => $item->prep_time,
-            'cook_time' => $item->cook_time,
-            'yield' => $item->yield,
+//            'prep_time' => $item->prep_time,
+//            'cook_time' => $item->cook_time,
+            'servings' => $item->yield,
             'category' => $item->category,
             'cuisine' => $item->cuisine,
             'ingredients' => $this->format_text_to_array($item->ingredients),
             'instructions' => $this->format_text_to_array($item->instructions),
             'nutrition' => $this->format_nutrition_schema($item),
-	        'notes' => $item->notes
+	        'notes' => $item->notes,
+	        'serving_size' => $item->serving_size
         );
+
+        if ($item->prep_time) {
+        	$prepHoursMinutesArray = Util::iso8601toHoursMinutes($item->prep_time);
+        	if ($prepHoursMinutesArray) {
+		        $formatted['prep_time_hours']   = $prepHoursMinutesArray[0];
+		        $formatted['prep_time_minutes'] = $prepHoursMinutesArray[1];
+	        }
+        }
+
+	    if ($item->cook_time) {
+		    $cookHoursMinutesArray = Util::iso8601toHoursMinutes($item->cook_time);
+		    if ($cookHoursMinutesArray) {
+			    $formatted['cook_time_hours']   = $cookHoursMinutesArray[0];
+			    $formatted['cook_time_minutes'] = $cookHoursMinutesArray[1];
+		    }
+	    }
+
         return $formatted;
     }
 
@@ -321,7 +341,6 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'fiber' => 'fiber',
             'protein' => 'protein',
             'saturated_fat' => 'saturated_fat',
-            'servingSize' => 'serving_size',
             'sodium' => 'sodium',
             'sugar' => 'sugar',
             'trans_fat' => 'trans_fat',

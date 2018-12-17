@@ -1299,33 +1299,16 @@ class ZipRecipes {
         global $wpdb;
         $recipe_id = Util::get_array_value("recipe_id", $post_info);
 
-	    $prep_time = '';
-        if (Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info) || Util::get_array_value("prep_time_seconds", $post_info)) {
-            $prep_time = 'P';
-            if (Util::get_array_value("prep_time_hours", $post_info) || Util::get_array_value("prep_time_minutes", $post_info)) {
-                $prep_time .= 'T';
-            }
-            if (Util::get_array_value("prep_time_hours", $post_info)) {
-                $prep_time .= Util::get_array_value("prep_time_hours", $post_info) . 'H';
-            }
-            if (Util::get_array_value("prep_time_minutes", $post_info)) {
-                $prep_time .= Util::get_array_value("prep_time_minutes", $post_info) . 'M';
-            }
-            }
+	    $prep_time = Util::timeToISO8601(
+	            Util::get_array_value("prep_time_hours", $post_info),
+                Util::get_array_value("prep_time_minutes", $post_info)
+        );
 
-	    $cook_time = '';
-        if (Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info)) {
-            $cook_time = 'P';
-            if (Util::get_array_value("cook_time_hours", $post_info) || Util::get_array_value("cook_time_minutes", $post_info)) {
-                $cook_time .= 'T';
-            }
-            if (Util::get_array_value("cook_time_hours", $post_info)) {
-                $cook_time .= Util::get_array_value("cook_time_hours", $post_info) . 'H';
-            }
-            if (Util::get_array_value("cook_time_minutes", $post_info)) {
-                $cook_time .= Util::get_array_value("cook_time_minutes", $post_info) . 'M';
-            }
-        }
+
+	    $cook_time = Util::timeToISO8601(
+		    Util::get_array_value("cook_time_hours", $post_info),
+		    Util::get_array_value("cook_time_minutes", $post_info)
+	    );
 
         // Build array to be sent to db query call
         $clean_fields = array(

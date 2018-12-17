@@ -7,14 +7,18 @@ const DEFAULT_STATE = {
     post_id: '',
     title: '',
     image_url: '',
+    is_featured_post_image: false,
     description: '',
-    prep_time: '',
-    cook_time: '',
-    yield: '',
+    prep_time_hours: '',
+    prep_time_minutes: '',
+    cook_time_hours: '',
+    cook_time_minutes: '',
+    servings: '',
+    serving_size: '',
     category: '',
     cuisine: '',
-    ingredients: '',
-    instructions: '',
+    ingredients: [],
+    instructions: [],
     notes: '',
     nutrition: {
       calories: '',
@@ -35,13 +39,15 @@ const DEFAULT_STATE = {
 
 const RECIPE_REQUEST = 'RECIPE_REQUEST';
 const RECIPE_REQUEST_SUCCESS = 'RECIPE_REQUEST_SUCCESS';
-const RECIPE_SAVE_REQUEST = 'RECIPE_SAVE_REQUEST';
+const SEND_RECIPE = 'SEND_RECIPE';
+const SAVE_IMAGE_REQUEST = 'SAVE_IMAGE_REQUEST';
 const RECIPE_SAVING = 'RECIPE_SAVING';
 const RECIPE_SAVE_SUCCESS = 'RECIPE_SAVE_SUCCESS';
 const SET_RECIPE = 'SET_RECIPE';
 const SET_ID = 'SET_ID';
 const SET_TITLE = 'SET_TITLE';
 const SET_IMAGE_URL = 'SET_IMAGE_URL';
+const SET_IS_FEATURED_POST_IMAGE = 'SET_IS_FEATURED_POST_IMAGE';
 const SET_DESCRIPTION = 'SET_DESCRIPTION';
 const SET_PREP_TIME_HOURS = 'SET_PREP_TIME_HOURS';
 const SET_PREP_TIME_MINUTES = 'SET_PREP_TIME_MINUTES';
@@ -53,6 +59,7 @@ const SET_INGREDIENTS = 'SET_INGREDIENTS';
 const SET_INSTRUCTIONS = 'SET_INSTRUCTIONS';
 const SET_NOTES = 'SET_NOTES';
 const SET_SERVINGS = 'SET_SERVINGS';
+const SET_SERVING_SIZE = 'SET_SERVING_SIZE';
 const SET_CALORIES = 'SET_CALORIES';
 const SET_CARBS = 'SET_CARBS';
 const SET_PROTEIN = 'SET_PROTEIN';
@@ -66,31 +73,35 @@ const SET_CHOLESTEROL = 'SET_CHOLESTEROL';
 
 // These are action creators, actually
 const actions = {
-  requestRecipe (id) {
+  requestRecipe () {
     return {
-      type: RECIPE_REQUEST,
-      id,
+      type: RECIPE_REQUEST
     };
   },
 
   requestRecipeSuccess (recipe) {
     return {
-      type: RECIPE_REQUEST_SUCCESS,
-      recipe,
+      type: RECIPE_REQUEST_SUCCESS
     };
   },
 
   *saveRecipe({create = false, recipe}) {
     const newRecipe = yield {
-      type: RECIPE_SAVE_REQUEST,
+      type: SEND_RECIPE,
       create,
       recipe: {...recipe},
     };
 
-    // IS this even needed?
-    // if (recipe.title) {
-    //     actions.setTitle (newRecipe.title);
-    // }
+    return newRecipe;
+  },
+  *saveImage (id, imageUrl) {
+    const newRecipe = yield {
+      type: SAVE_IMAGE_REQUEST,
+      recipe: {
+        id,
+        image_url: imageUrl,
+      },
+    };
 
     return newRecipe;
   },
@@ -118,10 +129,22 @@ const actions = {
       title,
     };
   },
+  setTitleFromPostTitle(postTitle) {
+    return {
+      type: SET_TITLE,
+      title: postTitle,
+    };
+  },
   setImageUrl (url) {
     return {
       type: SET_IMAGE_URL,
       url,
+    };
+  },
+  setIsFeaturedPostImage (isFeaturedPostImage) {
+    return {
+      type: SET_IS_FEATURED_POST_IMAGE,
+      isFeaturedPostImage,
     };
   },
   setDescription (description) {
@@ -190,10 +213,16 @@ const actions = {
       servings,
     };
   },
-  setCalories (servingSize) {
+  setServingSize (servingSize) {
+    return {
+      type: SET_SERVING_SIZE,
+      servingSize,
+    };
+  },
+  setCalories (calories) {
     return {
       type: SET_CALORIES,
-      servingSize,
+      calories,
     };
   },
   setCarbs (carbs) {
@@ -269,8 +298,7 @@ registerStore ('zip-recipes-store', {
       case RECIPE_REQUEST_SUCCESS:
         return {
           ...state,
-          isFetching: false,
-          recipe: action.recipe,
+          isFetching: false
         };
       case RECIPE_SAVING:
         return {
@@ -280,7 +308,6 @@ registerStore ('zip-recipes-store', {
       case RECIPE_SAVE_SUCCESS:
         return {
           ...state,
-          lastSavedAt: Date.now (),
           isSaving: false,
         };
       case SET_RECIPE:
@@ -309,7 +336,15 @@ registerStore ('zip-recipes-store', {
           ...state,
           recipe: {
             ...state.recipe,
-            imageUrl: action.imageUrl,
+            image_url: action.url,
+          },
+        };
+      case SET_IS_FEATURED_POST_IMAGE:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            is_featured_post_image: action.isFeaturedPostImage,
           },
         };
       case SET_DESCRIPTION:
@@ -320,29 +355,44 @@ registerStore ('zip-recipes-store', {
             description: action.description,
           },
         };
-      // TODO: figure out what to do with ours and how we're storing them
-      //   case SET_PREP_TIME_HOURS:
-      //     return {
-      //       ...state,
-      //       recipe: {
-      //         ...state.recipe,
-      //         prepTime: action.prepTimeHours,
-      //       },
-      //     };
-      //   case SET_COOK_TIME_HOURS:
-      //     return {
-      //       ...state,
-      //       recipe: {
-      //         ...state.recipe,
-      //         cookTimeHours: action.cookTimeHours,
-      //       },
-      //     };
-      case SET_SERVINGS:
+      case SET_PREP_TIME_HOURS:
         return {
           ...state,
           recipe: {
             ...state.recipe,
-            servings: action.servings,
+            prep_time_hours: action.prepTimeHours,
+          },
+        };
+      case SET_PREP_TIME_MINUTES:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            prep_time_minutes: action.prepTimeMinutes,
+          },
+        };
+      case SET_COOK_TIME_HOURS:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            cook_time_hours: action.cookTimeHours,
+          },
+        };
+      case SET_COOK_TIME_MINUTES:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            cook_time_minutes: action.cookTimeMinutes,
+          },
+        };
+      case SET_SERVING_SIZE:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            serving_size: action.servingSize,
           },
         };
       case SET_CATEGORY:
@@ -362,19 +412,30 @@ registerStore ('zip-recipes-store', {
           },
         };
       case SET_INGREDIENTS:
+        let ingredientsArray = action.ingredients;
+        if (typeof action.ingredients == typeof '') {
+          // string
+          ingredientsArray = action.ingredients.split ('\n');
+        }
+
         return {
           ...state,
           recipe: {
             ...state.recipe,
-            ingredients: action.ingredients,
+            ingredients: ingredientsArray,
           },
         };
       case SET_INSTRUCTIONS:
+        let instructionsArray = action.instructions;
+        if (typeof action.instructions == typeof '') {
+          // string
+          instructionsArray = action.instructions.split ('\n');
+        }
         return {
           ...state,
           recipe: {
             ...state.recipe,
-            instructions: action.instructions,
+            instructions: instructionsArray,
           },
         };
       case SET_NOTES:
@@ -442,7 +503,10 @@ registerStore ('zip-recipes-store', {
           ...state,
           recipe: {
             ...state.recipe,
-            sugar: action.sugar,
+            nutrition: {
+              ...state.recipe.nutrition,
+              sugar: action.sugar,
+            },
           },
         };
       case SET_SODIUM:
@@ -450,7 +514,10 @@ registerStore ('zip-recipes-store', {
           ...state,
           recipe: {
             ...state.recipe,
-            sodium: action.sodium,
+            nutrition: {
+              ...state.recipe.nutrition,
+              sodium: action.sodium,
+            },
           },
         };
       case SET_FAT:
@@ -458,7 +525,10 @@ registerStore ('zip-recipes-store', {
           ...state,
           recipe: {
             ...state.recipe,
-            fat: action.fat,
+            nutrition: {
+              ...state.recipe.nutrition,
+              fat: action.fat,
+            },
           },
         };
       case SET_SATURATED_FAT:
@@ -466,7 +536,10 @@ registerStore ('zip-recipes-store', {
           ...state,
           recipe: {
             ...state.recipe,
-            saturated_fat: action.saturatedFat,
+            nutrition: {
+              ...state.recipe.nutrition,
+              saturated_fat: action.saturatedFat,
+            },
           },
         };
       case SET_TRANS_FAT:
@@ -474,7 +547,10 @@ registerStore ('zip-recipes-store', {
           ...state,
           recipe: {
             ...state.recipe,
-            trans_fat: action.transFat,
+            nutrition: {
+              ...state.recipe.nutrition,
+              trans_fat: action.transFat,
+            },
           },
         };
       case SET_CHOLESTEROL:
@@ -482,7 +558,10 @@ registerStore ('zip-recipes-store', {
           ...state,
           recipe: {
             ...state.recipe,
-            cholesterol: action.cholesterol,
+            nutrition: {
+              ...state.recipe.nutrition,
+              cholesterol: action.cholesterol,
+            },
           },
         };
     }
@@ -518,20 +597,103 @@ registerStore ('zip-recipes-store', {
       const {title} = state.recipe;
       return title;
     },
-    getNotes(state) {
+    getNotes (state) {
       const {notes} = state.recipe;
       return notes;
+    },
+    getIngredients (state) {
+      const {ingredients} = state.recipe;
+      return ingredients;
+    },
+    getInstructions (state) {
+      const {instructions} = state.recipe;
+      return instructions;
+    },
+    getImageUrl (state) {
+      const {image_url} = state.recipe;
+      return image_url;
+    },
+    getIsFeaturedPostImage (state) {
+      const {is_featured_post_image} = state.recipe;
+      return is_featured_post_image;
+    },
+    getPrepTimeHours (state) {
+      const {prep_time_hours} = state.recipe;
+      return prep_time_hours;
+    },
+    getPrepTimeMinutes (state) {
+      const {prep_time_minutes} = state.recipe;
+      return prep_time_minutes;
+    },
+    getCookTimeHours (state) {
+      const {cook_time_hours} = state.recipe;
+      return cook_time_hours;
+    },
+    getCookTimeMinutes (state) {
+      const {cook_time_minutes} = state.recipe;
+      return cook_time_minutes;
+    },
+    getServings (state) {
+      const {servings} = state.recipe;
+      return servings;
+    },
+    getServingSize (state) {
+      const {serving_size} = state.recipe;
+      return serving_size;
+    },
+    getCalories (state) {
+      const {calories} = state.recipe.nutrition;
+      return calories;
+    },
+    getCarbs (state) {
+      const {carbs} = state.recipe.nutrition;
+      return carbs;
+    },
+    getProtein (state) {
+      const {protein} = state.recipe.nutrition;
+      return protein;
+    },
+    getFiber (state) {
+      const {fiber} = state.recipe.nutrition;
+      return fiber;
+    },
+    getSugar (state) {
+      const {sugar} = state.recipe.nutrition;
+      return sugar;
+    },
+    getSodium (state) {
+      const {sodium} = state.recipe.nutrition;
+      return sodium;
+    },
+    getFat (state) {
+      const {fat} = state.recipe.nutrition;
+      return fat;
+    },
+    getSaturatedFat (state) {
+      const {saturated_fat} = state.recipe.nutrition;
+      return saturated_fat;
+    },
+    getTransFat (state) {
+      const {trans_fat} = state.recipe.nutrition;
+      return trans_fat;
+    },
+    getCholesterol (state) {
+      const {cholesterol} = state.recipe.nutrition;
+      return cholesterol;
     },
     getIsSaving (state) {
       const {isSaving} = state;
       return isSaving;
     },
+    getIsFetching(state) {
+      const {isFetching} = state;
+      return isFetching;
+    }
   },
 
   controls: {
-    RECIPE_SAVE_REQUEST (action) {
+    SEND_RECIPE (action) {
       let newRecipe = null;
-      console.log ('L524 action:action:', action);
       if (action.create && action.recipe.title && action.recipe.post_id) {
         // title and post_id are required by API
         newRecipe = apiFetch ({
@@ -553,6 +715,20 @@ registerStore ('zip-recipes-store', {
 
       return newRecipe;
     },
+    SAVE_IMAGE_REQUEST (action) {
+      let newRecipe = null;
+      if (action.recipe.id && action.recipe.image_url) {
+        newRecipe = apiFetch ({
+          path: `/zip-recipes/v1/recipe/${action.recipe.id}`,
+          method: 'POST',
+          data: {
+            image_url: action.recipe.image_url,
+          },
+        });
+      }
+
+      return newRecipe;
+    },
 
     FETCH_FROM_API (action) {
       let recipe = apiFetch ({path: action.path});
@@ -565,16 +741,25 @@ registerStore ('zip-recipes-store', {
     *getRecipe (id) {
       if (id) {
         const path = `/zip-recipes/v1/recipe/${id}`;
+        yield actions.requestRecipe();
         const recipe = yield actions.fetchFromAPI (path);
+        yield actions.requestRecipeSuccess();
         yield actions.setTitle (recipe.title);
+        yield actions.setImageUrl (recipe.image_url);
+        yield actions.setIsFeaturedPostImage (recipe.is_featured_post_image);
         yield actions.setDescription (recipe.description);
         yield actions.setCategory (recipe.category);
         yield actions.setCuisine (recipe.cuisine);
         yield actions.setIngredients (recipe.ingredients);
         yield actions.setInstructions (recipe.instructions);
-        yield actions.setServings (recipe.yield); // yield is a reserved keyword in JS
+        yield actions.setPrepTimeHours (recipe.prep_time_hours);
+        yield actions.setPrepTimeMinutes (recipe.prep_time_minutes);
+        yield actions.setCookTimeHours (recipe.cook_time_hours);
+        yield actions.setCookTimeMinutes (recipe.cook_time_minutes);
+        yield actions.setServings (recipe.servings);
+        yield actions.setServingSize (recipe.serving_size);
         yield actions.setNotes (recipe.notes);
-        yield actions.setCalories (recipe.calories);
+        yield actions.setCalories (recipe.nutrition.calories);
         yield actions.setCarbs (recipe.nutrition.carbs);
         yield actions.setProtein (recipe.nutrition.protein);
         yield actions.setFiber (recipe.nutrition.fiber);
