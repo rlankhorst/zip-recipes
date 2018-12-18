@@ -8,6 +8,7 @@ const DEFAULT_STATE = {
     title: '',
     image_url: '',
     is_featured_post_image: false,
+    author: '',
     description: '',
     prep_time_hours: '',
     prep_time_minutes: '',
@@ -40,6 +41,8 @@ const DEFAULT_STATE = {
     blog_url: null,
     registered: true,
     registration_endpoint: '',
+    authors: [],
+    default_author: '',
   },
   isRegistering: false,
 };
@@ -56,6 +59,7 @@ const SET_TITLE = 'SET_TITLE';
 const SET_IMAGE_URL = 'SET_IMAGE_URL';
 const SET_IS_FEATURED_POST_IMAGE = 'SET_IS_FEATURED_POST_IMAGE';
 const SET_DESCRIPTION = 'SET_DESCRIPTION';
+const SET_AUTHOR = 'SET_AUTHOR';
 const SET_PREP_TIME_HOURS = 'SET_PREP_TIME_HOURS';
 const SET_PREP_TIME_MINUTES = 'SET_PREP_TIME_MINUTES';
 const SET_COOK_TIME_HOURS = 'SET_COOK_TIME_HOURS';
@@ -108,7 +112,7 @@ const actions = {
     };
   },
 
-  *register (endpoint, firstName, lastName, email,wpVersion, blogUrl) {
+  *register (endpoint, firstName, lastName, email, wpVersion, blogUrl) {
     yield {
       type: REGISTER_SEND,
       endpoint,
@@ -116,7 +120,7 @@ const actions = {
       lastName,
       email,
       wpVersion,
-      blogUrl
+      blogUrl,
     };
   },
   *saveRecipe({create = false, recipe}) {
@@ -179,6 +183,12 @@ const actions = {
     return {
       type: SET_IS_FEATURED_POST_IMAGE,
       isFeaturedPostImage,
+    };
+  },
+  setAuthor (author) {
+    return {
+      type: SET_AUTHOR,
+      author,
     };
   },
   setDescription (description) {
@@ -425,6 +435,14 @@ registerStore ('zip-recipes-store', {
             description: action.description,
           },
         };
+      case SET_AUTHOR:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            author: action.author,
+          },
+        };
       case SET_PREP_TIME_HOURS:
         return {
           ...state,
@@ -663,6 +681,10 @@ registerStore ('zip-recipes-store', {
       const {description} = state.recipe;
       return description;
     },
+    getAuthor (state) {
+      const {author} = state.recipe;
+      return author;
+    },
 
     getId (state) {
       const {id} = state.recipe;
@@ -782,7 +804,7 @@ registerStore ('zip-recipes-store', {
         data: {
           first_name: action.firstName,
           last_name: action.lastName,
-          email: action.email
+          email: action.email,
         },
       });
     },
@@ -793,9 +815,14 @@ registerStore ('zip-recipes-store', {
         last_name: action.lastName,
         email: action.email,
         wp_version: action.wpVersion,
-        blog_url: action.blogUrl
+        blog_url: action.blogUrl,
       };
-      const formBody = Object.keys(params).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key])).join('&');
+      const formBody = Object.keys (params)
+        .map (
+          key =>
+            encodeURIComponent (key) + '=' + encodeURIComponent (params[key])
+        )
+        .join ('&');
 
       return window.fetch (action.endpoint, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -804,7 +831,7 @@ registerStore ('zip-recipes-store', {
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
           // 'Content-Type': 'application/json',
-          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         },
         body: formBody, // body data type must match "Content-Type" header
       });
@@ -874,6 +901,7 @@ registerStore ('zip-recipes-store', {
         yield actions.setImageUrl (recipe.image_url);
         yield actions.setIsFeaturedPostImage (recipe.is_featured_post_image);
         yield actions.setDescription (recipe.description);
+        yield actions.setAuthor (recipe.author);
         yield actions.setCategory (recipe.category);
         yield actions.setCuisine (recipe.cuisine);
         yield actions.setIngredients (recipe.ingredients);

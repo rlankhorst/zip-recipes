@@ -134,7 +134,9 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
 	    	'wp_version' => $wp_version,
 		    'blog_url' => get_bloginfo('wpurl'),
 	    	'registered' => !!get_option('zrdn_registered', false),
-		    'registration_endpoint' => ZRDN_API_URL . "/installation/register/"
+		    'registration_endpoint' => ZRDN_API_URL . "/installation/register/",
+		    'authors' => get_option('zrdn_authors_list', array()),
+		    'default_author' => get_option('zrdn_authors_default_author', ''),
 	    ));
     }
 
@@ -255,6 +257,10 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         if(Util::get_array_value('image_url', $parameters)) {
             $sanitize['recipe_image'] = Util::get_array_value('image_url', $parameters);
         }
+	    if(Util::get_array_value('author', $parameters)) {
+		    $sanitize['author'] = Util::get_array_value('author', $parameters);
+	    }
+
         if(Util::get_array_value('description', $parameters)) {
             $sanitize['summary'] = Util::get_array_value('description', $parameters);
         }
@@ -332,11 +338,10 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'id' => $item->recipe_id,
             'post_id' => $item->post_id,
             'title' => $item->recipe_title,
+            'author' => $item->author,
             'image_url' => $item->recipe_image,
-            'is_featured_post_image' => $item->is_featured_post_image,
+            'is_featured_post_image' => !!$item->is_featured_post_image, // we have to add !! so it's converted to a bool
             'description' => $item->summary,
-//            'prep_time' => $item->prep_time,
-//            'cook_time' => $item->cook_time,
             'servings' => $item->yield,
             'category' => $item->category,
             'cuisine' => $item->cuisine,

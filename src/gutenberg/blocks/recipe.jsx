@@ -2,6 +2,28 @@ const {__} = wp.i18n;
 const {registerBlockType} = wp.blocks;
 
 const {actions} = require ('../store/zip-recipes-store');
+const {Author} = require ('./author');
+const {
+  TitleAndImage,
+  Ingredients,
+  Instructions,
+  CategoryAndCuisine,
+  Description,
+  PrepAndCookTime,
+  Notes,
+  Servings,
+  ServingSize,
+  Calories,
+  Carbs,
+  Protein,
+  Fiber,
+  Sugar,
+  Sodium,
+  Fat,
+  SaturatedFat,
+  TransFat,
+  Cholesterol,
+} = require ('./components');
 
 const {withState} = wp.compose;
 
@@ -11,16 +33,6 @@ let i18n = window.wp.i18n;
 let element = window.wp.element;
 let components = window.wp.components;
 let _ = window._;
-
-const {
-  RichText,
-  PlainText,
-  MediaUpload,
-  MediaUploadCheck,
-  InspectorControls,
-  BlockControls,
-  AlignmentToolbar,
-} = editor;
 
 const {Button, Modal} = wp.components;
 
@@ -55,11 +67,25 @@ registerBlockType ('zip-recipes/recipe-block', {
     const noticeActions = dispatch ('core/notices');
 
     return {
-      async onRegister (endpoint, firstName, lastName, email, wpVersion, blogUrl) {
+      async onRegister (
+        endpoint,
+        firstName,
+        lastName,
+        email,
+        wpVersion,
+        blogUrl
+      ) {
         creators.setIsRegistering ();
-        await creators.register(endpoint, firstName, lastName, email, wpVersion, blogUrl)
-        await creators.setRegisteredBackend(firstName, lastName, email)
-        creators.setIsRegisteringSuccess();
+        await creators.register (
+          endpoint,
+          firstName,
+          lastName,
+          email,
+          wpVersion,
+          blogUrl
+        );
+        await creators.setRegisteredBackend (firstName, lastName, email);
+        creators.setIsRegisteringSuccess ();
       },
       setInitialTitle () {
         creators.setTitleFromPostTitle (getCurrentPost ().title);
@@ -130,6 +156,9 @@ registerBlockType ('zip-recipes/recipe-block', {
           creators.setInstructions (newLines);
         }, 500);
       },
+      onAuthorChange({target: {value}}) {
+        creators.setAuthor (value);
+      },
       onCategoryChange({target: {value}}) {
         creators.setCategory (value);
       },
@@ -192,7 +221,6 @@ registerBlockType ('zip-recipes/recipe-block', {
       },
 
       onCancel (setState) {
-        console.log ('in onCancel L181');
         setState ({isOpen: false});
       },
 
@@ -203,6 +231,7 @@ registerBlockType ('zip-recipes/recipe-block', {
           category: store.getCategory (),
           cuisine: store.getCuisine (),
           description: store.getDescription (),
+          author: store.getAuthor (),
           notes: store.getNotes (),
           ingredients: store.getIngredients (),
           instructions: store.getInstructions (),
@@ -281,6 +310,7 @@ registerBlockType ('zip-recipes/recipe-block', {
         category: store.getCategory (),
         cuisine: store.getCuisine (),
         description: store.getDescription (),
+        author: store.getAuthor (),
         notes: store.getNotes (),
         ingredients: store.getIngredients (),
         instructions: store.getInstructions (),
@@ -311,638 +341,8 @@ registerBlockType ('zip-recipes/recipe-block', {
         firstName: '',
         lastName: '',
         email: '',
+        showNutritionFields: true,
       }) (props => {
-        const renderTitleAndImage = (editable = false) => {
-          return (
-            <div className={props.className}>
-              {/* Title and image start --> */}
-              <div className="zrdn-columns zrdn-is-mobile">
-
-                <div className="zrdn-column zrdn-is-three-quarters-tablet zrdn-is-two-thirds-mobile">
-                  <div className="zrdn-field">
-                    {editable
-                      ? <label htmlFor="recipe-title" class="zrdn-label">
-                          Title
-                        </label>
-                      : ''}
-                    <div className="zrdn-control" id="title-container">
-                      {editable
-                        ? <input
-                            id="recipe-title"
-                            name="recipe-title"
-                            className="zrdn-input"
-                            type="text"
-                            disabled={!editable}
-                            value={props.title}
-                            onChange={props.onTitleChange}
-                            placeholder={i18n.__ (
-                              'Recipe Title…',
-                              'zip-recipes'
-                            )}
-                          />
-                        : <h2>{props.title}</h2>}
-                    </div>
-                  </div>
-                </div>
-                <div className="zrdn-column">
-                  <label className="zrdn-label">Image</label>
-                  <div className="recipe-image">
-                    {/* We show image upload control only when editable is false since we cannot show image upload control in 
-                      in Modal window and editable=true only in modal window.
-                      See: https://github.com/WordPress/gutenberg/issues/12830
-                     */}
-                    {editable
-                      ? 'To add an image, save this recipe and click Upload Image from the main screen.'
-                      : <MediaUploadCheck>
-                          <MediaUpload
-                            onSelect={props.onImageChange.bind (
-                              null,
-                              props.attributes.id
-                            )}
-                            allowedTypes="image"
-                            render={({open}) => (
-                              <Button
-                                className={
-                                  props.imageUrl
-                                    ? 'image-button'
-                                    : 'button button-large'
-                                }
-                                onClick={open}
-                              >
-                                {!props.imageUrl
-                                  ? __ ('Upload Image', 'gutenberg-examples')
-                                  : <div>
-                                      {props.isFeaturedPostImage
-                                        ? <span>
-                                            Set from Featured Image.{' '}
-                                          </span>
-                                        : <div>
-                                            <img
-                                              src={props.imageUrl}
-                                              alt={__ (
-                                                'Upload Recipe Image',
-                                                'gutenberg-examples'
-                                              )}
-                                            />
-                                            <span>
-                                              Click the image to change it.
-                                            </span>
-                                          </div>}
-                                    </div>}
-                              </Button>
-                            )}
-                          />
-                        </MediaUploadCheck>}
-                  </div>
-                </div>
-              </div>
-              {/* Title and image end --> */}
-            </div>
-          );
-        };
-
-        const renderIngredients = (editable = false) => (
-          <div id="ingredients-container" className="zrdn-field">
-            <label className="zrdn-label" htmlFor="ingredients">
-              Ingredients
-            </label>
-            {editable
-              ? <p className="zrdn-help">
-                  Put each ingredient on a separate line. There is no need to
-                  use bullets for your ingredients.
-                  <br />
-                  You can also create labels, hyperlinks, bold/italic effects
-                  and even add images!
-                  <br />
-                  <a
-                    href="https://www.ziprecipes.net/docs/installing/"
-                    target="_blank"
-                  >
-                    Learn how here
-                  </a>
-                </p>
-              : ''}
-            <div className="zrdn-control">
-              {editable
-                ? <textarea
-                    className="zrdn-textarea clean-on-paste"
-                    name="ingredients"
-                    disabled={!editable}
-                    onChange={props.onIngredientsChange}
-                    onPaste={props.onIngredientsPaste}
-                    id="ingredients"
-                    value={props.ingredients.join ('\n')}
-                  />
-                : <div>
-                    {props.ingredients.map (ing => {
-                      return <div>{ing}</div>;
-                    })}
-                  </div>}
-            </div>
-          </div>
-        );
-        const renderInstructions = (editable = false) => (
-          <div className="zrdn-field">
-            <label className="zrdn-label" htmlFor="instructions">
-              Instructions
-            </label>
-            {editable
-              ? <p className="zrdn-help">
-                  Press return after each instruction. There is no need to
-                  number your instructions.
-                  <br />
-                  You can also create labels, hyperlinks, bold/italic effects
-                  and even add images!
-                  <br />
-                  <a
-                    href="https://www.ziprecipes.net/docs/installing/"
-                    target="_blank"
-                  >
-                    Learn how here
-                  </a>
-                </p>
-              : ''}
-            <div className="zrdn-control">
-              {editable
-                ? <textarea
-                    className="zrdn-textarea clean-on-paste"
-                    disabled={!editable}
-                    id="instructions"
-                    onChange={props.onInstructionsChange}
-                    name="instructions"
-                    onPaste={props.onInstructionsPaste}
-                    value={props.instructions.join ('\n')}
-                  />
-                : <div>
-                    {props.instructions.map (inst => {
-                      return <div>{inst}</div>;
-                    })}
-                  </div>}
-
-            </div>
-          </div>
-        );
-        const renderCategoryAndCuisine = (editable = false) => (
-          <div className="zrdn-columns zrdn-is-mobile">
-            <div className="zrdn-column">
-              <div className="zrdn-field">
-                <label htmlFor="category" className="zrdn-label">
-                  Category
-                </label>
-                <div className="zrdn-control">
-                  {editable
-                    ? <input
-                        className="zrdn-input zrdn-is-small"
-                        id="category"
-                        onChange={props.onCategoryChange}
-                        disabled={!editable}
-                        placeholder="e.g. appetizer, entree, etc."
-                        type="text"
-                        name="category"
-                        value={props.category}
-                      />
-                    : props.category}
-                </div>
-              </div>
-            </div>
-            <div className="zrdn-column">
-              <div className="zrdn-field">
-                <label htmlFor="cuisine" className="zrdn-label">
-                  Cuisine
-                </label>
-                <div className="zrdn-control">
-                  {editable
-                    ? <input
-                        className="zrdn-input zrdn-is-small"
-                        placeholder="e.g. French, Ethiopian, etc."
-                        onChange={props.onCuisineChange}
-                        disabled={!editable}
-                        type="text"
-                        id="cuisine"
-                        name="cuisine"
-                        value={props.cuisine}
-                      />
-                    : props.cuisine}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderSummary = (editable = false) => (
-          <div className="zrdn-field">
-            <label className="zrdn-label" htmlFor="summary">
-              Description
-            </label>
-            <div className="zrdn-control">
-              {editable
-                ? <textarea
-                    className="zrdn-textarea"
-                    id="summary"
-                    name="summary"
-                    disabled={!editable}
-                    onChange={props.onDescriptionChange}
-                    data-caption="true"
-                    value={props.description}
-                  />
-                : props.description}
-            </div>
-          </div>
-        );
-        const renderPrepAndCookTime = (editable = false) => (
-          <div className="zrdn-columns zrdn-is-tablet">
-            <div className="zrdn-column">
-              <label htmlFor="prep_hours" className="zrdn-label">
-                Prep Time
-              </label>
-              {editable
-                ? <div className="zrdn-field zrdn-is-grouped">
-                    <div>
-                      <input
-                        className="zrdn-input zrdn-is-small"
-                        type="number"
-                        min="0"
-                        disabled={!editable}
-                        id="prep_hours"
-                        onChange={props.onPrepTimeHoursChange}
-                        name="prep_time_hours"
-                        value={props.prepTimeHours}
-                      />
-                      hours
-                    </div>
-                    <div>
-                      <input
-                        className="zrdn-input zrdn-is-small"
-                        type="number"
-                        min="0"
-                        disabled={!editable}
-                        id="prep_minutes"
-                        onChange={props.onPrepTimeMinutesChange}
-                        name="prep_time_minutes"
-                        value={props.prepTimeMinutes}
-                      />
-                      minutes
-                    </div>
-                  </div>
-                : <div className="zrdn-control">
-                    {props.prepTimeHours}:{props.prepTimeMinutes}
-                  </div>}
-            </div>
-            <div className="zrdn-column">
-              <label htmlFor="cook_hours" className="zrdn-label">
-                Cook Time
-              </label>
-              {editable
-                ? <div className="zrdn-field zrdn-is-grouped">
-                    <div>
-                      <input
-                        className="zrdn-input zrdn-is-small"
-                        type="number"
-                        min="0"
-                        disabled={!editable}
-                        onChange={props.onCookTimeHoursChange}
-                        id="cook_hours"
-                        name="cook_time_hours"
-                        value={props.cookTimeHours}
-                      />
-                      hours
-                    </div>
-                    <div>
-                      <input
-                        className="zrdn-input zrdn-is-small"
-                        type="number"
-                        min="0"
-                        disabled={!editable}
-                        id="cook_minutes"
-                        onChange={props.onCookTimeMinutesChange}
-                        name="cook_time_minutes"
-                        value={props.cookTimeMinutes}
-                      />
-                      minutes
-                    </div>
-                  </div>
-                : <div className="zrdn-control">
-                    {props.cookTimeHours}:{props.cookTimeMinutes}
-                  </div>}
-            </div>
-          </div>
-        );
-        const renderNotes = (editable = false) => (
-          <div className="zrdn-field">
-            <label className="zrdn-label" htmlFor="notes">
-              Notes
-            </label>
-            <div className="zrdn-control">
-              {editable
-                ? <textarea
-                    className="zrdn-textarea"
-                    id="notes"
-                    disabled={!editable}
-                    name="notes"
-                    onChange={props.onNotesChange}
-                    value={props.notes}
-                  />
-                : props.notes}
-            </div>
-          </div>
-        );
-        const renderServings = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="servings">
-                Yields
-              </label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        id="servings"
-                        disabled={!editable}
-                        type="text"
-                        onChange={props.onServingsChange}
-                        value={props.servings}
-                        name="servings"
-                      />
-                    : props.servings}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderServingSize = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="serving_size">
-                Serving Size
-              </label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        id="serving_size"
-                        type="text"
-                        onChange={props.onServingSizeChange}
-                        value={props.servingSize}
-                        name="serving_size"
-                      />
-                    : props.servingSize}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderCalories = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="calories">Calories</label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        disabled={!editable}
-                        id="calories"
-                        name="calories"
-                        onChange={props.onCaloriesChange}
-                        value={props.calories}
-                      />
-                    : props.calories}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderCarbs = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="carbs">Carbs</label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        id="carbs"
-                        disabled={!editable}
-                        name="carbs"
-                        onChange={props.onCarbsChange}
-                        value={props.carbs}
-                      />
-                    : props.carbs}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderProtein = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="protein">Protein</label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        id="protein"
-                        name="protein"
-                        disabled={!editable}
-                        onChange={props.onProteinChange}
-                        value={props.protein}
-                      />
-                    : props.protein}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderFiber = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="fiber">Fiber</label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        id="fiber"
-                        disabled={!editable}
-                        name="fiber"
-                        onChange={props.onFiberChange}
-                        value={props.fiber}
-                      />
-                    : props.fiber}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderSugar = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="sugar">Sugar</label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        id="sugar"
-                        name="sugar"
-                        onChange={props.onSugarChange}
-                        value={props.sugar}
-                      />
-                    : props.sugar}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderSodium = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="sodium">Sodium</label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        id="sodium"
-                        disabled={!editable}
-                        name="sodium"
-                        onChange={props.onSodiumChange}
-                        value={props.sodium}
-                      />
-                    : props.sodium}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderFat = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="fat">Fat</label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        id="fat"
-                        name="fat"
-                        disabled={!editable}
-                        onChange={props.onFatChange}
-                        value={props.fat}
-                      />
-                    : props.fat}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderSaturatedFat = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="saturated_fat">
-                Saturated Fat
-              </label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        id="saturated_fat"
-                        disabled={!editable}
-                        name="saturated_fat"
-                        onChange={props.onSaturatedFatChange}
-                        value={props.saturatedFat}
-                      />
-                    : props.saturatedFat}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-        const renderTransFat = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="trans_fat">
-                Trans. Fat
-              </label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        disabled={!editable}
-                        id="trans_fat"
-                        name="trans_fat"
-                        onChange={props.onTransFatChange}
-                        value={props.transFat}
-                      />
-                    : props.transFat}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        const renderCholesterol = (editable = false) => (
-          <div class="zrdn-field zrdn-is-horizontal">
-            <div class="zrdn-field-label">
-              <label class="zrdn-label" for="cholesterol">
-                Cholesterol
-              </label>
-            </div>
-            <div class="zrdn-field-body">
-              <div class="zrdn-field zrdn-is-narrow">
-                <div class="zrdn-control">
-                  {editable
-                    ? <input
-                        class="zrdn-input zrdn-is-small"
-                        type="text"
-                        id="cholesterol"
-                        disabled={!editable}
-                        name="cholesterol"
-                        onChange={props.onCholesterolChange}
-                        value={props.cholesterol}
-                      />
-                    : props.cholesterol}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
         const renderRegister = () => (
           <div
             style={{
@@ -1015,7 +415,6 @@ registerBlockType ('zip-recipes/recipe-block', {
                   </div>
                 </div>
               </div>
-
             </div>
             <div className="zrdn-columns zrdn-is-mobile zrdn-is-pulled-right zrdn-is-clearfix">
               <Button
@@ -1036,6 +435,8 @@ registerBlockType ('zip-recipes/recipe-block', {
             </div>
           </div>
         );
+
+        console.log ('props authors L1058:', props.author);
 
         return (
           <div>
@@ -1065,25 +466,126 @@ registerBlockType ('zip-recipes/recipe-block', {
                 </Button>}
             {!props.isFetching && props.attributes.id
               ? <div>
-                  {renderTitleAndImage ()}
-                  {renderIngredients ()}
-                  {renderInstructions ()}
-                  {renderCategoryAndCuisine ()}
-                  {renderSummary ()}
-                  {renderPrepAndCookTime ()}
-                  {renderNotes ()}
-                  {renderServings ()}
-                  {renderServingSize ()}
-                  {renderCalories ()}
-                  {renderCarbs ()}
-                  {renderProtein ()}
-                  {renderFiber ()}
-                  {renderSugar ()}
-                  {renderSodium ()}
-                  {renderFat ()}
-                  {renderSaturatedFat ()}
-                  {renderTransFat ()}
-                  {renderCholesterol ()}
+                  <TitleAndImage
+                    title={props.title}
+                    recipeId={props.attributes.id}
+                    onTitleChange={props.onTitleChange}
+                    isTitleEditable={false}
+                    isImageEditable={true}
+                    onImageChange={props.onImageChange}
+                    imageUrl={props.imageUrl}
+                    isFeaturedPostImage={props.isFeaturedPostImage}
+                  />
+                  <Ingredients
+                    ingredients={props.ingredients}
+                    onIngredientsChange={props.onIngredientsChange}
+                    onIngredientsPaste={props.onIngredientsPaste}
+                    editable={false}
+                  />
+                  <Instructions
+                    editable={false}
+                    onInstructionsChange={props.onInstructionsChange}
+                    instructions={props.instructions}
+                    onInstructionsPaste={props.onInstructionsPaste}
+                  />
+                  <Author
+                    editable={false}
+                    onChange={props.onAuthorChange}
+                    selectedAuthor={
+                      props.author
+                        ? props.author
+                        : props.settings.default_author
+                    }
+                    authors={props.settings.authors}
+                  />
+                  <CategoryAndCuisine
+                    editable={false}
+                    onCategoryChange={props.onCategoryChange}
+                    category={props.category}
+                    onCuisineChange={props.onCuisineChange}
+                    cuisine={props.cuisine}
+                  />
+                  <Description
+                    editable={false}
+                    onDescriptionChange={props.onDescriptionChange}
+                    description={props.description}
+                  />
+                  <PrepAndCookTime
+                    editable={false}
+                    onPrepTimeHoursChange={props.onPrepTimeHoursChange}
+                    onPrepTimeMinutesChange={props.onPrepTimeMinutesChange}
+                    onCookTimeHoursChange={props.onCookTimeHoursChange}
+                    onCookTimeMinutesChange={props.onCookTimeMinutesChange}
+                    cookTimeHours={props.cookTimeHours}
+                    cookTimeMinutes={props.cookTimeMinutes}
+                    prepTimeHours={props.prepTimeHours}
+                    prepTimeMinutes={props.prepTimeMinutes}
+                  />
+                  <Notes
+                    onNotesChange={props.onNotesChange}
+                    notes={props.notes}
+                    editable={false}
+                  />
+                  <Servings
+                    onServingsChange={props.onServingsChange}
+                    servings={props.servings}
+                    editable={false}
+                  />
+                  <ServingSize
+                    onServingSizeChange={props.onServingSizeChange}
+                    editable={false}
+                    servingSize={props.servingSize}
+                  />
+                  <Calories
+                    onCaloriesChange={props.onCaloriesChange}
+                    editable={false}
+                    calories={props.calories}
+                  />
+                  <Carbs
+                    onCarbsChange={props.onCarbsChange}
+                    editable={false}
+                    carbs={props.carbs}
+                  />
+                  <Protein
+                    onProteinChange={props.onProteinChange}
+                    editable={false}
+                    protein={props.protein}
+                  />
+                  <Fiber
+                    onFiberChange={props.onFiberChange}
+                    editable={false}
+                    fiber={props.fiber}
+                  />
+                  <Sugar
+                    onSugarChange={props.onSugarChange}
+                    editable={false}
+                    sugar={props.sugar}
+                  />
+                  <Sodium
+                    onSodiumChange={props.onSodiumChange}
+                    editable={false}
+                    sodium={props.sodium}
+                  />
+                  <Fat
+                    onFatChange={props.onFatChange}
+                    editable={false}
+                    fat={props.fat}
+                  />
+                  <SaturatedFat
+                    onSaturatedFatChange={props.onSaturatedFatChange}
+                    editable={false}
+                    saturatedFat={props.saturatedFat}
+                  />
+                  <TransFat
+                    onTransFatChange={props.onTransFatChange}
+                    editable={false}
+                    transFat={props.transFat}
+                  />
+                  <Cholesterol
+                    onCholesterolChange={props.onCholesterolChange}
+                    editable={false}
+                    cholesterol={props.cholesterol}
+                  />
 
                 </div>
               : ''}
@@ -1101,25 +603,130 @@ registerBlockType ('zip-recipes/recipe-block', {
                   isDismissable={false}
                   onRequestClose={() => props.setState ({isOpen: false})}
                 >
-                  {renderTitleAndImage (true)}
-                  {renderIngredients (true)}
-                  {renderInstructions (true)}
-                  {renderCategoryAndCuisine (true)}
-                  {renderSummary (true)}
-                  {renderPrepAndCookTime (true)}
-                  {renderNotes (true)}
-                  {renderServings (true)}
-                  {renderServingSize (true)}
-                  {renderCalories (true)}
-                  {renderCarbs (true)}
-                  {renderProtein (true)}
-                  {renderFiber (true)}
-                  {renderSugar (true)}
-                  {renderSodium (true)}
-                  {renderFat (true)}
-                  {renderSaturatedFat (true)}
-                  {renderTransFat (true)}
-                  {renderCholesterol (true)}
+                  <TitleAndImage
+                    recipeId={props.attributes.id}
+                    title={props.title}
+                    onTitleChange={props.onTitleChange}
+                    isTitleEditable={true}
+                    isImageEditable={false}
+                    onImageChange={props.onImageChange}
+                    imageUrl={props.imageUrl}
+                    isFeaturedPostImage={props.isFeaturedPostImage}
+                  />
+                  <Ingredients
+                    ingredients={props.ingredients}
+                    onIngredientsChange={props.onIngredientsChange}
+                    onIngredientsPaste={props.onIngredientsPaste}
+                    editable={true}
+                  />
+                  <Instructions
+                    editable={true}
+                    onInstructionsChange={props.onInstructionsChange}
+                    instructions={props.instructions}
+                    onInstructionsPaste={props.onInstructionsPaste}
+                  />
+                  <Author
+                    editable={true}
+                    onChange={props.onAuthorChange}
+                    authors={props.settings.authors}
+                    selectedAuthor={
+                      props.author
+                        ? props.author
+                        : props.settings.default_author
+                    }
+                  />
+                  <CategoryAndCuisine
+                    editable={true}
+                    onCategoryChange={props.onCategoryChange}
+                    category={props.category}
+                    onCuisineChange={props.onCuisineChange}
+                    cuisine={props.cuisine}
+                  />
+                  <Description
+                    editable={true}
+                    onDescriptionChange={props.onDescriptionChange}
+                    description={props.description}
+                  />
+                  <PrepAndCookTime
+                    editable={true}
+                    onPrepTimeHoursChange={props.onPrepTimeHoursChange}
+                    onPrepTimeMinutesChange={props.onPrepTimeMinutesChange}
+                    onCookTimeHoursChange={props.onCookTimeHoursChange}
+                    onCookTimeMinutesChange={props.onCookTimeMinutesChange}
+                    cookTimeHours={props.cookTimeHours}
+                    cookTimeMinutes={props.cookTimeMinutes}
+                    prepTimeHours={props.prepTimeHours}
+                    prepTimeMinutes={props.prepTimeMinutes}
+                  />
+                  <Notes
+                    onNotesChange={props.onNotesChange}
+                    notes={props.notes}
+                    editable={true}
+                  />
+                  <Servings
+                    onServingsChange={props.onServingsChange}
+                    servings={props.servings}
+                    editable={true}
+                  />
+                  {props.showNutritionFields
+                    ? <div>
+                        <ServingSize
+                          onServingSizeChange={props.onServingSizeChange}
+                          editable={true}
+                          servingSize={props.servingSize}
+                        />
+                        <Calories
+                          onCaloriesChange={props.onCaloriesChange}
+                          editable={true}
+                          calories={props.calories}
+                        />
+                        <Carbs
+                          onCarbsChange={props.onCarbsChange}
+                          editable={true}
+                          carbs={props.carbs}
+                        />
+                        <Protein
+                          onProteinChange={props.onProteinChange}
+                          editable={true}
+                          protein={props.protein}
+                        />
+                        <Fiber
+                          onFiberChange={props.onFiberChange}
+                          editable={true}
+                          fiber={props.fiber}
+                        />
+                        <Sugar
+                          onSugarChange={props.onSugarChange}
+                          editable={true}
+                          sugar={props.sugar}
+                        />
+                        <Sodium
+                          onSodiumChange={props.onSodiumChange}
+                          editable={true}
+                          sodium={props.sodium}
+                        />
+                        <Fat
+                          onFatChange={props.onFatChange}
+                          editable={true}
+                          fat={props.fat}
+                        />
+                        <SaturatedFat
+                          onSaturatedFatChange={props.onSaturatedFatChange}
+                          editable={true}
+                          saturatedFat={props.saturatedFat}
+                        />
+                        <TransFat
+                          onTransFatChange={props.onTransFatChange}
+                          editable={true}
+                          transFat={props.transFat}
+                        />
+                        <Cholesterol
+                          onCholesterolChange={props.onCholesterolChange}
+                          editable={true}
+                          cholesterol={props.cholesterol}
+                        />
+                      </div>
+                    : ''}
 
                   <div className="bottom-bar">
                     <Button
