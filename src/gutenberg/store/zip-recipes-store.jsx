@@ -21,6 +21,9 @@ const DEFAULT_STATE = {
     ingredients: [],
     instructions: [],
     notes: '',
+    nutrition_label: '',
+    nutrition_label_attachment_id: null,
+    nutrition_calculation_error: '',
     nutrition: {
       calories: '',
       carbs: '',
@@ -36,14 +39,20 @@ const DEFAULT_STATE = {
   },
   isFetching: false,
   isSaving: false,
+  isCalculatingNutrition: false,
   settings: {
     wp_version: null,
     blog_url: null,
     registered: true,
     registration_endpoint: '',
+    recipes_endpoint: '',
+    promos_endpoint: '',
+    wp_ajax_endpoint: '',
+    locale: 'en',
     authors: [],
     default_author: '',
   },
+  promos: {},
   isRegistering: false,
 };
 
@@ -88,6 +97,16 @@ const REGISTER_REQUEST = 'REGISTER_REQUEST';
 const REGISTER_REQUEST_SUCCESS = 'REGISTER_REQUEST_SUCCESS';
 const REGISTER_SEND = 'REGISTER_SEND';
 const REGISTER_SEND_BACKEND = 'REGISTER_SEND_BACKEND';
+const FETCH_NUTRITION_DATA = 'FETCH_NUTRITION_DATA';
+const SAVE_NUTRITION_LABEL = 'SAVE_NUTRITION_LABEL';
+const SET_NUTRITION_LABEL_URL = 'SET_NUTRITION_LABEL_URL';
+const SET_NUTRITION_LABEL_ATTACHMENT_ID = 'SET_NUTRITION_LABEL_ATTACHMENT_ID';
+const SET_NUTRITION_CALCULATION_ERROR = 'SET_NUTRITION_CALCULATION_ERROR';
+const NUTRITION_CALCULATING = 'NUTRITION_CALCULATING';
+const NUTRITION_CALCULATING_SUCCESS = 'NUTRITION_CALCULATING_SUCCESS';
+const GET_PROMOS = 'GET_PROMOS';
+const SET_PROMOS = 'SET_PROMOS';
+const FETCH_PROMOS = 'FETCH_PROMOS';
 
 // These are action creators, actually
 const actions = {
@@ -110,6 +129,40 @@ const actions = {
       lastName,
       email,
     };
+  },
+
+  *fetchNutritionData (
+    endpoint,
+    token,
+    title,
+    ingredients,
+    servings,
+    servingSize,
+    locale
+  ) {
+    const data = yield {
+      type: FETCH_NUTRITION_DATA,
+      endpoint,
+      token,
+      title,
+      ingredients,
+      servings,
+      servingSize,
+      locale,
+    };
+
+    return data;
+  },
+
+  *saveNutritionLabel (endpoint, nutrition_label_url, title) {
+    let label = yield {
+      type: SAVE_NUTRITION_LABEL,
+      endpoint,
+      nutrition_label_url,
+      title,
+    };
+
+    return label;
   },
 
   *register (endpoint, firstName, lastName, email, wpVersion, blogUrl) {
@@ -155,6 +208,16 @@ const actions = {
       recipe,
     };
   },
+  setCalculatingNutrition () {
+    return {
+      type: NUTRITION_CALCULATING,
+    };
+  },
+  setCalculatingNutritionSuccess () {
+    return {
+      type: NUTRITION_CALCULATING_SUCCESS,
+    };
+  },
   setId (id) {
     return {
       type: SET_ID,
@@ -165,12 +228,6 @@ const actions = {
     return {
       type: SET_TITLE,
       title,
-    };
-  },
-  setTitleFromPostTitle (postTitle) {
-    return {
-      type: SET_TITLE,
-      title: postTitle,
     };
   },
   setImageUrl (url) {
@@ -351,6 +408,37 @@ const actions = {
       type: REGISTER_REQUEST_SUCCESS,
     };
   },
+  *setNutritionLabelUrl (nutritionLabelUrl) {
+    yield {
+      type: SET_NUTRITION_LABEL_URL,
+      nutritionLabelUrl,
+    };
+  },
+  *setNutritionLabelAttachmentId (attachmentId) {
+    yield {
+      type: SET_NUTRITION_LABEL_ATTACHMENT_ID,
+      attachmentId,
+    };
+  },
+  setNutritionCalculationError (message) {
+    return {
+      type: SET_NUTRITION_CALCULATION_ERROR,
+      message,
+    };
+  },
+  fetchPromos(endpoint, blogUrl) {
+    return {
+      type: FETCH_PROMOS,
+      endpoint,
+      blogUrl
+    };
+  },
+  setPromos(promos) {
+    return {
+      type: SET_PROMOS,
+      promos
+    };
+  }
 };
 
 registerStore ('zip-recipes-store', {
@@ -657,6 +745,45 @@ registerStore ('zip-recipes-store', {
           ...state,
           settings: action.settings,
         };
+      case SET_NUTRITION_LABEL_URL:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            nutrition_label: action.nutritionLabelUrl,
+          },
+        };
+      case SET_NUTRITION_LABEL_ATTACHMENT_ID:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            nutrition_label_attachment_id: action.attachmentId,
+          },
+        };
+      case SET_NUTRITION_CALCULATION_ERROR:
+        return {
+          ...state,
+          recipe: {
+            ...state.recipe,
+            nutrition_calculation_error: action.message,
+          },
+        };
+      case NUTRITION_CALCULATING:
+        return {
+          ...state,
+          isCalculatingNutrition: true,
+        };
+      case NUTRITION_CALCULATING_SUCCESS:
+        return {
+          ...state,
+          isCalculatingNutrition: false,
+        };
+      case SET_PROMOS:
+        return {
+          ...state,
+          promos: action.promos
+        };
     }
 
     return state;
@@ -794,9 +921,125 @@ registerStore ('zip-recipes-store', {
       const {isRegistering} = state;
       return isRegistering;
     },
+    getIsNutritionCalculation (state) {
+      const {isCalculatingNutrition} = state;
+      return isCalculatingNutrition;
+    },
+    getNutritionLabelUrl (state) {
+      const {nutrition_label} = state.recipe;
+      return nutrition_label;
+    },
+    getNutritionLabelAttachmentId (state) {
+      const {nutrition_label_attachment_id} = state.recipe;
+      return nutrition_label_attachment_id;
+    },
+    getNutritionCalculationError (state) {
+      const {nutrition_calculation_error} = state.recipe;
+      return nutrition_calculation_error;
+    },
+    getPromos(state, endpoint, blogUrl) {
+      const {promos} = state;
+      return promos;
+    },
   },
 
   controls: {
+    async FETCH_PROMOS(action) {
+      let response = await window.fetch (`${action.endpoint}?blog_url=${action.blogUrl}`, {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+      });
+
+      try {
+        let json = await response.json ();
+        let author = json.results.filter(promo => promo.id == 3).map(promo => promo.html)[0];
+        let nutrition = json.results.filter(promo => promo.id == 4).map(promo => promo.html)[0];
+        let promos = {author, nutrition}
+
+        return promos;
+      }
+      catch (e) {
+        throw(e);
+      }
+    },
+    async FETCH_NUTRITION_DATA (action) {
+      let response = await window.fetch (action.endpoint, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          Authorization: 'Token ' + action.token,
+          'Content-Type': 'application/json; charset=UTF-8',
+          // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        body: JSON.stringify ({
+          ingredients: action.ingredients,
+          title: action.title,
+          servings: action.servings,
+          servings_unit: action.servingsSize,
+          language: action.locale,
+        }), // body data type must match "Content-Type" header
+      });
+
+      let json = await response.json ();
+
+      if (response.ok) {
+        return json;
+      } else {
+        if (json) {
+          let allErrors = Object.keys (json)
+            .map (err => `${err}: ${json[err]}`)
+            .join (',');
+          throw Error (allErrors);
+        } else {
+          throw response;
+        }
+      }
+    },
+    async SAVE_NUTRITION_LABEL (action) {
+      // Send request to WP to save token
+      var data = {
+        action: 'save_nutrition_label',
+        image_url: action.nutrition_label_url,
+        recipe_title: action.title,
+      };
+      const formBody = Object.keys (data)
+        .map (
+          key => encodeURIComponent (key) + '=' + encodeURIComponent (data[key])
+        )
+        .join ('&');
+
+      let response = await window.fetch (action.endpoint, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          // 'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        body: formBody, // body data type must match "Content-Type" header
+      });
+
+      let json = await response.json ();
+
+      if (response.ok) {
+        return json;
+      } else {
+        if (json) {
+          let allErrors = Object.keys (json)
+            .map (err => `${err}: ${json[err]}`)
+            .join (',');
+          throw Error (allErrors);
+        } else {
+          throw response;
+        }
+      }
+    },
+
     REGISTER_SEND_BACKEND (action) {
       return apiFetch ({
         path: '/zip-recipes/v1/register',
@@ -885,6 +1128,11 @@ registerStore ('zip-recipes-store', {
   },
 
   resolvers: {
+    *getPromos (endpoint, blogUrl) {
+      let promos = yield actions.fetchPromos(endpoint, blogUrl);
+      yield actions.setPromos(promos);
+    },
+
     *getSettings () {
       const path = '/zip-recipes/v1/settings';
       const settings = yield actions.fetchSettings (path);
@@ -900,6 +1148,7 @@ registerStore ('zip-recipes-store', {
         yield actions.setTitle (recipe.title);
         yield actions.setImageUrl (recipe.image_url);
         yield actions.setIsFeaturedPostImage (recipe.is_featured_post_image);
+        yield actions.setNutritionLabelUrl (recipe.nutrition_label);
         yield actions.setDescription (recipe.description);
         yield actions.setAuthor (recipe.author);
         yield actions.setCategory (recipe.category);

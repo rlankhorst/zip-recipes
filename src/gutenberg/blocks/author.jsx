@@ -3,7 +3,7 @@ const Author = props => {
     <div className="zrdn-columns zrdn-is-mobile">
       <div className="zrdn-column">
         <div className="zrdn-field">
-          <label htmlFor="author" class="zrdn-label">
+          <label htmlFor="author" className="zrdn-label">
             Author
           </label>
           <div className="zrdn-control" id="author-container">
@@ -20,7 +20,7 @@ const Author = props => {
               : props.selectedAuthor}
           </div>
           {props.editable
-            ? <p class="zrdn-help">
+            ? <p className="zrdn-help">
                 Authors can be added from Zip Recipes settings page.
               </p>
             : ''}

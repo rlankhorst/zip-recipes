@@ -133,10 +133,16 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
 	    return ZRDN_REST_Response::success(array(
 	    	'wp_version' => $wp_version,
 		    'blog_url' => get_bloginfo('wpurl'),
-	    	'registered' => !!get_option('zrdn_registered', false),
+	    	// zrdn_registered can be an array (if user registered nutrition feature) or boolean
+	    	'registered' => is_bool(get_option('zrdn_registered', false)) ? get_option('zrdn_registered', false) :  get_option('zrdn_registered'),
 		    'registration_endpoint' => ZRDN_API_URL . "/installation/register/",
+		    'recipes_endpoint' => ZRDN_API_URL . '/v2/recipes/',
+		    'promos_endpoint' => ZRDN_API_URL . '/v2/promos/',
+		    'wp_ajax_endpoint' => admin_url('admin-ajax.php'),
+		    'locale' => substr(get_locale(), 0, 2),
 		    'authors' => get_option('zrdn_authors_list', array()),
 		    'default_author' => get_option('zrdn_authors_default_author', ''),
+	        'success_icon_url' => plugins_url('../gutenberg/assets/images/checkbox.png', __FILE__),
 	    ));
     }
 
@@ -183,7 +189,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
         $recipe = $this->prepare_item_for_database($request);
         $insert_id = RecipeModel::db_insert($recipe);
         if($insert_id){
-            $recipe = RecipeModel::db_select($insert_id);
+	        $recipe = RecipeModel::db_select($insert_id);
             $data = $this->prepare_item_for_response($recipe, $request);
             return ZRDN_REST_Response::success($data, WP_Http::CREATED);
         }else{
@@ -277,6 +283,10 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
 	    if(Util::get_array_value('serving_size', $parameters)) {
 		    $sanitize['serving_size'] = Util::get_array_value('serving_size', $parameters);
 	    }
+	    if(Util::get_array_value('nutrition_label', $parameters)) {
+		    $sanitize['nutrition_label'] = Util::get_array_value('nutrition_label', $parameters);
+	    }
+
         if(Util::get_array_value('category', $parameters)) {
             $sanitize['category'] = Util::get_array_value('category', $parameters);
         }
@@ -349,7 +359,8 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
             'instructions' => $this->format_text_to_array($item->instructions),
             'nutrition' => $this->format_nutrition_schema($item),
 	        'notes' => $item->notes,
-	        'serving_size' => $item->serving_size
+	        'serving_size' => $item->serving_size,
+	        'nutrition_label' => $item->nutrition_label
         );
 
         if ($item->prep_time) {

@@ -19,7 +19,7 @@ const TitleAndImage = props => {
         <div className="zrdn-column zrdn-is-three-quarters-tablet zrdn-is-two-thirds-mobile">
           <div className="zrdn-field">
             {props.isTitleEditable
-              ? <label htmlFor="recipe-title" class="zrdn-label">
+              ? <label htmlFor="recipe-title" className="zrdn-label">
                   Title
                 </label>
               : ''}
@@ -310,50 +310,43 @@ const Notes = props => (
     </div>
   </div>
 );
-const Servings = props => (
-  <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="servings">
-        Yields
-      </label>
-    </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+const ServingsAndSize = props => (
+    <div className="zrdn-columns zrdn-is-mobile">
+    <div className="zrdn-column">
+      <div className="zrdn-field">
+        <label htmlFor="servings" className="zrdn-label">
+          Yields
+        </label>
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 id="servings"
-                type="text"
                 onChange={props.onServingsChange}
-                value={props.servings}
+                placeholder="e.g. 8 people"
+                type="text"
                 name="servings"
+                value={props.servings}
               />
             : props.servings}
         </div>
       </div>
     </div>
-  </div>
-);
-
-const ServingSize = props => (
-  <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="serving_size">
-        Serving Size
-      </label>
-    </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-column">
+      <div className="zrdn-field">
+        <label htmlFor="servingSize" className="zrdn-label">
+          Serving Size
+        </label>
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
-                id="serving_size"
-                type="text"
+                className="zrdn-input zrdn-is-small"
+                placeholder="1 slice"
                 onChange={props.onServingSizeChange}
+                type="text"
+                id="servingSize"
+                name="servingSize"
                 value={props.servingSize}
-                name="serving_size"
               />
             : props.servingSize}
         </div>
@@ -363,16 +356,16 @@ const ServingSize = props => (
 );
 
 const Calories = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="calories">Calories</label>
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="calories">Calories</label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="calories"
                 name="calories"
@@ -387,16 +380,16 @@ const Calories = props => (
 );
 
 const Carbs = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="carbs">Carbs</label>
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="carbs">Carbs</label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="carbs"
                 name="carbs"
@@ -411,16 +404,16 @@ const Carbs = props => (
 );
 
 const Protein = props => (
-  <div class="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="protein">Protein</label>
+  <div className="zrdn-field zrdn-is-horizontal zrdn-is-mobile">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="protein">Protein</label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="protein"
                 name="protein"
@@ -435,16 +428,16 @@ const Protein = props => (
 );
 
 const Fiber = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="fiber">Fiber</label>
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="fiber">Fiber</label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="fiber"
                 name="fiber"
@@ -459,16 +452,16 @@ const Fiber = props => (
 );
 
 const Sugar = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="sugar">Sugar</label>
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="sugar">Sugar</label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="sugar"
                 name="sugar"
@@ -483,16 +476,16 @@ const Sugar = props => (
 );
 
 const Sodium = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="sodium">Sodium</label>
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="sodium">Sodium</label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="sodium"
                 name="sodium"
@@ -506,16 +499,16 @@ const Sodium = props => (
   </div>
 );
 const Fat = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="fat">Fat</label>
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="fat">Fat</label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="fat"
                 name="fat"
@@ -529,18 +522,18 @@ const Fat = props => (
   </div>
 );
 const SaturatedFat = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="saturated_fat">
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="saturated_fat">
         Saturated Fat
       </label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="saturated_fat"
                 name="saturated_fat"
@@ -555,18 +548,18 @@ const SaturatedFat = props => (
 );
 
 const TransFat = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="trans_fat">
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="trans_fat">
         Trans. Fat
       </label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="trans_fat"
                 name="trans_fat"
@@ -580,18 +573,18 @@ const TransFat = props => (
   </div>
 );
 const Cholesterol = props => (
-  <div class="zrdn-field zrdn-is-horizontal">
-    <div class="zrdn-field-label">
-      <label class="zrdn-label" for="cholesterol">
+  <div className="zrdn-field zrdn-is-horizontal">
+    <div className="zrdn-field-label">
+      <label className="zrdn-label" for="cholesterol">
         Cholesterol
       </label>
     </div>
-    <div class="zrdn-field-body">
-      <div class="zrdn-field zrdn-is-narrow">
-        <div class="zrdn-control">
+    <div className="zrdn-field-body">
+      <div className="zrdn-field zrdn-is-narrow">
+        <div className="zrdn-control">
           {props.editable
             ? <input
-                class="zrdn-input zrdn-is-small"
+                className="zrdn-input zrdn-is-small"
                 type="text"
                 id="cholesterol"
                 name="cholesterol"
@@ -613,8 +606,7 @@ export {
   Description,
   PrepAndCookTime,
   Notes,
-  Servings,
-  ServingSize,
+  ServingsAndSize,
   Calories,
   Carbs,
   Protein,
