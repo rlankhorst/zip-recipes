@@ -6,7 +6,7 @@ Domain Path: /languages
 Plugin URI: http://www.ziprecipes.net/
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 Description: A plugin that adds all the necessary microdata to your recipes, so they will show up in Google's Recipe Search
-Version: 4.36
+Version: 5.0
 Author: HappyGezim
 Author URI: http://www.ziprecipes.net/
 License: GPLv3 or later
@@ -34,14 +34,15 @@ This code is derived from the 2.6 version build of ZipList Recipe Plugin release
 */
 
 namespace ZRDN;
-spl_autoload_register(__NAMESPACE__ . '\myAutoloader');
+spl_autoload_register(__NAMESPACE__ . '\zrdn_autoload');
 
 // Make sure we don't expose any info if called directly
 defined('ABSPATH') or die("Error! Cannot be called directly.");
 
 // Define constants
-define('ZRDN_VERSION_NUM', '4.36');
+define('ZRDN_VERSION_NUM', '5.0');
 define('ZRDN_PLUGIN_DIRECTORY', plugin_dir_path( __FILE__ ));
+define('ZRDN_PLUGIN_DIRECTORY_URL', plugin_dir_url( __FILE__ ));
 define('ZRDN_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('ZRDN_PLUGIN_URL', sprintf('%s/%s/', plugins_url(), dirname(plugin_basename(__FILE__))));
 define('ZRDN_API_URL', "https://api.ziprecipes.net");
@@ -68,16 +69,30 @@ if (strpos($_SERVER['REQUEST_URI'], 'media-upload.php') && strpos($_SERVER['REQU
 }
 
 
-function myAutoloader($className)
+function zrdn_autoload($className)
 {
-	$path =  __DIR__ . '/models/Recipe.php';
+    global $wp_version;
+    $path = __DIR__ . '/models/Recipe.php';
 
-	require_once($path);
-	require_once(__DIR__ . '/_inc/class.ziprecipes.util.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
-	require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/PluginBase.php');
+    require_once($path);
+    require_once(__DIR__ . '/_inc/class.ziprecipes.util.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.util.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . 'class.ziprecipes.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/helper_functions.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/class.ziprecipes.shortcodes.php');
+    require_once(ZRDN_PLUGIN_DIRECTORY . '_inc/PluginBase.php');
+
+    /**
+     * API endpoint & Basic Auth
+     */
+    require_once(ZRDN_PLUGIN_DIRECTORY . "controllers/Response.php");
+    require_once(ZRDN_PLUGIN_DIRECTORY . "controllers/AuthController.php");
+    require_once(ZRDN_PLUGIN_DIRECTORY . "controllers/EndpointController.php");
+
+    /**
+     * Gutenberg
+     */
+    if (!function_exists('is_plugin_active'))
+        require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 }
 

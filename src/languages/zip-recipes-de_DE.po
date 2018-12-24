@@ -2,12 +2,12 @@
 # Copyright (C) YEAR Zip Recipes Ltd
 # This file is distributed under the same license as the zip-recipes package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:24-0600\n"
+"POT-Creation-Date: 2018-12-23 20:36-0700\n"
 "PO-Revision-Date: 2017-03-14 12:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -75,6 +75,14 @@ msgstr "Kalorien pro Portion:"
 msgid "Calories:"
 msgstr "Kalorien:"
 
+#, fuzzy
+msgid "Can't create recipe"
+msgstr "Rezept Bewerten"
+
+#, fuzzy
+msgid "Can't update recipe"
+msgstr "Rezept Bewerten"
+
 msgid "Carbs per serving:"
 msgstr "Kohlenhydrate pro Portion:"
 
@@ -82,7 +90,7 @@ msgid "Carbs:"
 msgstr "Kohlenhydrate:"
 
 msgid "Category:"
-msgstr ""
+msgstr "Kategorie:"
 
 #, fuzzy
 msgid "Cholesterol per serving:"
@@ -112,17 +120,17 @@ msgstr "Balaststoffe pro Portion:"
 msgid "Fiber:"
 msgstr "Balaststoffe:"
 
-msgid ""
-"For the best performance, Zip Recipes recommends ImageMagick or GD PHP "
-"extensions installed. Please contact your hosting company and request that "
-"they install ImageMagick or GD PHP extensions for you website."
-msgstr ""
-
 msgid "Ingredients"
 msgstr "Zutaten"
 
 msgid "Instructions"
 msgstr "Zubereitung"
+
+msgid "Invalid recipe ID or recipe not found"
+msgstr ""
+
+msgid "Invalid recipe fields"
+msgstr ""
 
 msgid "Notes"
 msgstr "Hinweis:"

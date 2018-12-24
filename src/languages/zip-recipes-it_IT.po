@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:24-0600\n"
+"POT-Creation-Date: 2018-12-23 20:36-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,6 +75,12 @@ msgstr "Calorie per porzione:"
 msgid "Calories:"
 msgstr "Calorie per porzione:"
 
+msgid "Can't create recipe"
+msgstr ""
+
+msgid "Can't update recipe"
+msgstr ""
+
 msgid "Carbs per serving:"
 msgstr "Carboidrati per porzione:"
 
@@ -82,7 +88,7 @@ msgid "Carbs:"
 msgstr ""
 
 msgid "Category:"
-msgstr ""
+msgstr "Categoria:"
 
 #, fuzzy
 msgid "Cholesterol per serving:"
@@ -112,17 +118,17 @@ msgstr "Fibre per porzione:"
 msgid "Fiber:"
 msgstr ""
 
-msgid ""
-"For the best performance, Zip Recipes recommends ImageMagick or GD PHP "
-"extensions installed. Please contact your hosting company and request that "
-"they install ImageMagick or GD PHP extensions for you website."
-msgstr ""
-
 msgid "Ingredients"
 msgstr "Ingredienti"
 
 msgid "Instructions"
 msgstr "Istruzioni"
+
+msgid "Invalid recipe ID or recipe not found"
+msgstr ""
+
+msgid "Invalid recipe fields"
+msgstr ""
 
 msgid "Notes"
 msgstr "Note"

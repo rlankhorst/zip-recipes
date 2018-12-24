@@ -2,7 +2,7 @@ version: '2'
 services:
   dev:
     container_name: dev
-    image: hgezim/wordpress-nginx-nocache-xdebug:latest
+    image: hgezim/wordpress-nginx-nocache-xdebug:10.1
     ports:
       - "8080:8080"
     volumes:
@@ -11,6 +11,8 @@ services:
   db:
     container_name: db
     image: mysql:5.5
+    ports:
+      - "3366:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wordpress # db name of wordpress

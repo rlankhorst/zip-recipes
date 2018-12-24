@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:24-0600\n"
+"POT-Creation-Date: 2018-12-23 20:36-0700\n"
 "PO-Revision-Date: 2017-03-01 21:27+0200\n"
 "Last-Translator: Kirsi Jaakkola <jaakkola.kirsi@gmail.com>\n"
 "Language-Team: \n"
@@ -75,6 +75,14 @@ msgstr "Kaloria annosta kohden:"
 msgid "Calories:"
 msgstr "Kalorit:"
 
+#, fuzzy
+msgid "Can't create recipe"
+msgstr "Arvostele resepti"
+
+#, fuzzy
+msgid "Can't update recipe"
+msgstr "Arvostele resepti"
+
 msgid "Carbs per serving:"
 msgstr "Hiilihydraatit annosta kohden:"
 
@@ -112,17 +120,17 @@ msgstr "Kuitu annosta kohden:"
 msgid "Fiber:"
 msgstr "Kuitu:"
 
-msgid ""
-"For the best performance, Zip Recipes recommends ImageMagick or GD PHP "
-"extensions installed. Please contact your hosting company and request that "
-"they install ImageMagick or GD PHP extensions for you website."
-msgstr ""
-
 msgid "Ingredients"
 msgstr "Ainesosat"
 
 msgid "Instructions"
 msgstr "Ohje"
+
+msgid "Invalid recipe ID or recipe not found"
+msgstr ""
+
+msgid "Invalid recipe fields"
+msgstr ""
 
 msgid "Notes"
 msgstr "Muistiinpanot"
