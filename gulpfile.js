@@ -252,6 +252,7 @@ gulp.task('composer-dev-install', shell.task([
  */
 gulp.task("free-sequence", function (cb) {
   return sequence(
+      "sassForGutenberg",
     ["plugins-free"],
     "build-free",
     "compress-free",
@@ -260,17 +261,22 @@ gulp.task("free-sequence", function (cb) {
 
 gulp.task("premium-sequence-lover", function (cb) {
   return sequence(
-    "recipegridSaas",
-    "custom-templates", // build CustomTemplates plugin
-    ["plugins-premium-lover"],
-    "build-premium-lover",
-    "compress-premium-lover",
+      "sassForGutenberg",
+      "recipegridSaas",
+      "addAuthorBlock", // replace author.jsx with proper author.jsx content from author/gutenberg/author.jsx
+      "addNutritionBlock", // replace nutrition.jsx with proper nutrition.jsx content from author/gutenberg/nutrition.jsx
+       "custom-templates", // build CustomTemplates plugin
+      ["plugins-premium-lover"],
+      "build-premium-lover",
+      "compress-premium-lover",
     cb);
 });
 
 gulp.task("premium-sequence-admirer", function (cb) {
     return sequence(
+        "sassForGutenberg",
         "recipegridSaas",
+        "addAuthorBlock", // replace author.jsx with proper author.jsx content from author/gutenberg/author.jsx
         "custom-templates", // build CustomTemplates plugin
         ["plugins-premium-admirer"],
         "build-premium-admirer",
@@ -280,12 +286,24 @@ gulp.task("premium-sequence-admirer", function (cb) {
 
 gulp.task("premium-sequence-friend", function (cb) {
     return sequence(
+        "sassForGutenberg",
         "recipegridSaas",
+        "addAuthorBlock", // replace author.jsx with proper author.jsx content from author/gutenberg/author.jsx
         "custom-templates", // build CustomTemplates plugin
         ["plugins-premium-friend"],
         "build-premium-friend",
         "compress-premium-friend",
         cb);
+});
+
+gulp.task("addAuthorBlock", function(cb) {
+    return gulp.src('src/plugins/Author/gutenberg/author.jsx')
+        .pipe(gulp.dest('src/gutenberg/blocks/author.jsx'));
+});
+
+gulp.task("addNutritionBlock", function(cb) {
+    return gulp.src('src/plugins/AutomaticNutrition/gutenberg/nutrition_calculator.jsx')
+        .pipe(gulp.dest('src/gutenberg/blocks/nutrition_calculator.jsx'));
 });
 
 /**

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-09-03 13:55-0600\n"
+"POT-Creation-Date: 2018-12-23 17:24-0700\n"
 "PO-Revision-Date: 2018-05-06 14:28-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -75,6 +75,14 @@ msgstr "每份卡路里："
 msgid "Calories:"
 msgstr "卡路里："
 
+#, fuzzy
+msgid "Can't create recipe"
+msgstr "为此食谱评分"
+
+#, fuzzy
+msgid "Can't update recipe"
+msgstr "为此食谱评分"
+
 msgid "Carbs per serving:"
 msgstr "每份碳水化合物："
 
@@ -122,6 +130,15 @@ msgstr "食材"
 
 msgid "Instructions"
 msgstr "说明"
+
+msgid "Invalid recipe ID or recipe not found"
+msgstr ""
+
+msgid "Invalid recipe fields"
+msgstr ""
+
+msgid "Not Implemented Yet."
+msgstr ""
 
 msgid "Notes"
 msgstr "笔记"
@@ -194,6 +211,9 @@ msgstr "每份糖："
 
 msgid "Sugar:"
 msgstr "糖："
+
+msgid "The resource cannot be deleted."
+msgstr ""
 
 msgid "Total Time:"
 msgstr "总时间："

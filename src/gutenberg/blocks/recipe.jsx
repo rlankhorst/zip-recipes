@@ -2,6 +2,7 @@ const {__} = wp.i18n;
 const {registerBlockType} = wp.blocks;
 
 const {actions} = require ('../store/zip-recipes-store');
+const {onCalculateNutrition} = require('./nutrition_calculator');
 const {Author} = require ('./author');
 const {
   TitleAndImage,
@@ -65,7 +66,7 @@ registerBlockType ('zip-recipes/recipe-block', {
     const store = select ('zip-recipes-store');
     const noticeActions = dispatch ('core/notices');
 
-    return {
+    let dispatchMethods = {
       async onRegister (
         endpoint,
         firstName,
@@ -87,7 +88,7 @@ registerBlockType ('zip-recipes/recipe-block', {
         creators.setIsRegisteringSuccess ();
       },
       setInitialTitle () {
-        creators.setTitle(getCurrentPost().title);
+        creators.setTitle (getCurrentPost ().title);
       },
       onTitleChange({target: {value}}) {
         creators.setTitle (value);
@@ -221,178 +222,6 @@ registerBlockType ('zip-recipes/recipe-block', {
       onCancel (setState) {
         setState ({isOpen: false});
       },
-      async onCalculateNutrition () {
-        creators.setNutritionCalculationError(''); // reset errors
-        let ingredientsList = store.getIngredients ();
-        let ingredients = ingredientsList.map (function (x) {
-          return {text: x};
-        });
-        let title = store.getTitle ();
-        let servings = store.getServings ();
-        let servingSize = store.getServingSize ();
-        let settings = store.getSettings ();
-        let locale = settings.locale;
-
-        // Ensure title, ingredients and yield are entered
-        if (!title) {
-          return creators.setNutritionCalculationError (
-            `Please enter a recipe title`
-          );
-        }
-        if (!ingredients) {
-          return creators.setNutritionCalculationError (
-            `Please enter a list of ingredients`
-          );
-        }
-        if (!servings) {
-          return creators.setNutritionCalculationError (
-            `Please enter the number of servings in the Yield field`
-          );
-        }
-
-        // no registration or registration is not an array
-        // (legacy registration is boolean which is why we do the array check)
-        let registration = settings.registered;
-        creators.setCalculatingNutrition ();
-        if (!registration || typeof registration !== typeof []) {
-          // 'Go to Zip Recipes > Automatic Nutrition to finish the setup.'
-          creators.setCalculatingNutritionSuccess ();
-          return creators.setNutritionCalculationError (
-            `Go to Zip Recipes > Automatic Nutrition to finish the setup. For more info, <a href="https://www.ziprecipes.net/docs/automatic-nutrition/" target="_blank">click here</a>.`
-          );
-        } else if (!(registration && registration.token)) {
-          // "Could not get authorization token. Please email us: <a href='mailto:hello@ziprecipes.net'>hello@ziprecipes.net</a>"
-          creators.setCalculatingNutritionSuccess ();
-          return creators.setNutritionCalculationError (
-            `Could not get authorization token. Please email us: <a href='mailto:hello@ziprecipes.net'>hello@ziprecipes.net</a>`
-          );
-        }
-
-        // TODO: create loader action for button to show busy state
-
-        /* THe way this works:
-        1. Send ingredients and other data to api.ziprecipes.net
-        2. get back a URL for the nutrition label and nutrition data fields
-        3. send AJAX call to WP to "download" this image and add it as attachment
-        4. get URL from 3. and set it in `nutrition_label` field
-        5. get attachment ID from 3 and set it to `nutrition_label_attachment_id`
-        6. [Done on backend] when recipe saves create metadata for attachment that adds `zrdn_generated_for_recipe_id` field with recipe_id
-        */
-
-        // action to getNutritionData
-        let nutritionData = {};
-        try {
-          nutritionData = await creators.fetchNutritionData (
-            settings.recipes_endpoint,
-            registration.token,
-            title.trim(),
-            ingredients,
-            servings.trim(),
-            servingSize,
-            locale
-          );
-
-          creators.setCalories (nutritionData.nutrition.Energy);
-          creators.setCarbs (nutritionData.nutrition.Carbs);
-          creators.setProtein (nutritionData.nutrition.Protein);
-          creators.setFiber (nutritionData.nutrition.Fiber);
-          creators.setSugar (nutritionData.nutrition.Sugars);
-          creators.setSodium (nutritionData.nutrition.Sodium);
-          creators.setFat (nutritionData.nutrition.Fat);
-          creators.setSaturatedFat (nutritionData.nutrition.Saturated);
-          creators.setTransFat (nutritionData.nutrition.Trans);
-          creators.setCholesterol (nutritionData.nutrition.Cholesterol);
-        } catch (e) {
-          creators.setCalculatingNutritionSuccess ();
-          return creators.setNutritionCalculationError (
-            `Error getting nutrition data from Zip Recipes Services: ${e.message}`
-          );
-        }
-
-        let attachmentData = {};
-        try {
-          attachmentData = await creators.saveNutritionLabel (
-            store.getSettings ().wp_ajax_endpoint,
-            nutritionData.nutrition_label_url, // URL at api.ziprecipes.net/...
-            store.getTitle ()
-          );
-        } catch (e) {
-          creators.setCalculatingNutritionSuccess ();
-          return creators.setNutritionCalculationError (
-            `Error saving nutrition label to WordPress: ${e.message}`
-          );
-        }
-
-        creators.setNutritionLabelUrl (attachmentData.nutrition_label_wp_url); // URL uploaded on local WP site
-        creators.setNutritionLabelAttachmentId (
-          attachmentData.nutrition_label_attachment_id
-        );
-        creators.setCalculatingNutritionSuccess ();
-
-        // try: action to save image to WP
-        // except: display error
-        // jQuery.ajax ({
-        //   url: window.ajax_object.endpoints.recipes,
-        //   type: 'POST',
-        //   data: JSON.stringify ({
-        //     ingredients: ingredients,
-        //     title: title,
-        //     servings: servings,
-        //     servings_unit: servings_size,
-        //     language: window.ajax_object.locale,
-        //   }),
-        //   headers: {
-        //     Authorization: 'Token ' + window.ajax_object.registration.token,
-        //   },
-        //   contentType: 'application/json; charset=utf-8',
-        //   dataType: 'json',
-        //   success: function (response_data) {
-        //     zrdn_setNutrition (response_data.nutrition);
-
-        //     // Send request to WP to save token
-        //     var data = {
-        //       action: 'save_nutrition_label',
-        //       image_url: response_data.nutrition_label_url,
-        //       recipe_title: title,
-        //     };
-
-        //     jQuery
-        //       .post (window.ajax_object.ajax_url, data, function (response) {
-        //         zrdn_setSuccess ('it worked');
-        //         // open up nutrition section
-        //         jQuery ('#more-options').show (400);
-        //         jQuery ('#more-options-toggle').html ('Less options');
-
-        //         var json = JSON.parse (response);
-        //         var label_url = json.nutrition_label_wp_url;
-        //         var attachment_id = json.nutrition_label_attachment_id;
-        //         jQuery ('[name="nutrition_label"]').val (label_url);
-        //         jQuery ('[name="nutrition_label_attachment_id"]').val (
-        //           attachment_id
-        //         );
-        //       })
-        //       .fail (function (e) {
-        //         zrdn_setError (e.responseText);
-        //       });
-        //   },
-        //   error: function (jqXHR) {
-        //     var json = jqXHR.responseJSON;
-
-        //     // There's no json response if api doesn't exist, for example
-        //     if (json && typeof json === typeof []) {
-        //       var messages = [];
-        //       Object.keys (json).forEach (function (key) {
-        //         messages.push (key + ': ' + json[key]);
-        //       });
-
-        //       zrdn_setError (messages.join ('<br />'));
-        //     } else {
-        //       zrdn_setError (jqXHR.responseText);
-        //     }
-        //   },
-        // });
-      },
-
       async onSave (setAttributes, setState, id) {
         const recipe = {
           post_id: getCurrentPost ().id,
@@ -466,6 +295,10 @@ registerBlockType ('zip-recipes/recipe-block', {
         }
       },
     };
+
+    dispatchMethods.onCalculateNutrition = onCalculateNutrition;
+
+    return dispatchMethods;
   }) (
     withSelect ((select, props) => {
       const store = select ('zip-recipes-store');
@@ -508,7 +341,10 @@ registerBlockType ('zip-recipes/recipe-block', {
         nutritionCalculationError: store.getNutritionCalculationError (),
         nutritionLabelUrl: store.getNutritionLabelUrl (),
         isNutritionCalculating: store.getIsNutritionCalculation (),
-        promos: store.getPromos(store.getSettings().promos_endpoint, store.getSettings().blog_url)
+        promos: store.getPromos (
+          store.getSettings ().promos_endpoint,
+          store.getSettings ().blog_url
+        ),
       };
     }) (
       withState ({
@@ -517,6 +353,8 @@ registerBlockType ('zip-recipes/recipe-block', {
         lastName: '',
         email: '',
         showNutritionFields: false,
+        showNutritionPromo: false,
+        showAuthorPromo: false,
       }) (props => {
         const renderRegister = () => (
           <div
@@ -777,9 +615,11 @@ registerBlockType ('zip-recipes/recipe-block', {
                   isDismissable={false}
                   onRequestClose={() => props.setState ({isOpen: false})}
                 >
-                  <div dangerouslySetInnerHTML={{
-                    __html: props.promos.author
-                  }} />
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: props.promos.author,
+                    }}
+                  />
                   <TitleAndImage
                     recipeId={props.attributes.id}
                     title={props.title}
@@ -871,11 +711,21 @@ registerBlockType ('zip-recipes/recipe-block', {
                             Enter Nutrition Data Manually
                           </button>}
                       <button
-                        onClick={props.onCalculateNutrition}
+                        onClick={props.onCalculateNutrition.bind (
+                          null,
+                          props.setState
+                        )}
                         className={calculateButtonClasses}
                       >
                         Automatically Calculate Nutrition
                       </button>
+                      {props.showNutritionPromo
+                        ? <div
+                            dangerouslySetInnerHTML={{
+                              __html: props.promos.nutrition,
+                            }}
+                          />
+                        : ''}
                     </div>
                   </div>
                   {props.showNutritionFields || props.nutritionLabelUrl

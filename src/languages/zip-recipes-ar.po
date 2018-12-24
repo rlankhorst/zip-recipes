@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-04-23 12:24-0600\n"
+"POT-Creation-Date: 2018-12-23 17:24-0700\n"
 "PO-Revision-Date: 2017-04-10 20:00+0400\n"
 "Last-Translator: \n"
 "Language-Team: Dr. Alaa Qashllan <doctor3ala2@gmail.com>\n"
@@ -76,6 +76,14 @@ msgstr "السعرات الحرارية لكل حصة:"
 msgid "Calories:"
 msgstr "الكالوري:"
 
+#, fuzzy
+msgid "Can't create recipe"
+msgstr "قيم هذه الوصفة"
+
+#, fuzzy
+msgid "Can't update recipe"
+msgstr "قيم هذه الوصفة"
+
 msgid "Carbs per serving:"
 msgstr "الكربوهيدرات لكل حصة:"
 
@@ -124,6 +132,15 @@ msgstr "المقادير"
 
 msgid "Instructions"
 msgstr "خطوات التحضير"
+
+msgid "Invalid recipe ID or recipe not found"
+msgstr ""
+
+msgid "Invalid recipe fields"
+msgstr ""
+
+msgid "Not Implemented Yet."
+msgstr ""
 
 msgid "Notes"
 msgstr "ملاحظات"
@@ -194,6 +211,9 @@ msgstr "السكر لكل حصة:"
 
 msgid "Sugar:"
 msgstr "سكر:"
+
+msgid "The resource cannot be deleted."
+msgstr ""
 
 msgid "Total Time:"
 msgstr "الوقت الكلي:"
