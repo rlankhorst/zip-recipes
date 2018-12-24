@@ -125,7 +125,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      * @return WP_Error|WP_REST_Response
      */
     public function get_recipes(WP_REST_Request $request) {
-        return ZRDN_REST_Response::error(__('Not Implemented Yet.', 'zip-recipes'),WP_Http::NOT_IMPLEMENTED);
+        return ZRDN_REST_Response::error('Not Implemented Yet.',WP_Http::NOT_IMPLEMENTED);
     }
 
     public function get_settings(WP_REST_Request $request) {
@@ -228,7 +228,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
 
         $result = RecipeModel::db_delete(array('recipe_id' => $recipe_id));
         if (!$result) {
-            return ZRDN_REST_Response::error(__('The resource cannot be deleted.', 'zip-recipes'));
+            return ZRDN_REST_Response::error('The resource cannot be deleted.', 'zip-recipes');
         }
         return ZRDN_REST_Response::success(true);
     }

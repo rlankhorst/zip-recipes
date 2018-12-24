@@ -24,7 +24,7 @@ class RecipeBlock {
 	function __construct() {
 
 
-		$relativeScriptPath = 'gutenberg/build/recipe.min.js'; // TODO: fix this
+		$relativeScriptPath = 'gutenberg/build/recipe.min.js';
 
 		wp_register_script(
 			'recipe-block',

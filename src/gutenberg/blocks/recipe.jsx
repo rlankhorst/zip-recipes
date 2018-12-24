@@ -1,6 +1,7 @@
 const {__} = wp.i18n;
 const {registerBlockType} = wp.blocks;
 
+const { disableAuthorPromo } = require('./promos');
 const {actions} = require ('../store/zip-recipes-store');
 const {onCalculateNutrition} = require('./nutrition_calculator');
 const {Author} = require ('./author');
@@ -304,7 +305,7 @@ registerBlockType ('zip-recipes/recipe-block', {
       const store = select ('zip-recipes-store');
       const {getCurrentPost} = select ('core/editor');
 
-      return {
+      let selected = {
         id: store.getId (),
         recipe: store.getRecipe (props.attributes.id),
         title: store.getTitle (),
@@ -346,6 +347,15 @@ registerBlockType ('zip-recipes/recipe-block', {
           store.getSettings ().blog_url
         ),
       };
+
+      if (disableAuthorPromo()) {
+        selected.promos.author = '';
+      }
+
+      // We don't need to turn off nutrition promo since it only appears if nutrition calculator is not in the plan
+      // (i.e. non-Lover plan)
+      
+      return selected;
     }) (
       withState ({
         isOpen: false,

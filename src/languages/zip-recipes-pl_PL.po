@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-12-23 17:24-0700\n"
+"POT-Creation-Date: 2018-12-23 20:36-0700\n"
 "PO-Revision-Date: 2016-06-16 20:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -120,12 +120,6 @@ msgstr ""
 msgid "Fiber:"
 msgstr ""
 
-msgid ""
-"For the best performance, Zip Recipes recommends ImageMagick or GD PHP "
-"extensions installed. Please contact your hosting company and request that "
-"they install ImageMagick or GD PHP extensions for you website."
-msgstr ""
-
 msgid "Ingredients"
 msgstr "Składniki"
 
@@ -136,9 +130,6 @@ msgid "Invalid recipe ID or recipe not found"
 msgstr ""
 
 msgid "Invalid recipe fields"
-msgstr ""
-
-msgid "Not Implemented Yet."
 msgstr ""
 
 msgid "Notes"
@@ -211,9 +202,6 @@ msgid "Sugar per serving:"
 msgstr "Ilość cukru w porcji"
 
 msgid "Sugar:"
-msgstr ""
-
-msgid "The resource cannot be deleted."
 msgstr ""
 
 msgid "Total Time:"

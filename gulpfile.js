@@ -263,10 +263,8 @@ gulp.task("premium-sequence-lover", function (cb) {
   return sequence(
       "sassForGutenberg",
       "recipegridSaas",
-      "addAuthorBlock", // replace author.jsx with proper author.jsx content from author/gutenberg/author.jsx
-      "addNutritionBlock", // replace nutrition.jsx with proper nutrition.jsx content from author/gutenberg/nutrition.jsx
        "custom-templates", // build CustomTemplates plugin
-      ["plugins-premium-lover"],
+      ["plugins-premium-lover", "gutenbergWithAuthorAndNutrition"],
       "build-premium-lover",
       "compress-premium-lover",
     cb);
@@ -276,9 +274,9 @@ gulp.task("premium-sequence-admirer", function (cb) {
     return sequence(
         "sassForGutenberg",
         "recipegridSaas",
-        "addAuthorBlock", // replace author.jsx with proper author.jsx content from author/gutenberg/author.jsx
+        // "addAuthorBlock", // replace author.jsx with proper author.jsx content from author/gutenberg/author.jsx
         "custom-templates", // build CustomTemplates plugin
-        ["plugins-premium-admirer"],
+        ["plugins-premium-admirer", "gutenbergWithAuthor"],
         "build-premium-admirer",
         "compress-premium-admirer",
         cb);
@@ -288,24 +286,13 @@ gulp.task("premium-sequence-friend", function (cb) {
     return sequence(
         "sassForGutenberg",
         "recipegridSaas",
-        "addAuthorBlock", // replace author.jsx with proper author.jsx content from author/gutenberg/author.jsx
+        // "addAuthorBlock", // replace author.jsx with proper author.jsx content from author/gutenberg/author.jsx
         "custom-templates", // build CustomTemplates plugin
-        ["plugins-premium-friend"],
+        ["plugins-premium-friend", "gutenbergWithAuthor"],
         "build-premium-friend",
         "compress-premium-friend",
         cb);
 });
-
-gulp.task("addAuthorBlock", function(cb) {
-    return gulp.src('src/plugins/Author/gutenberg/author.jsx')
-        .pipe(gulp.dest('src/gutenberg/blocks/author.jsx'));
-});
-
-gulp.task("addNutritionBlock", function(cb) {
-    return gulp.src('src/plugins/AutomaticNutrition/gutenberg/nutrition_calculator.jsx')
-        .pipe(gulp.dest('src/gutenberg/blocks/nutrition_calculator.jsx'));
-});
-
 /**
  * Task to build free and premium versions.
  */
@@ -318,7 +305,9 @@ gulp.task("build", function (cb) {
     "vendor-rename-pre",
     "composer-install",
     "vendor-cleanup",
-    ["compress-assets", "sassForMain", "sassForGutenberg", "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend"],
+    ["compress-assets", "sassForMain", "sassForGutenberg"],
+      "gutenberg",
+      "free-sequence", "premium-sequence-lover", "premium-sequence-admirer", "premium-sequence-friend",
     "vendor-rename-post",
     cb);
 });
@@ -488,35 +477,104 @@ function createErrorHandler(name) {
 
 gulp.task('gutenberg-webpack-dev', function () {
     return gulp.src('src/gutenberg/blocks/recipe.jsx')
-            .pipe(gulpWebpack({
-                mode: 'development',
-                watch: true,
-                devtool: 'source-map',
-                module: {
-                    rules: [
-                        {
-                            test: /\.(js|jsx)$/,
-                            use: 'babel-loader'
-                        }
-                    ]
-                },
-                resolve: {
-                    extensions: ['.jsx', '.js']
-                },
-                output: {
-                    filename: 'recipe.min.js',
-                    path: path.resolve(__dirname, 'build')
-                    // libraryTarget: 'var',
-                    // library: 'ZrdnServingAdjustment'
-                }
-            }, webpack))
-            .pipe(gulp.dest('src/gutenberg/build/'));
+        .pipe(gulpWebpack({
+            mode: 'development',
+            watch: true,
+            devtool: 'source-map',
+            module: {
+                rules: [
+                    {
+                        test: /\.(js|jsx)$/,
+                        use: 'babel-loader'
+                    }
+                ]
+            },
+            resolve: {
+                extensions: ['.jsx', '.js']
+            },
+            output: {
+                filename: 'recipe.min.js',
+                path: path.resolve(__dirname, 'build')
+                // libraryTarget: 'var',
+                // library: 'ZrdnServingAdjustment'
+            }
+        }, webpack))
+        .pipe(gulp.dest('src/gutenberg/build/'));
+});
+
+// Disable author promos - pre
+gulp.task('add-promos-pre', function (done) {
+    fs.renameSync('src/gutenberg/blocks/promos.jsx', 'src/gutenberg/blocks/promos.tmp.jsx');
+    fs.renameSync('src/plugins/Authors/gutenberg/promos.jsx', 'src/gutenberg/blocks/promos.jsx');
+    done();
+});
+
+// Disable author promos - post
+gulp.task('add-promos-post', function (done) {
+    fs.renameSync('src/gutenberg/blocks/promos.jsx', 'src/plugins/Authors/gutenberg/promos.jsx');
+    fs.renameSync('src/gutenberg/blocks/promos.tmp.jsx', 'src/gutenberg/blocks/promos.jsx', '');
+    done();
+});
+
+gulp.task('add-author-pre', function (done) {
+    fs.renameSync('src/gutenberg/blocks/author.jsx', 'src/gutenberg/blocks/author.tmp.jsx');
+    fs.renameSync('src/plugins/Authors/gutenberg/author.jsx', 'src/gutenberg/blocks/author.jsx');
+    done();
+});
+
+gulp.task('add-author-post', function (done) {
+    fs.renameSync('src/gutenberg/blocks/author.jsx', 'src/plugins/Authors/gutenberg/author.jsx');
+    fs.renameSync('src/gutenberg/blocks/author.tmp.jsx', 'src/gutenberg/blocks/author.jsx', '');
+    done();
+});
+
+gulp.task('add-nutrition-pre', function (done) {
+    fs.renameSync('src/gutenberg/blocks/nutrition_calculator.jsx', 'src/gutenberg/blocks/nutrition_calculator.tmp.jsx');
+    fs.renameSync('src/plugins/AutomaticNutrition/gutenberg/nutrition_calculator.jsx', 'src/gutenberg/blocks/nutrition_calculator.jsx');
+    done();
+});
+
+gulp.task('add-nutrition-post', function (done) {
+    fs.renameSync('src/gutenberg/blocks/nutrition_calculator.jsx', 'src/plugins/AutomaticNutrition/gutenberg/nutrition_calculator.jsx');
+    fs.renameSync('src/gutenberg/blocks/nutrition_calculator.tmp.jsx', 'src/gutenberg/blocks/nutrition_calculator.jsx');
+    done();
+});
+
+
+gulp.task('gutenbergWithAuthor', function(cb) {
+    return sequence(
+        'add-author-pre',
+        'add-promos-pre',
+        'gutenberg-webpack-prod',
+        'add-author-post',
+        'add-promos-post',
+        cb);
+});
+
+gulp.task('gutenberg', function(cb) {
+    return sequence(
+        'gutenberg-webpack-prod',
+        cb);
+});
+
+gulp.task('gutenbergWithAuthorAndNutrition', function(cb) {
+    return sequence(
+        'add-author-pre',
+        'add-promos-pre',
+        'add-nutrition-pre',
+        'gutenberg-webpack-prod',
+        'add-author-post',
+        'add-promos-post',
+        'add-nutrition-post',
+        cb);
 });
 
 gulp.task('gutenberg-webpack-prod', function () {
     return gulp.src('src/gutenberg/blocks/recipe.jsx')
         .pipe(gulpWebpack({
-            mode: 'production',
+            // mode: 'production',
+            mode: 'development',
+            devtool: 'inline-source-map',
             module: {
                 rules: [
                     {

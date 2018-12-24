@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-12-23 17:24-0700\n"
+"POT-Creation-Date: 2018-12-23 20:36-0700\n"
 "PO-Revision-Date: 2018-05-06 14:28-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -119,12 +119,6 @@ msgstr "每份纤维："
 msgid "Fiber:"
 msgstr "纤维："
 
-msgid ""
-"For the best performance, Zip Recipes recommends ImageMagick or GD PHP "
-"extensions installed. Please contact your hosting company and request that "
-"they install ImageMagick or GD PHP extensions for you website."
-msgstr ""
-
 msgid "Ingredients"
 msgstr "食材"
 
@@ -135,9 +129,6 @@ msgid "Invalid recipe ID or recipe not found"
 msgstr ""
 
 msgid "Invalid recipe fields"
-msgstr ""
-
-msgid "Not Implemented Yet."
 msgstr ""
 
 msgid "Notes"
@@ -211,9 +202,6 @@ msgstr "每份糖："
 
 msgid "Sugar:"
 msgstr "糖："
-
-msgid "The resource cannot be deleted."
-msgstr ""
 
 msgid "Total Time:"
 msgstr "总时间："

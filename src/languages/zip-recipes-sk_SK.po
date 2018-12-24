@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zip-recipes\n"
 "Report-Msgid-Bugs-To: hello@ziprecipes.net\n"
-"POT-Creation-Date: 2018-12-23 17:24-0700\n"
+"POT-Creation-Date: 2018-12-23 20:36-0700\n"
 "PO-Revision-Date: 2018-01-24 19:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -119,12 +119,6 @@ msgstr "Vláknina na porciu:"
 msgid "Fiber:"
 msgstr "Vláknina:"
 
-msgid ""
-"For the best performance, Zip Recipes recommends ImageMagick or GD PHP "
-"extensions installed. Please contact your hosting company and request that "
-"they install ImageMagick or GD PHP extensions for you website."
-msgstr ""
-
 msgid "Ingredients"
 msgstr "Ingrediencie:"
 
@@ -135,9 +129,6 @@ msgid "Invalid recipe ID or recipe not found"
 msgstr ""
 
 msgid "Invalid recipe fields"
-msgstr ""
-
-msgid "Not Implemented Yet."
 msgstr ""
 
 msgid "Notes"
@@ -209,9 +200,6 @@ msgstr "Cukor na porciu:"
 
 msgid "Sugar:"
 msgstr "Cukor:"
-
-msgid "The resource cannot be deleted."
-msgstr ""
 
 msgid "Total Time:"
 msgstr "Celkový čas:"
