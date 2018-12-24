@@ -9,7 +9,7 @@ Author: Gezim Hoxha
 Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
-Tested up to: 4.9
+Tested up to: 5.0
 Stable tag: 5.0
 Requires PHP: 5.3
 
@@ -130,7 +130,7 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
-= 5.0 Best Recipe Creation Experience with Gutenberg =
+= 5.0.1 Best Recipe Creation Experience with Gutenberg =
 
 - Best recipe creation experience: you can now create recipes quickly and more visually than ever before with Zip Recipes and Gutenberg. You can now see your recipe even after you save it while editing the rest of your post.
 - New language: Japanese

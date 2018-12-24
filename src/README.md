@@ -8,8 +8,8 @@ Author: Gezim Hoxha
 Donate link: https://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, save recipe, print recipe, schema.org, seo, recipe seo, cooking, food, nutrition
 Requires at least: 3.1
-Tested up to: 4.9
-Stable tag: 5.0
+Tested up to: 5.0
+Stable tag: 5.0.1
 Requires PHP: 5.3
 
 Your goal is to build a food blog that earns money by serving loyal fans with your amazing recipes. We're just here to help you do that. Read on to learn about our 4-step success formula for your blog.
@@ -176,7 +176,7 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 
 == Changelog ==
 
-= 5.0 Best Recipe Creation Experience with Gutenberg =
+= 5.0.1 Best Recipe Creation Experience with Gutenberg =
 
 - Best recipe creation experience: you can now create recipes quickly and more visually than ever before with Zip Recipes and Gutenberg. You can now see your recipe even after you save it while editing the rest of your post.
 - New language: Japanese
@@ -185,6 +185,6 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 
 == Upgrade Notice ==
 
-= 5.0 =
+= 5.0.1 =
 
 Completely new editing experience with Gutenberg + new language fixes
