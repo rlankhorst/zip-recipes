@@ -68,6 +68,7 @@ Among the new features added by Zip Recipe plugin are:
  * German
  * Greek
  * Italian
+ * Japanese
  * Polish
  * Portuguese (Brazilian)
  * Russian
@@ -128,6 +129,12 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 8. Voila! Your new recipe can easily be styled with CSS, to look however you would like.
 
 == Changelog ==
+
+= 5.0 Best Recipe Creation Experience with Gutenberg =
+
+- Best recipe creation experience: you can now create recipes quickly and more visually than ever before with Zip Recipes and Gutenberg. You can now see your recipe even after you save it while editing the rest of your post.
+- New language: Japanese
+- New: German, Spanish, French, Italian translations for "Category"
 
 = 4.36 =
 - New: Chinese translation
