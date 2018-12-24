@@ -22,6 +22,37 @@ class Util {
         }
     }
 
+	public static function timeToISO8601($hours, $minutes) {
+		$time = '';
+		if ($hours || $minutes) {
+			$time = 'P';
+			if (isset($hours) || isset($minutes)) {
+				$time .= 'T';
+			}
+			if (isset($hours)) {
+				$time .= $hours . 'H';
+			}
+			if (isset($minutes)) {
+				$time .= $minutes . 'M';
+			}
+		}
+		return $time;
+	}
+
+	public static function iso8601toHoursMinutes($time) {
+		try {
+			if ($time) {
+				$date = new \DateInterval($time);
+				$minutes = $date->i;
+				$hours = $date->h;
+			}
+
+			return array($hours, $minutes);
+		} catch (\Exception $e) {
+			return null;
+		}
+	}
+
     /**
      * Render view and echo it.
      *

@@ -9,6 +9,11 @@
 namespace ZRDN;
 
 class Recipe {
+
+    /**
+     * @var string
+     */
+    const TABLE_NAME = "amd_zlrecipe_recipes";
 	/**
 	 * Recipe constructor.
 	 *
@@ -176,4 +181,68 @@ class Recipe {
 	 * @var string
 	 */
 	public $created_at;
+
+
+    /**
+     * Get a recipe from the db
+     *
+     * @global \ZRDN\Array $wpdb
+     * @param type $recipe_id
+     * @return type
+     */
+    public static function db_select($recipe_id) {
+        global $wpdb;
+        $table = $wpdb->prefix . self::TABLE_NAME;
+        $selectStatement = sprintf("SELECT * FROM `%s` WHERE recipe_id=%d", $table, $recipe_id);
+        return $wpdb->get_row($selectStatement);
+    }
+
+    /**
+     * Delete review row from table
+     *
+     * @global \ZRDN\Array $wpdb
+     * @param array $delete
+     * @return boolean
+     */
+    public static function db_delete($delete = array()) {
+        if (!empty($delete)) {
+            global $wpdb;
+            $table = $wpdb->prefix . self::TABLE_NAME;
+            return $wpdb->delete($table, $delete);
+        }
+        return FALSE;
+    }
+
+    /**
+     * Insert Recipe in db
+     *
+     * @param $recipe
+     * @return bool|int
+     */
+    public static function db_insert($recipe){
+        if(empty($recipe)){
+            return FALSE;
+        }
+        global $wpdb;
+        $table = $wpdb->prefix . self::TABLE_NAME;
+        $wpdb->insert($table, $recipe);
+        return $wpdb->insert_id;
+    }
+
+    /**
+     * Recipe update db
+     *
+     * @param $recipe
+     * @param $where
+     * @return bool|false|int
+     */
+    public static function db_update($recipe,$where=null){
+        if(empty($recipe) || empty($where)){
+            return FALSE;
+        }
+        global $wpdb;
+        $table = $wpdb->prefix . self::TABLE_NAME;
+        return $wpdb->update($table, $recipe, $where);
+    }
+
 }
