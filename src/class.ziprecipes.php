@@ -1381,7 +1381,11 @@ class ZipRecipes {
 	        );
         }
 
-        $dateInterval = new \DateInterval( $formatted_time);
+        // In 5.0 we introduced a bug that can end up saving hours as blank which causes an exception.
+        // This fixed that scenario.
+        $cleaned_foratted_time = preg_replace('/^PTH/','PT0H', $formatted_time);
+
+        $dateInterval = new \DateInterval( $cleaned_foratted_time);
 
         return array(
             'time_hours'=>$dateInterval->h,
@@ -1406,6 +1410,8 @@ class ZipRecipes {
         $cook_time_hours = $cook['time_hours'];
         $cook_time_minutes = $cook['time_minutes'];
         if ($prep_time_hours || $prep_time_minutes || $cook_time_hours || $cook_time_minutes) {
+            $prep_time_total =
+
             $prep_time_total = sprintf("%02d", $prep_time_hours) . ':' . sprintf("%02d", $prep_time_minutes) . ':00';
             $cook_time_total = sprintf("%02d", $cook_time_hours) . ':' . sprintf("%02d", $cook_time_minutes) . ':00';
             $total_time = date("H:i:s", strtotime($prep_time_total) + strtotime($cook_time_total));

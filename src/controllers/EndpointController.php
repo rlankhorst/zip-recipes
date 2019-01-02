@@ -437,7 +437,7 @@ class ZRDN_API_Endpoint_Controller extends WP_REST_Controller {
      * @return string
      */
     public function format_array_to_text($array){
-        return implode("\n\r", $array);
+        return implode("\n", $array);
     }
 
     /**
