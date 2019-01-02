@@ -30,10 +30,20 @@ class Util {
 				$time .= 'T';
 			}
 			if (isset($hours)) {
-				$time .= $hours . 'H';
+				if ($minutes && $hours == '') { // if there's minutes and not hours set hours to 0 ..
+					$time .= '0H';
+				}
+				else {
+					$time .= $hours . 'H';
+				}
 			}
 			if (isset($minutes)) {
-				$time .= $minutes . 'M';
+				if ($hours && $minutes == '') { // if there's hours and but not minutes, set minutes to 0..
+					$time .=  '0M';
+				}
+				else {
+					$time .= $minutes . 'M';
+				}
 			}
 		}
 		return $time;

@@ -6,7 +6,7 @@ Domain Path: /languages
 Plugin URI: http://www.ziprecipes.net/
 Plugin GitHub: https://github.com/hgezim/zip-recipes-plugin
 Description: A plugin that adds all the necessary microdata to your recipes, so they will show up in Google's Recipe Search
-Version: 5.0.3
+Version: 5.0.4
 Author: HappyGezim
 Author URI: http://www.ziprecipes.net/
 License: GPLv3 or later

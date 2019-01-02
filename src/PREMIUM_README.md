@@ -10,7 +10,7 @@ Donate link: http://www.ziprecipes.net/donate
 Tags: recipe, recipes, recipe card, recipe box, shopping list, grocery list, save recipe, print recipe, hrecipe, schema.org, ziplist, seo, recipe seo, cooking, food, ingredients, nutrition
 Requires at least: 3.1
 Tested up to: 5.0
-Stable tag: 5.0.3
+Stable tag: 5.0.4
 Requires PHP: 5.3
 
 Zip Recipes is the perfect plugin for recipe/food blogs. Creating elegant recipes with images that increase your Google ranking is easy and simple.
@@ -36,7 +36,7 @@ The Zip Recipes plugin is very easy to use, however, we also provide enhanced [s
 
 Among the new features added by Zip Recipe plugin are:
 
-**Works with WordPress 4.2:** Updated for full compatibility with WordPress 4.2.
+**Works with WordPress 5:** Updated for full compatibility with WordPress 4.2.
 
 **Schema Recipe Support:** Automatically integrate Schema.org's Recipe mark-up into your recipe posts to make them easier to find by people searching for recipes. 
 
@@ -130,9 +130,15 @@ I'm glad you asked! You can email [hello@ziprecipes.net](mailto:hello@ziprecipes
 
 == Changelog ==
 
+= 5.0.4 Bug fixes =
+
+- Fixed an issue where some sites would crash when specific cook/prep time was entered
+- Fixed an issue where formatting of subsections in a recipe wasn't working
+
+
 = 5.0.3 New Automatic Nutrition registration process =
 
-This only affects new users. You don't have to regsiter Automatic Nutrition if you've done that in the past.
+This only affects new users. You don't have to register Automatic Nutrition if you've done that in the past.
 
 = 5.0.2 Best Recipe Creation Experience with Gutenberg =
 

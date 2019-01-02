@@ -9,7 +9,7 @@ Donate link: https://www.ziprecipes.net/
 Tags: recipe, recipes, recipe card, recipe box, save recipe, print recipe, schema.org, seo, recipe seo, cooking, food, nutrition
 Requires at least: 3.1
 Tested up to: 5.0
-Stable tag: 5.0.3
+Stable tag: 5.0.4
 Requires PHP: 5.3
 
 Your goal is to build a food blog that earns money by serving loyal fans with your amazing recipes. We're just here to help you do that. Read on to learn about our 4-step success formula for your blog.
@@ -175,6 +175,12 @@ Because of the way WordPress' text editor works, if you decide to add or remove 
 5. Copy your recipes directly from Microsoft Word, Adobe PDF, etc.
 
 == Changelog ==
+
+= 5.0.4 Bug fixes =
+
+- Fixed an issue where some sites would crash when specific cook/prep time was entered
+- Fixed an issue where formatting of subsections in a recipe wasn't working
+- This only affects new users. You don't have to register Automatic Nutrition if you've done that in the past.
 
 = 5.0.2 Best Recipe Creation Experience with Gutenberg =
 
