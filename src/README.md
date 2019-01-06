@@ -27,6 +27,8 @@ We help you do that through our 4-step formula:
 
 Still got questions? [Go to our website for live chat support](https://www.ziprecipes.net/) or [email us](mailto:hello@ziprecipes.net).
 
+[**Become a professional blogger in 2019 - 40% discount from all our premium plans to get you started**](https://www.ziprecipes.net/?coupon=NewYear2019)
+
 ## Get More Readers to Your Blog
 ### Better SEO
 When you create a recipe with Zip Recipes, under the hood, it creates schema.org recipe markup using JSON-LD.  This is the preferred method to inform Google that you created a recipe.
